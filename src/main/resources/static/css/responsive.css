@@ -1,5 +1,10 @@
 /* Extra small devices (phones, less than 768px) */
-@media (max-width: 768px) { 
+@media (max-width: 768px) {
+
+    .col-sm-4 {
+        height: 450px;
+    }
+
     .navbar-header {
         float: right;
     }
