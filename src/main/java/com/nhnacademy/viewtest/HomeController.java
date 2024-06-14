@@ -19,4 +19,10 @@ public class HomeController {
     public String test1() {
         return "book_detail";
     }
+
+
+    @GetMapping("/adminBookRegister")
+    public String test3() {
+        return "admin-book-register";
+    }
 }
