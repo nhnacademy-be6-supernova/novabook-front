@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class OrderController {
 	@GetMapping("/")
 	public String home() {
-		return "orderForm";
+		return "order-details";
 	}
 
-	@GetMapping("/order-detail")
+	@GetMapping("/mypage/orders")
 	public String test() {
 		return "book_detail";
 	}
