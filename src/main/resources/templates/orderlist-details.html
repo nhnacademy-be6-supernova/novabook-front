@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕 - 주문 내역</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+
+<body>
+<div th:replace="~{layout/nav::nav}"></div>
+
+<div class="layout">
+    <div class="container">
+        <div class="row">
+            <!-- 사이드바 섹션 -->
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">회원등급</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>현재 회원 등급: <strong>Gold</strong></p>
+                        <!-- 추가 회원 등급 정보는 여기서 제공 -->
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">카테고리</h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="#">카테고리 1</a></li>
+                            <li><a href="#">카테고리 2</a></li>
+                            <li><a href="#">카테고리 3</a></li>
+                            <li><a href="#">카테고리 4</a></li>
+                            <!-- 추가 카테고리는 여기서 제공 -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 콘텐츠 섹션 -->
+            <div class="col-md-9">
+                <!-- 주문 내역 섹션 -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>주문 내역</h2>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>주문일자</th>
+                                <th>상품명</th>
+                                <th>금액</th>
+                                <th>상태</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>2024-06-15</td>
+                                <td>책 제목 1</td>
+                                <td>10,000원</td>
+                                <td>배송 중</td>
+                            </tr>
+                            <tr>
+                                <td>2024-06-14</td>
+                                <td>책 제목 2</td>
+                                <td>15,000원</td>
+                                <td>배송 완료</td>
+                            </tr>
+                            <!-- 추가적인 주문 내역을 여기에 추가하세요 -->
+                            </tbody>
+                        </table>
+                        <a href="/mypage" class="btn btn-primary">돌아가기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer::footer}"></div>
+</body>
+</html>
