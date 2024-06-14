@@ -38,44 +38,21 @@
 <div th:replace="~{layout/admin_nav.html::admin_nav}"></div>
 
 <div class="centered-form tc">
-    <form id="couponForm" action="/coupon/create" method="post">
-        <div class="form-group">
-            <label for="text-input">쿠폰 내용:</label>
-            <input type="text" class="form-control" id="text-input" name="milestoneName" required>
-        </div>
+    <form id="pointForm" action="/coupon/point" method="post">
 
-        <div class="form-group">
-            <label for="discount-type">할인 종류:</label>
-            <select class="form-control" id="discount-type" name="discountType" required>
-                <option value="">선택하세요</option>
-                <option value="percent">퍼센트</option>
-                <option value="amount">상수</option>
-            </select>
+        <div class="form-group full-width">
+            <label for="basic-point-input">기본 적립금:</label>
+            <input type="text" class="form-control" id="basic-point-input" name="basicPoint" >
         </div>
 
         <div class="form-group full-width">
-            <label for="discount-input">할인 금액:</label>
-            <input type="text" class="form-control" id="discount-input" name="discountAmount" required>
+            <label for="register-point-input">회원가입 적립금:</label>
+            <input type="text" class="form-control" id="register-point-input" name="registerPoint">
         </div>
 
         <div class="form-group full-width">
-            <label for="max-discount-input">최대 할인 금액(없으면 0):</label>
-            <input type="text" class="form-control" id="max-discount-input" name="maxDiscountAmount">
-        </div>
-
-        <div class="form-group full-width">
-            <label for="min-discount-input">최소 할인 금액:</label>
-            <input type="text" class="form-control" id="min-discount-input" name="minDiscountAmount">
-        </div>
-
-        <div class="form-group full-width">
-            <label for="start-date-input">시작 날짜:</label>
-            <input type="date" class="form-control" id="start-date-input" name="startDateInput">
-        </div>
-
-        <div class="form-group full-width">
-            <label for="end-date-input">종료 날짜:</label>
-            <input type="date" class="form-control" id="end-date-input" name="endDateInput">
+            <label for="review-point-input">리뷰 작성 적립금:</label>
+            <input type="text" class="form-control" id="review-point-input" name="reviewPoint">
         </div>
 
         <button type="submit" class="btn btn-primary">제출</button>

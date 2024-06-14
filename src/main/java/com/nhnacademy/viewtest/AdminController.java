@@ -14,12 +14,25 @@ public class AdminController {
     }
 
     @PostMapping("/admin/coupon")
-    public String postCoupon(@RequestParam("selectedItem") String selectedItem,
-                             @RequestParam("adminSubmittedValue") String adminSubmittedValue,
-                             @RequestParam("selectedAdditionalItem") String selectedAdditionalItem,
+    public String postCoupon(@RequestParam("couponTypeValue") String couponTypeValue,
+                             @RequestParam("bookSearchValue") String bookSearchValue,
+                             @RequestParam("subCategoryValue") String subCategoryValue,
                              Model model) {
 
-        model.addAttribute("adminSubmittedValue", adminSubmittedValue);
+        model.addAttribute("couponTypeValue", couponTypeValue);
         return "admin_coupon_detail";
     }
+
+    @GetMapping("/admin/point")
+    public String getPoint() {
+        return "admin_point";
+    }
+
+    @PostMapping("/admin/point")
+    public String postPoint(@RequestParam("basicPoint") String basicPoint,
+                            @RequestParam("registerPoint") String registerPoint,
+                            @RequestParam("reviewPoint") String reviewPoint) {
+        return "/";
+    }
+
 }
