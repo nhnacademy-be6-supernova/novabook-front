@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+
+<body>
+
+<div th:replace="~{layout/nav::nav}"></div>
+
+<div class="login-wrapper">
+    <h2>Login</h2>
+    <form method="post" action="서버의url" id="login-form">
+        <input type="text" name="userName" placeholder="Email">
+        <input type="password" name="userPassword" placeholder="Password">
+        <label for="remember-check">
+            <input type="checkbox" id="remember-check">아이디 저장하기
+        </label>
+        <input type="submit" value="Login">
+    </form>
+</div>
+
+<div th:replace="~{layout/footer::footer}"></div>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+
+<body>
+<div th:replace="~{layout/nav::nav}"></div>
+
+<div class="register-container">
+
+    <form method="post" action="">
+        <div class="container">
+            <div class="insert">
+
+                <table>
+                    <caption><h2>회원가입 양식</h2></caption>
+                    <tr>
+                        <td class="col1">이름</td>
+                        <td class="col2"><input type="text" name="name" maxlength="5"></td>
+                    </tr>
+                    <tr>
+                        <td class="col1">아이디</td>
+                        <td class="col2">
+                            <input type="text" name="id" maxlength="10">
+                            <input class='but1' type="button" value="중복확인" onclick="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col1">비밀번호</td>
+                        <td class="col2">
+                            <input type="password" name="pwd" maxlength="16">
+                            <p>※비밀번호는 <span class="num">문자, 숫자, 특수문자(~!@#$%^&*)의 조합
+            10 ~ 16자리</span>로 입력이 가능합니다.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col1">비밀번호 확인</td>
+                        <td class="col2"><input type="password" name="pwdCheck" maxlength="16"></td>
+                    </tr>
+                    <tr>
+                        <td class="col1">이메일</td>
+                        <td class="col2">
+                            <input type="text" name="mailid">
+                            <span class="a">@</span>
+                            <input type="text" name="email">
+                            <select name="mailslc">
+                                <option value="self" selected>직접입력</option>
+                                <option value="naver">naver.com</option>
+                                <option value="gm">gmail.com</option>
+                                <option value="da">daum.com</option>
+                                <option value="yah">yahoo.com</option>
+                            </select>
+                            <input class='but2' type="button" value="이메일 중복확인" onclick="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col1">학년/반</td>
+                        <td class="col2"><select name="grade">
+                            <option value="slc1" selected>선택</option>
+                            <option value="g1">1</option>
+                            <option value="g2">2</option>
+                            <option value="g3">3</option>
+                            <option value="g4">4</option>
+                            <option value="g5">5</option>
+                            <option value="g6">6</option>
+                        </select>
+
+                            <span class="g">학년</span>
+
+                            <select name="cls">
+                                <option value="slc2" selected>선택</option>
+                                <option value="c1">1</option>
+                                <option value="c2">2</option>
+                                <option value="c3">3</option>
+                                <option value="c4">4</option>
+                                <option value="c5">5</option>
+                            </select>
+
+                            <span class="c">반</span>
+
+                        </td>
+
+                    </tr>
+                </table>
+
+            </div>
+
+            <div class="create">
+
+                <input class="but3" type="button" value="가입취소" onclick="">
+                <input class="but4" type="button" value="회원가입" onclick="formCheck(this.form)">
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<div th:replace="~{layout/footer::footer}"></div>
+</body>
+</html>
+
+
