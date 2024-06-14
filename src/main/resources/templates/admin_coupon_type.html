@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+
+    <style>
+        .centered-form {
+        }
+
+        .select-container {
+            display: inline-block;
+            position: relative;
+            width: 200px;
+            margin-bottom: 20px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            color: #333;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .select-container::after {
+            content: '\25BC';
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #333;
+        }
+
+        select:hover {
+            border-color: #999;
+        }
+
+        select:focus {
+            border-color: #666;
+        }
+
+        .admin-search-form {
+            text-align: left;
+            margin: 0;
+            width: 100%;
+        }
+
+        .admin-form-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .admin-form-control {
+            flex: 1;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            max-width: 300px;
+            width: 100%;
+        }
+
+        .admin-btn {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .admin-btn:hover {
+            background-color: #45a049;
+        }
+
+        #adminSubmittedValue {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .additional-select {
+            margin-top: 20px;
+        }
+
+        .p-tag{
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{layout/admin_nav.html::admin_nav}"></div>
+
+<div class="container">
+    <div class="centered-form">
+        <h2>쿠폰 등록</h2>
+
+        <label for="menu">메뉴 선택:</label>
+        <div class="select-container">
+            <select id="menu" name="menu">
+                <option value="item1">일반 쿠폰</option>
+                <option value="item2">카테고리 쿠폰</option>
+                <option value="item3">책 쿠폰</option>
+            </select>
+        </div>
+
+        <div id="adminSearchFormContainer" style="display: none;">
+            <div class="admin-search-form">
+                <form id="adminSearchForm" class="navbar-form2" role="search">
+                    <div class="admin-form-group">
+                        <input type="text" id="adminSearchInput" class="admin-form-control" placeholder="검색어를 입력하세요">
+                    </div>
+                    <button type="submit" class="admin-btn"><i class="fa fa-search"></i>검색</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="additionalSelectContainer1" class="select-container additional-select" style="display: none;">
+            <label for="additionalSelect1">추가 콤보박스 1:</label>
+            <select id="additionalSelect1" name="additionalSelect1">
+                <option value="subitem1">카테고리 서브 항목 1-1</option>
+                <option value="subitem2">카테고리 서브 항목 1-2</option>
+                <option value="subitem3">카테고리 서브 항목 1-3</option>
+            </select>
+        </div>
+
+        <div id="additionalSelectContainer2" class="select-container additional-select" style="display: none;">
+            <label for="additionalSelect2">추가 콤보박스 2:</label>
+            <select id="additionalSelect2" name="additionalSelect2">
+                <option value="subitem4">카테고리2 서브 항목 1-1</option>
+                <option value="subitem5">카테고리2 서브 항목 1-2</option>
+                <option value="subitem6">카테고리2 서브 항목 1-3</option>
+            </select>
+        </div>
+
+        <form id="couponForm" action="/admin/coupon" method="post">
+            <input type="hidden" id="selectedItemInput" name="selectedItem" value="기본값">
+            <input type="hidden" id="adminSubmittedValueInput" name="adminSubmittedValue" value="기본값">
+            <input type="hidden" id="selectedAdditionalItemInput" name="selectedAdditionalItem" value="기본값">
+            <p style="margin-top: 30px" id="selectedItem">선택된 항목: 없음</p>
+            <p id="adminSubmittedValue">추가된 값: 없음</p>
+            <p id="selectedAdditionalItem">선택된 추가 콤보박스 2 항목: 없음</p>
+            <button type="submit" class="admin-btn"><i class="fa fa-search"></i>다음</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#menu').change(function () {
+            var selectedOption = $(this).find('option:selected').text();
+            $('#selectedItem').text('선택된 항목: ' + selectedOption);
+            $('#selectedItemInput').val(selectedOption);
+
+            if ($(this).val() === 'item2') {
+                $('#additionalSelectContainer1').show();
+                $('#additionalSelectContainer2').show();
+            } else {
+                $('#additionalSelectContainer1').hide();
+                $('#additionalSelectContainer2').hide();
+            }
+
+            if ($(this).val() === 'item3') {
+                $('#adminSearchFormContainer').show();
+                $('#adminSubmittedValue').show();
+            } else {
+                $('#adminSearchFormContainer').hide();
+                $('#adminSubmittedValue').hide();
+            }
+        });
+
+        $('#adminSearchForm').submit(function (event) {
+            event.preventDefault();
+            var inputValue = $('#adminSearchInput').val();
+            if ($('#menu').val() === 'item3') {
+                $('#adminSubmittedValue').text('추가된 값: ' + inputValue).show();
+                $('#adminSubmittedValueInput').val(inputValue);
+            }
+            $('#adminSearchInput').val('');
+        });
+
+        $('#additionalSelect1').change(function () {
+            var selectedOption = $(this).find('option:selected').text();
+            $('#selectedItem').text('선택된 서브 항목 1: ' + selectedOption);
+
+            if ($(this).val() === 'subitem2') {
+                $('#additionalSelect2').html(`
+                <option value="subitem4">카테고리2 서브 항목 2-1 (변경됨)</option>
+                <option value="subitem5">카테고리2 서브 항목 2-2 (변경됨)</option>
+                <option value="subitem6">카테고리2 서브 항목 2-3 (변경됨)</option>
+            `);
+            } else if ($(this).val() === 'subitem3') {
+                $('#additionalSelect2').html(`
+                <option value="subitem4">카테고리2 서브 항목 3-1 (변경됨)</option>
+                <option value="subitem5">카테고리2 서브 항목 3-2 (변경됨)</option>
+                <option value="subitem6">카테고리2 서브 항목 3-3 (변경됨)</option>
+            `);
+            } else {
+                $('#additionalSelect2').html(`
+                <option value="subitem4">카테고리2 서브 항목 1-1</option>
+                <option value="subitem5">카테고리2 서브 항목 1-2</option>
+                <option value="subitem6">카테고리2 서브 항목 1-3</option>
+            `);
+            }
+
+            var selectedAdditionalOption = $('#additionalSelect2').find('option:selected').text();
+            $('#selectedAdditionalItem').text('선택된 추가 카테고리 콤보박스 2 항목: ' + selectedAdditionalOption);
+        });
+
+        $('#additionalSelect2').change(function () {
+            var selectedAdditionalOption = $(this).find('option:selected').text();
+            $('#selectedAdditionalItem').text('선택된 추가 카테고리 콤보박스 2 항목: ' + selectedAdditionalOption);
+            $('#selectedAdditionalItemInput').val(selectedAdditionalOption);
+        });
+    });
+</script>
+
+<div th:replace="~{layout/footer::footer}"></div>
+</body>
+</html>

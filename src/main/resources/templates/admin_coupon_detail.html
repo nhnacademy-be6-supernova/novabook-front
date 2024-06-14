@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css" type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <style>
+        .centered-form {
+            margin:auto;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group.full-width {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{layout/admin_nav.html::admin_nav}"></div>
+
+<div class="centered-form tc">
+    <form id="couponForm" action="/coupon/create" method="post">
+        <div class="form-group">
+            <label for="text-input">쿠폰 내용:</label>
+            <input type="text" class="form-control" id="text-input" name="milestoneName" required>
+        </div>
+
+        <div class="form-group">
+            <label for="discount-type">할인 종류:</label>
+            <select class="form-control" id="discount-type" name="discountType" required>
+                <option value="">선택하세요</option>
+                <option value="percent">퍼센트</option>
+                <option value="amount">상수</option>
+            </select>
+        </div>
+
+        <div class="form-group full-width">
+            <label for="discount-input">할인 금액:</label>
+            <input type="text" class="form-control" id="discount-input" name="discountAmount" required>
+        </div>
+
+        <div class="form-group full-width">
+            <label for="max-discount-input">최대 할인 금액(없으면 0):</label>
+            <input type="text" class="form-control" id="max-discount-input" name="maxDiscountAmount">
+        </div>
+
+        <div class="form-group full-width">
+            <label for="min-discount-input">최소 할인 금액:</label>
+            <input type="text" class="form-control" id="min-discount-input" name="minDiscountAmount">
+        </div>
+
+        <div class="form-group full-width">
+            <label for="start-date-input">시작 날짜:</label>
+            <input type="date" class="form-control" id="start-date-input" name="startDateInput">
+        </div>
+
+        <div class="form-group full-width">
+            <label for="end-date-input">종료 날짜:</label>
+            <input type="date" class="form-control" id="end-date-input" name="endDateInput">
+        </div>
+
+        <button type="submit" class="btn btn-primary">제출</button>
+    </form>
+</div>
+
+<div th:replace="~{layout/footer::footer}"></div>
+</body>
+</html>
