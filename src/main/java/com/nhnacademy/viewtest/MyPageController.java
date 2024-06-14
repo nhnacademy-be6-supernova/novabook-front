@@ -34,5 +34,16 @@ public class MyPageController {
 
         return "address";
     }
+    @GetMapping("/mypage/return")
+    public String returnPage() {
+
+        return "return";
+    }
+
+    @GetMapping("/mypage/cancel")
+    public String cancel() {
+
+        return "cancel";
+    }
 
 }
