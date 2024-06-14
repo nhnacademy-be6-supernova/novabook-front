@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class CouponController {
     @GetMapping("/coupon")
     public String home() {
-        return "coupon";
+        return "coupon2";
     }
 
     @GetMapping("/useCoupon")
