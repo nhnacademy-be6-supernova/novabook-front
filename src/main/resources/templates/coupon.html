@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="stylesheet" href="/css/coupon.css">
+</head>
+
+<body>
+<div th:replace="~{layout/nav::nav}"></div>
+<div class="layout">
+    <div class="layoutCoupon">
+        <table  >
+            <tbody>
+            <tr>
+                <td>사용내역<br></td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="myPgAccountTab">
+                        <ul>
+                            <li id="Deposit" class="myAccTab1"><a href="/Templates/FTMyAccount_2Keep.aspx"><strong>예치금</strong><p><span id="MyPageMemberAccount1_lblDepMonAmt">0</span>원</p></a></li>
+                            <li id="YesMoney" class="myAccTab2 vertical_hr"><a href="/Templates/FTMyAccount_1YESMoney.aspx"><strong>YES머니</strong><p><span id="MyPageMemberAccount1_lblYesMoneyAmt">0</span>원</p></a></li>
+                            <li id="YesPoint" class="myAccTab3 vertical_hr"><a href="/Templates/FTMyAccount_1YESPoint.aspx"><strong>YES포인트</strong><p><span id="MyPageMemberAccount1_lblYesPointAmt">0</span>원</p></a></li>
+                            <li id="Coupon" class="myAccTab5 on on5"><a href="/Templates/FTMyAccount_4Coupon.aspx"><strong>쿠폰</strong><p><span id="MyPageMemberAccount1_lblCoupAmt">1</span>장</p></a></li>
+                        </ul>
+                    </div>
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <script type="text/javascript">
+                        $("#Coupon").addClass("on");
+                        $("#Coupon").addClass("on5");
+                    </script>
+                </td>
+            </tr>
+            <tr>
+                <td  height="3" style="background: #000000"></td>
+            </tr>
+            <tr>
+                <td height="28" >
+                    &nbsp;
+                    <span style="color: #FFFFFF; background-color: #7CBBDE" >쿠폰에 표시된 금액만큼 결제 시 할인되거나 포인트 적립,  사은품 등 혜택을 받으실 수 있습니다. </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table>
+                        <tr>
+                            <td class="small_table">
+                                <b>사용가능한 쿠폰 :1 장</b>
+                            </td>
+                            <td >
+                                <a href="#" >쿠폰 등록</a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 720px; color: #FFFFFF;">
+                    <table style="height: 0; padding: 0">
+                        <tbody>
+                        <tr>
+                            <td height="5"></td>
+                        </tr>
+                        <tr>
+                            <td border="0" style="padding: 0; border-spacing: 0">
+                                <table  border="0" style="padding: 0; border-spacing: 0">
+                                    <tbody>
+                                    <tr>
+                                        <td><a href="/coupon"> <strong>사용가능한 쿠폰</strong></a></td>
+                                        <td width="2"></td>
+                                        <td><a href="/usedCoupon">사용한 쿠폰</a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td width="720" height="2" bgcolor="#FFFFFF"></td>
+            </tr>
+            <tr>
+                <td width="720" height="1" bgcolor="#C9C9C9"></td>
+            </tr>
+            <tr>
+                <td width="720" bgcolor="#FFFFFF">
+                    <table cellpadding="0" cellspacing="0" border="0" width="720">
+                        <tbody>
+                        <tr>
+                            <td bgcolor="#F2F2F2" width="260" height="32" align="center" class="infoGray">쿠폰명</td>
+                            <td background="https://image.yes24.com/sysimage/mypage/bg_HalfGray.gif" width="1" height="32"></td>
+                            <td bgcolor="#F2F2F2" width="230" height="32" align="center" class="infoGray">사용 조건 / 사용기간</td>
+                            <td background="https://image.yes24.com/sysimage/mypage/bg_HalfGray.gif" width="1" height="32"></td>
+                            <td bgcolor="#F2F2F2" width="150" height="32" align="center" class="infoGray">할인 혜택</td>
+                            <td background="https://image.yes24.com/sysimage/mypage/bg_HalfGray.gif" width="1" height="32"></td>
+                            <td bgcolor="#F2F2F2" width="80" height="32" align="center" class="infoGray">등록일</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table id="TABLE1" cellpadding="0" cellspacing="0" border="0" width="720">
+                        <tbody>
+                        <tr>
+                            <td width="260" height="32" align="left" style="padding-left:2px" bgcolor="#FFFFFF"><font color="royalblue">[신규가입감사] 온라인 중고도서 2만원 이상 구매 시 20% 할인쿠폰</font></td>
+                            <td width="1"></td>
+                            <td align="left" style="padding-left:2px" bgcolor="#FFFFFF"><font color="royalblue">해당 상품 총 20,000원 이상 주문시</font><br><font color="royalblue">2024.06.12&nbsp;~&nbsp;2024.07.12</font></td>
+                            <td width="1"></td>
+                            <td align="left" style="padding-left:2px" bgcolor="#FFFFFF"><font color="royalblue">20%</font></td>
+                            <td width="1"></td>
+                            <td align="center" bgcolor="#FFFFFF"><font color="royalblue">2024.06.12</font></td>
+                        </tr>
+                        <tr>
+                            <td width="720" height="1" bgcolor="#C9C9C9" colspan="7"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td width="720" bgcolor="#FFFFFF">
+                    <div class="pageNavNum">
+                        <p>페이지 네비게이션</p>
+                        <a href="#" class="btnPrev">이전</a>
+                        <span class="current">1</span>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#">다음</a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div th:replace="~{layout/footer::footer}"></div>
+<script type="text/javascript">
+    function setFetchSize(value) {
+        document.getElementById('fetchsize').value = value;
+        console.log("Fetch size set to:", value);
+    }
+</script>
+</body>
+</html>
+
+
