@@ -19,57 +19,124 @@
 </head>
 
 <body>
+
 <div th:replace="~{layout/nav::nav}"></div>
 
-<div class="layout">
 
-
-    <div th:replace="~{layout/sidebar::sidebar}"></div>
-
-
-
-    <h3 class="panel-title">도서 검색</h3>
-    <div class="panel-body">
-
-        <form class="form-inline">
-            <div class="form-group">
-                <label for="bookSearch">도서명:</label>
-                <input type="text" class="form-control" id="bookSearch" placeholder="도서명을 입력하세요">
+<!-- Modal -->
+<div class="modal fade" id="bookModal" tabindex="-1" role="dialog" aria-labelledby="bookModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="bookModalLabel">도서 목록</h4>
             </div>
-            <button type="submit" class="btn btn-primary">검색</button>
-        </form>
-
-
-        <h3 class="panel-title">도서 설명</h3>
-
-        <div id="editor"></div>
-
+            <div class="modal-body">
+                <ul id="bookList" class="list-group">
+                    <!-- Books will be dynamically added here -->
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
     </div>
+</div>
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const Editor = toastui.Editor;
 
-            const editor = new Editor({
-                el: document.querySelector('#editor'),
-                height: '500px',
-                initialEditType: 'markdown',
-                previewStyle: 'vertical'
+<div class="container">
+    <div class="row">
+            <div th:replace="~{layout/sidebar::sidebar}"></div>
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">도서 검색</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="bookSearch">도서명:</label>
+                            <input type="text" class="form-control" id="bookSearch" placeholder="도서명을 입력하세요">
+                        </div>
+                        <button type="submit" class="btn btn-primary">검색</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">도서 설명</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="editor"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const Editor = toastui.Editor;
+        const editor = new Editor({
+            el: document.querySelector('#editor'),
+            height: '500px',
+            initialEditType: 'markdown',
+            previewStyle: 'vertical'
+        });
+
+        // Handle book search form submission
+        const form = document.querySelector('form.form-inline');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Replace with actual logic to fetch book data from backend
+            const books = [
+                { name: 'Book 1', author: 'Author 1', publisher: 'Publisher 1', publicationDate: '2024-06-14', url: 'http://example.com/book1' },
+                { name: 'Book 2', author: 'Author 2', publisher: 'Publisher 2', publicationDate: '2024-06-15', url: 'http://example.com/book2' },
+                // Add more books as needed
+            ];
+
+            // Populate the modal with fetched book data
+            const bookList = document.getElementById('bookList');
+            bookList.innerHTML = ''; // Clear previous entries
+
+            books.forEach(function (book, index) {
+                const listItem = document.createElement('li');
+                listItem.classList.add('list-group-item');
+                listItem.innerHTML = `
+                    <div>
+                        <strong>${book.name}</strong> - ${book.author}, ${book.publisher}, ${book.publicationDate} &nbsp;
+                        <a href="${book.url}" target="_blank">자세히 보기</a>
+                        <button type="button" class="btn vc btn-primary btn-sm pull-right"" onclick="selectBook(${index})">선택</button>
+                    </div>`;
+                bookList.appendChild(listItem);
             });
 
-            editor.getMarkdown();
+            // Show the modal
+            $('#bookModal').modal('show');
         });
-    </script>
 
+        // Function to handle book selection
+        window.selectBook = function (index) {
+            const selectedBook = books[index]; // Retrieve selected book details
+            // Example: Update editor content with selected book details
+            editor.setMarkdown(`### ${selectedBook.name}\n\n**Author:** ${selectedBook.author}\n\n**Publisher:** ${selectedBook.publisher}\n\n**Publication Date:** ${selectedBook.publicationDate}\n\n[Link](${selectedBook.url})`);
 
-</div>
+            // Close the modal after selection
+            $('#bookModal').modal('hide');
+        };
+    });
+</script>
+
 
 
 <div th:replace="~{layout/footer::footer}"></div>
 
+
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+
 </body>
 </html>
-
-
