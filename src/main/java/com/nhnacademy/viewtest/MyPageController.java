@@ -29,5 +29,10 @@ public class MyPageController {
 
         return "review";
     }
+    @GetMapping("/mypage/address")
+    public String address() {
+
+        return "address";
+    }
 
 }

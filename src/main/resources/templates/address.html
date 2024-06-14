@@ -1,17 +1,19 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NovaBook📕 - 리뷰 관리</title>
+    <title>NovaBook📕 - 배송지 관리</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
           rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
           type="text/css">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Theme Stylesheet -->
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
@@ -26,41 +28,60 @@
             <div th:replace="~{layout/sidebar::sidebar}"></div>
             <!-- 콘텐츠 섹션 -->
             <div class="col-md-9">
-                <!-- 리뷰 관리 섹션 -->
+                <!-- 배송지 관리 섹션 -->
                 <div class="row">
                     <div class="col-md-12">
-                        <h2>리뷰 관리</h2>
+                        <h2>배송지 관리
+                            <button class="btn btn-primary pull-right addAddressBtn">배송지 추가</button>
+                        </h2>
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th>주문 번호</th>
-                                <th>책 내용</th>
-                                <th>주문 날짜</th>
-                                <th>배송 상태</th>
-                                <th>작성 리뷰</th>
+                                <th>배송지</th>
+                                <th>수정</th>
+                                <th>삭제</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td>12345</td>
-                                <td>책 제목 1</td>
-                                <td>2024-06-15</td>
-                                <td>배송 완료</td>
-                                <td><a href="#" class="btn btn-primary reviewBtn">리뷰 쓰기</a></td>
+                                <td>서울특별시 강남구 역삼동 123-45</td>
+                                <td><button class="btn btn-info btn-sm" onclick="editAddress(1)">수정</button></td>
+                                <td><button class="btn btn-danger btn-sm" onclick="deleteAddress(1)">삭제</button></td>
                             </tr>
                             <tr>
-                                <td>67890</td>
-                                <td>책 제목 2</td>
-                                <td>2024-06-14</td>
-                                <td>배송 완료</td>
-                                <td><a href="#" class="btn btn-primary reviewBtn">리뷰 쓰기</a></td>
+                                <td>경기도 성남시 분당구 판교동 678-90</td>
+                                <td><button class="btn btn-info btn-sm" onclick="editAddress(2)">수정</button></td>
+                                <td><button class="btn btn-danger btn-sm" onclick="deleteAddress(2)">삭제</button></td>
                             </tr>
-                            <!-- 추가적인 리뷰 항목을 여기에 추가하세요 -->
+                            <!-- 추가적인 배송지 항목을 여기에 추가하세요 -->
                             </tbody>
                         </table>
-                        <a href="/mypage" class="btn btn-primary">돌아가기</a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 배송지 추가 모달 -->
+<div id="addAddressModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">배송지 추가</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="address">배송지</label>
+                        <input type="text" class="form-control" id="address" placeholder="배송지를 입력하세요">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-primary">저장</button>
             </div>
         </div>
     </div>
@@ -90,17 +111,19 @@
     </div>
 </div>
 
+
+
 <!-- jQuery and Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('.reviewBtn').on('click', function() {
-            $('#reviewModal').modal('show');
+        $('.addAddressBtn').on('click', function() {
+            $('#addAddressModal').modal('show');
         });
     });
-</script>
 
+</script>
 <div th:replace="~{layout/footer::footer}"></div>
 </body>
 </html>

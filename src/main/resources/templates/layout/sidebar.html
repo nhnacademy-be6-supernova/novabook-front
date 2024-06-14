@@ -1,5 +1,35 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>-->
 
+<!--<html lang="ko" xmlns:th="http://www.thymeleaf.org">-->
+<!--&lt;!&ndash; 사이드바 섹션 &ndash;&gt;-->
+<!--<div th:fragment="sidebar" class="col-md-3">-->
+<!--    <div class="panel panel-default">-->
+<!--        <div class="panel-heading">-->
+<!--            <h3 class="panel-title">회원등급</h3>-->
+<!--        </div>-->
+<!--        <div class="panel-body">-->
+<!--            <p>현재 회원 등급: <strong>Gold</strong></p>-->
+<!--            &lt;!&ndash; 추가 회원 등급 정보는 여기서 제공 &ndash;&gt;-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class="panel panel-default">-->
+<!--        <div class="panel-heading">-->
+<!--            <h3 class="panel-title">카테고리</h3>-->
+<!--        </div>-->
+<!--        <div class="panel-body">-->
+<!--            <ul class="nav nav-pills nav-stacked">-->
+<!--                <li><a href="mypage/address">나의 배송지</a></li>-->
+<!--                <li><a href="#">반품/교환 신청 및 조회</a></li>-->
+<!--                <li><a href="#">취소 주문 내역</a></li>-->
+<!--                <li><a href="/mypage/review">리뷰 관리</a></li>-->
+<!--                &lt;!&ndash; 추가 카테고리는 여기서 제공 &ndash;&gt;-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</html>-->
+<!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <!-- 사이드바 섹션 -->
 <div th:fragment="sidebar" class="col-md-3">
@@ -19,13 +49,29 @@
         </div>
         <div class="panel-body">
             <ul class="nav nav-pills nav-stacked">
-                <li><a href="#">나의 배송지</a></li>
-                <li><a href="#">반품/교환 신청 및 조회</a></li>
-                <li><a href="#">취소 주문 내역</a></li>
-                <li><a href="/mypage/review">리뷰 관리</a></li>
+                <li><a href="/mypage/address" class="sidebar-link">나의 배송지</a></li>
+                <li><a href="#" class="sidebar-link">반품/교환 신청 및 조회</a></li>
+                <li><a href="#" class="sidebar-link">취소 주문 내역</a></li>
+                <li><a href="/mypage/review" class="sidebar-link">리뷰 관리</a></li>
                 <!-- 추가 카테고리는 여기서 제공 -->
             </ul>
         </div>
     </div>
 </div>
 </html>
+<script>
+    // Get all sidebar links
+    var sidebarLinks = document.querySelectorAll('.sidebar-link');
+
+    // Loop through each link and add click event listener
+    sidebarLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+            // Remove 'active' class from all links
+            sidebarLinks.forEach(function(l) {
+                l.classList.remove('active');
+            });
+            // Add 'active' class to the clicked link
+            link.classList.add('active');
+        });
+    });
+</script>
