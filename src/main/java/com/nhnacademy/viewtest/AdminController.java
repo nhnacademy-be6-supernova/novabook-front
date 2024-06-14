@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class AdminController {
     @GetMapping("/admin")
     public String home() {
-        return "admin_page";
+        return "admin_coupon_type";
     }
 }

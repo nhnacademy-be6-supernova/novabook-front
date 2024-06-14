@@ -107,9 +107,12 @@
 </head>
 
 <body>
-<div th:replace="~{layout/admin_nav::admin_nav}"></div>
-<div class="container">
-    <h2>쿠폰 등록</h2>
+<div th:replace="~{layout/nav::nav}"></div>
+
+
+<div class="layout">
+    <form id="couponForm" action="/submit_coupon" method="post">
+        <h2>쿠폰 등록</h2>
 
         <label for="menu">메뉴 선택:</label>
         <div class="select-container">
@@ -151,58 +154,15 @@
                 </form>
             </div>
         </div>
-
         <p id="adminSubmittedValue">추가된 값: 없음</p>
         <p id="selectedAdditionalItem">선택된 추가 콤보박스 2 항목: 없음</p>
-
-
-    <form id="couponForm" action="/submit_coupon" method="post">
-        <div class="form-group">
-            <label for="text-input">쿠폰 내용:</label>
-            <input type="text" class="form-control" id="text-input" name="milestoneName" required>
-        </div>
-
-        <div class="form-group">
-            <label for="discount-type">할인 종류:</label>
-            <select class="form-control" id="discount-type" name="discountType" required>
-                <option value="">선택하세요</option>
-                <option value="percent">퍼센트</option>
-                <option value="amount">상수</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="discount-input">할인 금액:</label>
-            <input type="text" class="form-control" id="discount-input" name="discountAmount" required>
-        </div>
-
-        <div class="form-group">
-            <label for="max-discount-input">최대 할인 금액(없으면 0):</label>
-            <input type="text" class="form-control" id="max-discount-input" name="maxDiscountAmount">
-        </div>
-
-        <div class="form-group">
-            <label for="min-discount-input">최소 할인 금액:</label>
-            <input type="text" class="form-control" id="min-discount-input" name="minDiscountAmount">
-        </div>
-
-        <div class="form-group">
-            <label for="start-date-input">시작 날짜:</label>
-            <input type="date" class="form-control" id="start-date-input" name="startDateInput">
-        </div>
-
-        <div class="form-group">
-            <label for="end-date-input">종료 날짜:</label>
-            <input type="date" class="form-control" id="end-date-input" name="endDateInput">
-        </div>
-
-        <button type="submit" class="btn btn-primary">제출</button>
+        <button type="submit" class="admin-btn"><i class="fa fa-search"></i> 검색</button>
     </form>
 </div>
 
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const form = document.getElementById('couponForm');
         const menu = document.getElementById('menu');
         const selectedItem = document.getElementById('selectedItem');
         const adminSearchFormContainer = document.getElementById('adminSearchFormContainer');
@@ -294,3 +254,5 @@
 <div th:replace="~{layout/footer::footer}"></div>
 </body>
 </html>
+
+
