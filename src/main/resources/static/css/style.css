@@ -36,9 +36,15 @@
     margin-top: 20px;
 }
 
+/* common */
+.layout {
+    margin: auto 70px;
+}
 
-
-
+.layout h1 {
+    margin: 0 0 0 0 !important;
+    line-height: 70px;
+}
 
 
 /*회원가입 CSS*/
@@ -680,7 +686,7 @@ ol.carousel-indicators li.active {
     background: #191919;
     padding: 50px 0px;
     color: #fff;
-    margin-top: 50px;
+    margin-top: 20px;
 }
 .single-widget {
     position: relative;
