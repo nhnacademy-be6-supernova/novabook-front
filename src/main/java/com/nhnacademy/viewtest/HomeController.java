@@ -12,6 +12,11 @@ public class HomeController {
 
     @GetMapping("/index")
     public String test() {
-        return "템플릿";
+        return "main_page";
+    }
+
+    @GetMapping("/bookDetail")
+    public String test1() {
+        return "book_detail";
     }
 }
