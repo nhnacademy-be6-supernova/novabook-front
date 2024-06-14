@@ -105,6 +105,17 @@
     line-height: 70px;
 }
 
+.tc {
+    text-align: center;
+}
+
+.btn.vc {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
 
 /*회원가입 CSS*/
 div.create{

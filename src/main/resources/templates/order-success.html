@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <style>
+        .order-completion {
+            font-size: 24px;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+        .order-details {
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+        .btn-large {
+            font-size: 24px;
+            padding: 20px 40px;
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{layout/nav::nav}"></div>
+
+<div class="layout">
+    <div class="container tc">
+        <h1 class="order-completion"><span >사용자</span>님, 항상 NovaBook을 이용해주셔서 감사합니다!</h1>
+        <p class="order-details">[주문번호 : <span >Y0336944502</span>] 결제가 안전하게 처리되었습니다.</p>
+        <div>
+            <a href="/mypage" class="btn btn-primary btn-large">마이페이지</a>
+            <a href="/main" class="btn btn-success btn-large">메인으로 이동</a>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer::footer}"></div>
+</body>
+</html>
+
+

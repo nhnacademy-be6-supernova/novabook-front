@@ -12,8 +12,8 @@ public class OrderController {
 		return "order-details";
 	}
 
-	@GetMapping("/mypage/orders")
+	@GetMapping("/success")
 	public String test() {
-		return "book_detail";
+		return "order-success";
 	}
 }
