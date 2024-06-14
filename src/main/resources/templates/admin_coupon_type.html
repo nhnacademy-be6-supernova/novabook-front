@@ -60,18 +60,18 @@
             border-color: #666;
         }
 
-        .admin-search-form {
+        .book-search-form {
             text-align: left;
             margin: 0;
             width: 100%;
         }
 
-        .admin-form-group {
+        .book-search-form-group {
             display: flex;
             align-items: center;
         }
 
-        .admin-form-control {
+        .book-search-form-control {
             flex: 1;
             padding: 8px;
             font-size: 14px;
@@ -96,7 +96,7 @@
             background-color: #45a049;
         }
 
-        #adminSubmittedValue {
+        #bookSearchValue {
             margin-top: 20px;
             display: none;
         }
@@ -108,6 +108,10 @@
         .p-tag{
             margin-top: 30px;
         }
+        .form-group label {
+            text-align: left;
+            display: block;
+        }
     </style>
 </head>
 
@@ -118,38 +122,38 @@
     <div class="centered-form">
         <h2>쿠폰 등록</h2>
 
-        <label for="menu">메뉴 선택:</label>
+        <label for="couponType">메뉴 선택:</label>
         <div class="select-container">
-            <select id="menu" name="menu">
-                <option value="item1">일반 쿠폰</option>
-                <option value="item2">카테고리 쿠폰</option>
-                <option value="item3">책 쿠폰</option>
+            <select id="couponType" name="couponType">
+                <option value="type1">일반 쿠폰</option>
+                <option value="type2">카테고리 쿠폰</option>
+                <option value="type3">책 쿠폰</option>
             </select>
         </div>
 
-        <div id="adminSearchFormContainer" style="display: none;">
-            <div class="admin-search-form">
-                <form id="adminSearchForm" class="navbar-form2" role="search">
-                    <div class="admin-form-group">
-                        <input type="text" id="adminSearchInput" class="admin-form-control" placeholder="검색어를 입력하세요">
+        <div id="bookSearchFormContainer" style="display: none;">
+            <div class="book-search-form">
+                <form id="bookSearchForm" role="search">
+                    <div class="book-search-form-group">
+                        <input type="text" id="bookSearchInput" class="book-search-form-control" placeholder="검색어를 입력하세요">
                     </div>
                     <button type="submit" class="admin-btn"><i class="fa fa-search"></i>검색</button>
                 </form>
             </div>
         </div>
 
-        <div id="additionalSelectContainer1" class="select-container additional-select" style="display: none;">
-            <label for="additionalSelect1">추가 콤보박스 1:</label>
-            <select id="additionalSelect1" name="additionalSelect1">
+        <div id="categoryContainer" class="category-container-select" style="display: none;">
+            <label for="categorySelect1">추가 콤보박스 1:</label>
+            <select id="categorySelect1" name="categorySelect1">
                 <option value="subitem1">카테고리 서브 항목 1-1</option>
                 <option value="subitem2">카테고리 서브 항목 1-2</option>
                 <option value="subitem3">카테고리 서브 항목 1-3</option>
             </select>
         </div>
 
-        <div id="additionalSelectContainer2" class="select-container additional-select" style="display: none;">
-            <label for="additionalSelect2">추가 콤보박스 2:</label>
-            <select id="additionalSelect2" name="additionalSelect2">
+        <div id="subCategory" class="category-container-select" style="display: none;">
+            <label for="subCategorySelect">추가 콤보박스 2:</label>
+            <select id="subCategorySelect" name="subCategorySelect">
                 <option value="subitem4">카테고리2 서브 항목 1-1</option>
                 <option value="subitem5">카테고리2 서브 항목 1-2</option>
                 <option value="subitem6">카테고리2 서브 항목 1-3</option>
@@ -157,12 +161,10 @@
         </div>
 
         <form id="couponForm" action="/admin/coupon" method="post">
-            <input type="hidden" id="selectedItemInput" name="selectedItem" value="기본값">
-            <input type="hidden" id="adminSubmittedValueInput" name="adminSubmittedValue" value="기본값">
-            <input type="hidden" id="selectedAdditionalItemInput" name="selectedAdditionalItem" value="기본값">
-            <p style="margin-top: 30px" id="selectedItem">선택된 항목: 없음</p>
-            <p id="adminSubmittedValue">추가된 값: 없음</p>
-            <p id="selectedAdditionalItem">선택된 추가 콤보박스 2 항목: 없음</p>
+            <input type="hidden" id="couponTypeInput" name="couponTypeValue" value="일반쿠폰">
+            <input type="hidden" id="bookSearchValueInput" name="bookSearchValue" value="기본값">
+            <input type="hidden" id="subCategoryInput" name="subCategoryValue" value="기본값">
+            <p id="bookSearchValue">추가된 값: 없음</p>
             <button type="submit" class="admin-btn"><i class="fa fa-search"></i>다음</button>
         </form>
     </div>
@@ -171,70 +173,70 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
-        $('#menu').change(function () {
+        $('#couponType').change(function () {
             var selectedOption = $(this).find('option:selected').text();
-            $('#selectedItem').text('선택된 항목: ' + selectedOption);
-            $('#selectedItemInput').val(selectedOption);
+            $('#couponTypeValue').text('선택된 항목: ' + selectedOption);
+            $('#couponTypeInput').val(selectedOption);
 
-            if ($(this).val() === 'item2') {
-                $('#additionalSelectContainer1').show();
-                $('#additionalSelectContainer2').show();
+            if ($(this).val() === 'type2') {
+                $('#categoryContainer').show();
+                $('#subCategory').show();
             } else {
-                $('#additionalSelectContainer1').hide();
-                $('#additionalSelectContainer2').hide();
+                $('#categoryContainer').hide();
+                $('#subCategory').hide();
             }
 
-            if ($(this).val() === 'item3') {
-                $('#adminSearchFormContainer').show();
-                $('#adminSubmittedValue').show();
+            if ($(this).val() === 'type3') {
+                $('#bookSearchFormContainer').show();
+                $('#bookSearchValue').show();
             } else {
-                $('#adminSearchFormContainer').hide();
-                $('#adminSubmittedValue').hide();
+                $('#bookSearchFormContainer').hide();
+                $('#bookSearchValue').hide();
             }
         });
 
-        $('#adminSearchForm').submit(function (event) {
+        $('#bookSearchForm').submit(function (event) {
             event.preventDefault();
-            var inputValue = $('#adminSearchInput').val();
-            if ($('#menu').val() === 'item3') {
-                $('#adminSubmittedValue').text('추가된 값: ' + inputValue).show();
-                $('#adminSubmittedValueInput').val(inputValue);
+            var inputValue = $('#bookSearchInput').val();
+            if ($('#couponType').val() === 'type3') {
+                $('#bookSearchValue').text('추가된 값: ' + inputValue).show();
+                $('#bookSearchValueInput').val(inputValue);
             }
-            $('#adminSearchInput').val('');
+            $('#bookSearchInput').val('');
         });
 
-        $('#additionalSelect1').change(function () {
+        $('#categorySelect1').change(function () {
             var selectedOption = $(this).find('option:selected').text();
-            $('#selectedItem').text('선택된 서브 항목 1: ' + selectedOption);
+            $('#couponTypeValue').text('선택된 서브 항목 1: ' + selectedOption);
 
             if ($(this).val() === 'subitem2') {
-                $('#additionalSelect2').html(`
+                $('#subCategorySelect').html(`
                 <option value="subitem4">카테고리2 서브 항목 2-1 (변경됨)</option>
                 <option value="subitem5">카테고리2 서브 항목 2-2 (변경됨)</option>
                 <option value="subitem6">카테고리2 서브 항목 2-3 (변경됨)</option>
             `);
             } else if ($(this).val() === 'subitem3') {
-                $('#additionalSelect2').html(`
+                $('#subCategorySelect').html(`
                 <option value="subitem4">카테고리2 서브 항목 3-1 (변경됨)</option>
                 <option value="subitem5">카테고리2 서브 항목 3-2 (변경됨)</option>
                 <option value="subitem6">카테고리2 서브 항목 3-3 (변경됨)</option>
             `);
             } else {
-                $('#additionalSelect2').html(`
+                $('#subCategorySelect').html(`
                 <option value="subitem4">카테고리2 서브 항목 1-1</option>
                 <option value="subitem5">카테고리2 서브 항목 1-2</option>
                 <option value="subitem6">카테고리2 서브 항목 1-3</option>
             `);
             }
 
-            var selectedAdditionalOption = $('#additionalSelect2').find('option:selected').text();
-            $('#selectedAdditionalItem').text('선택된 추가 카테고리 콤보박스 2 항목: ' + selectedAdditionalOption);
+            var selectedAdditionalOption = $('#subCategorySelect').find('option:selected').text();
+            $('#subCategoryValue').text('선택된 추가 카테고리 콤보박스 2 항목: ' + selectedAdditionalOption);
         });
 
-        $('#additionalSelect2').change(function () {
+        $('#subCategorySelect').change(function () {
             var selectedAdditionalOption = $(this).find('option:selected').text();
-            $('#selectedAdditionalItem').text('선택된 추가 카테고리 콤보박스 2 항목: ' + selectedAdditionalOption);
-            $('#selectedAdditionalItemInput').val(selectedAdditionalOption);
+            $('#subCategoryValue').text('선택된 추가 카테고리 콤보박스 2 항목: ' + selectedAdditionalOption);
+            $('#subCategoryInput').val(selectedAdditionalOption);
         });
     });
 </script>
