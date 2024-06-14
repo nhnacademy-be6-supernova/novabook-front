@@ -105,6 +105,10 @@
     line-height: 70px;
 }
 
+.tc {
+    text-align: center;
+}
+
 
 /*회원가입 CSS*/
 div.create{
