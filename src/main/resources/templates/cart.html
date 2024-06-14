@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕 - 장바구니</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <style>
+        body {
+            background: #f9f9f9;
+            font-family: 'Open Sans', 'Raleway', sans-serif;
+        }
+
+        h1 {
+            color: black;
+            margin: 0 0 20px 0;
+            font-size: 24px;
+        }
+
+        .layout.container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .cart-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        .cart-table th, .cart-table td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .cart-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .cart-item img {
+            max-width: 100px;
+        }
+
+        .total-container {
+            background: #e9f5ff;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 20px; /* 하단 여백 추가 */
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .total-row:last-child {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .total-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .total-value {
+            color: #333;
+        }
+
+        .total-value.final {
+            color: #d9534f;
+        }
+
+        .checkout-btn,
+        .continue-shopping-btn {
+            display: inline-block;
+            width: calc(50% - 5px);
+            padding: 15px;
+            font-size: 18px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            margin-right: 5px;
+        }
+
+        .checkout-btn {
+            background: #017DC1;
+            color: white;
+        }
+
+        .checkout-btn:hover {
+            background: #01609f;
+        }
+
+        .btn-danger {
+            background-color: #d9534f;
+            border-color: #d43f3a;
+        }
+
+        .btn-danger:hover {
+            background-color: #c9302c;
+            border-color: #ac2925;
+        }
+
+        .continue-shopping-btn {
+            background: #ffffff;
+            color: #017DC1;
+            border: 1px solid #017DC1;
+        }
+
+        .continue-shopping-btn:hover {
+            background: #f0f0f0;
+        }
+
+        @media screen and (max-width: 768px) {
+            .checkout-btn,
+            .continue-shopping-btn {
+                width: 100%;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{layout/nav::nav}"></div>
+<div class="layout container">
+    <h1>장바구니</h1>
+
+    <input type="checkbox" id="selectAllItems"> 전체 선택/해제
+
+
+    <table class="cart-table">
+        <thead>
+        <tr>
+            <th>선택</th>
+            <th>상품 정보</th>
+            <th>수량</th>
+            <th>상품금액</th>
+            <th>배송정보</th>
+            <th>주문</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td style="text-align: center; vertical-align: middle;">
+                <input type="checkbox" name="selectedItems" class="item-checkbox">
+            </td>
+
+            <td style="padding: 10px; border-bottom: 1px solid #ddd;">
+                <div style="display: flex; align-items: center;">
+                    <img src="https://dummyimage.com/100x150/000/fff&text=책+이미지" alt="책 이미지" class="img-responsive" style="width: 80px; height: 120px; object-fit: cover; margin-right: 15px; border: 1px solid #ccc; padding: 5px;">
+                    <div style="padding-left: 50px;">
+                        <h4 style="margin: 0;">더미 책 제목</h4>
+                        <div style="margin-top: 5px;">
+                            <p style="margin: 0;">
+                                <del style="color: #999;">₩15,000</del>
+                                <span style="font-weight: bold; color: #333;"> ₩13,500</span>
+                                <span style="color: #999;"> (10% 할인)</span>
+                            </p>
+                            <p style="margin: 0; color: #999;">할인액: ₩1,500</p>
+                        </div>
+                    </div>
+                </div>
+            </td>
+
+
+            <td style="text-align: center; vertical-align: middle;">
+                <form method="post" action="/cart/update" style="display: flex; flex-direction: column; align-items: center;">
+                    <input type="number" name="quantity" th:value="${quantity != null ? quantity : '1'}" min="1" class="form-control input-sm item-quantity" style="width: 60px; height: 30px; text-align: center; margin-bottom: 5px;">
+                    <input type="hidden" name="itemId" value="1">
+                    <button type="submit" class="btn btn-default btn-sm" style="width: 60px; height: 30px;">변경</button>
+                </form>
+            </td>
+
+
+            <td class="item-price">₩13,500</td>
+            <td>내일 (6/15, 토) 도착예정</td>
+            <td style="text-align: center; vertical-align: middle;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <button type="submit" formaction="/order" class="btn btn-primary" style="width: 120px; height: 40px; margin-bottom: 5px;">주문하기</button>
+                    <button type="submit" formaction="/order/later" class="btn btn-default" style="width: 120px; height: 40px; margin-bottom: 5px;">나중에 주문</button>
+                    <button type="submit" formaction="/cart/delete" class="btn btn-danger" style="width: 120px; height: 40px;">삭제</button>
+                </div>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+
+    <div class="total-container">
+        <div class="total-row">
+            <span class="total-label">총 상품금액</span>
+            <span class="total-value"
+                  th:text="'₩' + ${totalPrice}">₩</span>
+        </div>
+        <div class="total-row">
+            <span class="total-label">총 추가금액</span>
+            <span class="total-value additional-price">₩0</span>
+        </div>
+        <div class="total-row">
+            <span class="total-label">총 할인금액</span>
+            <span class="total-value discount-price">₩0</span>
+        </div>
+        <div class="total-row">
+            <span class="total-label">최종 결제금액</span>
+            <span class="total-value final-price">₩</span>
+        </div>
+    </div>
+
+    <div class="total-container">
+        <div class="total-row" style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+            <div>
+                <span class="total-label">선택된 상품의 총 가격</span>
+                <span class="total-value final" id="selectedItemsTotal">₩0</span>
+            </div>
+            <button id="deleteSelectedItems" class="btn btn-danger">선택 상품 삭제</button>
+        </div>
+    </div>
+
+    <div style="margin-top: 10px; display: flex; justify-content: space-between;">
+        <a href="#" class="checkout-btn btn btn-primary">주문하기</a>
+        <a href="#" class="continue-shopping-btn btn btn-default">쇼핑 계속하기</a>
+    </div>
+
+</div>
+
+<div th:replace="~{layout/footer::footer}"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+    $(document).ready(function() {
+
+        $('#selectAllItems').change(function() {
+            var isChecked = $(this).prop('checked');
+
+            $('input[name="selectedItems"]').prop('checked', isChecked);
+            calculateSelectedItemsTotal();
+        });
+
+
+        $('input[name="selectedItems"]').change(function() {
+            var anyUnchecked = $('input[name="selectedItems"]:not(:checked)').length > 0;
+            $('#selectAllItems').prop('checked', !anyUnchecked);
+            calculateSelectedItemsTotal();
+        });
+
+
+        $('#deleteSelectedItems').click(function() {
+            var selectedItems = $('.item-checkbox:checked').closest('tr');
+            selectedItems.remove();
+            calculateSelectedItemsTotal();
+        });
+
+
+        function calculateSelectedItemsTotal() {
+            var total = 0;
+            $('.item-checkbox:checked').each(function() {
+                var priceText = $(this).closest('tr').find('.item-price').text();
+                var price = parseInt(priceText.replace('₩', '').replace(',', '').trim());
+                total += price;
+            });
+            $('#selectedItemsTotal').text('₩' + total.toLocaleString());
+
+
+            var additionalPrice = calculateAdditionalPrice();
+            $('.additional-price').text('₩' + additionalPrice.toLocaleString());
+
+
+            var discountPrice = calculateDiscountPrice();
+            $('.discount-price').text('₩' + discountPrice.toLocaleString());
+
+
+            var finalPrice = total + additionalPrice - discountPrice;
+            $('.final-price').text('₩' + finalPrice.toLocaleString());
+        }
+
+
+        function calculateAdditionalPrice() {
+
+            return 0;
+        }
+
+        function calculateDiscountPrice() {
+
+            return 0;
+        }
+
+
+        $('input[name="selectedItems"]').change(function() {
+            calculateSelectedItemsTotal();
+
+            var anyChecked = $('input[name="selectedItems"]:checked').length > 0;
+            if (anyChecked) {
+                $('#selectedItemsTotalContainer').show();
+            } else {
+                $('#selectedItemsTotalContainer').hide();
+            }
+        });
+
+    });
+</script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</body>
+</html>
