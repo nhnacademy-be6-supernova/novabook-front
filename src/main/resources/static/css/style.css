@@ -57,7 +57,7 @@ div.create{
 }
 
 table{
-    height: 300px;
+    /*height: 300px;*/
     width: 900px;
     border-top: 3px solid #017DC1;
     margin-right: auto;
