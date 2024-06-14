@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="/css/responsive.css">
 
     <style>
+        .centered-form {
+        }
+
         .select-container {
             display: inline-block;
             position: relative;
@@ -95,158 +98,143 @@
 
         #adminSubmittedValue {
             margin-top: 20px;
-            font-size: 18px;
             display: none;
         }
 
-        /* 추가된 콤보박스 스타일 */
         .additional-select {
             margin-top: 20px;
+        }
+
+        .p-tag{
+            margin-top: 30px;
         }
     </style>
 </head>
 
 <body>
-<div th:replace="~{layout/nav::nav}"></div>
+<div th:replace="~{layout/admin_nav.html::admin_nav}"></div>
 
-
-<div class="layout">
-    <form id="couponForm" action="/submit_coupon" method="post">
+<div class="container">
+    <div class="centered-form">
         <h2>쿠폰 등록</h2>
 
         <label for="menu">메뉴 선택:</label>
         <div class="select-container">
             <select id="menu" name="menu">
-                <option value="item1">메뉴 항목 1</option>
-                <option value="item2">메뉴 항목 2</option>
-                <option value="item3">메뉴 항목 3</option>
-            </select>
-        </div>
-        <p id="selectedItem">선택된 항목: 없음</p>
-
-        <!-- 초기에는 숨겨진 추가 콤보박스 -->
-        <div id="additionalSelectContainer1" class="select-container additional-select" style="display: none;">
-            <label for="additionalSelect1">추가 콤보박스 1:</label>
-            <select id="additionalSelect1" name="additionalSelect1">
-                <option value="subitem1">서브 항목 1-1</option>
-                <option value="subitem2">서브 항목 1-2</option>
-                <option value="subitem3">서브 항목 1-3</option>
-            </select>
-        </div>
-
-        <!-- 초기에는 숨겨진 추가 콤보박스 -->
-        <div id="additionalSelectContainer2" class="select-container additional-select" style="display: none;">
-            <label for="additionalSelect2">추가 콤보박스 2:</label>
-            <select id="additionalSelect2" name="additionalSelect2">
-                <option value="subitem4">서브 항목 1-1</option>
-                <option value="subitem5">서브 항목 1-2</option>
-                <option value="subitem6">서브 항목 1-3</option>
+                <option value="item1">일반 쿠폰</option>
+                <option value="item2">카테고리 쿠폰</option>
+                <option value="item3">책 쿠폰</option>
             </select>
         </div>
 
         <div id="adminSearchFormContainer" style="display: none;">
             <div class="admin-search-form">
-                <form id="adminSearchForm" class="navbar-form" role="search">
+                <form id="adminSearchForm" class="navbar-form2" role="search">
                     <div class="admin-form-group">
                         <input type="text" id="adminSearchInput" class="admin-form-control" placeholder="검색어를 입력하세요">
                     </div>
-                    <button type="submit" class="admin-btn"><i class="fa fa-search"></i> 검색</button>
+                    <button type="submit" class="admin-btn"><i class="fa fa-search"></i>검색</button>
                 </form>
             </div>
         </div>
-        <p id="adminSubmittedValue">추가된 값: 없음</p>
-        <p id="selectedAdditionalItem">선택된 추가 콤보박스 2 항목: 없음</p>
-        <button type="submit" class="admin-btn"><i class="fa fa-search"></i> 검색</button>
-    </form>
+
+        <div id="additionalSelectContainer1" class="select-container additional-select" style="display: none;">
+            <label for="additionalSelect1">추가 콤보박스 1:</label>
+            <select id="additionalSelect1" name="additionalSelect1">
+                <option value="subitem1">카테고리 서브 항목 1-1</option>
+                <option value="subitem2">카테고리 서브 항목 1-2</option>
+                <option value="subitem3">카테고리 서브 항목 1-3</option>
+            </select>
+        </div>
+
+        <div id="additionalSelectContainer2" class="select-container additional-select" style="display: none;">
+            <label for="additionalSelect2">추가 콤보박스 2:</label>
+            <select id="additionalSelect2" name="additionalSelect2">
+                <option value="subitem4">카테고리2 서브 항목 1-1</option>
+                <option value="subitem5">카테고리2 서브 항목 1-2</option>
+                <option value="subitem6">카테고리2 서브 항목 1-3</option>
+            </select>
+        </div>
+
+        <form id="couponForm" action="/admin/coupon" method="post">
+            <input type="hidden" id="selectedItemInput" name="selectedItem" value="기본값">
+            <input type="hidden" id="adminSubmittedValueInput" name="adminSubmittedValue" value="기본값">
+            <input type="hidden" id="selectedAdditionalItemInput" name="selectedAdditionalItem" value="기본값">
+            <p style="margin-top: 30px" id="selectedItem">선택된 항목: 없음</p>
+            <p id="adminSubmittedValue">추가된 값: 없음</p>
+            <p id="selectedAdditionalItem">선택된 추가 콤보박스 2 항목: 없음</p>
+            <button type="submit" class="admin-btn"><i class="fa fa-search"></i>다음</button>
+        </form>
+    </div>
 </div>
 
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const menu = document.getElementById('menu');
-        const selectedItem = document.getElementById('selectedItem');
-        const adminSearchFormContainer = document.getElementById('adminSearchFormContainer');
-        const adminSearchForm = document.getElementById('adminSearchForm');
-        const adminSearchInput = document.getElementById('adminSearchInput');
-        const adminSubmittedValue = document.getElementById('adminSubmittedValue');
-        const selectedAdditionalItem = document.getElementById('selectedAdditionalItem');
+    $(document).ready(function () {
+        $('#menu').change(function () {
+            var selectedOption = $(this).find('option:selected').text();
+            $('#selectedItem').text('선택된 항목: ' + selectedOption);
+            $('#selectedItemInput').val(selectedOption);
 
-        // 추가 콤보박스 관련 요소
-        const additionalSelectContainer1 = document.getElementById('additionalSelectContainer1');
-        const additionalSelect1 = document.getElementById('additionalSelect1');
-        const additionalSelectContainer2 = document.getElementById('additionalSelectContainer2');
-        const additionalSelect2 = document.getElementById('additionalSelect2');
-
-        menu.addEventListener('change', function () {
-            const selectedOption = menu.options[menu.selectedIndex].text;
-            selectedItem.textContent = '선택된 항목: ' + selectedOption;
-
-            // 메뉴 항목 2 선택 시 추가 콤보박스 표시
-            if (menu.value === 'item2') {
-                additionalSelectContainer1.style.display = 'block';
-                additionalSelectContainer2.style.display = 'block';
+            if ($(this).val() === 'item2') {
+                $('#additionalSelectContainer1').show();
+                $('#additionalSelectContainer2').show();
             } else {
-                additionalSelectContainer1.style.display = 'none';
-                additionalSelectContainer2.style.display = 'none';
+                $('#additionalSelectContainer1').hide();
+                $('#additionalSelectContainer2').hide();
             }
 
-            // 다른 항목에서는 검색 폼 숨기기
-            if (menu.value === 'item1') {
-                adminSearchFormContainer.style.display = 'block';
-                adminSubmittedValue.style.display = 'block';
+            if ($(this).val() === 'item3') {
+                $('#adminSearchFormContainer').show();
+                $('#adminSubmittedValue').show();
             } else {
-                adminSearchFormContainer.style.display = 'none';
-                adminSubmittedValue.style.display = 'none';
+                $('#adminSearchFormContainer').hide();
+                $('#adminSubmittedValue').hide();
             }
         });
 
-        adminSearchForm.addEventListener('submit', function (event) {
+        $('#adminSearchForm').submit(function (event) {
             event.preventDefault();
-            const inputValue = adminSearchInput.value;
-            if (menu.value === 'item1') {
-                adminSubmittedValue.textContent = '추가된 값: ' + inputValue;
-                adminSubmittedValue.style.display = 'block'; // 값이 추가되었을 때 보이도록 설정
+            var inputValue = $('#adminSearchInput').val();
+            if ($('#menu').val() === 'item3') {
+                $('#adminSubmittedValue').text('추가된 값: ' + inputValue).show();
+                $('#adminSubmittedValueInput').val(inputValue);
             }
-            adminSearchInput.value = '';
+            $('#adminSearchInput').val('');
         });
 
-        // 추가 콤보박스 1 선택 변경 이벤트 처리
-        additionalSelect1.addEventListener('change', function () {
-            const selectedOption = additionalSelect1.options[additionalSelect1.selectedIndex].text;
-            selectedItem.textContent = '선택된 서브 항목 1: ' + selectedOption;
+        $('#additionalSelect1').change(function () {
+            var selectedOption = $(this).find('option:selected').text();
+            $('#selectedItem').text('선택된 서브 항목 1: ' + selectedOption);
 
-            // 서브 항목 1-1이 선택되면 추가 콤보박스 2의 옵션 변경
-            if (additionalSelect1.value === 'subitem2') {
-                // 새로운 옵션 설정
-                additionalSelect2.innerHTML = `
-                    <option value="subitem4">서브 항목 2-1 (변경됨)</option>
-                    <option value="subitem5">서브 항목 2-2 (변경됨)</option>
-                    <option value="subitem6">서브 항목 2-3 (변경됨)</option>
-                `;
-            } else if (additionalSelect1.value === 'subitem3') {
-                additionalSelect2.innerHTML = `
-                    <option value="subitem4">서브 항목 3-1 (변경됨)</option>
-                    <option value="subitem5">서브 항목 3-2 (변경됨)</option>
-                    <option value="subitem6">서브 항목 3-3 (변경됨)</option>
-                `;
+            if ($(this).val() === 'subitem2') {
+                $('#additionalSelect2').html(`
+                <option value="subitem4">카테고리2 서브 항목 2-1 (변경됨)</option>
+                <option value="subitem5">카테고리2 서브 항목 2-2 (변경됨)</option>
+                <option value="subitem6">카테고리2 서브 항목 2-3 (변경됨)</option>
+            `);
+            } else if ($(this).val() === 'subitem3') {
+                $('#additionalSelect2').html(`
+                <option value="subitem4">카테고리2 서브 항목 3-1 (변경됨)</option>
+                <option value="subitem5">카테고리2 서브 항목 3-2 (변경됨)</option>
+                <option value="subitem6">카테고리2 서브 항목 3-3 (변경됨)</option>
+            `);
             } else {
-                // 기본 옵션 설정
-                additionalSelect2.innerHTML = `
-                    <option value="subitem4">서브 항목 1-1</option>
-                    <option value="subitem5">서브 항목 1-2</option>
-                    <option value="subitem6">서브 항목 1-3</option>
-                `;
+                $('#additionalSelect2').html(`
+                <option value="subitem4">카테고리2 서브 항목 1-1</option>
+                <option value="subitem5">카테고리2 서브 항목 1-2</option>
+                <option value="subitem6">카테고리2 서브 항목 1-3</option>
+            `);
             }
 
-            // 추가 콤보박스 2에서 선택된 항목을 selectedAdditionalItem에 반영
-            const selectedAdditionalOption = additionalSelect2.options[additionalSelect2.selectedIndex].text;
-            selectedAdditionalItem.textContent = '선택된 추가 콤보박스 2 항목: ' + selectedAdditionalOption;
+            var selectedAdditionalOption = $('#additionalSelect2').find('option:selected').text();
+            $('#selectedAdditionalItem').text('선택된 추가 카테고리 콤보박스 2 항목: ' + selectedAdditionalOption);
         });
 
-        // 추가 콤보박스 2 선택 변경 이벤트 처리
-        additionalSelect2.addEventListener('change', function () {
-            const selectedAdditionalOption = additionalSelect2.options[additionalSelect2.selectedIndex].text;
-            selectedAdditionalItem.textContent = '선택된 추가 콤보박스 2 항목: ' + selectedAdditionalOption;
+        $('#additionalSelect2').change(function () {
+            var selectedAdditionalOption = $(this).find('option:selected').text();
+            $('#selectedAdditionalItem').text('선택된 추가 카테고리 콤보박스 2 항목: ' + selectedAdditionalOption);
+            $('#selectedAdditionalItemInput').val(selectedAdditionalOption);
         });
     });
 </script>
@@ -254,5 +242,3 @@
 <div th:replace="~{layout/footer::footer}"></div>
 </body>
 </html>
-
-
