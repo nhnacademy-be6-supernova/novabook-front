@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <style>
+        .form-inline .form-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .form-inline .form-group input[type="text"] {
+            flex: 1;
+        }
+
+        .delivery-date-container {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .delivery-date-header {
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+            background-color: #f5f5f5;
+        }
+
+        .delivery-date-row {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f5f5f5;
+        }
+
+        .delivery-date-btn {
+            flex: 1;
+            text-align: center;
+            border: 1px solid #ddd;
+            padding: 10px;
+            cursor: pointer;
+            margin-right: 5px;
+            background-color: #fff;
+        }
+
+        .delivery-date-btn.selected {
+            background-color: #337ab7;
+            color: white;
+        }
+
+        .delivery-date-btn:last-child {
+            margin-right: 0;
+        }
+
+        .btn-center {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .payment-info {
+            margin-top: 20px;
+        }
+
+        .payment-info-table {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .payment-info-table th, .payment-info-table td {
+            text-align: center;
+            padding: 10px;
+        }
+
+        .payment-info-table .total {
+            font-size: 1.5em;
+            color: #d9534f;
+        }
+
+        .form-group-inline {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .full-width {
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .section-header {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .section {
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            border: 0; /* 보더값을 0으로 설정 */
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{layout/nav::nav}"></div>
+<div class="layout">
+
+    <div class="container">
+        <h1>주문 확인</h1>
+        <form th:action="@{/order/confirm}" method="post">
+            <!-- 주문 요약 -->
+            <div class="section">
+                <h2 class="section-header">주문 요약</h2>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>상품명</th>
+                        <th>가격</th>
+                        <th>수량</th>
+                        <th>할인</th>
+                        <th>합계</th>
+                        <th>배송 날짜</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item, iterStat : ${items}">
+                        <td th:text="${item.name}">Product Name</td>
+                        <td th:text="${item.price}">14,800원</td>
+                        <td th:text="${item.quantity}">1</td>
+                        <td th:text="${item.discount}">10%</td>
+                        <td th:text="${item.total}">13,320원</td>
+                        <td>내일 (6/15)</td>
+                    </tr>
+                    <tr th:if="${items == null || #lists.isEmpty(items)}">
+                        <td colspan="6">주문한 상품이 없습니다.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 포장 옵션 -->
+            <div class="section">
+                <h2 class="section-header">포장 옵션</h2>
+                <select name="packaging" class="form-control" onchange="updatePackagingPrice(this)">
+                    <option value="standard" data-price="0">일반 포장</option>
+                    <option value="gift" data-price="3000">선물 포장 (+3,000원)</option>
+                    <option value="eco" data-price="1000">친환경 포장 (+1,000원)</option>
+                </select>
+            </div>
+
+            <!-- 쿠폰 적용 -->
+            <div class="section">
+                <h2 class="section-header">쿠폰 적용</h2>
+                <div class="form-group form-group-inline">
+                    <input type="text" name="coupon" class="form-control" placeholder="쿠폰 코드를 입력하세요"/>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="applyCoupon()">쿠폰 적용</button>
+            </div>
+
+            <!-- 포인트 사용 -->
+            <div class="section">
+                <h2 class="section-header">포인트 사용</h2>
+                <div class="form-group full-width">
+                    <label for="currentPoints">현재 포인트: </label>
+                    <span id="currentPoints" style="margin-left: 10px;">5,000포인트</span>
+                </div>
+                <div class="form-group full-width" style="display: flex; align-items: center;">
+                    <input type="text" name="points" id="pointsInput" class="form-control" style="width: 20%;" placeholder="사용할 포인트를 입력하세요" />
+                    <button type="button" class="btn btn-primary" style="margin-left: 10px;" onclick="applyPoints()">포인트 적용</button>
+                </div>
+            </div>
+
+            <!-- 배송일 선택 -->
+            <div class="section delivery-date-container" style="background-color: #f5f5f5; border: 1px solid #ddd;">
+                <h4 class="delivery-date-header">배송일 선택 (도착 예상일)</h4>
+                <div class="delivery-date-row">
+                    <div class="delivery-date-btn" onclick="selectDeliveryDate(this)">오늘 (6/14)</div>
+                    <div class="delivery-date-btn selected" onclick="selectDeliveryDate(this)">내일 (6/15)</div>
+                    <div class="delivery-date-btn" onclick="selectDeliveryDate(this)">월 (6/17)</div>
+                    <div class="delivery-date-btn" onclick="selectDeliveryDate(this)">화 (6/18)</div>
+                    <div class="delivery-date-btn" onclick="selectDeliveryDate(this)">수 (6/19)</div>
+                    <div class="delivery-date-btn" onclick="selectDeliveryDate(this)">목 (6/20)</div>
+                </div>
+            </div>
+
+            <!-- 배송지 정보 -->
+            <div class="section">
+                <h2 class="section-header">배송지 정보</h2>
+                <div class="form-group full-width">
+                    <label for="name">이름</label>
+                    <input type="text" id="name" name="name" class="form-control" style="width: 70%;" value="홍길동" placeholder="이름" />
+                </div>
+                <div class="form-group full-width" style="align-items: center;">
+                    <label for="address">주소</label>
+                    <div style="display: flex">
+                        <input type="text" id="address" name="address" class="form-control" style=" width: 70%;" value="서울시 강남구" placeholder="주소" />
+                        <button type="button" class="btn btn-info" style="margin-left: 10px;" onclick="openAddressBook()">주소록</button>
+                    </div>
+                </div>
+                <div class="form-group full-width">
+                    <label for="phone">전화번호</label>
+                    <input type="text" id="phone" name="phone" class="form-control" style="width: 70%;" value="010-1234-5678" placeholder="전화번호" />
+                </div>
+                <div class="form-group full-width">
+                    <label for="email">이메일</label>
+                    <input type="email" id="email" name="email" class="form-control" style="width: 70%;" value="example@example.com" placeholder="이메일" />
+                </div>
+            </div>
+
+            <!-- 결제 정보 -->
+            <div class="section payment-info">
+                <h2 class="section-header" style="border-bottom: 0; margin-bottom: 0;">결제 정보</h2>
+                <div class="table-responsive">
+                    <table class="table payment-info-table">
+                        <thead>
+                        <tr>
+                            <th>총 상품금액</th>
+                            <th>총 추가금액</th>
+                            <th>총 할인금액</th>
+                            <th>총 포인트 사용</th>
+                            <th>배송비</th>
+                            <th>최종 결제금액</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td id="totalAmount">31,320원</td>
+                            <td id="additionalAmount">0원</td>
+                            <td id="discountAmount">0원</td>
+                            <td id="pointsUsed">0원</td>
+                            <td id="shippingFee">2,500원</td> <!-- 추가된 배송비 부분 -->
+                            <td class="total" id="finalAmount">33,820원</td> <!-- 최종 결제금액에 배송비를 반영 -->
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 주문 확인 버튼 -->
+            <div class="btn-center">
+                <button type="submit" class="btn btn-primary">주문 확인</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- 주소록 모달 -->
+    <div id="addressBookModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">주소록</h4>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li><a href="#" onclick="selectAddress('서울시 종로구', '010-9876-5432')">서울시 종로구</a></li>
+                        <li><a href="#" onclick="selectAddress('부산시 해운대구', '010-6543-2109')">부산시 해운대구</a></li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function applyCoupon() {
+            alert("쿠폰이 적용되었습니다!");
+            // 실제 적용 로직 필요
+            // 예: 할인 금액 업데이트, 최종 결제 금액 업데이트
+            document.getElementById('discountAmount').innerText = "5,000원"; // 예시로 5,000원 할인
+            updateFinalAmount();
+        }
+
+        function applyPoints() {
+            const currentPoints = parseInt(document.getElementById('currentPoints').innerText.replace('포인트', '').replace(',', ''), 10);
+            const pointsInput = parseInt(document.getElementById('pointsInput').value, 10);
+
+            if (pointsInput > currentPoints) {
+                alert("사용할 포인트는 현재 포인트보다 많을 수 없습니다.");
+                return;
+            }
+
+            alert("포인트가 적용되었습니다!");
+            // 실제 적용 로직 필요
+            // 예: 포인트 금액 업데이트, 최종 결제 금액 업데이트
+            document.getElementById('pointsUsed').innerText = pointsInput + "원"; // 입력된 포인트 사용
+            updateFinalAmount();
+        }
+
+        function openAddressBook() {
+            $('#addressBookModal').modal('show');
+        }
+
+        function selectAddress(address, phone) {
+            document.getElementById('address').value = address;
+            document.getElementById('phone').value = phone;
+            $('#addressBookModal').modal('hide');
+        }
+
+        function updatePackagingPrice(selectElement) {
+            const price = parseInt(selectElement.options[selectElement.selectedIndex].getAttribute('data-price'), 10);
+            document.getElementById('additionalAmount').innerText = price + "원";
+            updateFinalAmount();
+        }
+
+        function updateFinalAmount() {
+            const totalAmount = parseInt(document.getElementById('totalAmount').innerText.replace('원', '').replace(',', ''), 10);
+            const additionalAmount = parseInt(document.getElementById('additionalAmount').innerText.replace('원', '').replace(',', ''), 10);
+            const discountAmount = parseInt(document.getElementById('discountAmount').innerText.replace('원', '').replace(',', ''), 10);
+            const pointsUsed = parseInt(document.getElementById('pointsUsed').innerText.replace('원', '').replace(',', ''), 10);
+            const shippingFee = parseInt(document.getElementById('shippingFee').innerText.replace('원', '').replace(',', ''), 10);
+            const finalAmount = totalAmount + additionalAmount - discountAmount - pointsUsed + shippingFee;
+            document.getElementById('finalAmount').innerText = finalAmount.toLocaleString() + "원";
+        }
+
+        function selectDeliveryDate(element) {
+            document.querySelectorAll('.delivery-date-btn').forEach(btn => btn.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+    </script>
+</div>
+<div th:replace="~{layout/footer::footer}"></div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕 - 포인트 내역</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+
+<body>
+<div th:replace="~{layout/nav::nav}"></div>
+
+<div class="layout">
+    <div class="container">
+        <div class="row">
+            <div th:replace="~{layout/sidebar::sidebar}"></div>
+
+            <!-- 콘텐츠 섹션 -->
+            <div class="col-md-9">
+                <!-- 포인트 내역 섹션 -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>포인트 내역</h2>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>날짜</th>
+                                <th>내용</th>
+                                <th>포인트 변동</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>2024-06-15</td>
+                                <td>구매 포인트 적립</td>
+                                <td>+100</td>
+                            </tr>
+                            <tr>
+                                <td>2024-06-14</td>
+                                <td>쿠폰 사용</td>
+                                <td>-50</td>
+                            </tr>
+                            <!-- 추가적인 포인트 내역을 여기에 추가하세요 -->
+                            </tbody>
+                        </table>
+                        <a href="/mypage" class="btn btn-primary">돌아가기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer::footer}"></div>
+</body>
+</html>

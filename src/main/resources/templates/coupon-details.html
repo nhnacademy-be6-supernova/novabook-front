@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕 - 쿠폰 내역</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+
+<body>
+<div th:replace="~{layout/nav::nav}"></div>
+
+<div class="layout">
+    <div class="container">
+        <div class="row">
+            <div th:replace="~{layout/sidebar::sidebar}"></div>
+
+            <!-- 콘텐츠 섹션 -->
+            <div class="col-md-9">
+                <!-- 쿠폰 내역 섹션 -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>쿠폰 내역</h2>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>쿠폰번호</th>
+                                <th>할인율</th>
+                                <th>적용 상품</th>
+                                <th>사용 기한</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>ABC123</td>
+                                <td>10%</td>
+                                <td>전체 상품</td>
+                                <td>2024-12-31</td>
+                            </tr>
+                            <tr>
+                                <td>XYZ456</td>
+                                <td>20%</td>
+                                <td>책 제목 1</td>
+                                <td>2024-08-31</td>
+                            </tr>
+                            <!-- 추가적인 쿠폰 내역을 여기에 추가하세요 -->
+                            </tbody>
+                        </table>
+                        <a href="/mypage" class="btn btn-primary">돌아가기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/footer::footer}"></div>
+</body>
+</html>
