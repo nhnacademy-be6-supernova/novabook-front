@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.css"/>
+</head>
+
+<body>
+<div th:replace="~{layout/nav::nav}"></div>
+
+<div class="layout">
+
+
+    <div class="col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">회원등급</h3>
+            </div>
+            <div class="panel-body">
+                <p>현재 회원 등급: <strong>Gold</strong></p>
+                <!-- 추가 회원 등급 정보는 여기서 제공 -->
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">카테고리</h3>
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="#">카테고리 1</a></li>
+                    <li><a href="#">카테고리 2</a></li>
+                    <li><a href="#">카테고리 3</a></li>
+                    <li><a href="#">카테고리 4</a></li>
+                    <!-- 추가 카테고리는 여기서 제공 -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <h3 class="panel-title">도서 검색</h3>
+    <div class="panel-body">
+
+        <form class="form-inline">
+            <div class="form-group">
+                <label for="bookSearch">도서명:</label>
+                <input type="text" class="form-control" id="bookSearch" placeholder="도서명을 입력하세요">
+            </div>
+            <button type="submit" class="btn btn-primary">검색</button>
+        </form>
+
+
+        <h3 class="panel-title">도서 설명</h3>
+
+        <div id="editor"></div>
+
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const Editor = toastui.Editor;
+
+            const editor = new Editor({
+                el: document.querySelector('#editor'),
+                height: '500px',
+                initialEditType: 'markdown',
+                previewStyle: 'vertical'
+            });
+
+            editor.getMarkdown();
+        });
+    </script>
+
+
+</div>
+
+
+<div th:replace="~{layout/footer::footer}"></div>
+
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+</body>
+</html>
+
+
