@@ -24,5 +24,10 @@ public class MyPageController {
 
         return "orderlist-details";
     }
+    @GetMapping("/mypage/review")
+    public String review() {
+
+        return "review";
+    }
 
 }
