@@ -75,5 +75,15 @@ public class AdminController {
         return "admin-order";
     }
 
+    @GetMapping("/admin/tag/register")
+    public String adminTag() {
+        return "admin-tag-register";
+    }
+
+    @GetMapping("/admin/tag/detail")
+    public String adminTagDetail() {
+        return "admin-tag-detail";
+    }
+
 
 }
