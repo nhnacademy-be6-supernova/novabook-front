@@ -15,6 +15,7 @@
     <!-- Theme Stylesheet -->
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
@@ -68,32 +69,33 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="col1">학년/반</td>
-                        <td class="col2"><select name="grade">
-                            <option value="slc1" selected>선택</option>
-                            <option value="g1">1</option>
-                            <option value="g2">2</option>
-                            <option value="g3">3</option>
-                            <option value="g4">4</option>
-                            <option value="g5">5</option>
-                            <option value="g6">6</option>
-                        </select>
-
-                            <span class="g">학년</span>
-
-                            <select name="cls">
-                                <option value="slc2" selected>선택</option>
-                                <option value="c1">1</option>
-                                <option value="c2">2</option>
-                                <option value="c3">3</option>
-                                <option value="c4">4</option>
-                                <option value="c5">5</option>
+                        <td class="col1">생년월일</td>
+                        <td class="col2">
+                            <select id="birth_year" name="birth_year" onchange="updateDays()">
+                                <option value="select" selected>선택</option>
+                                <!-- 1900년부터 2025년까지의 옵션 추가 -->
+                                <option th:each="year : ${#numbers.sequence(1900, 2027)}" th:value="${year}" th:text="${year}"></option>
                             </select>
+                            <span class="label">년</span>
 
-                            <span class="c">반</span>
+                            <select id="birth_month" name="birth_month" onchange="updateDays()">
+                                <option value="select" selected>선택</option>
+                                <!-- 1월부터 12월까지의 옵션 추가 -->
+                                <option th:each="month : ${#numbers.sequence(1, 12)}" th:value="${month}" th:text="${month}"></option>
+                            </select>
+                            <span class="label">월</span>
 
+                            <select id="birth_day" name="birth_day">
+                                <option value="select" selected>선택</option>
+                            </select>
+                            <span class="label">일</span>
                         </td>
-
+                    </tr>
+                    <tr>
+                        <td class="col1">주소</td>
+                        <td class="col2">
+                            <input type="text" id="address_line1" name="address_line1" placeholder="주소를 입력하세요" required>
+                        </td>
                     </tr>
                 </table>
 
@@ -110,6 +112,40 @@
 </div>
 
 <div th:replace="~{layout/footer::footer}"></div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function updateDays() {
+        var year = parseInt($('#birth_year').val());
+        var month = parseInt($('#birth_month').val());
+        var daySelect = $('#birth_day');
+
+        daySelect.empty().append('<option value="select" selected>선택</option>');
+        var daysInMonth = new Date(year, month, 0).getDate();
+
+        var today = new Date();
+        var currentYear = today.getFullYear();
+        var currentMonth = today.getMonth() + 1; // getMonth()는 0부터 시작하므로 +1 해줌
+        var currentDay = today.getDate();
+
+        // 선택된 연도와 월이 오늘보다 작다면 아무 작업도 하지 않음
+        if (year < currentYear || (year === currentYear && month < currentMonth)) {
+            return;
+        }
+
+        for (var day = 1; day <= daysInMonth; day++) {
+            // 오늘 이전의 날짜만 선택 가능하도록 설정
+            if (year < currentYear || (year === currentYear && month < currentMonth) || (year === currentYear && month === currentMonth && day <= currentDay)) {
+                daySelect.append($('<option></option>').attr('value', day).text(day));
+            }
+        }
+    }
+
+    // 페이지 로드 시 초기화
+    $(document).ready(function() {
+        updateDays();
+    });
+    /*]]>*/
+</script>
 </body>
 </html>
 
