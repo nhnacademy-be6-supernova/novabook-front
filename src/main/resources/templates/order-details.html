@@ -128,7 +128,7 @@
 
     <div class="container">
         <h1>주문 확인</h1>
-        <form th:action="@{/order/confirm}" method="post">
+        <form th:action="@{/order/success}" method="post">
             <!-- 주문 요약 -->
             <div class="section">
                 <h2 class="section-header">주문 요약</h2>
@@ -140,7 +140,7 @@
                         <th>수량</th>
                         <th>할인</th>
                         <th>합계</th>
-                        <th>배송 날짜</th>
+                        <!--                        <th>배송 날짜</th>-->
                     </tr>
                     </thead>
                     <tbody>
@@ -150,7 +150,7 @@
                         <td th:text="${item.quantity}">1</td>
                         <td th:text="${item.discount}">10%</td>
                         <td th:text="${item.total}">13,320원</td>
-                        <td>내일 (6/15)</td>
+                        <!--                        <td>내일 (6/15)</td>-->
                     </tr>
                     <tr th:if="${items == null || #lists.isEmpty(items)}">
                         <td colspan="6">주문한 상품이 없습니다.</td>
@@ -285,18 +285,20 @@
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script>
         function applyCoupon() {
             alert("쿠폰이 적용되었습니다!");
             // 실제 적용 로직 필요
             // 예: 할인 금액 업데이트, 최종 결제 금액 업데이트
-            document.getElementById('discountAmount').innerText = "5,000원"; // 예시로 5,000원 할인
+            $('#discountAmount').text("5,000원"); // 예시로 5,000원 할인
             updateFinalAmount();
         }
 
         function applyPoints() {
-            const currentPoints = parseInt(document.getElementById('currentPoints').innerText.replace('포인트', '').replace(',', ''), 10);
-            const pointsInput = parseInt(document.getElementById('pointsInput').value, 10);
+            const currentPoints = parseInt($('#currentPoints').text().replace('포인트', '').replace(',', ''), 10);
+            const pointsInput = parseInt($('#pointsInput').val(), 10);
 
             if (pointsInput > currentPoints) {
                 alert("사용할 포인트는 현재 포인트보다 많을 수 없습니다.");
@@ -306,7 +308,7 @@
             alert("포인트가 적용되었습니다!");
             // 실제 적용 로직 필요
             // 예: 포인트 금액 업데이트, 최종 결제 금액 업데이트
-            document.getElementById('pointsUsed').innerText = pointsInput + "원"; // 입력된 포인트 사용
+            $('#pointsUsed').text(pointsInput + "원"); // 입력된 포인트 사용
             updateFinalAmount();
         }
 
@@ -315,30 +317,30 @@
         }
 
         function selectAddress(address, phone) {
-            document.getElementById('address').value = address;
-            document.getElementById('phone').value = phone;
+            $('#address').val(address);
+            $('#phone').val(phone);
             $('#addressBookModal').modal('hide');
         }
 
         function updatePackagingPrice(selectElement) {
-            const price = parseInt(selectElement.options[selectElement.selectedIndex].getAttribute('data-price'), 10);
-            document.getElementById('additionalAmount').innerText = price + "원";
+            const price = parseInt($(selectElement).find('option:selected').data('price'), 10);
+            $('#additionalAmount').text(price + "원");
             updateFinalAmount();
         }
 
         function updateFinalAmount() {
-            const totalAmount = parseInt(document.getElementById('totalAmount').innerText.replace('원', '').replace(',', ''), 10);
-            const additionalAmount = parseInt(document.getElementById('additionalAmount').innerText.replace('원', '').replace(',', ''), 10);
-            const discountAmount = parseInt(document.getElementById('discountAmount').innerText.replace('원', '').replace(',', ''), 10);
-            const pointsUsed = parseInt(document.getElementById('pointsUsed').innerText.replace('원', '').replace(',', ''), 10);
-            const shippingFee = parseInt(document.getElementById('shippingFee').innerText.replace('원', '').replace(',', ''), 10);
+            const totalAmount = parseInt($('#totalAmount').text().replace('원', '').replace(',', ''), 10);
+            const additionalAmount = parseInt($('#additionalAmount').text().replace('원', '').replace(',', ''), 10);
+            const discountAmount = parseInt($('#discountAmount').text().replace('원', '').replace(',', ''), 10);
+            const pointsUsed = parseInt($('#pointsUsed').text().replace('원', '').replace(',', ''), 10);
+            const shippingFee = parseInt($('#shippingFee').text().replace('원', '').replace(',', ''), 10);
             const finalAmount = totalAmount + additionalAmount - discountAmount - pointsUsed + shippingFee;
-            document.getElementById('finalAmount').innerText = finalAmount.toLocaleString() + "원";
+            $('#finalAmount').text(finalAmount.toLocaleString() + "원");
         }
 
         function selectDeliveryDate(element) {
-            document.querySelectorAll('.delivery-date-btn').forEach(btn => btn.classList.remove('selected'));
-            element.classList.add('selected');
+            $('.delivery-date-btn').removeClass('selected');
+            $(element).addClass('selected');
         }
     </script>
 </div>
