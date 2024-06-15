@@ -14,9 +14,49 @@
           type="text/css">
     <!-- Theme Stylesheet -->
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/responsive.css">
+<!--    <link rel="stylesheet" href="/css/responsive.css">-->
 
     <style>
+        #login-form > input {
+            width: 100%;
+            height: 48px;
+            padding: 0 10px;
+            box-sizing: border-box;
+            margin-bottom: 16px;
+            border-radius: 6px;
+            background-color: #F8F8F8;
+        }
+
+        #login-form > input::placeholder{
+            color: #D2D2D2;
+        }
+
+        #login-form > input[type="submit"]{
+            color: #fff;
+            font-size: 16px;
+            background-color: #017DC1;
+            margin-top: 20px;
+        }
+        #guest-form > input {
+            width: 100%;
+            height: 48px;
+            padding: 0 10px;
+            box-sizing: border-box;
+            margin-bottom: 16px;
+            border-radius: 6px;
+            background-color: #F8F8F8;
+        }
+
+        #guest-form > input::placeholder{
+            color: #D2D2D2;
+        }
+
+        #guest-form > input[type="submit"]{
+            color: #fff;
+            font-size: 16px;
+            background-color: #017DC1;
+            margin-top: 20px;
+        }
         body {
             font-family: 'Open Sans', sans-serif;
             background-color: #f7f7f7;
@@ -26,7 +66,7 @@
             margin: 0;
         }
 
-        .container {
+        .container-box {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -36,6 +76,8 @@
 
         .left-pane {
             margin-right: 30px;
+            display: flex;
+            align-items: center;
         }
 
         .left-pane img {
@@ -49,17 +91,57 @@
             border-radius: 10px;
             width: 600px;
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
         }
 
         .tabs-wrapper {
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            padding: 0;
+            width: 93%;
+            border-radius: 5px;
+        }
+
+        .nav-tabs > li {
+            flex: 1;
+            text-align: center;
+        }
+
+        .nav-tabs > li > a {
+            width: calc(100% - 22px); /* Adjusted to match the input field width */
+            border: none;
+            border-bottom: none;
+            border-radius: 10px 10px 0 0;
+            color: #fff;
+            padding: 10px;
+            background-color: #337ab7;
+            transition: background-color 0.3s, color 0.3s;
+            display: block;
+        }
+
+        /*.nav-tabs > li.active > a{*/
+        /*    background-color: #337ab7;*/
+        /*    color: #fff;*/
+
+        /*}*/
+
+        .tab-content {
+            width: 100%;
+            padding: 20px;
         }
 
         .form-wrapper h2 {
             margin-bottom: 20px;
             font-weight: 700;
-            color: #333;
+            /*color: #333;*/
         }
 
         .form-wrapper form {
@@ -69,32 +151,35 @@
 
         .form-wrapper input[type="text"],
         .form-wrapper input[type="password"],
+        .form-wrapper input[name="orderNumber"],
+        .form-wrapper input[name="phoneNumber"],
         .form-wrapper input[type="submit"] {
             margin-bottom: 15px;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 14px;
+            width: calc(100% - 22px); /* Adjusted to match the padding and border */
         }
 
-        .form-wrapper input[type="submit"] {
-            background-color: #5cb85c;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
+        /*.form-wrapper input[type="submit"] {*/
+        /*    background-color: #5cb85c;*/
+        /*    color: #fff;*/
+        /*    border: none;*/
+        /*    cursor: pointer;*/
+        /*    font-size: 16px;*/
+        /*    transition: background-color 0.3s;*/
+        /*}*/
 
-        .form-wrapper input[type="submit"]:hover {
-            background-color: #4cae4c;
-        }
+        /*.form-wrapper input[type="submit"]:hover {*/
+        /*    background-color: #4cae4c;*/
+        /*}*/
 
         .form-wrapper label {
             display: flex;
             align-items: center;
             font-size: 14px;
-            color: #777;
+            /*color: #777;*/
             margin-bottom: 15px;
         }
 
@@ -102,72 +187,52 @@
             margin-right: 10px;
         }
 
-        .nav-tabs {
-            border-bottom: 2px solid #ddd;
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .nav-tabs > li > a {
-            margin-right: 0;
-            border: none;
-            border-radius: 0;
-            color: #777;
-            padding: 10px 20px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .nav-tabs > li.active > a,
-        .nav-tabs > li > a:hover {
-            background-color: #5cb85c;
-            color: #fff;
-        }
-
-        .tab-content {
-            margin-top: 20px;
-        }
     </style>
 </head>
 
 <body>
 
 <div th:replace="~{layout/nav::nav}"></div>
+<div class="layout">
+    <div class="container-box">
+        <div class="form-wrapper">
+            <div class="tabs-wrapper">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#login-tab">Login</a></li>
+                    <li><a data-toggle="tab" href="#guest-order-tab">비회원 주문 확인</a></li>
+                </ul>
 
-<div class="container">
-    <div class="form-wrapper">
-        <div class="left-pane">
-            <img src="/images/novalogo.png" style="margin-top: 50%" alt="Logo">
-        </div>
-        <div class="tabs-wrapper">
-            <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#login-tab">Login</a></li>
-                <li><a data-toggle="tab" href="#guest-order-tab">비회원 주문 확인</a></li>
-            </ul>
+                <div class="tab-content">
+                    <div id="login-tab" class="tab-pane fade in active">
+                        <h2>Login</h2>
+                        <form method="post" action="서버의url" id="login-form">
+                            <input type="text" name="userName" placeholder="Email">
+                            <input type="password" name="userPassword" placeholder="Password">
+                            <label for="remember-check-id">
+                                <input type="checkbox" id="remember-check-id">아이디 저장하기
+                            </label>
+                            <input type="submit" value="Login">
+                        </form>
+                    </div>
+                    <div id="guest-order-tab" class="tab-pane fade ">
+                        <h2>비회원 주문 확인</h2>
 
-            <div class="tab-content">
-                <div id="login-tab" class="tab-pane fade in active">
-                    <h2>Login</h2>
-                    <form method="post" action="서버의url" id="login-form">
-                        <input type="text" name="userName" placeholder="Email">
-                        <input type="password" name="userPassword" placeholder="Password">
-                        <label for="remember-check">
-                            <input type="checkbox" id="remember-check">아이디 저장하기
-                        </label>
-                        <input type="submit" value="Login">
-                    </form>
-                </div>
-                <div id="guest-order-tab" class="tab-pane fade">
-                    <h2>비회원 주문 확인</h2>
-                    <form method="post" action="서버의url" id="guest-order-form">
-                        <input type="text" name="orderNumber" placeholder="Order Number">
-                        <input type="text" name="phoneNumber" placeholder="Phone Number">
-                        <input type="submit" value="확인하기">
-                    </form>
+                        <form method="post" action="서버의url" id="guest-form">
+                            <input type="text" name="orderNumber" placeholder="Order Number">
+                            <input type="text" name="phoneNumber" placeholder="Phone Number">
+                            <label for="remember-check-order">
+                                <input type="checkbox" id="remember-check-order">주문번호 저장하기
+                            </label>
+                            <input type="submit" value="Login">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
+
 
 <div th:replace="~{layout/footer::footer}"></div>
 
