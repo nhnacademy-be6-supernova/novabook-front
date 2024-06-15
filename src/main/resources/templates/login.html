@@ -15,24 +15,163 @@
     <!-- Theme Stylesheet -->
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
+
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .left-pane {
+            margin-right: 30px;
+        }
+
+        .left-pane img {
+            max-width: 150px;
+        }
+
+        .form-wrapper {
+            background: #ffffff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 600px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .tabs-wrapper {
+            flex: 1;
+        }
+
+        .form-wrapper h2 {
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .form-wrapper form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-wrapper input[type="text"],
+        .form-wrapper input[type="password"],
+        .form-wrapper input[type="submit"] {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .form-wrapper input[type="submit"] {
+            background-color: #5cb85c;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .form-wrapper input[type="submit"]:hover {
+            background-color: #4cae4c;
+        }
+
+        .form-wrapper label {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 15px;
+        }
+
+        .form-wrapper label input {
+            margin-right: 10px;
+        }
+
+        .nav-tabs {
+            border-bottom: 2px solid #ddd;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .nav-tabs > li > a {
+            margin-right: 0;
+            border: none;
+            border-radius: 0;
+            color: #777;
+            padding: 10px 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .nav-tabs > li.active > a,
+        .nav-tabs > li > a:hover {
+            background-color: #5cb85c;
+            color: #fff;
+        }
+
+        .tab-content {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 
 <body>
 
 <div th:replace="~{layout/nav::nav}"></div>
 
-<div class="login-wrapper">
-    <h2>Login</h2>
-    <form method="post" action="서버의url" id="login-form">
-        <input type="text" name="userName" placeholder="Email">
-        <input type="password" name="userPassword" placeholder="Password">
-        <label for="remember-check">
-            <input type="checkbox" id="remember-check">아이디 저장하기
-        </label>
-        <input type="submit" value="Login">
-    </form>
+<div class="container">
+    <div class="form-wrapper">
+        <div class="left-pane">
+            <img src="/images/novalogo.png" style="margin-top: 50%" alt="Logo">
+        </div>
+        <div class="tabs-wrapper">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#login-tab">Login</a></li>
+                <li><a data-toggle="tab" href="#guest-order-tab">비회원 주문 확인</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="login-tab" class="tab-pane fade in active">
+                    <h2>Login</h2>
+                    <form method="post" action="서버의url" id="login-form">
+                        <input type="text" name="userName" placeholder="Email">
+                        <input type="password" name="userPassword" placeholder="Password">
+                        <label for="remember-check">
+                            <input type="checkbox" id="remember-check">아이디 저장하기
+                        </label>
+                        <input type="submit" value="Login">
+                    </form>
+                </div>
+                <div id="guest-order-tab" class="tab-pane fade">
+                    <h2>비회원 주문 확인</h2>
+                    <form method="post" action="서버의url" id="guest-order-form">
+                        <input type="text" name="orderNumber" placeholder="Order Number">
+                        <input type="text" name="phoneNumber" placeholder="Phone Number">
+                        <input type="submit" value="확인하기">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div th:replace="~{layout/footer::footer}"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </body>
 </html>
