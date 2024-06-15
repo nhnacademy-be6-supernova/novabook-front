@@ -9,7 +9,4 @@ public class ViewTestApplication {
     public static void main(String[] args) {
         SpringApplication.run(ViewTestApplication.class, args);
     }
-
-
-
 }
