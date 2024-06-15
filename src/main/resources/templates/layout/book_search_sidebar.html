@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕 - 리뷰 관리</title>
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css" type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+
+<body>
+<div th:replace="~{layout/nav::nav}"></div>
+
+<div class="layout">
+    <div class="container">
+        <div class="row">
+            <!-- 사이드바 섹션 -->
+            <div th:fragment="sidebar" class="col-md-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">카테고리</h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="nav nav-pills nav-stacked">
+                            <h4>검색 조건</h4>
+                            <li>
+                            </li>
+                            <li><div class="checkbox"><label><input type="checkbox" name="scales" checked> 저자/ 역자</label></div></li>
+                            <li><div class="checkbox"><label><input type="checkbox" name="scales" checked> 출판사</label></div></li>
+                            <hr>
+                            <h4>가격 설정</h4>
+                            <li><div class="radio"><label><input type="radio" name="chk_info" value="all" checked> 전체</label></div></li>
+                            <li><div class="radio"><label><input type="radio" name="chk_info" value="below5"> 5천원 이하</label></div></li>
+                            <li><div class="radio"><label><input type="radio" name="chk_info" value="5to10"> 5천원 ~ 1만원</label></div></li>
+                            <li><div class="radio"><label><input type="radio" name="chk_info" value="10to30"> 1만원 ~ 3만원</label></div></li>
+                            <li><div class="radio"><label><input type="radio" name="chk_info" value="above30"> 3만원 이상</label></div></li>
+                            <!-- 추가 카테고리는 여기서 제공 -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- 콘텐츠 섹션 -->
+            <div class="col-md-9">
+                <!-- 콘텐츠 내용은 여기에 추가 -->
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
