@@ -24,7 +24,7 @@
             box-sizing: border-box;
             margin-bottom: 16px;
             border-radius: 6px;
-            background-color: #F8F8F8;
+            background-color: #fff;
         }
 
         #login-form > input::placeholder{
@@ -44,7 +44,7 @@
             box-sizing: border-box;
             margin-bottom: 16px;
             border-radius: 6px;
-            background-color: #F8F8F8;
+            background-color: #fff;
         }
 
         #guest-form > input::placeholder{
@@ -74,11 +74,6 @@
             padding: 20px;
         }
 
-        .left-pane {
-            margin-right: 30px;
-            display: flex;
-            align-items: center;
-        }
 
         .left-pane img {
             max-width: 150px;
@@ -101,7 +96,7 @@
             align-items: center;
         }
 
-        .nav-tabs {
+        .login-tabs {
             display: flex;
             justify-content: center;
             margin-bottom: 20px;
@@ -110,28 +105,26 @@
             border-radius: 5px;
         }
 
-        .nav-tabs > li {
+        .login-tabs > li {
             flex: 1;
             text-align: center;
         }
 
-        .nav-tabs > li > a {
-            width: calc(100% - 22px); /* Adjusted to match the input field width */
+        .login-tabs > li > a {
             border: none;
             border-bottom: none;
             border-radius: 10px 10px 0 0;
-            color: #fff;
-            padding: 10px;
-            background-color: #337ab7;
+            color: #337ab7;
+            background-color: #ddd;
             transition: background-color 0.3s, color 0.3s;
             display: block;
         }
 
-        /*.nav-tabs > li.active > a{*/
-        /*    background-color: #337ab7;*/
-        /*    color: #fff;*/
+        .login-tabs > li.active > a{
+            background-color: #337ab7;
+            color: #fff;
 
-        /*}*/
+        }
 
         .tab-content {
             width: 100%;
@@ -162,30 +155,18 @@
             width: calc(100% - 22px); /* Adjusted to match the padding and border */
         }
 
-        /*.form-wrapper input[type="submit"] {*/
-        /*    background-color: #5cb85c;*/
-        /*    color: #fff;*/
-        /*    border: none;*/
-        /*    cursor: pointer;*/
-        /*    font-size: 16px;*/
-        /*    transition: background-color 0.3s;*/
-        /*}*/
-
-        /*.form-wrapper input[type="submit"]:hover {*/
-        /*    background-color: #4cae4c;*/
-        /*}*/
 
         .form-wrapper label {
             display: flex;
             align-items: center;
             font-size: 14px;
-            /*color: #777;*/
             margin-bottom: 15px;
         }
 
         .form-wrapper label input {
             margin-right: 10px;
         }
+
 
     </style>
 </head>
@@ -197,7 +178,7 @@
     <div class="container-box">
         <div class="form-wrapper">
             <div class="tabs-wrapper">
-                <ul class="nav nav-tabs">
+                <ul class="nav login-tabs">
                     <li class="active"><a data-toggle="tab" href="#login-tab">Login</a></li>
                     <li><a data-toggle="tab" href="#guest-order-tab">비회원 주문 확인</a></li>
                 </ul>
@@ -223,7 +204,7 @@
                             <label for="remember-check-order">
                                 <input type="checkbox" id="remember-check-order">주문번호 저장하기
                             </label>
-                            <input type="submit" value="Login">
+                            <input type="submit" value="Confirm">
                         </form>
                     </div>
                 </div>
