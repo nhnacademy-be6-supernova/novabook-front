@@ -70,5 +70,10 @@ public class AdminController {
         return "admin-coupon-detail";
     }
 
+    @GetMapping("/admin/order")
+    public String adminOrder() {
+        return "admin-order";
+    }
+
 
 }
