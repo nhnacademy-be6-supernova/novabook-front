@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Page - NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.css"/>
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .navbar-header {
+            float: left;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 51px;
+            left: 0;
+            background-color: #343a40;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #d1d1d1;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            color: #f1f1f1;
+            background-color: #575757;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            padding-top: 60px;
+        }
+
+        .header {
+            background-color: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .card h3 {
+            font-weight: 600;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+        }
+
+        .dashboard {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+
+            </a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><i class="fa fa-user"></i> My Profile</a></li>
+            <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
+        </ul>
+    </div>
+</nav>
+<!--사이드바 nav-->
+<div th:replace="~{layout/admin_new_nav::admin_sidebar}"></div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="bookModal" tabindex="-1" role="dialog" aria-labelledby="bookModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="bookModalLabel">도서 목록</h4>
+            </div>
+            <div class="modal-body">
+                <ul id="bookList" class="list-group">
+                    <!-- Books will be dynamically added here -->
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--컨텐츠 영역-->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="dashboard" style="padding-top: 0.3%">책 등록</h1>
+                <div class="card">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">도서 검색</h3>
+                            </div>
+                            <div class="panel-body">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <label for="bookSearch">도서명:</label>
+                                        <input type="text" class="form-control" id="bookSearch"
+                                               placeholder="도서명을 입력하세요">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">검색</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+
+                            <div class="panel-heading">
+                                <h3 class="panel-title">도서 설명</h3>
+                            </div>
+
+                            <div class="panel-body">
+                                <div id="editor"></div>
+
+                            </div>
+                        </div>
+                    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const Editor = toastui.Editor;
+                            const editor = new Editor({
+                                el: document.querySelector('#editor'),
+                                height: '500px',
+                                initialEditType: 'markdown',
+                                previewStyle: 'vertical'
+                            });
+
+                            // Handle book search form submission
+                            const form = document.querySelector('form.form-inline');
+                            form.addEventListener('submit', function (event) {
+                                event.preventDefault();
+
+                                // Replace with actual logic to fetch book data from backend
+                                const books = [
+                                    {
+                                        name: 'Book 1',
+                                        author: 'Author 1',
+                                        publisher: 'Publisher 1',
+                                        publicationDate: '2024-06-14',
+                                        url: 'http://example.com/book1'
+                                    },
+                                    {
+                                        name: 'Book 2',
+                                        author: 'Author 2',
+                                        publisher: 'Publisher 2',
+                                        publicationDate: '2024-06-15',
+                                        url: 'http://example.com/book2'
+                                    },
+                                    // Add more books as needed
+                                ];
+
+                                // Populate the modal with fetched book data
+                                const bookList = document.getElementById('bookList');
+                                bookList.innerHTML = ''; // Clear previous entries
+
+                                books.forEach(function (book, index) {
+                                    const listItem = document.createElement('li');
+                                    listItem.classList.add('list-group-item');
+                                    listItem.innerHTML = `
+                    <div>
+                        <strong>${book.name}</strong> - ${book.author}, ${book.publisher}, ${book.publicationDate} &nbsp;
+                        <a href="${book.url}" target="_blank">자세히 보기</a>
+                        <button type="button" class="btn vc btn-primary btn-sm pull-right"" onclick="selectBook(${index})">선택</button>
+                    </div>`;
+                                    bookList.appendChild(listItem);
+                                });
+
+                                // Show the modal
+                                $('#bookModal').modal('show');
+                            });
+
+                            // Function to handle book selection
+                            window.selectBook = function (index) {
+                                const selectedBook = books[index]; // Retrieve selected book details
+                                // Example: Update editor content with selected book details
+                                editor.setMarkdown(`### ${selectedBook.name}\n\n**Author:** ${selectedBook.author}\n\n**Publisher:** ${selectedBook.publisher}\n\n**Publication Date:** ${selectedBook.publicationDate}\n\n[Link](${selectedBook.url})`);
+
+                                // Close the modal after selection
+                                $('#bookModal').modal('hide');
+                            };
+                        });
+                    </script>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</body>
+
+</html>

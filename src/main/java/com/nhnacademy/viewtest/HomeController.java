@@ -28,7 +28,7 @@ public class HomeController {
 
     @GetMapping("/adminBookRegister")
     public String test3() {
-        return "admin-book-register";
+        return "admin_book_register";
     }
 
     @GetMapping("/bookSearch")
