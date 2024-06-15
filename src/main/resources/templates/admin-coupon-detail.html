@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Page - NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .navbar-header {
+            float: left;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 51px;
+            left: 0;
+            background-color: #343a40;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #d1d1d1;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            color: #f1f1f1;
+            background-color: #575757;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            padding-top: 60px;
+        }
+
+        .header {
+            background-color: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .card h3 {
+            font-weight: 600;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+        }
+
+        .dashboard {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+
+            </a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><i class="fa fa-user"></i> My Profile</a></li>
+            <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
+        </ul>
+    </div>
+</nav>
+<!--사이드바 nav-->
+<div th:replace="~{layout/admin_new_nav::admin_sidebar}"></div>
+
+<!--컨텐츠 영역-->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="dashboard" style="padding-top: 0.3%">Coupon Management</h1>
+                <div class="card">
+                    <h3>일반 쿠폰</h3>
+                    <p>Here you can manage books.</p>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>쿠폰 이름</th>
+                            <th>할인타입</th>
+                            <th>할인금액</th>
+                            <th>시작일</th>
+                            <th>만료일</th>
+                            <th>수정</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>생일 쿠폰(생일쿠폰은 관리자페이지에 없어도 괜찮겟죠?)</td>
+                            <td>상수</td>
+                            <td>5000원</td>
+                            <td>2024.07.15</td>
+                            <td>2024.07.22</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary">Edit</button>
+                                <button class="btn btn-sm btn-danger">Delete</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <a href="/admin/coupon/general">
+                        <button class="btn btn-primary">쿠폰 추가</button>
+                    </a>
+                </div>
+
+                <div class="card">
+                    <h3>책 쿠폰</h3>
+                    <p>Here you can manage books.</p>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>쿠폰 이름</th>
+                            <th>할인타입</th>
+                            <th>할인금액</th>
+                            <th>시작일</th>
+                            <th>만료일</th>
+                            <th>수정</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>고병만 mvc특강</td>
+                            <td>상수</td>
+                            <td>99999원</td>
+                            <td>2024.07.15</td>
+                            <td>2099.07.22</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary">Edit</button>
+                                <button class="btn btn-sm btn-danger">Delete</button>
+                            </td>
+                        </tr>
+                        <!-- Add more books here -->
+                        </tbody>
+                    </table>
+                    <a href="/admin/coupon/book">
+                        <button class="btn btn-primary">쿠폰 추가</button>
+                    </a>
+                </div>
+
+                <div class="card">
+                    <h3>카테고리 쿠폰</h3>
+                    <p>Here you can manage books.</p>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>쿠폰 이름</th>
+                            <th>할인타입</th>
+                            <th>할인금액</th>
+                            <th>시작일</th>
+                            <th>만료일</th>
+                            <th>수정</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>it 카테고리 30%할인</td>
+                            <td>퍼센트</td>
+                            <td>30%</td>
+                            <td>2024.07.15</td>
+                            <td>2024.08.15</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary">Edit</button>
+                                <button class="btn btn-sm btn-danger">Delete</button>
+                            </td>
+                        </tr>
+                        <!-- Add more books here -->
+                        </tbody>
+                    </table>
+                    <a href="/admin/coupon/category">
+                        <button class="btn btn-primary">쿠폰 추가</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<div class="footer">-->
+<!--    <p>&copy; 2024 NovaBook Admin. All rights reserved.</p>-->
+<!--</div>-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</body>
+
+</html>

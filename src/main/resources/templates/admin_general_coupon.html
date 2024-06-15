@@ -8,14 +8,58 @@
     <title>NovaBook📕</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <!-- Google Font -->
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
     <!-- Theme Stylesheet -->
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
+
     <style>
         .centered-form {
-            margin:auto;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            color: #333;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .select-container::after {
+            content: '\25BC';
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #333;
+        }
+
+        select:hover {
+            border-color: #999;
+        }
+
+        select:focus {
+            border-color: #666;
+        }
+
+        .form-group label {
+            text-align: left;
+            display: block;
+        }
+
+        .centered-form {
+            margin: auto;
             width: 100%;
             max-width: 600px;
             padding: 20px;
@@ -24,24 +68,37 @@
             background-color: #f9f9f9;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         .form-group.full-width {
             width: 100%;
+        }
+
+        .form-group label {
+            text-align: left;
+            display: block;
         }
     </style>
 </head>
 
 <body>
-<div th:replace="~{layout/admin_nav.html::admin_nav}"></div>
+<div th:replace="~{layout/admin_nav::admin_nav}"></div>
+
 
 <div class="centered-form tc">
-
-
     <form id="couponForm" action="/coupon/create" method="post">
         <div class="form-group">
             <label for="text-input">쿠폰 내용:</label>
             <input type="text" class="form-control" id="text-input" name="milestoneName" required>
         </div>
 
+        <div class="form-group">
+            <label for="discount-type">할인 종류:</label>
+            <select class="form-control" id="discount-type" name="discountType" required>
+                <option value="">선택하세요</option>
+                <option value="percent">퍼센트</option>
+                <option value="amount">상수</option>
+            </select>
+        </div>
 
         <div class="form-group full-width">
             <label for="discount-input">할인 금액:</label>
@@ -75,3 +132,5 @@
 <div th:replace="~{layout/footer::footer}"></div>
 </body>
 </html>
+
+

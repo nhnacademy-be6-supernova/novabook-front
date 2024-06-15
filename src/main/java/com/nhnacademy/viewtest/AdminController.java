@@ -25,7 +25,7 @@ public class AdminController {
 
     @GetMapping("/admin/point")
     public String getPoint() {
-        return "admin_point";
+        return "admin-point";
     }
 
     @PostMapping("/admin/point")
@@ -33,6 +33,26 @@ public class AdminController {
                             @RequestParam("registerPoint") String registerPoint,
                             @RequestParam("reviewPoint") String reviewPoint) {
         return "/";
+    }
+
+    @GetMapping("/admin/coupon/general")
+    public String getCouponGeneral() {
+        return "admin-coupon-general";
+    }
+
+    @GetMapping("/admin/coupon/book")
+    public String getCouponBook() {
+        return "admin-coupon-book";
+    }
+
+    @GetMapping("/admin/coupon/category")
+    public String getCouponCategory() {
+        return "admin-coupon-category";
+    }
+
+    @GetMapping("/admin/delivery")
+    public String getDelivery() {
+        return "admin-delivery";
     }
 
     @GetMapping("/admin")
@@ -44,5 +64,11 @@ public class AdminController {
     public String adminDetail() {
         return "adminTemplate";
     }
+
+    @GetMapping("/admin/coupon/detail")
+    public String adminCouponDetail() {
+        return "admin-coupon-detail";
+    }
+
 
 }
