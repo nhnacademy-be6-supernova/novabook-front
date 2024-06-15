@@ -35,4 +35,14 @@ public class AdminController {
         return "/";
     }
 
+    @GetMapping("/admin")
+    public String admin() {
+        return "admin";
+    }
+
+    @GetMapping("/admin/detail")
+    public String adminDetail() {
+        return "adminTemplate";
+    }
+
 }
