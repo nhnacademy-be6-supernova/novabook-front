@@ -35,6 +35,26 @@ public class AdminController {
         return "/";
     }
 
+    @GetMapping("/admin/coupon/general")
+    public String getCouponGeneral() {
+        return "admin-coupon-general";
+    }
+
+    @GetMapping("/admin/coupon/book")
+    public String getCouponBook() {
+        return "admin-coupon-book";
+    }
+
+    @GetMapping("/admin/coupon/category")
+    public String getCouponCategory() {
+        return "admin-coupon-category";
+    }
+
+    @GetMapping("/admin/delivery")
+    public String getDelivery() {
+        return "admin_delivery";
+    }
+
     @GetMapping("/admin")
     public String admin() {
         return "admin";
@@ -44,5 +64,12 @@ public class AdminController {
     public String adminDetail() {
         return "adminTemplate";
     }
+
+    @GetMapping("/admin/coupon/detail")
+    public String adminCouponDetail() {
+        return "admin-coupon-detail";
+    }
+
+
 
 }

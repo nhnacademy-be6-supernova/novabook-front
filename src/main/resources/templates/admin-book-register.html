@@ -45,10 +45,9 @@
 </div>
 
 
-
 <div class="container">
     <div class="row">
-            <div th:replace="~{layout/sidebar::sidebar}"></div>
+        <div th:replace="~{layout/sidebar::sidebar}"></div>
         <div class="col-md-9">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -94,8 +93,20 @@
 
             // Replace with actual logic to fetch book data from backend
             const books = [
-                { name: 'Book 1', author: 'Author 1', publisher: 'Publisher 1', publicationDate: '2024-06-14', url: 'http://example.com/book1' },
-                { name: 'Book 2', author: 'Author 2', publisher: 'Publisher 2', publicationDate: '2024-06-15', url: 'http://example.com/book2' },
+                {
+                    name: 'Book 1',
+                    author: 'Author 1',
+                    publisher: 'Publisher 1',
+                    publicationDate: '2024-06-14',
+                    url: 'http://example.com/book1'
+                },
+                {
+                    name: 'Book 2',
+                    author: 'Author 2',
+                    publisher: 'Publisher 2',
+                    publicationDate: '2024-06-15',
+                    url: 'http://example.com/book2'
+                },
                 // Add more books as needed
             ];
 
@@ -130,7 +141,6 @@
         };
     });
 </script>
-
 
 
 <div th:replace="~{layout/footer::footer}"></div>
