@@ -29,5 +29,21 @@ public class MyPageController {
 
         return "review";
     }
+    @GetMapping("/mypage/address")
+    public String address() {
+
+        return "address";
+    }
+    @GetMapping("/mypage/return")
+    public String returnPage() {
+
+        return "return";
+    }
+
+    @GetMapping("/mypage/cancel")
+    public String cancel() {
+
+        return "cancel";
+    }
 
 }

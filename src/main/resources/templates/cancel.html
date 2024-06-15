@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NovaBook📕 - 쿠폰 내역</title>
+    <title><!DOCTYPE html>
+        <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+        <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>NovaBook📕 - 취소 주문 내역</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
@@ -24,42 +28,38 @@
     <div class="container">
         <div class="row">
             <div th:replace="~{layout/sidebar::sidebar}"></div>
-
             <!-- 콘텐츠 섹션 -->
             <div class="col-md-9">
-                <!-- 쿠폰 내역 섹션 -->
+                <!-- 취소 주문 내역 섹션 -->
                 <div class="row">
                     <div class="col-md-12">
-                        <h2>내 쿠폰</h2>
+                        <h2>취소 주문 내역</h2>
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th>쿠폰 명</th>
-                                <th>사용 조건</th>
-                                <th>사용 가능일</th>
-                                <th>만료 일</th>
-                                <th>할인 혜택</th>
-                                <th>등록 일</th>
+                                <th>주문 번호</th>
+                                <th>책 이름</th>
+                                <th>주문 날짜</th>
+                                <th>취소 날짜</th>
+                                <th>취소 사유</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td>오늘 오셨으니까 특별히 드리는거에요 이거 주면 진짜 손해인데 ㅠㅠ 자주오시라고 드리는 거니까 </td>
-                                <td>만원이상구매시</td>
-                                <td>2024-12-30 </td>
-                                <td>2024-12-31</td>
-                                <td>20%할인(최대 1000원)</td>
-                                <td>2024-12-30</td>
+                                <td>12345</td>
+                                <td>책 제목 1</td>
+                                <td>2024-06-15</td>
+                                <td>2024-06-20</td>
+                                <td>단순 변심</td>
                             </tr>
                             <tr>
-                                <td>쿠폰이름</td>
-                                <td>만원이상구매시</td>
-                                <td>2024-12-30 </td>
-                                <td>2024-12-31</td>
-                                <td>20%할인(최대 1000원)</td>
-                                <td>2024-12-30</td>
+                                <td>67890</td>
+                                <td>책 제목 2</td>
+                                <td>2024-06-14</td>
+                                <td>2024-06-18</td>
+                                <td>배송 지연</td>
                             </tr>
-                            <!-- 추가적인 쿠폰 내역을 여기에 추가하세요 -->
+                            <!-- 추가적인 취소 주문 항목을 여기에 추가하세요 -->
                             </tbody>
                         </table>
                         <a href="/mypage" class="btn btn-primary">돌아가기</a>
@@ -71,5 +71,14 @@
 </div>
 
 <div th:replace="~{layout/footer::footer}"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</body>
+</html>
+</title>
+</head>
+<body>
+
 </body>
 </html>
