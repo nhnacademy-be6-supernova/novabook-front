@@ -14,7 +14,7 @@
           type="text/css">
     <!-- Theme Stylesheet -->
     <link rel="stylesheet" href="/css/style.css">
-<!--    <link rel="stylesheet" href="/css/responsive.css">-->
+    <!--    <link rel="stylesheet" href="/css/responsive.css">-->
 
     <style>
         #login-form > input {
@@ -195,7 +195,7 @@
                             <input type="submit" value="Login">
                         </form>
                     </div>
-                    <div id="guest-order-tab" class="tab-pane fade ">
+                    <div id="guest-order-tab" class="tab-pane fade">
                         <h2>비회원 주문 확인</h2>
 
                         <form method="post" action="서버의url" id="guest-form">
@@ -214,10 +214,22 @@
 
 </div>
 
-
 <div th:replace="~{layout/footer::footer}"></div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.login-tabs a').click(function(e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+
+        $('.login-tabs a').on('shown.bs.tab', function (e) {
+            $('.login-tabs > li').removeClass('active');
+            $(e.target).parent().addClass('active');
+        });
+    });
+</script>
 </body>
 </html>
