@@ -25,7 +25,7 @@ public class AdminController {
 
     @GetMapping("/admin/point")
     public String getPoint() {
-        return "admin_point";
+        return "admin-point";
     }
 
     @PostMapping("/admin/point")
@@ -52,7 +52,7 @@ public class AdminController {
 
     @GetMapping("/admin/delivery")
     public String getDelivery() {
-        return "admin_delivery";
+        return "admin-delivery";
     }
 
     @GetMapping("/admin")
@@ -69,7 +69,6 @@ public class AdminController {
     public String adminCouponDetail() {
         return "admin-coupon-detail";
     }
-
 
 
 }

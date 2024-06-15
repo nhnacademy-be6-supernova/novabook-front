@@ -134,6 +134,13 @@
             text-align: left;
             display: block;
         }
+
+        .container {
+            margin-left: 0;
+            padding: 20px;
+            /*padding-top: 60px;*/
+        }
+
     </style>
 </head>
 
@@ -163,78 +170,76 @@
                 <div class="card">
                     <h3>카테고리 쿠폰 추가</h3>
                     <div class="container">
-                        <div class="centered-form">
-                            <div id="categoryContainer" class="category-container-select">
-                                <label for="categorySelect">추가 콤보박스 1:</label>
-                                <select id="categorySelect" name="categorySelect">
-                                    <option value="subitem1">카테고리 서브 항목 1-1</option>
-                                    <option value="subitem2">카테고리 서브 항목 1-2</option>
-                                    <option value="subitem3">카테고리 서브 항목 1-3</option>
-                                </select>
-                            </div>
-
-                            <p style="margin-top: 20px" id="categoryValue">추가된 값: 없음</p>
-
-                            <div id="subCategory" class="category-container-select">
-                                <label for="subCategorySelect">추가 콤보박스 2:</label>
-                                <select id="subCategorySelect" name="subCategorySelect">
-                                    <option value="subitem4">카테고리2 서브 항목 1-1</option>
-                                    <option value="subitem5">카테고리2 서브 항목 1-2</option>
-                                    <option value="subitem6">카테고리2 서브 항목 1-3</option>
-                                </select>
-                            </div>
-
-                            <p style="margin-top: 20px" id="subCategoryValue">추가된 값: 없음</p>
-
-                            <form id="couponForm" action="/coupon/create" method="post">
-                                <div class="form-group">
-                                    <label for="text-input">쿠폰 내용:</label>
-                                    <input type="text" class="form-control" id="text-input" name="milestoneName"
-                                           required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="discount-type">할인 종류:</label>
-                                    <select class="form-control" id="discount-type" name="discountType" required>
-                                        <option value="">선택하세요</option>
-                                        <option value="percent">퍼센트</option>
-                                        <option value="amount">상수</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group full-width">
-                                    <label for="discount-input">할인 금액:</label>
-                                    <input type="text" class="form-control" id="discount-input" name="discountAmount"
-                                           required>
-                                </div>
-
-                                <div class="form-group full-width">
-                                    <label for="max-discount-input">최대 할인 금액(없으면 0):</label>
-                                    <input type="text" class="form-control" id="max-discount-input"
-                                           name="maxDiscountAmount">
-                                </div>
-
-                                <div class="form-group full-width">
-                                    <label for="min-discount-input">최소 할인 금액:</label>
-                                    <input type="text" class="form-control" id="min-discount-input"
-                                           name="minDiscountAmount">
-                                </div>
-
-                                <div class="form-group full-width">
-                                    <label for="start-date-input">시작 날짜:</label>
-                                    <input type="date" class="form-control" id="start-date-input" name="startDateInput">
-                                </div>
-
-                                <div class="form-group full-width">
-                                    <label for="end-date-input">종료 날짜:</label>
-                                    <input type="date" class="form-control" id="end-date-input" name="endDateInput">
-                                </div>
-
-                                <input type="hidden" id="bookSearchValueInput" name="bookSearchValue" value="기본값">
-
-                                <button type="submit" class="btn btn-primary">제출</button>
-                            </form>
+                        <div id="categoryContainer" class="category-container-select">
+                            <label for="categorySelect">추가 콤보박스 1:</label>
+                            <select id="categorySelect" name="categorySelect">
+                                <option value="subitem1">카테고리 서브 항목 1-1</option>
+                                <option value="subitem2">카테고리 서브 항목 1-2</option>
+                                <option value="subitem3">카테고리 서브 항목 1-3</option>
+                            </select>
                         </div>
+
+                        <p style="margin-top: 20px" id="categoryValue">추가된 값: 없음</p>
+
+                        <div id="subCategory" class="category-container-select">
+                            <label for="subCategorySelect">추가 콤보박스 2:</label>
+                            <select id="subCategorySelect" name="subCategorySelect">
+                                <option value="subitem4">카테고리2 서브 항목 1-1</option>
+                                <option value="subitem5">카테고리2 서브 항목 1-2</option>
+                                <option value="subitem6">카테고리2 서브 항목 1-3</option>
+                            </select>
+                        </div>
+
+                        <p style="margin-top: 20px" id="subCategoryValue">추가된 값: 없음</p>
+
+                        <form id="couponForm" action="/coupon/create" method="post">
+                            <div class="form-group">
+                                <label for="text-input">쿠폰 내용:</label>
+                                <input type="text" class="form-control" id="text-input" name="milestoneName"
+                                       required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="discount-type">할인 종류:</label>
+                                <select class="form-control" id="discount-type" name="discountType" required>
+                                    <option value="">선택하세요</option>
+                                    <option value="percent">퍼센트</option>
+                                    <option value="amount">상수</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="discount-input">할인 금액:</label>
+                                <input type="text" class="form-control" id="discount-input" name="discountAmount"
+                                       required>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="max-discount-input">최대 할인 금액(없으면 0):</label>
+                                <input type="text" class="form-control" id="max-discount-input"
+                                       name="maxDiscountAmount">
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="min-discount-input">최소 할인 금액:</label>
+                                <input type="text" class="form-control" id="min-discount-input"
+                                       name="minDiscountAmount">
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="start-date-input">시작 날짜:</label>
+                                <input type="date" class="form-control" id="start-date-input" name="startDateInput">
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="end-date-input">종료 날짜:</label>
+                                <input type="date" class="form-control" id="end-date-input" name="endDateInput">
+                            </div>
+
+                            <input type="hidden" id="bookSearchValueInput" name="bookSearchValue" value="기본값">
+
+                            <button style="width: 100px; height: 50px; margin-top: 20px" type="submit" class="btn btn-primary">제출</button>
+                        </form>
                     </div>
                 </div>
             </div>

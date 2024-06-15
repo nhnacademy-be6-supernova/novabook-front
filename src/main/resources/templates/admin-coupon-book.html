@@ -117,6 +117,13 @@
             max-width: 300px;
             width: 100%;
         }
+
+        .container {
+            margin-left: 0;
+            padding: 20px;
+            /*padding-top: 60px;*/
+        }
+
     </style>
 </head>
 
@@ -145,74 +152,70 @@
                 <h1 class="dashboard" style="padding-top: 0.3%">Books Management</h1>
                 <div class="card">
                     <h3>책 쿠폰 추가</h3>
-
                     <div class="container">
-                        <div class="centered-form">
+                        <div class="book-search-form">
+                            <label for="bookSearchForm">책 검색:</label>
+                            <form id="bookSearchForm" role="search">
+                                <div class="book-search-form-group">
+                                    <input type="text" id="bookSearchInput" class="book-search-form-control"
+                                           placeholder="검색어를 입력하세요">
+                                </div>
+                                <button style="margin-bottom: 30px; margin-top: 20px" type="submit"
+                                        class="btn btn-primary"><i class="fa fa-search"></i>검색
+                                </button>
+                            </form>
+                            <p id="bookSearchValue">추가된 값: 없음</p>
+                        </div>
 
-                            <div class="book-search-form">
-                                <label for="bookSearchForm">책 검색:</label>
-                                <form id="bookSearchForm" role="search">
-                                    <div class="book-search-form-group">
-                                        <input type="text" id="bookSearchInput" class="book-search-form-control"
-                                               placeholder="검색어를 입력하세요">
-                                    </div>
-                                    <button style="margin-bottom: 30px; margin-top: 20px" type="submit"
-                                            class="btn btn-primary"><i class="fa fa-search"></i>검색
-                                    </button>
-                                </form>
-                                <p id="bookSearchValue">추가된 값: 없음</p>
+                        <form id="couponForm" action="/coupon/create" method="post">
+                            <div class="form-group">
+                                <label for="text-input">쿠폰 내용:</label>
+                                <input type="text" class="form-control" id="text-input" name="milestoneName"
+                                       required>
                             </div>
 
-                            <form id="couponForm" action="/coupon/create" method="post">
-                                <div class="form-group">
-                                    <label for="text-input">쿠폰 내용:</label>
-                                    <input type="text" class="form-control" id="text-input" name="milestoneName"
-                                           required>
-                                </div>
+                            <div class="form-group">
+                                <label for="discount-type">할인 종류:</label>
+                                <select class="form-control" id="discount-type" name="discountType" required>
+                                    <option value="">선택하세요</option>
+                                    <option value="percent">퍼센트</option>
+                                    <option value="amount">상수</option>
+                                </select>
+                            </div>
 
-                                <div class="form-group">
-                                    <label for="discount-type">할인 종류:</label>
-                                    <select class="form-control" id="discount-type" name="discountType" required>
-                                        <option value="">선택하세요</option>
-                                        <option value="percent">퍼센트</option>
-                                        <option value="amount">상수</option>
-                                    </select>
-                                </div>
+                            <div class="form-group full-width">
+                                <label for="discount-input">할인 금액:</label>
+                                <input type="text" class="form-control" id="discount-input" name="discountAmount"
+                                       required>
+                            </div>
 
-                                <div class="form-group full-width">
-                                    <label for="discount-input">할인 금액:</label>
-                                    <input type="text" class="form-control" id="discount-input" name="discountAmount"
-                                           required>
-                                </div>
+                            <div class="form-group full-width">
+                                <label for="max-discount-input">최대 할인 금액(없으면 0):</label>
+                                <input type="text" class="form-control" id="max-discount-input"
+                                       name="maxDiscountAmount">
+                            </div>
 
-                                <div class="form-group full-width">
-                                    <label for="max-discount-input">최대 할인 금액(없으면 0):</label>
-                                    <input type="text" class="form-control" id="max-discount-input"
-                                           name="maxDiscountAmount">
-                                </div>
+                            <div class="form-group full-width">
+                                <label for="min-discount-input">최소 할인 금액:</label>
+                                <input type="text" class="form-control" id="min-discount-input"
+                                       name="minDiscountAmount">
+                            </div>
 
-                                <div class="form-group full-width">
-                                    <label for="min-discount-input">최소 할인 금액:</label>
-                                    <input type="text" class="form-control" id="min-discount-input"
-                                           name="minDiscountAmount">
-                                </div>
+                            <div class="form-group full-width">
+                                <label for="start-date-input">시작 날짜:</label>
+                                <input type="date" class="form-control" id="start-date-input" name="startDateInput">
+                            </div>
 
-                                <div class="form-group full-width">
-                                    <label for="start-date-input">시작 날짜:</label>
-                                    <input type="date" class="form-control" id="start-date-input" name="startDateInput">
-                                </div>
-
-                                <div class="form-group full-width">
-                                    <label for="end-date-input">종료 날짜:</label>
-                                    <input type="date" class="form-control" id="end-date-input" name="endDateInput">
-                                </div>
+                            <div class="form-group full-width">
+                                <label for="end-date-input">종료 날짜:</label>
+                                <input type="date" class="form-control" id="end-date-input" name="endDateInput">
+                            </div>
 
 
-                                <input type="hidden" id="bookSearchValueInput" name="bookSearchValue" value="기본값">
+                            <input type="hidden" id="bookSearchValueInput" name="bookSearchValue" value="기본값">
 
-                                <button type="submit" class="btn btn-primary">제출</button>
-                            </form>
-                        </div>
+                            <button style="width: 100px; height: 50px; margin-top: 20px" type="submit" class="btn btn-primary">제출</button>
+                        </form>
                     </div>
 
                 </div>
