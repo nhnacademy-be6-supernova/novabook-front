@@ -137,6 +137,11 @@
                 margin-right: 0;
             }
         }
+
+        .out-of-stock {
+            color: red;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -145,8 +150,12 @@
 <div class="layout container">
     <h1>장바구니</h1>
 
-    <input type="checkbox" id="selectAllItems"> 전체 선택/해제
 
+    <div style="display: flex; align-items: center; margin-bottom: 10px;">
+        <input type="checkbox" id="selectAllItems" style="margin-right: 10px;">
+        <label for="selectAllItems" style="margin-right: auto; margin-top: auto">전체 선택/해제</label>
+        <button id="deleteSelectedItems" class="btn btn-danger">선택 상품 삭제</button>
+    </div>
 
     <table class="cart-table">
         <thead>
@@ -183,7 +192,6 @@
                 </div>
             </td>
 
-
             <td style="text-align: center; vertical-align: middle;">
                 <form method="post" action="/cart/update" style="display: flex; flex-direction: column; align-items: center;">
                     <input type="number" name="quantity" th:value="${quantity != null ? quantity : '1'}" min="1" class="form-control input-sm item-quantity" style="width: 60px; height: 30px; text-align: center; margin-bottom: 5px;">
@@ -192,21 +200,20 @@
                 </form>
             </td>
 
-
             <td class="item-price">₩13,500</td>
             <td>내일 (6/15, 토) 도착예정</td>
             <td style="text-align: center; vertical-align: middle;">
                 <div style="display: flex; flex-direction: column; align-items: center;">
-                    <a href="/order/" class="btn btn-primary" style="width: 120px; height: 40px; margin-bottom: 5px;">주문하기</a>
+                    <a href="/order/" class="btn btn-primary" style="width: 120px; height: 40px; margin-bottom: 5px; display: flex; justify-content: center; align-items: center;">주문하기</a>
                     <button type="submit" formaction="/cart/delete" class="btn btn-danger" style="width: 120px; height: 40px;">삭제</button>
                 </div>
             </td>
         </tr>
 
-        <!--더미 2-->
-        <tr>
+        <!--더미 2 - 품절 상품-->
+        <tr class="out-of-stock-item">
             <td style="text-align: center; vertical-align: middle;">
-                <input type="checkbox" name="selectedItems" class="item-checkbox">
+                <input type="checkbox" name="selectedItems" class="item-checkbox" disabled>
             </td>
             <td style="padding: 10px; border-bottom: 1px solid #ddd;">
                 <div style="display: flex; align-items: center;">
@@ -226,26 +233,23 @@
             </td>
             <td style="text-align: center; vertical-align: middle;">
                 <form method="post" action="/cart/update" style="display: flex; flex-direction: column; align-items: center;">
-                    <input type="number" name="quantity" th:value="${quantity != null ? quantity : '1'}" min="1" class="form-control input-sm item-quantity" style="width: 60px; height: 30px; text-align: center; margin-bottom: 5px;">
+                    <input type="number" name="quantity" th:value="${quantity != null ? quantity : '1'}" min="1" class="form-control input-sm item-quantity" style="width: 60px; height: 30px; text-align: center; margin-bottom: 5px;" disabled>
                     <input type="hidden" name="itemId" value="2">
-                    <button type="submit" class="btn btn-default btn-sm" style="width: 60px; height: 30px;">변경</button>
+                    <button type="submit" class="btn btn-default btn-sm" style="width: 60px; height: 30px;" disabled>변경</button>
                 </form>
             </td>
             <td class="item-price">₩18,000</td>
             <td>내일 (6/15, 토) 도착예정</td>
             <td style="text-align: center; vertical-align: middle;">
                 <div style="display: flex; flex-direction: column; align-items: center;">
-                    <a href="/order/" class="btn btn-primary" style="width: 120px; height: 40px; margin-bottom: 5px;">주문하기</a>
+                    <span class="out-of-stock">판매할 수 없습니다</span>
                     <button type="submit" formaction="/cart/delete" class="btn btn-danger" style="width: 120px; height: 40px;">삭제</button>
                 </div>
             </td>
-
-
         </tr>
 
         </tbody>
     </table>
-
 
     <div class="total-container" style="border: 1px solid #ddd; border-radius: 5px; padding: 10px; margin-top: 20px;">
         <table style="width: 100%; border-collapse: collapse;">
@@ -257,36 +261,18 @@
             </tr>
             <tr>
                 <td style="padding: 10px; border-bottom: 1px solid #ddd;">
-                    <span class="total-label">총 추가금액</span>
+                    <span class="total-label">배송비</span>
                 </td>
                 <td class="total-value additional-price" style="padding: 10px; border-bottom: 1px solid #ddd; text-align: right;">₩0</td>
             </tr>
             <tr>
-                <td style="padding: 10px; border-bottom: 1px solid #ddd;">
-                    <span class="total-label">쿠폰 할인금액</span>
-                </td>
-                <td class="total-value discount-price" style="padding: 10px; border-bottom: 1px solid #ddd; text-align: right;">₩0</td>
-            </tr>
-            <tr>
                 <td style="padding: 10px;">
-                    <span class="total-label">최종 결제금액</span>
+                    <span class="total-label"> 총 결제금액</span>
                 </td>
                 <td class="total-value final-price" style="padding: 10px; text-align: right;">₩0</td>
             </tr>
         </table>
     </div>
-
-    <div class="total-container" style="border: 1px solid #ddd; border-radius: 5px; padding: 10px; margin-top: 20px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <span class="total-label">선택된 상품의 총 가격</span>
-                <span class="total-value final" id="selectedItemsTotal">₩0</span>
-            </div>
-            <button id="deleteSelectedItems" class="btn btn-danger">선택 상품 삭제</button>
-        </div>
-    </div>
-
-
 
     <div style="margin-top: 10px; display: flex; justify-content: space-between;">
         <a href="/order/" class="checkout-btn btn btn-primary">주문하기</a>
@@ -334,28 +320,21 @@
             });
             $('#selectedItemsTotal').text('₩' + total.toLocaleString());
 
-
             var additionalPrice = calculateAdditionalPrice();
             $('.additional-price').text('₩' + additionalPrice.toLocaleString());
 
-
             var discountPrice = calculateDiscountPrice();
             $('.discount-price').text('₩' + discountPrice.toLocaleString());
-
 
             var finalPrice = total + additionalPrice - discountPrice;
             $('.final-price').text('₩' + finalPrice.toLocaleString());
         }
 
-
-
         function calculateAdditionalPrice() {
-
             return 0;
         }
 
         function calculateDiscountPrice() {
-
             return 0;
         }
 
@@ -371,7 +350,6 @@
             }
         });
 
-
         // 삭제 버튼에 대한 이벤트 리스너
         $('.btn-danger').click(function() {
             // 클릭된 삭제 버튼에 가장 가까운 <tr> 요소를 찾아서 삭제합니다.
@@ -380,7 +358,6 @@
             // 상품을 삭제한 후에 선택된 상품의 총 금액을 다시 계산합니다.
             calculateSelectedItemsTotal();
         });
-
 
     });
 </script>
