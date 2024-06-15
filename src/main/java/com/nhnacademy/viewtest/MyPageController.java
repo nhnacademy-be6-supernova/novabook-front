@@ -2,48 +2,55 @@ package com.nhnacademy.viewtest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+
 @Controller
 public class MyPageController {
-    @GetMapping("/mypage")
-    public String home() {
+	@GetMapping("/mypage")
+	public String home() {
 
-        return "mypage";
-    }
-    @GetMapping("/mypage/point")
-    public String point() {
+		return "mypage";
+	}
 
-        return "point-details";
-    }
-    @GetMapping("/mypage/coupon")
-    public String coupon() {
+	@GetMapping("/mypage/point")
+	public String point() {
 
-        return "coupon-details";
-    }
-    @GetMapping("/mypage/orders")
-    public String orderlist() {
+		return "point-details";
+	}
 
-        return "orderlist-details";
-    }
-    @GetMapping("/mypage/review")
-    public String review() {
+	@GetMapping("/mypage/coupon")
+	public String coupon() {
 
-        return "review";
-    }
-    @GetMapping("/mypage/address")
-    public String address() {
+		return "coupon-details";
+	}
 
-        return "address";
-    }
-    @GetMapping("/mypage/return")
-    public String returnPage() {
+	@GetMapping("/mypage/orders")
+	public String orderlist() {
 
-        return "return";
-    }
+		return "orderlist-details";
+	}
 
-    @GetMapping("/mypage/cancel")
-    public String cancel() {
+	@GetMapping("/mypage/review")
+	public String review() {
 
-        return "cancel";
-    }
+		return "review";
+	}
+
+	@GetMapping("/mypage/address")
+	public String address() {
+
+		return "address";
+	}
+
+	@GetMapping("/mypage/return")
+	public String returnPage() {
+
+		return "return";
+	}
+
+	@GetMapping("/mypage/cancel")
+	public String cancel() {
+
+		return "cancel";
+	}
 
 }
