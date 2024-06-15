@@ -49,8 +49,13 @@ public class MyPageController {
 
 	@GetMapping("/mypage/cancel")
 	public String cancel() {
-
 		return "cancel";
+	}
+
+	@GetMapping("/mypage/likes")
+	public String likes() {
+
+		return "mypage_likes";
 	}
 
 }
