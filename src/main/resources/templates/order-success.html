@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,14 +20,34 @@
             margin-bottom: 20px;
             margin-top: 20px;
         }
+
         .order-details {
             font-size: 18px;
             margin-bottom: 40px;
         }
+
         .btn-large {
             font-size: 24px;
             padding: 20px 40px;
             margin: 20px;
+        }
+
+        .order-info, .product-info, .payment-info {
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .section {
+            border: 1px solid #ddd; /* 테두리 추가 */
+            padding: 15px; /* 패딩 추가 */
+            margin-bottom: 20px; /* 아래 마진 추가 */
+        }
+        .blue-border{
+            border-top: 3px solid #017DC1;
         }
     </style>
 </head>
@@ -38,17 +57,80 @@
 
 <div class="layout">
     <div class="container tc">
-        <h1 class="order-completion"><span >사용자</span>님, 항상 NovaBook을 이용해주셔서 감사합니다!</h1>
-        <p class="order-details">[주문번호 : <span >Y0336944502</span>] 결제가 안전하게 처리되었습니다.</p>
-        <div>
-            <a href="/mypage" class="btn btn-primary btn-large">마이페이지</a>
-            <a href="/main" class="btn btn-success btn-large">메인으로 이동</a>
+        <h1 class="order-completion"><span th:text="${username}">사용자</span>님, 항상 NovaBook을 이용해주셔서 감사합니다!</h1>
+        <p class="order-details">[주문번호 : <span th:text="${orderNumber}">Y0336944502</span>] 결제가 안전하게 처리되었습니다.</p>
+    </div>
+
+    <div class="container order-info section">
+        <h2 class="section-header">배송 정보</h2>
+        <div class="blue-border">
+            <br>
+            <p>받는 분: <span th:text="${recipientName}">사용자</span></p>
+            <p>주소: <span th:text="${address}">광주광역시 조선대 IT융합대학</span></p>
+            <p>배송예정일: <span th:text="${deliveryDate}">6/17 (월) 도착예정</span></p>
         </div>
+    </div>
+
+    <div class="container product-info section">
+        <h2 class="section-header">주문 상품</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>상품명</th>
+                <th>정가</th>
+                <th>수량</th>
+                <th>할인금액</th>
+                <th>합계</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${items}">
+                <td th:text="${item.name}">[도서] 친해하는 호소 씨</td>
+                <td th:text="${item.price}">19,800원</td>
+                <td th:text="${item.quantity}">1</td>
+                <td th:text="${item.discount}">1,980원</td>
+                <td th:text="${item.totalPrice}">17,820원</td>
+            </tr>
+            <tr th:if="${items == null || #lists.isEmpty(items)}">
+                <td colspan="5">주문한 상품이 없습니다.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- 결제 정보 -->
+    <div class="section payment-info">
+        <h2 class="section-header" style="border-bottom: 0; margin-bottom: 0;">결제 정보</h2>
+        <div class="table-responsive">
+            <table class="table payment-info-table">
+                <thead>
+                <tr>
+                    <th>총 상품금액</th>
+                    <th>총 추가금액</th>
+                    <th>총 할인금액</th>
+                    <th>총 포인트 사용</th>
+                    <th>배송비</th>
+                    <th>최종 결제금액</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td th:text="${totalProductPrice}">31,320원</td>
+                    <td th:text="${additionalAmount}">0원</td>
+                    <td th:text="${totalDiscount}">0원</td>
+                    <td th:text="${pointsUsed}">0원</td>
+                    <td th:text="${shippingFee}">2,500원</td> <!-- 추가된 배송비 부분 -->
+                    <td class="total" th:text="${finalPrice}">33,820원</td> <!-- 최종 결제금액에 배송비를 반영 -->
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="tc">
+        <a href="/mypage" class="btn btn-primary btn-large">마이페이지</a>
+        <a href="/main" class="btn btn-success btn-large">메인으로 이동</a>
     </div>
 </div>
 
 <div th:replace="~{layout/footer::footer}"></div>
 </body>
 </html>
-
-
