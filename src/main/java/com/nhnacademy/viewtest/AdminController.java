@@ -55,4 +55,14 @@ public class AdminController {
         return "admin_delivery";
     }
 
+    @GetMapping("/admin")
+    public String admin() {
+        return "admin";
+    }
+
+    @GetMapping("/admin/detail")
+    public String adminDetail() {
+        return "adminTemplate";
+    }
+
 }
