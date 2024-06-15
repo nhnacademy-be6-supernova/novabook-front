@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+
+    <style>
+        .centered-form {
+        }
+
+
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            color: #333;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        select:hover {
+            border-color: #999;
+        }
+
+        select:focus {
+            border-color: #666;
+        }
+
+        .book-search-form {
+            text-align: left;
+            margin: 0;
+            width: 100%;
+        }
+
+        .book-search-form-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .book-search-form-control {
+            flex: 1;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            max-width: 300px;
+            width: 100%;
+        }
+
+        .admin-btn {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .admin-btn:hover {
+            background-color: #45a049;
+        }
+
+        #bookSearchValue {
+            margin-top: 20px;
+        }
+
+        .form-group label {
+            text-align: left;
+            display: block;
+        }
+    </style>
+</head>
+
+
+<body>
+<div th:replace="~{layout/admin_nav::admin_nav}"></div>
+
+<div class="container">
+    <div class="centered-form">
+
+        <div class="book-search-form">
+            <label for="bookSearchForm">책 검색:</label>
+            <form id="bookSearchForm" role="search">
+                <div class="book-search-form-group">
+                    <input type="text" id="bookSearchInput" class="book-search-form-control"
+                           placeholder="검색어를 입력하세요">
+                </div>
+                <button style="margin-bottom: 30px" type="submit" class="admin-btn"><i class="fa fa-search"></i>검색
+                </button>
+            </form>
+            <p id="bookSearchValue">추가된 값: 없음</p>
+        </div>
+
+        <form id="couponForm" action="/coupon/create" method="post">
+            <div class="form-group">
+                <label for="text-input">쿠폰 내용:</label>
+                <input type="text" class="form-control" id="text-input" name="milestoneName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="discount-type">할인 종류:</label>
+                <select class="form-control" id="discount-type" name="discountType" required>
+                    <option value="">선택하세요</option>
+                    <option value="percent">퍼센트</option>
+                    <option value="amount">상수</option>
+                </select>
+            </div>
+
+            <div class="form-group full-width">
+                <label for="discount-input">할인 금액:</label>
+                <input type="text" class="form-control" id="discount-input" name="discountAmount" required>
+            </div>
+
+            <div class="form-group full-width">
+                <label for="max-discount-input">최대 할인 금액(없으면 0):</label>
+                <input type="text" class="form-control" id="max-discount-input" name="maxDiscountAmount">
+            </div>
+
+            <div class="form-group full-width">
+                <label for="min-discount-input">최소 할인 금액:</label>
+                <input type="text" class="form-control" id="min-discount-input" name="minDiscountAmount">
+            </div>
+
+            <div class="form-group full-width">
+                <label for="start-date-input">시작 날짜:</label>
+                <input type="date" class="form-control" id="start-date-input" name="startDateInput">
+            </div>
+
+            <div class="form-group full-width">
+                <label for="end-date-input">종료 날짜:</label>
+                <input type="date" class="form-control" id="end-date-input" name="endDateInput">
+            </div>
+
+
+            <input type="hidden" id="bookSearchValueInput" name="bookSearchValue" value="기본값">
+
+            <button type="submit" class="btn btn-primary">제출</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $('#bookSearchForm').submit(function (event) {
+            event.preventDefault();
+            var inputValue = $('#bookSearchInput').val();
+            $('#bookSearchValue').text('추가된 값: ' + inputValue).show();
+            $('#bookSearchValueInput').val(inputValue);
+        });
+    });
+</script>
+<div th:replace="~{layout/footer::footer}"></div>
+
+</body>
+</html>
+
+
