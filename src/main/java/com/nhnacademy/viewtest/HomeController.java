@@ -30,4 +30,9 @@ public class HomeController {
     public String test3() {
         return "admin-book-register";
     }
+
+    @GetMapping("/bookSearch")
+    public String bookSearch() {
+        return "book_search";
+    }
 }
