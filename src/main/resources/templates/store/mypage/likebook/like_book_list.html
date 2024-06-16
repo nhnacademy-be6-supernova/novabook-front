@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕 - 나의 좋아요 리스트</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+
+    <style>
+        .table-striped > tbody > tr > td,
+        .table-striped > tbody > tr > th,
+        .table-striped > thead > tr > th {
+            vertical-align: middle;
+            text-align: center;
+        }
+        .tc {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{layout/store/nav::nav}"></div>
+
+<div class="layout">
+    <div class="container">
+        <div class="row">
+            <div th:replace="~{layout/store/sidebar::sidebar}"></div>
+
+            <!-- 콘텐츠 섹션 -->
+            <div class="col-md-9">
+                <!-- 나의 좋아요 리스트 섹션 -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>나의 좋아요</h2>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th class="tc">썸네일</th>
+                                <th class="tc">책 이름</th>
+                                <th class="tc">저자</th>
+                                <th class="tc">출판사</th>
+                                <th class="tc">삭제</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><img src="/images/product-1.jpeg" alt="책 제목 1" style="width: 50px; height: 75px;"></td>
+                                <td>책 제목 1</td>
+                                <td>저자 1</td>
+                                <td>출판사 1</td>
+                                <td>
+                                    <button class="btn btn-danger remove-favorite-btn" data-book-id="1">삭제</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><img src="/images/product-2.jpeg" alt="책 제목 2" style="width: 50px; height: 75px;"></td>
+                                <td>책 제목 2</td>
+                                <td>저자 2</td>
+                                <td>출판사 2</td>
+                                <td>
+                                    <button class="btn btn-danger remove-favorite-btn" data-book-id="2" >삭제</button>
+                                </td>
+                            </tr>
+                            <!-- 추가적인 좋아요 항목을 여기에 추가하세요 -->
+                            </tbody>
+                        </table>
+                        <a href="/mypage" class="btn btn-primary">돌아가기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.remove-favorite-btn').click(function () {
+            var bookId = $(this).data('book-id');
+            // 여기서 좋아요 취소 후 처리를 구현하세요
+            console.log('책 ID: ' + bookId + ' 좋아요 취소');
+            // 테이블 행 제거
+            $(this).closest('tr').remove();
+        });
+    });
+</script>
+<div th:replace="~{layout/store/footer::footer}"></div>
+</body>
+</html>

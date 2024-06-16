@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Page - NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .navbar-header {
+            float: left;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 51px;
+            left: 0;
+            background-color: #343a40;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #d1d1d1;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            color: #f1f1f1;
+            background-color: #575757;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            padding-top: 60px;
+        }
+
+        .header {
+            background-color: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .card h3 {
+            font-weight: 600;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+        }
+
+        .dashboard {
+            font-weight: bold;
+        }
+
+        .book-search-form {
+            text-align: left;
+            margin: 0;
+            width: 100%;
+        }
+
+        .book-search-form-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .book-search-form-control {
+            flex: 1;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            max-width: 300px;
+            width: 100%;
+        }
+
+        .container {
+            margin-left: 0;
+            padding: 20px;
+            /*padding-top: 60px;*/
+        }
+
+    </style>
+</head>
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+
+            </a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><i class="fa fa-user"></i> My Profile</a></li>
+            <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
+        </ul>
+    </div>
+</nav>
+<!--사이드바 nav-->
+<div th:replace="~{layout/admin/admin_nav::admin_sidebar}"></div>
+
+<!--컨텐츠 영역-->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="dashboard" style="padding-top: 0.3%">Books Management</h1>
+                <div class="card">
+                    <h3>책 쿠폰 추가</h3>
+                    <div class="container">
+                        <div class="book-search-form">
+                            <label for="bookSearchForm">책 검색:</label>
+                            <form id="bookSearchForm" role="search">
+                                <div class="book-search-form-group">
+                                    <input type="text" id="bookSearchInput" class="book-search-form-control"
+                                           placeholder="검색어를 입력하세요">
+                                </div>
+                                <button style="margin-bottom: 30px; margin-top: 20px" type="submit"
+                                        class="btn btn-primary"><i class="fa fa-search"></i>검색
+                                </button>
+                            </form>
+                            <p id="bookSearchValue">추가된 값: 없음</p>
+                        </div>
+
+                        <form id="couponForm" action="/coupon/create" method="post">
+                            <div class="form-group">
+                                <label for="text-input">쿠폰 내용:</label>
+                                <input type="text" class="form-control" id="text-input" name="milestoneName"
+                                       required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="discount-type">할인 종류:</label>
+                                <select class="form-control" id="discount-type" name="discountType" required>
+                                    <option value="">선택하세요</option>
+                                    <option value="percent">퍼센트</option>
+                                    <option value="amount">상수</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="discount-input">할인 금액:</label>
+                                <input type="text" class="form-control" id="discount-input" name="discountAmount"
+                                       required>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="max-discount-input">최대 할인 금액(없으면 0):</label>
+                                <input type="text" class="form-control" id="max-discount-input"
+                                       name="maxDiscountAmount">
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="min-discount-input">최소 할인 금액:</label>
+                                <input type="text" class="form-control" id="min-discount-input"
+                                       name="minDiscountAmount">
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="start-date-input">시작 날짜:</label>
+                                <input type="date" class="form-control" id="start-date-input" name="startDateInput">
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="end-date-input">종료 날짜:</label>
+                                <input type="date" class="form-control" id="end-date-input" name="endDateInput">
+                            </div>
+
+
+                            <input type="hidden" id="bookSearchValueInput" name="bookSearchValue" value="기본값">
+
+                            <button style="width: 100px; height: 50px; margin-top: 20px" type="submit" class="btn btn-primary">제출</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--<div class="footer">-->
+<!--    <p>&copy; 2024 NovaBook Admin. All rights reserved.</p>-->
+<!--</div>-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+<script>
+
+    $(document).ready(function () {
+        $('#bookSearchForm').submit(function (event) {
+            event.preventDefault();
+            var inputValue = $('#bookSearchInput').val();
+            $('#bookSearchValue').text('추가된 값: ' + inputValue).show();
+            $('#bookSearchValueInput').val(inputValue);
+        });
+    });
+</script>
+</body>
+
+</html>
