@@ -127,14 +127,34 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="dashboard" style="padding-top: 0.3%">Books Management</h1>
+                <h1 class="dashboard" style="padding-top: 0.3%">Delivery Management</h1>
+
+                <div class="card">
+                    <h3>배달 정책 현황</h3>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>배달비</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>3000</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
                 <div class="card">
                     <h3>배달비 정책 수정</h3>
                     <div class="container">
                         <form id="deliveryForm" action="/admin/delivery" method="post">
 
                             <div class="form-group full-width">
-                                <label for="delivery-fee-input">택배비:</label>
+                                <label for="delivery-fee-input">배달비</label>
                                 <input type="text" class="form-control" id="delivery-fee-input" name="deliveryFee">
                             </div>
 
