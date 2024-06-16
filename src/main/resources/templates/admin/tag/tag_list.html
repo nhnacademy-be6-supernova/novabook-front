@@ -96,6 +96,12 @@
         .dashboard {
             font-weight: bold;
         }
+
+        .container {
+            margin-left: 0;
+            padding: 20px;
+            /*padding-top: 60px;*/
+        }
     </style>
 </head>
 
@@ -121,7 +127,22 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="dashboard" style="padding-top: 0.3%">Coupon Management</h1>
+                <h1 class="dashboard" style="padding-top: 0.3%">Tag Management</h1>
+
+                <div class="card">
+                    <h3>태그 추가</h3>
+                    <div class="container">
+                        <form id="tagForm" action="/admin/tag/register" method="post">
+                            <div class="form-group full-width">
+                                <label for="register-tag-input">추가할 태그</label>
+                                <input type="text" class="form-control" id="register-tag-input" name="registerTag">
+                            </div>
+                            <button style="width: 100px; height: 50px;" type="submit" class="btn btn-primary">제출
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
                 <div class="card">
                     <h3>태그 현황</h3>
                     <table class="table table-striped">
@@ -129,6 +150,7 @@
                         <tr>
                             <th>#</th>
                             <th>태그</th>
+                            <th>삭제</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -141,9 +163,6 @@
                         </tr>
                         </tbody>
                     </table>
-                    <a href="/admin/tags/tag/form">
-                        <button class="btn btn-primary">태그 추가</button>
-                    </a>
                 </div>
             </div>
         </div>
