@@ -142,6 +142,22 @@
             color: red;
             font-weight: bold;
         }
+
+        .like-btn {
+            width: 40px; /* 필요에 따라 너비 조정 */
+            height: 40px; /* 필요에 따라 높이 조정 */
+            line-height: 40px;
+            text-align: center;
+            color: #333;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .like-btn:hover {
+            background-color: #f0f0f0;
+        }
+
     </style>
 </head>
 
@@ -149,7 +165,6 @@
 <div th:replace="~{layout/store/nav::nav}"></div>
 <div class="layout container">
     <h1>장바구니</h1>
-
 
     <div style="display: flex; align-items: center; margin-bottom: 10px;">
         <input type="checkbox" id="selectAllItems" style="margin-right: 10px;">
@@ -165,7 +180,7 @@
             <th>수량</th>
             <th>상품금액</th>
             <th>배송정보</th>
-            <th>주문</th>
+            <th>설정</th>
         </tr>
         </thead>
         <tbody>
@@ -204,7 +219,7 @@
             <td>내일 (6/15, 토) 도착예정</td>
             <td style="text-align: center; vertical-align: middle;">
                 <div style="display: flex; flex-direction: column; align-items: center;">
-                    <a href="/order/" class="btn btn-primary" style="width: 120px; height: 40px; margin-bottom: 5px; display: flex; justify-content: center; align-items: center;">주문하기</a>
+                    <button class="btn btn-info" style="width: 120px; height: 40px;  margin-bottom: 5px;"><i class="fa fa-heart"></i></button>
                     <button type="submit" formaction="/cart/delete" class="btn btn-danger" style="width: 120px; height: 40px;">삭제</button>
                 </div>
             </td>
@@ -243,6 +258,7 @@
             <td style="text-align: center; vertical-align: middle;">
                 <div style="display: flex; flex-direction: column; align-items: center;">
                     <span class="out-of-stock">판매할 수 없습니다</span>
+                    <button class="btn btn-info" style="width: 120px; height: 40px; margin-bottom: 5px;" disabled><i class="fa fa-heart"></i></button>
                     <button type="submit" formaction="/cart/delete" class="btn btn-danger" style="width: 120px; height: 40px;">삭제</button>
                 </div>
             </td>
@@ -357,6 +373,11 @@
 
             // 상품을 삭제한 후에 선택된 상품의 총 금액을 다시 계산합니다.
             calculateSelectedItemsTotal();
+        });
+
+        // 좋아요 버튼에 대한 이벤트 리스너
+        $('.btn-info').click(function() {
+            alert('좋아요 리스트에 추가되었습니다!');
         });
 
     });
