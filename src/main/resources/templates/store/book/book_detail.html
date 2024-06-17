@@ -18,6 +18,32 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 </head>
 
+<style>
+    .coupon-list {
+        list-style: none;
+        padding: 0;
+    }
+    .coupon-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #e5e5e5;
+    }
+    .coupon-download {
+        background: none;
+        border: none;
+        font-size: 18px;
+        color: #337ab7;
+        cursor: pointer;
+        padding: 0;
+    }
+    .coupon-download:hover {
+        color: #23527c;
+    }
+</style>
+
+
 <body>
 
 <div th:replace="~{layout/store/nav::nav}"></div>
@@ -178,7 +204,12 @@
                     국내도서 > 소설/시/희곡 > 영미소설 > 영미 장편소설
                     수상내역 및 미디어 추천 분류
                     국내도서 > 미디어 추천 > 중앙일보
-                    국내도서 > 미디어 추천 > 동아일보 </p>
+                    국내도서 > 미디어 추천 > 동아일보
+                </p>
+
+                <button type="button" class="btn btn-primary" style="color: white; background-color: #0e0e0e"  data-toggle="modal" data-target="#couponModal">
+                    쿠폰 다운로드
+                </button>
 
             </div>
 
@@ -187,6 +218,51 @@
     </div>
 
 </div>
+
+<!-- 쿠폰 모달 시작 -->
+<div class="modal fade" id="couponModal" tabindex="-1" role="dialog" aria-labelledby="couponModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="couponModalLabel">쿠폰 다운로드</h4>
+            </div>
+            <div class="modal-body">
+                <p>사용 가능한 쿠폰 목록:</p>
+                <ul class="coupon-list">
+                    <li>
+                        <div>
+                            <span class="coupon-title">10% 할인 쿠폰</span>
+                            <span class="coupon-desc"> - 전체 상품에 적용 가능</span>
+                        </div>
+                        <button class="coupon-download"><i class="fa fa-download"></i></button>
+                    </li>
+                    <li>
+                        <div>
+                            <span class="coupon-title">무료 배송 쿠폰</span>
+                            <span class="coupon-desc"> - 최소 구매 금액 50,000원</span>
+                        </div>
+                        <button class="coupon-download"><i class="fa fa-download"></i></button>
+                    </li>
+                    <li>
+                        <div>
+                            <span class="coupon-title">20,000원 이상 구매 시 2,000원 할인 쿠폰</span>
+                            <span class="coupon-desc"> - 일부 품목 제외</span>
+                        </div>
+                        <button class="coupon-download"><i class="fa fa-download"></i></button>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-primary">쿠폰 적용</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 쿠폰 모달 끝 -->
+
+
 
 <div class="container">
 
@@ -335,7 +411,7 @@
 
                             <div class="product-block">
 
-                                <img src="images/product-1.jpeg" alt="" class="thumbnail">
+                                <img src="/images/product-1.jpeg" alt="" class="thumbnail">
 
                                 <div class="product-description text-center">
 
@@ -371,7 +447,7 @@
 
                             <div class="product-block">
 
-                                <img src="images/product-2.jpeg" alt="" class="thumbnail">
+                                <img src="/images/product-2.jpeg" alt="" class="thumbnail">
 
                                 <div class="product-description text-center">
 
@@ -407,7 +483,7 @@
 
                             <div class="product-block">
 
-                                <img src="images/product-3.jpeg" alt="" class="thumbnail">
+                                <img src="/images/product-3.jpeg" alt="" class="thumbnail">
 
                                 <div class="product-description text-center">
 
@@ -443,7 +519,7 @@
 
                             <div class="product-block">
 
-                                <img src="images/product-4.jpeg" alt="" class="thumbnail">
+                                <img src="/images/product-4.jpeg" alt="" class="thumbnail">
 
                                 <div class="product-description text-center">
 
