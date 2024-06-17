@@ -29,7 +29,14 @@ pipeline {
         stage('Build') {
             steps {
                 withEnv(["JAVA_OPTS=${env.JAVA_OPTS}"]) {
-                    sh 'mvn clean package'
+                    sh 'mvn clean package -DskipTests=true'
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                withEnv(["JAVA_OPTS=${env.JAVA_OPTS}"]) {
+                    sh 'mvn test -Dsurefire.forkCount=1 -Dsurefire.useSystemClassLoader=false'
                 }
             }
         }
