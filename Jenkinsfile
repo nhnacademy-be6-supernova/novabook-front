@@ -11,6 +11,7 @@ pipeline {
     }
 
     tools {
+            jdk 'jdk-21' // Global Tool Configuration에서 설정한 JDK 이름
             maven 'maven-3.9.7' // Global Tool Configuration에서 설정한 Maven 이름
     }
 
