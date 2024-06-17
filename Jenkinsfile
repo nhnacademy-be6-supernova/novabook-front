@@ -10,6 +10,11 @@ pipeline {
         ARTIFACT_NAME = 'novabook_front-0.0.1-SNAPSHOT.jar'
     }
 
+    tools {
+            maven 'maven-3.9.7' // Global Tool Configuration에서 설정한 Maven 이름
+    }
+
+
     stages {
         stage('Checkout') {
             steps {
