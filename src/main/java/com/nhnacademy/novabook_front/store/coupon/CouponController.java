@@ -10,6 +10,6 @@ public class CouponController {
 
     @GetMapping
     public String getCouponAll() {
-        return "/store/coupon/coupon_list";
+        return "store/coupon/coupon_list";
     }
 }

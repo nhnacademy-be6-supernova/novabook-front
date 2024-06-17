@@ -11,6 +11,6 @@ public class MypageReviewController {
 
     @GetMapping
     public String getReviewAll() {
-        return "/store/mypage/review/review_list";
+        return "store/mypage/review/review_list";
     }
 }

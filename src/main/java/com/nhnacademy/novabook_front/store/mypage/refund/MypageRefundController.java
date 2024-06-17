@@ -10,7 +10,7 @@ public class MypageRefundController {
 
     @GetMapping
     public String getRefundAll() {
-        return "/store/mypage/refund/refund_list";
+        return "store/mypage/refund/refund_list";
     }
 
 }

@@ -12,12 +12,12 @@ public class AdminTagController {
 
     @GetMapping
     public String getTagAll() {
-        return  "/admin/tag/tag_list";
+        return  "admin/tag/tag_list";
     }
 
     @GetMapping("/tag/form")
     public String getTagForm() {
-        return "/admin/tag/tag_form";
+        return "admin/tag/tag_form";
     }
 
     @PostMapping("/tag/{tagId}/update")

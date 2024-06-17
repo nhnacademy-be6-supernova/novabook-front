@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MypageController {
 
-    @GetMapping
-    public String getMypage() {
-        return "/store/mypage/mypage_index";
-    }
+	@GetMapping
+	public String getMypage() {
+		return "store/mypage/mypage_index";
+	}
 }

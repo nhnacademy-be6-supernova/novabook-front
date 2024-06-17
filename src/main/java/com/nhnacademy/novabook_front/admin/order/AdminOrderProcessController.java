@@ -12,10 +12,10 @@ public class AdminOrderProcessController {
 
     @GetMapping
     public String getOrderAll() {
-        return "/admin/order/order_process_list";
+        return "admin/order/order_process_list";
     }
 
-    @PostMapping("/order/{orderId}/update")
+    @PostMapping("order/{orderId}/update")
     public String updateOrder(@PathVariable Long orderId) {
         return "";
     }

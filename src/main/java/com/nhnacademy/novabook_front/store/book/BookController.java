@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequestMapping("books")
+@RequestMapping("/books")
 
 @Controller
 public class BookController {
@@ -17,6 +17,6 @@ public class BookController {
 
     @GetMapping("/book/{bookId}")
     public String getBook(@PathVariable Long bookId) {
-        return "/store/book/book_detail";
+        return "store/book/book_detail";
     }
 }

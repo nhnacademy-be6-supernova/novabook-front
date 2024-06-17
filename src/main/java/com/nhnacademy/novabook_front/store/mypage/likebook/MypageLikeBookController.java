@@ -11,6 +11,6 @@ public class MypageLikeBookController {
 
     @GetMapping
     public String getLikeBookAll() {
-        return "/store/mypage/likebook/like_book_list";
+        return "store/mypage/likebook/like_book_list";
     }
 }

@@ -11,22 +11,22 @@ public class AdminCouponController {
 
     @GetMapping
     public String getCoupons() {
-        return "/admin/coupon/coupon_list";
+        return "admin/coupon/coupon_list";
     }
 
     @GetMapping("/common/form")
     public String getCouponCommonForm() {
-        return "/admin/coupon/coupon_common_form";
+        return "admin/coupon/coupon_common_form";
     }
 
     @GetMapping("/book/form")
     public String getCouponBookForm() {
-        return "/admin/coupon/coupon_book_form";
+        return "admin/coupon/coupon_book_form";
     }
 
     @GetMapping("/category/form")
     public String getCouponCategoryForm() {
-        return "/admin/coupon/coupon_category_form";
+        return "admin/coupon/coupon_category_form";
     }
 
     @PostMapping("/common/form")

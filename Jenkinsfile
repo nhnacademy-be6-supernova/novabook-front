@@ -87,10 +87,7 @@ def deployToServer(server, deployPath, port) {
         sh """
         scp -o StrictHostKeyChecking=no -i \$PEM_FILE target/${ARTIFACT_NAME} ${server}:${deployPath}
         ssh -o StrictHostKeyChecking=no -i \$PEM_FILE ${server} 'nohup java -jar ${deployPath}/${ARTIFACT_NAME} --server.port=${port} ${env.JAVA_OPTS} > ${deployPath}/app.log 2>&1 &'
-
         """
-        // Wait for the application to start
-        sleep(10)
     }
 }
 
