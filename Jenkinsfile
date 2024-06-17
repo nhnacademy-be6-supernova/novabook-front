@@ -2,13 +2,13 @@ pipeline {
     agent any
 
     environment {
-        FRONT_SERVER_1 = 'zei@125.6.36.57'
-        FRONT_SERVER_2 = 'zei@125.6.36.57'
+        FRONT_SERVER_1 = 'ubuntu@125.6.36.57'
+        FRONT_SERVER_2 = 'ubuntu@125.6.36.57'
         DEPLOY_PATH_1 = '/home/zei/nova-front'
         DEPLOY_PATH_2 = '/home/zei/nova-front'
         REPO_URL = 'https://github.com/nhnacademy-be6-supernova/novabook-front.git'
         ARTIFACT_NAME = 'novabook_front-0.0.1-SNAPSHOT.jar'
-        JAVA_OPTS = '-XX:+EnableDynamicAgentLoading'
+        JAVA_OPTS = '-XX:+EnableDynamicAgentLoading -XX:+UseParallelGC'
     }
 
     tools {
@@ -86,7 +86,17 @@ def deployToServer(server, deployPath, port) {
     withCredentials([sshUserPrivateKey(credentialsId: 'zei', keyFileVariable: 'PEM_FILE')]) {
         sh """
         scp -o StrictHostKeyChecking=no -i \$PEM_FILE target/${ARTIFACT_NAME} ${server}:${deployPath}
-        ssh -o StrictHostKeyChecking=no -i \$PEM_FILE ${server} 'nohup java -jar ${deployPath}/${ARTIFACT_NAME} --server.port=${port} > ${deployPath}/app.log 2>&1 &'
+        ssh -o StrictHostKeyChecking=no -i \$PEM_FILE ${server} 'nohup java -jar ${deployPath}/${ARTIFACT_NAME} --server.port=${port} ${env.JAVA_OPTS} > ${deployPath}/app.log 2>&1 &'
+        """
+        // Wait for the application to start
+        sleep(10)
+    }
+}
+
+def showLogs(server, deployPath) {
+    withCredentials([sshUserPrivateKey(credentialsId: 'zei', keyFileVariable: 'PEM_FILE')]) {
+        sh """
+        ssh -o StrictHostKeyChecking=no -i \$PEM_FILE ${server} 'tail -n 100 ${deployPath}/app.log'
         """
     }
 }
