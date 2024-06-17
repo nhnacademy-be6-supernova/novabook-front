@@ -8,6 +8,7 @@ pipeline {
         DEPLOY_PATH_2 = '/home/zei/nova-front'
         REPO_URL = 'https://github.com/nhnacademy-be6-supernova/novabook-front.git'
         ARTIFACT_NAME = 'novabook_front-0.0.1-SNAPSHOT.jar'
+        JAVA_OPTS = '-XX:+EnableDynamicAgentLoading'
     }
 
     tools {
@@ -27,7 +28,9 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                withEnv(["JAVA_OPTS=${env.JAVA_OPTS}"]) {
+                    sh 'mvn clean package'
+                }
             }
         }
         stage('Add SSH Key to Known Hosts') {
