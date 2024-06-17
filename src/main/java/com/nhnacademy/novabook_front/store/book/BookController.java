@@ -12,7 +12,7 @@ public class BookController {
 
     @GetMapping
     public String getBookAll() {
-        return "/store/book/book_list";
+        return "store/book/book_list";
     }
 
     @GetMapping("/book/{bookId}")

@@ -8,6 +8,6 @@ public class StoreIndexController {
 
     @GetMapping
     public String index() {
-        return "/store/store_index";
+        return "store/store_index";
     }
 }
