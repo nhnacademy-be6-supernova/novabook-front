@@ -12,7 +12,7 @@ public class AdminDeliveryController {
 
     @GetMapping("/form")
     public String getDeliveryForm() {
-        return "/admin/delivery/deliveryfee_form";
+        return "admin/delivery/deliveryfee_form";
     }
 
     @PostMapping("/{deliveryId}/update")

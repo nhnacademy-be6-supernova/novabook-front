@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class AdminBookController {
 
-    @GetMapping("/book/form")
+    @GetMapping("book/form")
     public String getBookForm() {
-        return "/admin/book/book_form";
+        return "admin/book/book_form";
     }
 
     @PostMapping

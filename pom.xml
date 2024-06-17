@@ -11,7 +11,7 @@
     <groupId>com.nhnacademy</groupId>
     <artifactId>novabook_front</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>novabook_front</name>
     <description>novabook_front</description>
     <properties>

@@ -12,7 +12,7 @@ public class AdminPointController {
 
     @GetMapping("/form")
     public String getPointForm() {
-        return "/admin/point/point_form";
+        return "admin/point/point_form";
     }
 
     @PostMapping("/{pointId}/update")

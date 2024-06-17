@@ -11,7 +11,7 @@ public class UserController {
 
     @GetMapping("/user/form")
     public String getUserForm() {
-        return "/store/auth/user_form";
+        return "store/auth/user_form";
     }
 
     @PostMapping

@@ -11,12 +11,12 @@ public class MypageOrderController {
 
     @GetMapping
     public String getOrderAll() {
-        return "/store/mypage/order/order_list";
+        return "store/mypage/order/order_list";
     }
 
     @GetMapping("/cancel")
     public String getOrderCancelAll() {
-        return "/store/mypage/order/order_cancel_list";
+        return "store/mypage/order/order_cancel_list";
     }
 
 }

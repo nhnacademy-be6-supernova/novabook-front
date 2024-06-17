@@ -11,6 +11,6 @@ public class MypagePointController {
 
     @GetMapping
     public String getPointAll() {
-        return "/store/mypage/point/point_list";
+        return "store/mypage/point/point_list";
     }
 }

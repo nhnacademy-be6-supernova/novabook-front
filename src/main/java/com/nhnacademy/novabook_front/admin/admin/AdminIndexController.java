@@ -10,7 +10,7 @@ public class AdminIndexController {
 
     @GetMapping
     public String index() {
-        return "/admin/admin_index";
+        return "admin/admin_index";
     }
 
 }

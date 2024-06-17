@@ -12,7 +12,7 @@ public class MypageAddressController {
 
     @GetMapping
     public String getAddressForm() {
-        return "/store/mypage/address/address_list";
+        return "store/mypage/address/address_list";
     }
 
     @PostMapping("/address/{addressId}/update")

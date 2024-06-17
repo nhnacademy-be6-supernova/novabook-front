@@ -12,12 +12,12 @@ public class OrderController {
 
     @GetMapping("/order/form")
     public String getOrderForm() {
-        return "/store/order/order_form";
+        return "store/order/order_form";
     }
 
     @GetMapping("/order/{orderId}/success")
     public String getOrderSuccessPage(@PathVariable Long orderId) {
-        return "/store/order/order_success";
+        return "store/order/order_success";
     }
 
 
