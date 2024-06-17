@@ -11,16 +11,15 @@ pipeline {
     }
 
     tools {
-            jdk 'jdk-21' // Global Tool Configuration에서 설정한 JDK 이름
-            maven 'maven-3.9.7' // Global Tool Configuration에서 설정한 Maven 이름
+        jdk 'jdk-21' // Global Tool Configuration에서 설정한 JDK 이름
+        maven 'maven-3.9.7' // Global Tool Configuration에서 설정한 Maven 이름
     }
-
 
     stages {
         stage('Checkout') {
             steps {
                 git(
-                    url: 'https://github.com/nhnacademy-be6-supernova/novabook-front.git',
+                    url: REPO_URL,
                     branch: 'feature/jenkins',
                     credentialsId: 'zei'
                 )
@@ -29,6 +28,19 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'mvn clean package'
+            }
+        }
+        stage('Add SSH Key to Known Hosts') {
+            steps {
+                script {
+                    def remoteHost1 = '125.6.36.57'
+                    def remoteHost2 = '125.6.36.57'
+                    sh """
+                        mkdir -p ~/.ssh
+                        ssh-keyscan -H ${remoteHost1} >> ~/.ssh/known_hosts
+                        ssh-keyscan -H ${remoteHost2} >> ~/.ssh/known_hosts
+                    """
+                }
             }
         }
         stage('Deploy to Front Server 1') {
