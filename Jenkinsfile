@@ -13,7 +13,11 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git REPO_URL, credentialsId: 'zei', branch: 'feature/jenkins'
+                git(
+                    url: 'https://github.com/nhnacademy-be6-supernova/novabook-front.git',
+                    branch: 'feature/jenkins',
+                    credentialsId: 'zei'
+                )
             }
         }
         stage('Build') {
@@ -51,9 +55,9 @@ pipeline {
 def deployToServer(server, deployPath, port) {
     withCredentials([sshUserPrivateKey(credentialsId: 'zei', keyFileVariable: 'PEM_FILE')]) {
         sh """
-        ssh -i ${PEM_FILE} ubuntu@${server} 'mkdir -p ${deployPath}'
-        scp -i ${PEM_FILE} target/${ARTIFACT_NAME} ubuntu@${server}:${deployPath}
-        ssh -i ${PEM_FILE} ubuntu@${server} 'nohup java -jar ${deployPath}/${ARTIFACT_NAME} --server.port=${port} > ${deployPath}/app.log 2>&1 &'
+        ssh -i ${PEM_FILE} ${server} 'mkdir -p ${deployPath}'
+        scp -i ${PEM_FILE} target/${ARTIFACT_NAME} ${server}:${deployPath}
+        ssh -i ${PEM_FILE} ${server} 'nohup java -jar ${deployPath}/${ARTIFACT_NAME} --server.port=${port} > ${deployPath}/app.log 2>&1 &'
         """
     }
 }
