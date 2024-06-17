@@ -56,11 +56,13 @@ pipeline {
         stage('Deploy to Front Server 1') {
             steps {
                 deployToServer(FRONT_SERVER_1, DEPLOY_PATH_1, 8080)
+                showLogs(FRONT_SERVER_1, DEPLOY_PATH_1)
             }
         }
         stage('Deploy to Front Server 2') {
             steps {
                 deployToServer(FRONT_SERVER_2, DEPLOY_PATH_2, 8081)
+                showLogs(FRONT_SERVER_2, DEPLOY_PATH_2)
             }
         }
         stage('Verification') {
