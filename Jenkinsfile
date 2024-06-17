@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git REPO_URL, credentialsId: 'zei'
+                git REPO_URL, credentialsId: 'zei', branch: 'feature/jenkins'
             }
         }
         stage('Build') {
