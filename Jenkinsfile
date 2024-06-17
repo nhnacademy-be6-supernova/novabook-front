@@ -83,7 +83,6 @@ pipeline {
 def deployToServer(server, deployPath, port) {
     withCredentials([sshUserPrivateKey(credentialsId: 'zei', keyFileVariable: 'PEM_FILE')]) {
         sh """
-//         sudo ssh -i ${PEM_FILE} ${server} 'mkdir -p ${deployPath}'
         scp -i ${PEM_FILE} target/${ARTIFACT_NAME} ${server}:${deployPath}
         ssh -i ${PEM_FILE} ${server} 'nohup java -jar ${deployPath}/${ARTIFACT_NAME} --server.port=${port} > ${deployPath}/app.log 2>&1 &'
         """
