@@ -205,22 +205,58 @@
                         </div>
 
                         <div class="panel-body" style="display: flex; align-items: center;">
-                            <form class="form-inline" id="bookSearchForm" style="display: flex; align-items: center; margin-right: 10px;">
+                            <form class="form-inline" id="bookSearchForm"
+                                  style="display: flex; align-items: center; margin-right: 10px;">
                                 <div class="form-group" style="margin-right: 10px;">
                                     <label for="bookSearch">도서명:</label>
-                                    <input type="text" class="form-control" id="bookSearch" name="query" placeholder="도서명을 입력하세요">
+                                    <input type="text" class="form-control" id="bookSearch" name="query"
+                                           placeholder="도서명을 입력하세요">
                                 </div>
                                 <button type="submit" class="btn btn-primary">검색</button>
                             </form>
 
                             <div class="form-group" style="display: flex; align-items: center; white-space: nowrap; margin-top: 15px;">
                                 <label for="tagSelect" style="margin-right: 5px;">태그:</label>
+
                                 <select id="tagSelect" class="form-control">
                                     <option value="">전체</option>
                                     <option value="tag1">태그1</option>
                                     <option value="tag2">태그2</option>
                                 </select>
                             </div>
+
+
+                            <div class="form-group" style="display: flex; align-items: center; white-space: nowrap; margin-top: 15px; margin-left: 30px;">
+                                <label for="statusSelect" style="margin-right: 5px;">태그:</label>
+                                <select id="statusSelect" class="form-control">
+                                    <option value="1">판매 중</option>
+                                    <option value="2">일시 품절</option>
+                                    <option value="3">판매 종료</option>
+                                    <option value="4">삭제 도서</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="huey" name="is_packaging" value="true" checked  style="margin-left: 30px;"/>
+                                <label for="huey">포장 가능</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="dewey" name="is_packaging" value="false" style="margin-left: 10px;" />
+                                <label for="dewey">포장 불가</label>
+                            </div>
+
+                            <div class="form-group" style="display: flex; align-items: center; white-space: nowrap; margin-top: 15px; margin-left: 30px;">
+                                <label for="bookSearch">할인 판매가: &nbsp;</label>
+                                <label for="book_discount"></label><input type="number" class="form-control" id="book_discount" name="query" min=0
+                                                                          placeholder="실제 판매가를 입력해주세요.">
+                            </div>
+
+                            <div class="form-group" style="display: flex; align-items: center; white-space: nowrap; margin-top: 15px; margin-left: 30px;">
+                                <label for="stock">재고: &nbsp;</label>
+                                <input type="number" class="form-control" id="stock" name="stock" placeholder="재고 입력해주세요.">
+                            </div>
+
                         </div>
                     </div>
 
@@ -244,93 +280,10 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary" style="margin-left: 10px;">제출 하기</button>
-
+                    <button type="submit" id="submitBtn" class="btn btn-primary" style="margin-left: 10px;">제출 하기</button>
                     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function () {
-                            const Editor = toastui.Editor;
-                            const editor = new Editor({
-                                el: document.querySelector('#editor'),
-                                height: '500px',
-                                initialEditType: 'markdown',
-                                previewStyle: 'vertical'
-                            });
-
-                            // Handle book search form submission
-                            // 전역 스코프에 books 배열 선언
-                            let books = [];
-
-// Handle book search form submission
-                            const form = document.querySelector('form.form-inline');
-                            form.addEventListener('submit', function (event) {
-                                event.preventDefault();
-
-                                const query = document.querySelector('input[name="query"]').value;
-
-                                // AJAX request to fetch book data
-                                fetch(`/admin/books/book/search?query=${encodeURIComponent(query)}`, {
-                                    method: 'GET',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    }
-                                })
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        books = data.items; // Fetch된 데이터를 전역 books 배열에 할당
-
-                                        // Populate the modal with fetched book data
-                                        const bookList = document.getElementById('bookList');
-                                        bookList.innerHTML = ''; // Clear previous entries
-
-                                        books.forEach(function (book, index) {
-                                            const listItem = document.createElement('li');
-                                            listItem.classList.add('list-group-item');
-                                            listItem.innerHTML = `
-                    <div class="book-info">
-                        <img src="${book.image}" alt="${book.title}">
-                        <div class="details">
-                            <strong>${book.title}</strong> - ${book.author}, ${book.publisher}, ${book.pubdate} &nbsp;
-                            <a href="${book.link}" target="_blank">자세히 보기</a>
-                        </div>
-                        <div class="actions">
-                            <button type="button" class="btn btn-primary btn-sm" onclick="selectBook(${index})">선택</button>
-                        </div>
-                    </div>`;
-                                            bookList.appendChild(listItem);
-                                        });
-
-                                        // Show the modal
-                                        $('#bookModal').modal('show');
-                                    })
-                                    .catch(error => {
-                                        console.error('Error fetching book data:', error);
-                                    });
-                            });
-
-                            // Function to handle book selection
-                            window.selectBook = function (index) {
-                                const selectedBook = books[index]; // 전역 books 배열에서 책 정보 가져오기
-
-                                // Update the panel content with selected book details
-                                const selectedBookInfo = document.getElementById('selectedBookInfo');
-                                selectedBookInfo.innerHTML = `
-                                <h4>${selectedBook.title}</h4>
-                                <img src="${selectedBook.image}" alt="${selectedBook.title}" style="width: 100px;">
-                                <p><strong>저자:</strong> ${selectedBook.author}</p>
-                                <p><strong>출판사:</strong> ${selectedBook.publisher}</p>
-                                <p><strong>출판일:</strong> ${selectedBook.pubdate}</p>
-                                <p><strong>할인가:</strong> ${selectedBook.discount}원</p>
-                                <p><strong>ISBN:</strong> ${selectedBook.isbn}</p>
-                                <hr>
-                                <p>${selectedBook.description}</p>
-                              `;
-                                // Show the selected book panel
-                                const selectedBookPanel = document.getElementById('selectedBookPanel');
-                                selectedBookPanel.style.display = 'block';
-                            };
-                        });
-                    </script>
+                    <!-- 도서 검색 및 토스트 UI API 전송  -->
+                    <script src="/js/admin_book_form.js"></script>
                 </div>
             </div>
         </div>
