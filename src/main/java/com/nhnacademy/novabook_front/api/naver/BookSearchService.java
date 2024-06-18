@@ -1,10 +1,17 @@
 package com.nhnacademy.novabook_front.api.naver;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BookSearchService {
+
+	@Value("${naver.book.clientkey}")
+	private String clientId;
+	@Value("${naver.book.secretkey}")
+	private String clientSecret;
 
 	private final NaverBookSearchApiClient naverBookSearchApiClient;
 
@@ -14,8 +21,6 @@ public class BookSearchService {
 	}
 
 	public String searchBooks(String query) {
-		String clientId = "aY3htNCRURon01pEVu8z";
-		String clientSecret = "DWSGBOBel9";
 		return naverBookSearchApiClient.getSearch(clientId, clientSecret, query, 5, 1);
 	}
 }
