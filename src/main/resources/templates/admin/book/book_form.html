@@ -8,14 +8,12 @@
     <title>Admin Page - NovaBook📕</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <!-- Google Font -->
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
-          rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
-          type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css" type="text/css">
     <!-- Theme Stylesheet -->
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
-    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.css"/>
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.css" />
     <style>
         body {
             font-family: 'Open Sans', sans-serif;
@@ -98,7 +96,6 @@
             font-weight: bold;
         }
 
-
         .book-item {
             display: flex;
             align-items: center;
@@ -151,23 +148,21 @@
             margin-left: 10px;
         }
 
+        .inventory-table {
+            margin-top: 20px;
+        }
+
+        .inventory-table th,
+        .inventory-table td {
+            text-align: center;
+            vertical-align: middle;
+        }
     </style>
 </head>
 
 <body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-                NovaBook📕
-            </a>
-        </div>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><i class="fa fa-user"></i> My Profile</a></li>
-            <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
-        </ul>
-    </div>
-</nav>
+<!--헤더 nav-->
+<div th:replace="~{layout/admin/admin_header::admin_header}"></div>
 <!--사이드바 nav-->
 <div th:replace="~{layout/admin/admin_nav::admin_sidebar}"></div>
 
@@ -176,8 +171,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="bookModalLabel">도서 목록</h4>
             </div>
             <div class="modal-body">
@@ -261,7 +255,7 @@
                             // 전역 스코프에 books 배열 선언
                             let books = [];
 
-// Handle book search form submission
+                            // Handle book search form submission
                             const form = document.querySelector('form.form-inline');
                             form.addEventListener('submit', function (event) {
                                 event.preventDefault();
@@ -287,16 +281,16 @@
                                             const listItem = document.createElement('li');
                                             listItem.classList.add('list-group-item');
                                             listItem.innerHTML = `
-                    <div class="book-info">
-                        <img src="${book.image}" alt="${book.title}">
-                        <div class="details">
-                            <strong>${book.title}</strong> - ${book.author}, ${book.publisher}, ${book.pubdate} &nbsp;
-                            <a href="${book.link}" target="_blank">자세히 보기</a>
-                        </div>
-                        <div class="actions">
-                            <button type="button" class="btn btn-primary btn-sm" onclick="selectBook(${index})">선택</button>
-                        </div>
-                    </div>`;
+                                            <div class="book-info">
+                                                <img src="${book.image}" alt="${book.title}">
+                                                <div class="details">
+                                                    <strong>${book.title}</strong> - ${book.author}, ${book.publisher}, ${book.pubdate} &nbsp;
+                                                    <a href="${book.link}" target="_blank">자세히 보기</a>
+                                                </div>
+                                                <div class="actions">
+                                                    <button type="button" class="btn btn-primary btn-sm" onclick="selectBook(${index})">선택</button>
+                                                </div>
+                                            </div>`;
                                             bookList.appendChild(listItem);
                                         });
 
@@ -315,16 +309,16 @@
                                 // Update the panel content with selected book details
                                 const selectedBookInfo = document.getElementById('selectedBookInfo');
                                 selectedBookInfo.innerHTML = `
-                                <h4>${selectedBook.title}</h4>
-                                <img src="${selectedBook.image}" alt="${selectedBook.title}" style="width: 100px;">
-                                <p><strong>저자:</strong> ${selectedBook.author}</p>
-                                <p><strong>출판사:</strong> ${selectedBook.publisher}</p>
-                                <p><strong>출판일:</strong> ${selectedBook.pubdate}</p>
-                                <p><strong>할인가:</strong> ${selectedBook.discount}원</p>
-                                <p><strong>ISBN:</strong> ${selectedBook.isbn}</p>
-                                <hr>
-                                <p>${selectedBook.description}</p>
-                              `;
+                                    <h4>${selectedBook.title}</h4>
+                                    <img src="${selectedBook.image}" alt="${selectedBook.title}" style="width: 100px;">
+                                    <p><strong>저자:</strong> ${selectedBook.author}</p>
+                                    <p><strong>출판사:</strong> ${selectedBook.publisher}</p>
+                                    <p><strong>출판일:</strong> ${selectedBook.pubdate}</p>
+                                    <p><strong>할인가:</strong> ${selectedBook.discount}원</p>
+                                    <p><strong>ISBN:</strong> ${selectedBook.isbn}</p>
+                                    <hr>
+                                    <p>${selectedBook.description}</p>
+                                `;
                                 // Show the selected book panel
                                 const selectedBookPanel = document.getElementById('selectedBookPanel');
                                 selectedBookPanel.style.display = 'block';
@@ -332,6 +326,7 @@
                         });
                     </script>
                 </div>
+
             </div>
         </div>
     </div>

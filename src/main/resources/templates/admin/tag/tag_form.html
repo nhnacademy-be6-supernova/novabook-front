@@ -106,19 +106,8 @@
 </head>
 
 <body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-
-            </a>
-        </div>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><i class="fa fa-user"></i> My Profile</a></li>
-            <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
-        </ul>
-    </div>
-</nav>
+<!--헤더 nav-->
+<div th:replace="~{layout/admin/admin_header::admin_header}"></div>
 <!--사이드바 nav-->
 <div th:replace="~{layout/admin/admin_nav::admin_sidebar}"></div>
 
