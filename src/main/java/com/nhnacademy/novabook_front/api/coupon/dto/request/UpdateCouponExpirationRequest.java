@@ -1,0 +1,8 @@
+package com.nhnacademy.novabook_front.api.coupon.dto.request;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public record UpdateCouponExpirationRequest(
+	@NotNull(message = "쿠폰 코드가 필요합니다.") @NotBlank(message = "쿠폰 코드가 필요합니다.") String code) {
+}
