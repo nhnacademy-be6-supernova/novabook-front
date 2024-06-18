@@ -97,6 +97,60 @@
         .dashboard {
             font-weight: bold;
         }
+
+
+        .book-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .book-item img {
+            width: 50px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .book-item .book-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .book-item .book-info .book-details {
+            flex: 1;
+            padding-right: 10px;
+        }
+
+        .book-item .book-info .book-actions {
+            white-space: nowrap;
+        }
+
+        .book-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .book-info img {
+            width: 50px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .book-info .details {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .book-info .actions {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+
     </style>
 </head>
 
@@ -105,7 +159,7 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">
-
+                NovaBook📕
             </a>
         </div>
         <ul class="nav navbar-nav navbar-right">
@@ -116,7 +170,6 @@
 </nav>
 <!--사이드바 nav-->
 <div th:replace="~{layout/admin/admin_nav::admin_sidebar}"></div>
-
 
 <!-- Modal -->
 <div class="modal fade" id="bookModal" tabindex="-1" role="dialog" aria-labelledby="bookModalLabel">
@@ -155,7 +208,7 @@
                             <form class="form-inline" id="bookSearchForm" style="display: flex; align-items: center; margin-right: 10px;">
                                 <div class="form-group" style="margin-right: 10px;">
                                     <label for="bookSearch">도서명:</label>
-                                    <input type="text" class="form-control" id="bookSearch" placeholder="도서명을 입력하세요">
+                                    <input type="text" class="form-control" id="bookSearch" name="query" placeholder="도서명을 입력하세요">
                                 </div>
                                 <button type="submit" class="btn btn-primary">검색</button>
                             </form>
@@ -169,23 +222,29 @@
                                 </select>
                             </div>
                         </div>
+                    </div>
 
-
+                    <div class="panel panel-default" id="selectedBookPanel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">선택한 도서 정보</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div id="selectedBookInfo">
+                                <!-- Selected book details will be shown here -->
+                            </div>
+                        </div>
                     </div>
 
                     <div class="panel panel-default">
-
                         <div class="panel-heading">
                             <h3 class="panel-title">도서 설명</h3>
                         </div>
-
                         <div class="panel-body">
                             <div id="editor"></div>
                         </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary" style="margin-left: 10px;">제출 하기</button>
-
 
                     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
                     <script>
@@ -199,67 +258,84 @@
                             });
 
                             // Handle book search form submission
+                            // 전역 스코프에 books 배열 선언
+                            let books = [];
+
+// Handle book search form submission
                             const form = document.querySelector('form.form-inline');
                             form.addEventListener('submit', function (event) {
                                 event.preventDefault();
 
-                                // Replace with actual logic to fetch book data from backend
-                                const books = [
-                                    {
-                                        name: 'Book 1',
-                                        author: 'Author 1',
-                                        publisher: 'Publisher 1',
-                                        publicationDate: '2024-06-14',
-                                        url: 'http://example.com/book1'
-                                    },
-                                    {
-                                        name: 'Book 2',
-                                        author: 'Author 2',
-                                        publisher: 'Publisher 2',
-                                        publicationDate: '2024-06-15',
-                                        url: 'http://example.com/book2'
-                                    },
-                                    // Add more books as needed
-                                ];
+                                const query = document.querySelector('input[name="query"]').value;
 
-                                // Populate the modal with fetched book data
-                                const bookList = document.getElementById('bookList');
-                                bookList.innerHTML = ''; // Clear previous entries
+                                // AJAX request to fetch book data
+                                fetch(`/admin/books/book/search?query=${encodeURIComponent(query)}`, {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        books = data.items; // Fetch된 데이터를 전역 books 배열에 할당
 
-                                books.forEach(function (book, index) {
-                                    const listItem = document.createElement('li');
-                                    listItem.classList.add('list-group-item');
-                                    listItem.innerHTML = `
-                    <div>
-                        <strong>${book.name}</strong> - ${book.author}, ${book.publisher}, ${book.publicationDate} &nbsp;
-                        <a href="${book.url}" target="_blank">자세히 보기</a>
-                        <button type="button" class="btn vc btn-primary btn-sm pull-right"" onclick="selectBook(${index})">선택</button>
+                                        // Populate the modal with fetched book data
+                                        const bookList = document.getElementById('bookList');
+                                        bookList.innerHTML = ''; // Clear previous entries
+
+                                        books.forEach(function (book, index) {
+                                            const listItem = document.createElement('li');
+                                            listItem.classList.add('list-group-item');
+                                            listItem.innerHTML = `
+                    <div class="book-info">
+                        <img src="${book.image}" alt="${book.title}">
+                        <div class="details">
+                            <strong>${book.title}</strong> - ${book.author}, ${book.publisher}, ${book.pubdate} &nbsp;
+                            <a href="${book.link}" target="_blank">자세히 보기</a>
+                        </div>
+                        <div class="actions">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="selectBook(${index})">선택</button>
+                        </div>
                     </div>`;
-                                    bookList.appendChild(listItem);
-                                });
+                                            bookList.appendChild(listItem);
+                                        });
 
-                                // Show the modal
-                                $('#bookModal').modal('show');
+                                        // Show the modal
+                                        $('#bookModal').modal('show');
+                                    })
+                                    .catch(error => {
+                                        console.error('Error fetching book data:', error);
+                                    });
                             });
 
                             // Function to handle book selection
                             window.selectBook = function (index) {
-                                const selectedBook = books[index]; // Retrieve selected book details
-                                // Example: Update editor content with selected book details
-                                editor.setMarkdown(`### ${selectedBook.name}\n\n**Author:** ${selectedBook.author}\n\n**Publisher:** ${selectedBook.publisher}\n\n**Publication Date:** ${selectedBook.publicationDate}\n\n[Link](${selectedBook.url})`);
+                                const selectedBook = books[index]; // 전역 books 배열에서 책 정보 가져오기
 
-                                // Close the modal after selection
-                                $('#bookModal').modal('hide');
+                                // Update the panel content with selected book details
+                                const selectedBookInfo = document.getElementById('selectedBookInfo');
+                                selectedBookInfo.innerHTML = `
+                                <h4>${selectedBook.title}</h4>
+                                <img src="${selectedBook.image}" alt="${selectedBook.title}" style="width: 100px;">
+                                <p><strong>저자:</strong> ${selectedBook.author}</p>
+                                <p><strong>출판사:</strong> ${selectedBook.publisher}</p>
+                                <p><strong>출판일:</strong> ${selectedBook.pubdate}</p>
+                                <p><strong>할인가:</strong> ${selectedBook.discount}원</p>
+                                <p><strong>ISBN:</strong> ${selectedBook.isbn}</p>
+                                <hr>
+                                <p>${selectedBook.description}</p>
+                              `;
+                                // Show the selected book panel
+                                const selectedBookPanel = document.getElementById('selectedBookPanel');
+                                selectedBookPanel.style.display = 'block';
                             };
                         });
                     </script>
-
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>

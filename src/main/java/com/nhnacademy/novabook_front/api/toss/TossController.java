@@ -1,4 +1,4 @@
-package com.nhnacademy.novabook_front.store.order;
+package com.nhnacademy.novabook_front.api.toss;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
