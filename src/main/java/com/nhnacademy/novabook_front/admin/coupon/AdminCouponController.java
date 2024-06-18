@@ -1,47 +1,64 @@
 package com.nhnacademy.novabook_front.admin.coupon;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.nhnacademy.novabook_front.api.coupon.CouponClient;
+import com.nhnacademy.novabook_front.api.coupon.dto.request.CreateBookCouponRequest;
+import com.nhnacademy.novabook_front.api.coupon.dto.request.CreateCategoryCouponRequest;
+import com.nhnacademy.novabook_front.api.coupon.dto.request.CreateCouponRequest;
+import com.nhnacademy.novabook_front.api.coupon.dto.response.CreateCouponResponse;
+
+import lombok.RequiredArgsConstructor;
+
 @RequestMapping("/admin/coupons")
 @Controller
+@RequiredArgsConstructor
 public class AdminCouponController {
 
-    @GetMapping
-    public String getCoupons() {
-        return "admin/coupon/coupon_list";
-    }
+	// TODO : 대충 feign 박아둠. 나중에 수정 ㄱ
+	private final CouponClient couponClient;
 
-    @GetMapping("/common/form")
-    public String getCouponCommonForm() {
-        return "admin/coupon/coupon_common_form";
-    }
+	@GetMapping
+	public String getCoupons() {
+		return "admin/coupon/coupon_list";
+	}
 
-    @GetMapping("/book/form")
-    public String getCouponBookForm() {
-        return "admin/coupon/coupon_book_form";
-    }
+	@GetMapping("/common/form")
+	public String getCouponCommonForm() {
+		return "admin/coupon/coupon_common_form";
+	}
 
-    @GetMapping("/category/form")
-    public String getCouponCategoryForm() {
-        return "admin/coupon/coupon_category_form";
-    }
+	@GetMapping("/book/form")
+	public String getCouponBookForm() {
+		return "admin/coupon/coupon_book_form";
+	}
 
-    @PostMapping("/common/form")
-    public String createCouponCommon() {
-        return "";
-    }
+	@GetMapping("/category/form")
+	public String getCouponCategoryForm() {
+		return "admin/coupon/coupon_category_form";
+	}
 
-    @PostMapping("/book/form")
-    public String createCouponBook() {
-        return "";
-    }
+	@PostMapping("/common/create")
+	public String createCouponCommon(@ModelAttribute CreateCouponRequest couponRequest) {
+		ResponseEntity<CreateCouponResponse> response = couponClient.saveGeneralCoupon(couponRequest);
+		return "redirect:/admin/coupons";
+	}
 
-    @PostMapping("/category/form")
-    public String createCouponCategory() {
-        return "";
-    }
+	@PostMapping("/book/create")
+	public String createCouponBook(@ModelAttribute CreateBookCouponRequest bookCouponRequest) {
+		ResponseEntity<CreateCouponResponse> response = couponClient.saveBookCoupon(bookCouponRequest);
+		return "redirect:/admin/coupons";
+	}
+
+	@PostMapping("/category/create")
+	public String createCouponCategory(@ModelAttribute CreateCategoryCouponRequest createCategoryCouponRequest) {
+		ResponseEntity<CreateCouponResponse> response = couponClient.saveCategoryCoupon(createCategoryCouponRequest);
+		return "redirect:/admin/coupons";
+	}
 
 }
