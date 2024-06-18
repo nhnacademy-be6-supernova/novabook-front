@@ -192,53 +192,56 @@
 
                         <p style="margin-top: 20px" id="subCategoryValue">추가된 값: 없음</p>
 
-                        <form id="couponForm" action="/coupon/create" method="post">
+                        <form id="couponForm" action="/admin/coupons/category/create" method="post">
                             <div class="form-group">
-                                <label for="text-input">쿠폰 내용:</label>
-                                <input type="text" class="form-control" id="text-input" name="milestoneName"
-                                       required>
+                                <label for="name">쿠폰 이름:</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="discount-type">할인 종류:</label>
                                 <select class="form-control" id="discount-type" name="discountType" required>
                                     <option value="">선택하세요</option>
-                                    <option value="percent">퍼센트</option>
-                                    <option value="amount">상수</option>
+                                    <option value="PERCENT">퍼센트</option>
+                                    <option value="AMOUNT">상수</option>
                                 </select>
                             </div>
 
                             <div class="form-group full-width">
-                                <label for="discount-input">할인 금액:</label>
-                                <input type="text" class="form-control" id="discount-input" name="discountAmount"
+                                <label for="discountAmount">할인 금액:</label>
+                                <input type="number" class="form-control" id="discountAmount" name="discountAmount"
                                        required>
                             </div>
 
                             <div class="form-group full-width">
-                                <label for="max-discount-input">최대 할인 금액(없으면 0):</label>
-                                <input type="text" class="form-control" id="max-discount-input"
+                                <label for="maxDiscountAmount">최대 할인 금액(없으면 0):</label>
+                                <input type="number" class="form-control" id="maxDiscountAmount"
                                        name="maxDiscountAmount">
                             </div>
 
                             <div class="form-group full-width">
-                                <label for="min-discount-input">최소 할인 금액:</label>
-                                <input type="text" class="form-control" id="min-discount-input"
-                                       name="minDiscountAmount">
+                                <label for="minPurchaseAmount">최소 구매 금액:</label>
+                                <input type="number" class="form-control" id="minPurchaseAmount"
+                                       name="minPurchaseAmount" required>
                             </div>
 
                             <div class="form-group full-width">
-                                <label for="start-date-input">시작 날짜:</label>
-                                <input type="date" class="form-control" id="start-date-input" name="startDateInput">
+                                <label for="startedAt">시작 날짜:</label>
+                                <input type="datetime-local" class="form-control" id="startedAt" name="startedAt"
+                                       required>
                             </div>
 
                             <div class="form-group full-width">
-                                <label for="end-date-input">종료 날짜:</label>
-                                <input type="date" class="form-control" id="end-date-input" name="endDateInput">
+                                <label for="expirationAt">종료 날짜:</label>
+                                <input type="datetime-local" class="form-control" id="expirationAt" name="expirationAt"
+                                       required>
                             </div>
 
                             <input type="hidden" id="bookSearchValueInput" name="bookSearchValue" value="기본값">
 
-                            <button style="width: 100px; height: 50px; margin-top: 20px" type="submit" class="btn btn-primary">제출</button>
+                            <button style="width: 100px; height: 50px; margin-top: 20px" type="submit"
+                                    class="btn btn-primary">제출
+                            </button>
                         </form>
                     </div>
                 </div>

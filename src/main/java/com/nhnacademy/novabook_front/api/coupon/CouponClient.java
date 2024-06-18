@@ -14,18 +14,17 @@ import com.nhnacademy.novabook_front.api.coupon.dto.request.UpdateCouponExpirati
 import com.nhnacademy.novabook_front.api.coupon.dto.response.CreateCouponResponse;
 
 @FeignClient(name = "couponClient", url = "http://localhost:8087")
-@RequestMapping("/coupons")
 public interface CouponClient {
 
-	@PostMapping
+	@PostMapping("/coupons")
 	ResponseEntity<CreateCouponResponse> saveGeneralCoupon(@RequestBody CreateCouponRequest request);
 
-	@PostMapping("/book")
+	@PostMapping("/coupons/book")
 	ResponseEntity<CreateCouponResponse> saveBookCoupon(@RequestBody CreateBookCouponRequest request);
 
-	@PostMapping("/category")
+	@PostMapping("/coupons/category")
 	ResponseEntity<CreateCouponResponse> saveCategoryCoupon(@RequestBody CreateCategoryCouponRequest request);
 
-	@PutMapping("/expiration")
+	@PutMapping("/coupons/expiration")
 	ResponseEntity<Void> updateCouponExpiration(@RequestBody UpdateCouponExpirationRequest request);
 }
