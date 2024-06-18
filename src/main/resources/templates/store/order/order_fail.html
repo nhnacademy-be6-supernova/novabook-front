@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕 - 결제 실패</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+
+<body>
+<div th:replace="~{layout/store/nav::nav}"></div>
+
+<div class="layout">
+    <div class="container tc">
+        <div class="alert alert-danger">
+            <h1>결제 실패</h1>
+            <p>의심스러운 행위를 감지하였습니다.</p>
+            <p>주문 번호: <span th:text="${orderNumber}">c0175070-dc68-4232-93b9-302bc325089e</span></p>
+            <p><a href="/support" class="btn btn-warning">고객 센터에 문의해 주세요.</a></p>
+        </div>
+    </div>
+
+    <div class="tc">
+        <a href="/main" class="btn btn-large">메인으로 이동</a>
+    </div>
+</div>
+
+<div th:replace="~{layout/store/footer::footer}"></div>
+</body>
+</html>
