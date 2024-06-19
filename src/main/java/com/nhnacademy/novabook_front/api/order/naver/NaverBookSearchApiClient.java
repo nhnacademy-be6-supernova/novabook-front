@@ -1,4 +1,4 @@
-package com.nhnacademy.novabook_front.api.naver;
+package com.nhnacademy.novabook_front.api.order.naver;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

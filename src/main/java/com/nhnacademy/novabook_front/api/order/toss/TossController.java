@@ -1,4 +1,4 @@
-package com.nhnacademy.novabook_front.api.toss;
+package com.nhnacademy.novabook_front.api.order.toss;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;

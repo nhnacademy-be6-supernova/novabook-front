@@ -1,8 +1,7 @@
-package com.nhnacademy.novabook_front.api.naver;
+package com.nhnacademy.novabook_front.api.order.naver;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 @Service
