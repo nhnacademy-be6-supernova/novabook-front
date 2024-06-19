@@ -111,6 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const pubdate = document.getElementById('author');
         const price = document.getElementById('discount');
         const bookLink = document.getElementById('book_link');
+        const tags = $("#tagSelect").val();
 
 
         if (!bookDiscount || bookDiscount.value === null || bookDiscount.value < 1000 || bookDiscount.value > 10000000) {
@@ -143,6 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
             bookDiscount:bookDiscount.value,
             isPackaging:isPackaging.value,
             bookLink: bookLink.value,
+            tags: tags
         }
 
         // 3. API 호출
