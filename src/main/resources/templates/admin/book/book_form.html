@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.css" />
-    <!--  선택박스 제작  -->
+    <!-- 선택박스 제작 -->
     <link rel="stylesheet" href="/css/docsupport/style.css" />
     <link rel="stylesheet" href="/css/chosen.css" />
     <link rel="stylesheet" href="/css/docsupport/prism.css" />
@@ -157,23 +157,83 @@
             flex: 1 1 30%;
             min-width: 250px;
         }
+
+        .form-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 20px;
+        }
+
+        .form-container .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-container .form-group label {
+            margin-bottom: 5px;
+        }
+
+        .form-container .form-group input,
+        .form-container .form-group select,
+        .form-container .form-group button {
+            width: 100%;
+        }
+
+        #bookSearchForm {
+            grid-column: 1 / span 1;
+            display: flex;
+            align-items: center;
+        }
+
+        #bookSearchForm .form-group {
+            flex-direction: row;
+            align-items: center;
+        }
+
+        #bookSearchForm .form-group input {
+            flex-grow: 2;
+            margin-right: 5px;
+        }
+
+        #bookSearchForm .form-group button {
+            flex-grow: 1;
+            max-width: 80px; /* 버튼 크기 조정 */
+        }
+
+        #tagSelectForm,
+        #categorySelectForm,
+        #statusSelectForm,
+        #packagingForm,
+        #bookDiscountForm,
+        #stockForm {
+            grid-column: span 1;
+        }
+
+        .chosen-container {
+            width: 100% !important;
+        }
+        .radio-inline {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .radio-inline div {
+            display: flex;
+            align-items: center; /* 라벨과 라디오 버튼을 세로 가운데 정렬 */
+            margin-right: 20px; /* 라디오 버튼 사이의 간격 조정 */
+        }
+
+        .radio-inline label {
+            margin-left: 5px; /* 라벨과 라디오 버튼 사이의 간격 조정 */
+        }
+
+
     </style>
 </head>
 
 <body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-                NovaBook📕
-            </a>
-        </div>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><i class="fa fa-user"></i> My Profile</a></li>
-            <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
-        </ul>
-    </div>
-</nav>
+<!--헤더 nav-->
+<div th:replace="~{layout/admin/admin_header::admin_header}"></div>
 <!--사이드바 nav-->
 <div th:replace="~{layout/admin/admin_nav::admin_sidebar}"></div>
 
@@ -209,62 +269,69 @@
                             <h3 class="panel-title">도서 검색</h3>
                         </div>
 
-                        <div class="panel-body" style="display: flex; flex-wrap: wrap; align-items: center;">
-                            <form class="form-inline" id="bookSearchForm" style="display: flex; flex-wrap: wrap; align-items: center; margin-right: 100px;">
-                                <div class="form-group">
-                                    <label for="bookSearch">도서명:</label>
-                                    <input type="text" class="form-control" id="bookSearch" name="query" placeholder="도서명을 입력하세요">
+                        <div class="panel-body">
+                            <div class="form-container">
+                                <label for="bookSearch">도서명:</label>
+                                <form class="form-inline" id="bookSearchForm">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="bookSearch" name="query" placeholder="도서명을 입력하세요">
+                                        <button type="submit" class="btn btn-primary">검색</button>
+                                    </div>
+                                </form>
+
+                                <div id="tagSelectForm" class="form-group">
+                                    <label for="tagSelect">태그:</label>
+                                    <select id="tagSelect" class="chosen-select form-control" multiple data-placeholder="태그를 선택하세요">
+                                        <option value="tag1">태그1</option>
+                                        <option value="tag2">태그2</option>
+                                        <option value="tag3">태그3</option>
+                                    </select>
                                 </div>
-                                <button type="submit" class="btn btn-primary">검색</button>
-                            </form>
 
-                            <div class="form-group" style="display: flex; align-items: center; white-space: nowrap; margin-top: 15px;">
-                                <label for="tagSelect" style="margin-right: 5px; margin-left: 150px;">태그:</label>
-                                <select id="tagSelect" class="chosen-select" multiple data-placeholder="태그를 선택하세요">
-                                    <option value="tag1">태그1</option>
-                                    <option value="tag2">태그2</option>
-                                    <option value="tag3">태그3</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group" style="display: flex; align-items: center; white-space: nowrap; margin-top: 15px; margin-left: 30px; margin-right: 50px;">
-                                <label for="categorySelect" style="margin-right: 5px;">카테고리:</label>
-                                <select id="categorySelect" class="form-control">
-                                    <option value="">카테고리 선택</option>
-                                    <option value="category1">카테고리1</option>
-                                    <option value="category2">카테고리2</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group" style="display: flex; align-items: center; white-space: nowrap; margin-top: 15px; margin-left: 30px;">
-                                <label for="statusSelect" style="margin-right: 5px;">상태:</label>
-                                <select id="statusSelect" class="form-control">
-                                    <option value="1">판매 중</option>
-                                    <option value="2">일시 품절</option>
-                                    <option value="3">판매 종료</option>
-                                    <option value="4">삭제 도서</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group" style="display: flex; align-items: center; white-space: nowrap; margin-top: 15px; margin-left: 100px;">
-                                <div>
-                                    <input type="radio" id="huey" name="is_packaging" value="true" checked style="margin-left: 30px;" />
-                                    <label for="huey">포장 가능</label>
+                                <div id="categorySelectForm" class="form-group">
+                                    <label for="categorySelect">카테고리:</label>
+                                    <select id="categorySelect" class="form-control">
+                                        <option value="">카테고리 선택</option>
+                                        <option value="category1">카테고리1</option>
+                                        <option value="category2">카테고리2</option>
+                                    </select>
                                 </div>
-                                <div>
-                                    <input type="radio" id="dewey" name="is_packaging" value="false" style="margin-left: 10px;" />
-                                    <label for="dewey">포장 불가</label>
+
+                                <div id="statusSelectForm" class="form-group">
+                                    <label for="statusSelect">상태:</label>
+                                    <select id="statusSelect" class="form-control">
+                                        <option value="1">판매 중</option>
+                                        <option value="2">일시 품절</option>
+                                        <option value="3">판매 종료</option>
+                                        <option value="4">삭제 도서</option>
+                                    </select>
                                 </div>
-                            </div>
 
-                            <div class="form-group" style="display: flex; align-items: center; white-space: nowrap; margin-top: 15px; margin-right: 50px;">
-                                <label for="book_discount">할인 판매가: &nbsp;</label>
-                                <input type="number" class="form-control" id="book_discount" name="query" min="0" placeholder="실제 판매가를 입력해주세요.">
-                            </div>
+                                <div id="packagingForm" class="form-group">
+                                    <label>포장 여부:</label>
+                                    <div class="radio-inline">
+                                        <div>
+                                            <input type="radio" id="huey" name="is_packaging" value="true" checked />
+                                            <label for="huey">포장 가능</label>
+                                        </div>
+                                        <div>
+                                            <input type="radio" id="dewey" name="is_packaging" value="false" />
+                                            <label for="dewey">포장 불가</label>
+                                        </div>
+                                    </div>
+                                </div>
 
-                            <div class="form-group" style="display: flex; align-items: center; white-space: nowrap; margin-top: 15px; margin-left: 30px;">
-                                <label for="stock">재고: &nbsp;</label>
-                                <input type="number" class="form-control" id="stock" name="stock" placeholder="재고를 입력해주세요." style="width: 350px;">
+
+
+                                <div id="bookDiscountForm" class="form-group">
+                                    <label for="book_discount">할인 판매가:</label>
+                                    <input type="number" class="form-control" id="book_discount" name="query" min="0" placeholder="실제 판매가를 입력해주세요.">
+                                </div>
+
+                                <div id="stockForm" class="form-group">
+                                    <label for="stock">재고:</label>
+                                    <input type="number" class="form-control" id="stock" name="stock" placeholder="재고를 입력해주세요.">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -289,7 +356,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" id="submitBtn" class="btn btn-primary" style="margin-left: 10px;">제출 하기</button>
+                    <button type="submit" id="submitBtn" class="btn btn-primary">제출 하기</button>
                     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
                     <!-- 도서 검색 및 토스트 UI API 전송  -->
                     <script src="/js/admin_book_form.js"></script>

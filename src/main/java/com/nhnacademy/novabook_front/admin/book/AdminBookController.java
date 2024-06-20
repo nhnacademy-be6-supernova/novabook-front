@@ -27,7 +27,7 @@ public class AdminBookController {
     }
 
     // @GetMapping
-    // public String getBooks(Model model, Pageable pageable) {
+    // public String getBookAll(Model model, Pageable pageable) {
     //     ResponseEntity<Page<GetBookAllResponse>> response =  storeBookClient.getBooks(pageable);
     //     model.addAttribute("books", response.getBody());
     //     return "admin/book/book_manage";
