@@ -10,9 +10,9 @@
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css" type="text/css">
-    <!-- Theme Stylesheet -->
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/responsive.css">
+
+
+
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.css" />
     <!-- 선택박스 제작 -->
     <link rel="stylesheet" href="/css/docsupport/style.css" />
@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="/css/docsupport/prism.css" />
 
     <style>
+
+
         body {
             font-family: 'Open Sans', sans-serif;
         }
@@ -99,6 +101,7 @@
 
         .dashboard {
             font-weight: bold;
+            font-size: 30px;
         }
 
         .book-item {
@@ -152,6 +155,8 @@
             align-items: center;
             margin-left: 10px;
         }
+
+
 
         .form-group {
             flex: 1 1 30%;
@@ -212,19 +217,21 @@
         .chosen-container {
             width: 100% !important;
         }
+
         .radio-inline {
             display: flex;
-            flex-direction: row;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
         .radio-inline div {
             display: flex;
-            align-items: center; /* 라벨과 라디오 버튼을 세로 가운데 정렬 */
-            margin-right: 20px; /* 라디오 버튼 사이의 간격 조정 */
+            align-items: center;
+            margin-right: 20px;
         }
 
-        .radio-inline label {
-            margin-left: 5px; /* 라벨과 라디오 버튼 사이의 간격 조정 */
+        .radio-inline input {
+            margin-right: 5px;
         }
 
 
@@ -262,7 +269,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="dashboard" style="padding-top: 0.3%">책 등록</h1>
+                <h1 class="dashboard" style="margin-top: 50px; display: block" >책 등록</h1>
                 <div class="card">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -270,12 +277,17 @@
                         </div>
 
                         <div class="panel-body">
+
+
                             <div class="form-container">
-                                <label for="bookSearch">도서명:</label>
-                                <form class="form-inline" id="bookSearchForm">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="bookSearch" name="query" placeholder="도서명을 입력하세요">
-                                        <button type="submit" class="btn btn-primary">검색</button>
+
+                                <form class="form-inline" id="bookSearchForm" style="margin-bottom: 10px;">
+                                    <div class="form-group" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                        <label for="bookSearch" style="margin-bottom: 5px;">도서명:</label>
+                                        <div style="display: flex;">
+                                            <input type="text" class="form-control" id="bookSearch" name="query" placeholder="도서명을 입력하세요" style="flex: 1; width: 200px;">
+                                            <button type="submit" class="btn btn-primary" style="margin-left: 10px;">검색</button>
+                                        </div>
                                     </div>
                                 </form>
 
@@ -310,14 +322,19 @@
                                 <div id="packagingForm" class="form-group">
                                     <label>포장 여부:</label>
                                     <div class="radio-inline">
+
                                         <div>
-                                            <input type="radio" id="huey" name="is_packaging" value="true" checked />
-                                            <label for="huey">포장 가능</label>
+                                            <label>
+                                            <input type="radio" id="huey" name="is_packaging" value="true" checked  style="width: 20px;"/> 가능
+                                            </label>
                                         </div>
+
                                         <div>
-                                            <input type="radio" id="dewey" name="is_packaging" value="false" />
-                                            <label for="dewey">포장 불가</label>
+                                            <label>
+                                            <input type="radio" id="dewey" name="is_packaging" value="false" style="width: 20px;" /> 불가
+                                            </label>
                                         </div>
+
                                     </div>
                                 </div>
 
