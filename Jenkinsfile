@@ -21,7 +21,7 @@ pipeline {
             steps {
                 git(
                     url: REPO_URL,
-                    branch: 'feature/jenkins',
+                    branch: 'main',
                     credentialsId: 'zei'
                 )
             }
