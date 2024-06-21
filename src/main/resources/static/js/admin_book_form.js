@@ -2,9 +2,9 @@
 // 전역 스코프에 books 배열 선언
 let books = [];
 
-// Handle book search form submission
-const form = document.querySelector('form.form-inline');
-form.addEventListener('submit', function (event) {
+const searchButton = document.querySelector('#book_search');
+
+searchButton.addEventListener('click', function (event) {
     event.preventDefault();
 
     const query = document.querySelector('input[name="query"]').value;

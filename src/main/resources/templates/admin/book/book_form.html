@@ -14,6 +14,13 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.css"/>
+
+    <!-- 선택박스 제작 -->
+    <link rel="stylesheet" href="/css/docsupport/style.css" />
+    <link rel="stylesheet" href="/css/chosen.css" />
+    <link rel="stylesheet" href="/css/docsupport/prism.css" />
+
+
     <style>
         body {
             font-family: 'Open Sans', sans-serif;
@@ -252,9 +259,9 @@
                         <div class="form-group">
                             <label for="inputTitle">책 제목:</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="inputTitle" name="title" required>
+                                <input type="text" class="form-control" id="inputTitle" name="query" required>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default btn-search" type="button"><i class="fa fa-search"></i></button>
+                                    <button class="btn btn-default btn-search" id="book_search" type="button" ><i class="fa fa-search"></i></button>
                                 </span>
                             </div>
                         </div>
@@ -276,9 +283,15 @@
                                 <option value="자기계발">자기계발</option>
                             </select>
                         </div>
+
+
                         <div class="form-group">
-                            <label for="inputTags">책 태그:</label>
-                            <input type="text" class="form-control" id="inputTags" name="tags" placeholder="태그 입력">
+                            <label for="tagSelect">책 태그:</label>
+                            <select id="tagSelect" class="chosen-select form-control" multiple data-placeholder="태그를 선택하세요">
+                                <option value="tag1">태그1</option>
+                                <option value="tag2">태그2</option>
+                                <option value="tag3">태그3</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -320,12 +333,23 @@
                 <button type="submit" id="submitBtn" class="btn btn-primary"><i class="fa fa-save"></i> 등록</button>
             </form>
         </div>
+
+        <script src="/js/admin_book_form.js"></script>
+
         <!-- End of Book Registration Form -->
 
     </div>
 </div>
 
 <!-- jQuery -->
+<!--choosen 패키지-->
+<script src="/css/docsupport/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="/js/chosen.jquery.js" type="text/javascript"></script>
+<script src="/css/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
+<script src="/css/docsupport/init.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Bootstrap JS -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
