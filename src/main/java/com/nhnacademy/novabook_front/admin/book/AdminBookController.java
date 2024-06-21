@@ -18,11 +18,6 @@ public class AdminBookController {
         return "admin/book/book_form";
     }
 
-    @PostMapping
-    public String createBook() {
-        return "";
-    }
-
     // @GetMapping
     // public String getBookAll(Model model, Pageable pageable) {
     //     ResponseEntity<Page<GetBookAllResponse>> response =  storeBookClient.getBooks(pageable);
