@@ -214,6 +214,24 @@
             font-size: 16px;
             cursor: pointer;
         }
+        /* Adjust Chosen.js select box for responsiveness */
+        .chosen-container-multi .chosen-choices {
+            height: 40px; /* Adjust height as needed */
+            padding: 10px; /* Padding for better touch target */
+        }
+
+        .chosen-container-multi .chosen-choices li.search-field input[type="text"] {
+            height: auto;
+            padding: 5px 10px; /* Adjust padding for input */
+            font-size: 14px; /* Adjust font size as needed */
+        }
+
+        @media {
+            .chosen-container {
+                width: 100% !important;
+            }
+        }
+
 
     </style>
 </head>
@@ -284,10 +302,9 @@
                             </select>
                         </div>
 
-
                         <div class="form-group">
                             <label for="tagSelect">책 태그:</label>
-                            <select id="tagSelect" class="chosen-select form-control" multiple data-placeholder="태그를 선택하세요">
+                            <select id="tagSelect" class="chosen-select form-control chosen-choices" multiple data-placeholder="태그를 선택하세요">
                                 <option value="tag1">태그1</option>
                                 <option value="tag2">태그2</option>
                                 <option value="tag3">태그3</option>

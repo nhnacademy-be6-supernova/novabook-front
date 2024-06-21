@@ -1,4 +1,4 @@
-package com.nhnacademy.novabook_front.api.book;
+package com.nhnacademy.novabook_front.api.book.domain;
 
 import java.time.LocalDateTime;
 
