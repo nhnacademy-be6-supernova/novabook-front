@@ -15,7 +15,7 @@
     <!-- Theme Stylesheet -->
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
 </head>
 
 <style>
@@ -23,6 +23,7 @@
         list-style: none;
         padding: 0;
     }
+
     .coupon-list li {
         display: flex;
         justify-content: space-between;
@@ -30,6 +31,7 @@
         padding: 10px 0;
         border-bottom: 1px solid #e5e5e5;
     }
+
     .coupon-download {
         background: none;
         border: none;
@@ -38,6 +40,7 @@
         cursor: pointer;
         padding: 0;
     }
+
     .coupon-download:hover {
         color: #23527c;
     }
@@ -79,28 +82,6 @@
 
                 <div class="product-thumbnail">
 
-                    <div class="col-md-2 col-sm-2 col-xs-2">
-
-                        <ul class="thumb-image">
-
-                            <li class="active"><a href="/images/single-product-1.jpeg"><img
-                                    src="/images/single-product-1.jpeg" alt=""></a></li>
-
-                            <li><a href="/images/single-product-2.jpg">
-                                <img src="/images/single-product-2.jpg" alt=""></a>
-                            </li>
-
-                            <li><a href="/images/single-product-3.jpg"><img src="/images/single-product-3.jpg" alt=""></a>
-                            </li>
-
-                            <li><a href=""><img src="/images/single-product-4.jpg" alt=""></a></li>
-
-                            <li><a href=""><img src="/images/single-product-5.jpg" alt=""></a></li>
-
-                        </ul>
-
-                    </div>
-
                     <div class="col-md-10 col-sm-10 col-xs-10">
                         <div class="thumb-main-image"><a href="">
                             <img src="/images/single-product-1.jpeg" alt=""></a>
@@ -116,7 +97,7 @@
 
             <div class="col-md-6">
 
-                <h1 class="product-title">리틀 라이프 1 </h1>
+                <h1 class="product-title" th:text="${book.title}">리틀 라이프 1 </h1>
 
 
                 <div class="ratings">
@@ -125,31 +106,44 @@
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
-                    <span class="vote-count"> 평점 4.6 점</span>
+                    <span class="vote-count" th:text="${book.score}"> 평점 4.6 점</span>
 
                     &nbsp;&nbsp;
 
                     <i class="fa fa-heart"></i>
-                    <span class="vote-count"> 좋아요 35 개</span>
+                    <span class="vote-count" th:text="${book.likes}"> 좋아요 35 개</span>
                 </div>
 
                 <div class="product-info">
-                    <span class="product-id"><span class="strong-text">저자:</span> 한야 야나기하라</span>
+                    <span class="product-id"><span class="strong-text"
+                                                   th:text="${book.author}">저자:</span> 한야 야나기하라</span>
                     <span class="product-avilability"><span class="strong-text">원제:</span> A LITTLE LIFE</span>
                 </div>
                 <br>
 
-                <p><span class="strong-text">카테고리:</span> 국내도서, 소설/시/희곡, 영미소설</p>
-                <p><span class="strong-text">태그:</span> GonShop, theme-sky, woocommerce, wordpress</p>
-                <p><span class="strong-text">설명:</span>한 남자의 슬픈 인생 여행기! 최다 판매 도서</p>
+                <p>
+                    <span class="strong-text">카테고리:</span>
+                    <span th:each="category, iterStat : ${book.categories}">
+                    <span th:text="${category}"></span>
+                    <span th:if="${!iterStat.last}">, </span>
+                </span>
+                        </p>
+                        <p>
+                            <span class="strong-text">태그:</span>
+                            <span th:each="tag, iterStat : ${book.tags}">
+                    <span th:text="${tag}"></span>
+                    <span th:if="${!iterStat.last}">, </span>
+                </span>
+                </p>
+                <p><span class="strong-text">설명:</span> <span
+                        th:text="${book.description}">한 남자의 슬픈 인생 여행기! 최다 판매 도서</span></p>
                 <br><br>
 
                 <hr>
 
                 <p><span class="strong-text">판매가:</span> <span class="price_real"> 12,600 원</span>
                     &nbsp;<span class="strong-text">적립 포인트:</span> 400원
-                    <span style="margin-left: 16px; font-size: 11px;"> 포장 가능 </span>
-
+                    <span style="margin-left: 16px; font-size: 11px;" th:if="${book.isPackaged}">포장 가능</span>
                 </p>
 
 
@@ -207,7 +201,8 @@
                     국내도서 > 미디어 추천 > 동아일보
                 </p>
 
-                <button type="button" class="btn btn-primary" style="color: white; background-color: #0e0e0e"  data-toggle="modal" data-target="#couponModal">
+                <button type="button" class="btn btn-primary" style="color: white; background-color: #0e0e0e"
+                        data-toggle="modal" data-target="#couponModal">
                     쿠폰 다운로드
                 </button>
 
@@ -224,7 +219,8 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
                 <h4 class="modal-title" id="couponModalLabel">쿠폰 다운로드</h4>
             </div>
             <div class="modal-body">
@@ -263,7 +259,6 @@
 <!-- 쿠폰 모달 끝 -->
 
 
-
 <div class="container">
 
     <div class="row">
@@ -286,15 +281,15 @@
 
                         <h3>책 목차</h3>
                         목차 1
-                            - 내용
-                            - 내용2
+                        - 내용
+                        - 내용2
                         목차 2
-                            - 내용
+                        - 내용
 
 
                         <h2>책 설명</h2>
 
-                        <p>
+                        <p th:text="${book.descriptionDetail}">
                             천 페이지를 압도하는 폭풍 같은 서사
                             2015년 맨부커상 최고의 화제작
 
@@ -316,7 +311,7 @@
                 </div>
 
                 <div class="tab-pane" id="reviews">
-<!--                -->
+                    <!--                -->
 
                     <div class="container-fluid px-1 py-5 mx-auto">
                         <div class="row justify-content-center">
@@ -332,7 +327,12 @@
                                                     <div class="d-flex flex-column">
                                                         <h3 class="mt-2 mb-0">sayyo33</h3>
                                                         <div>
-                                                            <p class="text-left"><span class="text-muted">4.0</span> <span class="fa fa-star star-active ml-3"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-inactive"></span></p>
+                                                            <p class="text-left"><span class="text-muted">4.0</span>
+                                                                <span class="fa fa-star star-active ml-3"></span> <span
+                                                                        class="fa fa-star star-active"></span> <span
+                                                                        class="fa fa-star star-active"></span> <span
+                                                                        class="fa fa-star star-active"></span> <span
+                                                                        class="fa fa-star star-inactive"></span></p>
                                                         </div>
                                                     </div>
                                                     <div class="ml-auto">
@@ -340,9 +340,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="row text-left">
-                                                    <p class="content"> 휴가를 '물 위에서' 보내는 것을 정말 즐기거나 새롭고 흥미로운 것을 처음으로 시도하고 싶다면 </p>
+                                                    <p class="content"> 휴가를 '물 위에서' 보내는 것을 정말 즐기거나 새롭고 흥미로운 것을 처음으로 시도하고
+                                                        싶다면 </p>
                                                 </div>
-                                                <div class="row text-left"> <img class="pic" src="https://i.imgur.com/kjcZcfv.jpg"  onclick="window.open(this.src)" > <img class="pic" src="https://i.imgur.com/IgHpsBh.jpg" onclick="window.open(this.src)"> </div>
+                                                <div class="row text-left"><img class="pic"
+                                                                                src="https://i.imgur.com/kjcZcfv.jpg"
+                                                                                onclick="window.open(this.src)"> <img
+                                                        class="pic" src="https://i.imgur.com/IgHpsBh.jpg"
+                                                        onclick="window.open(this.src)"></div>
                                             </div>
                                         </div>
                                         <!-- Add more slides as needed -->
@@ -352,7 +357,12 @@
                                                     <div class="d-flex flex-column">
                                                         <h3 class="mt-2 mb-0">seheeking12</h3>
                                                         <div>
-                                                            <p class="text-left"><span class="text-muted">5.0</span> <span class="fa fa-star star-active ml-3"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span> <span class="fa fa-star star-active"></span></p>
+                                                            <p class="text-left"><span class="text-muted">5.0</span>
+                                                                <span class="fa fa-star star-active ml-3"></span> <span
+                                                                        class="fa fa-star star-active"></span> <span
+                                                                        class="fa fa-star star-active"></span> <span
+                                                                        class="fa fa-star star-active"></span> <span
+                                                                        class="fa fa-star star-active"></span></p>
                                                         </div>
                                                     </div>
                                                     <div class="ml-auto">
@@ -363,7 +373,7 @@
                                                     <p class="content">이건 정말 어마어마한 책입니다! 놀라운 결과</p>
                                                 </div>
                                                 <div class="row text-left">
-<!--                                                    <img class="pic" src="https://i.imgur.com/abc.jpg">-->
+                                                    <!--                                                    <img class="pic" src="https://i.imgur.com/abc.jpg">-->
                                                 </div>
                                             </div>
                                         </div>
@@ -378,7 +388,7 @@
                         </div>
                     </div>
 
-<!--                    -->
+                    <!--                    -->
 
                 </div>
             </div>

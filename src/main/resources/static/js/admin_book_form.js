@@ -2,9 +2,9 @@
 // 전역 스코프에 books 배열 선언
 let books = [];
 
-// Handle book search form submission
-const form = document.querySelector('form.form-inline');
-form.addEventListener('submit', function (event) {
+const searchButton = document.querySelector('#book_search');
+
+searchButton.addEventListener('click', function (event) {
     event.preventDefault();
 
     const query = document.querySelector('input[name="query"]').value;
@@ -96,17 +96,17 @@ document.addEventListener('DOMContentLoaded', function () {
         // 2. url, parameter 세팅
         const url = '/admin/books';
 
-        const stock = document.getElementById('stock')
-        const statusSelect = document.getElementById('statusSelect')
+        const stock = document.getElementById('inputStock')
+        const category = document.getElementById('inputCategory')
+        const statusSelect = document.getElementById('inputBookStatus')
         const isbn = document.getElementById('isbn');
         const title = document.getElementById('book_title');
-
 
         const author = document.getElementById('author');
 
         const description = document.getElementById('book_description');
-        const bookDiscount = document.getElementById('book_discount');
-        const isPackaging = document.getElementsByName('is_packaging');
+        const bookDiscount = document.getElementById('inputDiscountPrice');
+        const isPackaging = document.getElementsByName('inputPackagingStatus');
         const publisher = document.getElementById('publisher');
         const pubdate = document.getElementById('author');
         const price = document.getElementById('discount');
@@ -144,7 +144,8 @@ document.addEventListener('DOMContentLoaded', function () {
             bookDiscount:bookDiscount.value,
             isPackaging:isPackaging.value,
             bookLink: bookLink.value,
-            tags: tags
+            tags: tags,
+            category:category.value
         }
 
         // 3. API 호출
