@@ -280,25 +280,22 @@
             .then(data => {
                 var messageElement = document.getElementById('idMessage');
 
-                alert(data.isDuplicateLoginId);
+                // 응답 데이터 구조가 변경됨에 따라 수정
+                var isDuplicate = data.body.isDuplicateLoginId;
 
-
-                if (data.isDuplicateLoginId) {
+                if (isDuplicate) {
                     messageElement.innerText = "이미 사용 중인 아이디입니다.";
                     messageElement.style.color = "red";
                 } else {
                     messageElement.innerText = "사용할 수 있는 아이디입니다.";
                     messageElement.style.color = "green";
                 }
-
             })
             .catch(error => {
                 console.error('Error checking ID:', error);
                 alert("아이디 중복 확인 중 오류가 발생했습니다. " + error);
-
             });
     }
-
 
     // 페이지 로드 시 초기화
     $(document).ready(function() {
