@@ -1,6 +1,4 @@
-package com.nhnacademy.novabook_front.api.member;
-
-import java.time.LocalDateTime;
+package com.nhnacademy.novabook_front.api.member.dto;
 
 import lombok.Builder;
 

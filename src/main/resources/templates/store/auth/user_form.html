@@ -48,7 +48,7 @@
                         <td class="col2">
                             <input type="text" id="loginId" name="loginId" maxlength="20">
                             <input class='but1' type="button" value="중복확인" onclick="checkDuplicateId()">
-                            <span id="idMessage"></span>
+                            <span id="idMessage" class="error-message"></span>
                         </td>
                     </tr>
                     <tr>
@@ -114,6 +114,12 @@
                         </td>
                     </tr>
                     <tr>
+                        <td class="col1">상세주소</td>
+                        <td class="col2">
+                            <input type="text" id="detailAddress" name="address" required>
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="col1">연락처</td>
                         <td class="col2">
                             <input type="text" id="phone" name="number" required>
@@ -132,6 +138,7 @@
 </div>
 
 <div th:replace="~{layout/store/footer::footer}"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script th:inline="javascript">
     /*<![CDATA[*/
     function updateDays() {
@@ -155,11 +162,6 @@
             }
         }
     }
-
-    // 페이지 로드 시 초기화
-    $(document).ready(function() {
-        updateDays();
-    });
 
     // formCheck 함수 정의
     function formCheck(form) {
@@ -258,29 +260,45 @@
         }
     }
 
-
     // 아이디 중복 확인 함수
     function checkDuplicateId() {
         var loginId = document.getElementById('loginId').value.trim(); // 아이디 필드 값 가져오기
 
-        // 서버 API 호출하여 아이디 중복 확인 로직 추가 (가정)
-        var isDuplicate = checkIdFromServer(loginId); // 서버에서 중복 여부 확인 (가정)
-
-        // 중복 여부에 따라 메시지 출력
-        var messageElement = document.getElementById('idMessage');
-        if (isDuplicate) {
-            messageElement.innerText = "이미 사용 중인 아이디입니다.";
-        } else {
-            messageElement.innerText = "사용할 수 있는 아이디입니다.";
+        if (loginId === "") {
+            alert("아이디를 입력해주세요.");
+            return;
         }
+
+        // AJAX request to check for duplicate ID
+        fetch(`http://localhost:8090/api/v1/store/members/checkDuplicated?loginId=${encodeURIComponent(loginId)}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                var messageElement = document.getElementById('idMessage');
+
+                alert(data.isDuplicateLoginId);
+
+
+                if (data.isDuplicateLoginId) {
+                    messageElement.innerText = "이미 사용 중인 아이디입니다.";
+                    messageElement.style.color = "red";
+                } else {
+                    messageElement.innerText = "사용할 수 있는 아이디입니다.";
+                    messageElement.style.color = "green";
+                }
+
+            })
+            .catch(error => {
+                console.error('Error checking ID:', error);
+                alert("아이디 중복 확인 중 오류가 발생했습니다. " + error);
+
+            });
     }
 
-    // 서버에서 아이디 중복 확인 함수 (가정)
-    function checkIdFromServer(loginId) {
-        // 여기에 실제 서버로의 요청을 구현할 수 있습니다.
-        // 가정 상으로는 간단한 랜덤 처리로 구현했습니다.
-        return Math.random() < 0.5; // 랜덤하게 true 또는 false 반환
-    }
 
     // 페이지 로드 시 초기화
     $(document).ready(function() {

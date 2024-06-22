@@ -1,4 +1,6 @@
-package com.nhnacademy.novabook_front.api.member;
+package com.nhnacademy.novabook_front.api.member.dto;
+
+import com.nhnacademy.novabook_front.api.member.domain.Member;
 
 import lombok.Builder;
 
