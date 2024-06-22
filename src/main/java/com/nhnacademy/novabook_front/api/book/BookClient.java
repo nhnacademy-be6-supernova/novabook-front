@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.nhnacademy.novabook_front.api.ApiResponse;
 import com.nhnacademy.novabook_front.api.book.dto.GetBookResponse;
 
-@FeignClient(name = "storeBookClient", url = "localhost:8090/books")
+@FeignClient(name = "storeBookClient", url = "http://125.6.36.57:8090/books")
 public interface BookClient {
 	// @GetMapping
 	// ResponseEntity<Page<GetBookAllResponse>> getBooks(Pageable pageable);
