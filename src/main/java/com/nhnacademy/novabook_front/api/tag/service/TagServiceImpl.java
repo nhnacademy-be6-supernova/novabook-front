@@ -1,10 +1,5 @@
 package com.nhnacademy.novabook_front.api.tag.service;
 
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.novabook_front.api.ApiResponse;
