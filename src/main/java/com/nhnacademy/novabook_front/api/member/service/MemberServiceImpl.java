@@ -1,8 +1,11 @@
-package com.nhnacademy.novabook_front.api.member;
+package com.nhnacademy.novabook_front.api.member.service;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import com.nhnacademy.novabook_front.api.ApiResponse;
+import com.nhnacademy.novabook_front.api.member.MemberClient;
+import com.nhnacademy.novabook_front.api.member.dto.CreateMemberRequest;
+import com.nhnacademy.novabook_front.api.member.dto.CreateMemberResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -12,7 +15,7 @@ public class MemberServiceImpl implements MemberService {
 	private final MemberClient memberClient;
 
 	@Override
-	public ResponseEntity<CreateMemberResponse> createMember(CreateMemberRequest createMemberRequest) {
+	public CreateMemberResponse createMember(CreateMemberRequest createMemberRequest) {
 		String fullEmail = createMemberRequest.getEmailFull();
 
 		CreateMemberRequest newMemberRequest = CreateMemberRequest.builder()
@@ -27,7 +30,9 @@ public class MemberServiceImpl implements MemberService {
 			.birthDay(createMemberRequest.birthDay())
 			.address(createMemberRequest.address())
 			.build();
-		ResponseEntity<CreateMemberResponse> createMemberResponse = memberClient.createMember(newMemberRequest);
-		return ResponseEntity.status(HttpStatus.CREATED).body(createMemberResponse.getBody());
+		ApiResponse<CreateMemberResponse> createMemberResponse = memberClient.createMember(newMemberRequest);
+		return createMemberResponse.getBody();
 	}
+
+
 }
