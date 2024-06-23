@@ -68,7 +68,7 @@ public class TossController {
 		connection.setDoOutput(true);
 
 		OutputStream outputStream = connection.getOutputStream();
-		outputStream.write(obj.toString().getBytes("UTF-8"));
+		outputStream.write(obj.toString().getBytes(StandardCharsets.UTF_8));
 
 		int code = connection.getResponseCode();
 		boolean isSuccess = code == 200;
