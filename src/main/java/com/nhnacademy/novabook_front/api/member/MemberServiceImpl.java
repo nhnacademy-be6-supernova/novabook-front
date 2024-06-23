@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.nhnacademy.novabook_front.api.ApiResponse;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -27,7 +29,9 @@ public class MemberServiceImpl implements MemberService {
 			.birthDay(createMemberRequest.birthDay())
 			.address(createMemberRequest.address())
 			.build();
-		ResponseEntity<CreateMemberResponse> createMemberResponse = memberClient.createMember(newMemberRequest);
+		ApiResponse<CreateMemberResponse> createMemberResponse = memberClient.createMember(newMemberRequest);
+
+
 		return ResponseEntity.status(HttpStatus.CREATED).body(createMemberResponse.getBody());
 	}
 }
