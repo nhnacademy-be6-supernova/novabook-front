@@ -1,12 +1,15 @@
-package com.nhnacademy.novabook_front.api.member.service;
+package com.nhnacademy.novabook_front.api.member.service.impl;
 
 import org.springframework.stereotype.Service;
 
 import com.nhnacademy.novabook_front.api.ApiResponse;
 import com.nhnacademy.novabook_front.api.member.MemberClient;
 import com.nhnacademy.novabook_front.api.member.dto.CreateMemberRequest;
-import com.nhnacademy.novabook_front.api.member.dto.CreateMemberResponse;
 
+import com.nhnacademy.novabook_front.api.member.dto.CreateMemberResponse;
+import com.nhnacademy.novabook_front.api.member.dto.LoginMemberRequest;
+import com.nhnacademy.novabook_front.api.member.dto.LoginMemberResponse;
+import com.nhnacademy.novabook_front.api.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -34,5 +37,11 @@ public class MemberServiceImpl implements MemberService {
 		return createMemberResponse.getBody();
 	}
 
+	@Override
+	public LoginMemberResponse login(LoginMemberRequest loginMemberRequest) {
 
+		ApiResponse<LoginMemberResponse> loginMemberResponseApiResponse = memberClient.login(loginMemberRequest);
+		return loginMemberResponseApiResponse.getBody();
+
+	}
 }
