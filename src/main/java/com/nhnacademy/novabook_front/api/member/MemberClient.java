@@ -21,4 +21,5 @@ public interface MemberClient {
 	@PostMapping("/login")
 	ApiResponse<LoginMemberResponse> login(@RequestBody LoginMemberRequest loginMemberRequest);
 
+
 }
