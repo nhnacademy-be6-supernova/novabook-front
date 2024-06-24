@@ -124,7 +124,7 @@
             border: 1px solid #ddd;
             border-radius: 4px;
             display: inline-block;
-            width: 40%;
+            width: 30%;
         }
 
         .tree ul {
@@ -136,7 +136,7 @@
         }
 
         .tree li ul {
-            display: block;
+            display: none;
         }
 
         .tree-toggle, .tree-toggle + .btn {
@@ -200,12 +200,14 @@
                             <li th:each="category : ${category}">
                                 <div style="display: flex; align-items: center;">
                                     <span class="tree-toggle" th:text="${category.topCategories.name}">상위 카테고리 이름</span>
-                                    <a class="btn btn-danger btn-xs"  th:href="@{'/admin/categories/delete/' + ${category.topCategories.id}}" style="margin-left: 10px;">삭제</a>
+                                    <a class="btn btn-danger btn-xs" th:href="@{'/admin/categories/delete/' + ${category.topCategories.id}}" style="margin-left: 10px;">삭제</a>
                                 </div>
                                 <ul>
                                     <li th:each="subCategory : ${category.subCategories}">
-                                        <span th:text="${subCategory.name}">하위 카테고리 이름</span>
-                                        <a class="btn btn-danger btn-xs" th:href="@{'/admin/categories/delete/' + ${subCategory.id}}" style="margin-left: 10px;">삭제</a>
+                                        <div style="display: flex; align-items: center; justify-content: space-between; width: 29%">
+                                            <span th:text="${subCategory.name}">하위 카테고리 이름</span>
+                                            <a class="btn btn-danger btn-xs" th:href="@{'/admin/categories/delete/' + ${subCategory.id}}" style="margin-left: 10px;">삭제</a>
+                                        </div>
                                     </li>
                                 </ul>
                             </li>
@@ -224,8 +226,27 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function() {
+        // 트리 토글 기능
         $('.tree-toggle').click(function() {
-            $(this).next('ul').toggle();
+            $(this).parent().next('ul').toggle();
+        });
+
+        // 페이지가 로드될 때 상위 카테고리의 하위 카테고리가 있다면, 토글 아이콘을 추가
+        $('.tree-toggle').each(function() {
+            if ($(this).parent().next('ul').length > 0) {
+                $(this).prepend('<i class="fa fa-minus" style="margin-right: 5px;"></i>');
+                $(this).parent().next('ul').show(); // Initially show all subcategories
+            }
+        });
+
+        // 토글 시 아이콘 변경
+        $('.tree-toggle').click(function() {
+            var icon = $(this).children('i');
+            if (icon.hasClass('fa-plus')) {
+                icon.removeClass('fa-plus').addClass('fa-minus');
+            } else {
+                icon.removeClass('fa-minus').addClass('fa-plus');
+            }
         });
     });
 </script>
