@@ -228,7 +228,7 @@
                     <label for="sample4_postcode">주소</label>
                     <div style="display: flex; width: 20%; margin-bottom: 10px;">
                         <input type="text" id="sample4_postcode" class="form-control" placeholder="우편번호">
-                        <input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
+                        <input type="button" class="btn" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="margin-left: 10px;"><br>
                     </div>
                     <div style="display: flex; width: 80%; margin-bottom: 10px;" >
                         <input type="text" id="sample4_roadAddress" class="form-control" placeholder="도로명주소">
@@ -314,7 +314,6 @@
         </form>
     </div>
 
-
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
         //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
@@ -397,10 +396,7 @@
                     successUrl: 'http://localhost:8080/orders/order/1/success', // 결제 성공 시 이동할 페이지(이 주소는 예시입니다. 상점에서 직접 만들어주세요.)
                     failUrl: 'http://localhost:8080/orders/order/1/fail', // 결제 실패 시 이동할 페이지(이 주소는 예시입니다. 상점에서 직접 만들어주세요.)
                 })
-                // ------결제창을 띄울 수 없는 에러 처리 ------
-                // 메서드 실행에 실패해서 reject 된 에러를 처리하는 블록입니다.
-                // 결제창에서 발생할 수 있는 에러를 확인하세요.
-                // https://docs.tosspayments.com/reference/error-codes#결제창공통-sdk-에러
+
                 .catch(function (error) {
                     if (error.code === 'USER_CANCEL') {
                         // 결제 고객이 결제창을 닫았을 때 에러 처리
