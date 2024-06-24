@@ -1,4 +1,8 @@
 package store.novabook.front.api.member.dto;
 
-public record LoginMemberRequest (String loginId, String loginPassword){
+import lombok.Builder;
+
+@Builder
+public record LoginMemberRequest (String username, String password){
 }
+

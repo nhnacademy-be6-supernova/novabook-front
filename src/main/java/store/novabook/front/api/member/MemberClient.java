@@ -17,7 +17,7 @@ public interface MemberClient {
 	ApiResponse<CreateMemberResponse> createMember(@RequestBody CreateMemberRequest createMemberRequest);
 
 	@PostMapping("/login")
-	ApiResponse<LoginMemberResponse> login(@RequestBody LoginMemberRequest loginMemberRequest);
+	LoginMemberResponse login(@RequestBody LoginMemberRequest loginMemberRequest);
 
 
 }

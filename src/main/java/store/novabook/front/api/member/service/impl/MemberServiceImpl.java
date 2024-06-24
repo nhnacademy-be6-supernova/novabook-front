@@ -37,28 +37,28 @@ public class MemberServiceImpl implements MemberService {
 		return createMemberResponse.getBody();
 	}
 
+	// @Override
+	// public LoginMemberResponse login(LoginMemberRequest loginMemberRequest) {
+	//
+	// 	ApiResponse<LoginMemberResponse> loginMemberResponseApiResponse = memberClient.login(loginMemberRequest);
+	// 	return loginMemberResponseApiResponse.getBody();
+	//
+	// }
+
 	@Override
-	public LoginMemberResponse login(LoginMemberRequest loginMemberRequest) {
+	public LoginMemberResponse getMember(LoginMemberRequest loginMemberRequest) {
 
-		ApiResponse<LoginMemberResponse> loginMemberResponseApiResponse = memberClient.login(loginMemberRequest);
-		return loginMemberResponseApiResponse.getBody();
-
-	}
-
-	@Override
-	public TokenDto getMember(LoginMemberRequest loginMemberRequest) {
-
-		LoginMemberRequest testLoginMemberRequest = LoginMemberRequest.builder()
-			.username("1")
-			.password("12")
-			.build();
+		// LoginMemberRequest testLoginMemberRequest = LoginMemberRequest.builder()
+		// 	.username("1")
+		// 	.password("12")
+		// 	.build();
 		// ApiResponse<LoginMemberResponse> loginMemberResponseApiResponse = memberClient.login(testLoginMemberRequest);
-		ResponseEntity<TokenDto> tokenDtoApiResponse = memberClient.login(testLoginMemberRequest);
-		LoginMemberResponse loginMemberResponse = LoginMemberResponse.builder()
-			.success(true)
-			.memberId(1L)
-			.name("test")
-			.build();
+		ResponseEntity<LoginMemberResponse> tokenDtoApiResponse = memberClient.login(loginMemberRequest);
+		// LoginMemberResponse loginMemberResponse = LoginMemberResponse.builder()
+		// 	.success(true)
+		// 	.memberId(1L)
+		// 	.name("test")
+		// 	.build();
 		return tokenDtoApiResponse.getBody();
 
 	}
