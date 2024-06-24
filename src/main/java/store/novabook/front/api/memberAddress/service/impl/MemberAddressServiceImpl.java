@@ -14,9 +14,9 @@ import store.novabook.front.api.memberAddress.service.MemberAddressService;
 public class MemberAddressServiceImpl implements MemberAddressService {
 	private final MemberAddressClient memberAddressClient;
 
-	public CreateMemberAddressResponse createMemberAddress(CreateMemberAddressRequest createMemberAddressRequest) {
+	public CreateMemberAddressResponse createMemberAddress(CreateMemberAddressRequest createMemberAddressRequest, Long memberId) {
 		ApiResponse<CreateMemberAddressResponse> memberAddress = memberAddressClient.createMemberAddress(
-			createMemberAddressRequest);
+			createMemberAddressRequest, memberId);
 		return memberAddress.getBody();
 	}
 }

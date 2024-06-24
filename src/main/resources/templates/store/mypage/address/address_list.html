@@ -45,13 +45,13 @@
                             <tbody>
                             <tr>
                                 <td>서울특별시 강남구 역삼동 123-45</td>
-                                <td><button class="btn btn-info btn-sm" onclick="editAddress(1)">수정</button></td>
-                                <td><button class="btn btn-danger btn-sm" onclick="deleteAddress(1)">삭제</button></td>
+                                <td><button class="btn btn-info btn-sm" onclick="editAddress(this)">수정</button></td>
+                                <td><button class="btn btn-danger btn-sm" onclick="deleteAddress(this)">삭제</button></td>
                             </tr>
                             <tr>
                                 <td>경기도 성남시 분당구 판교동 678-90</td>
-                                <td><button class="btn btn-info btn-sm" onclick="editAddress(2)">수정</button></td>
-                                <td><button class="btn btn-danger btn-sm" onclick="deleteAddress(2)">삭제</button></td>
+                                <td><button class="btn btn-info btn-sm" onclick="editAddress(this)">수정</button></td>
+                                <td><button class="btn btn-danger btn-sm" onclick="deleteAddress(this)">삭제</button></td>
                             </tr>
                             <!-- 추가적인 배송지 항목을 여기에 추가하세요 -->
                             </tbody>
@@ -65,56 +65,104 @@
 </div>
 
 <!-- 배송지 추가 모달 -->
-<div id="addAddressModal" class="modal fade" tabindex="-1" role="dialog">
+<form method="post" action="/mypage/addresses">
+    <div id="addAddressModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">배송지 추가</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="addAddressForm" onsubmit="return validateAddForm()">
+                        <div class="form-group">
+                            <label for="address">배송지</label>
+                            <input type="text" class="form-control" id="address" name="nickname" placeholder="배송지를 입력하세요" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sample6_postcode">우편번호</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="sample6_postcode" placeholder="우편번호" name="zipcode" readonly required>
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
+                            </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="sample6_address">주소</label>
+                            <input type="text" class="form-control" id="sample6_address" name="streetAddress" placeholder="주소" readonly required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sample6_detailAddress">상세주소</label>
+                            <input type="text" class="form-control" id="sample6_detailAddress" name="memberAddressDetail" placeholder="상세주소" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sample6_extraAddress">참고항목</label>
+                            <input type="text" class="form-control" id="sample6_extraAddress" placeholder="참고항목">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                    <button type="submit" class="btn btn-primary">저장</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- 배송지 수정 모달 -->
+<div id="editAddressModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">배송지 추가</h4>
+                <h4 class="modal-title">배송지 수정</h4>
             </div>
             <div class="modal-body">
-                <form id="addAddressForm">
+                <form id="editAddressForm" onsubmit="return validateEditForm()">
                     <div class="form-group">
-                        <label for="address">배송지</label>
-                        <input type="text" class="form-control" id="address" placeholder="배송지를 입력하세요">
+                        <label for="edit_address">배송지</label>
+                        <input type="text" class="form-control" id="edit_address" placeholder="배송지를 입력하세요" required>
                     </div>
                     <div class="form-group">
-                        <label for="sample6_postcode">우편번호</label>
+                        <label for="edit_sample6_postcode">우편번호</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="sample6_postcode" placeholder="우편번호" readonly>
+                            <input type="text" class="form-control" id="edit_sample6_postcode" placeholder="우편번호" readonly required>
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
+                                <button class="btn btn-default" type="button" onclick="edit_sample6_execDaumPostcode()">우편번호 찾기</button>
                             </span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="sample6_address">주소</label>
-                        <input type="text" class="form-control" id="sample6_address" placeholder="주소" readonly>
+                        <label for="edit_sample6_address">주소</label>
+                        <input type="text" class="form-control" id="edit_sample6_address" placeholder="주소" readonly required>
                     </div>
                     <div class="form-group">
-                        <label for="sample6_detailAddress">상세주소</label>
-                        <input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소">
+                        <label for="edit_sample6_detailAddress">상세주소</label>
+                        <input type="text" class="form-control" id="edit_sample6_detailAddress" placeholder="상세주소" required>
                     </div>
                     <div class="form-group">
-                        <label for="sample6_extraAddress">참고항목</label>
-                        <input type="text" class="form-control" id="sample6_extraAddress" placeholder="참고항목">
+                        <label for="edit_sample6_extraAddress">참고항목</label>
+                        <input type="text" class="form-control" id="edit_sample6_extraAddress" placeholder="참고항목">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-                <button type="button" class="btn btn-primary" onclick="saveAddress()">저장</button>
+                <button type="button" class="btn btn-primary" onclick="updateAddress()">저장</button>
             </div>
         </div>
     </div>
 </div>
-
 
 <!-- jQuery and Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+    var editRow;
+
     $(document).ready(function() {
         $('.addAddressBtn').on('click', function() {
             $('#addAddressModal').modal('show');
@@ -155,6 +203,58 @@
         }).open();
     }
 
+    function edit_sample6_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                if (data.userSelectedType === 'R') {
+                    addr = data.roadAddress;
+                } else {
+                    addr = data.jibunAddress;
+                }
+
+                if (data.userSelectedType === 'R') {
+                    if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                        extraAddr += data.bname;
+                    }
+                    if (data.buildingName !== '' && data.apartment === 'Y') {
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    if (extraAddr !== '') {
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    document.getElementById("edit_sample6_extraAddress").value = extraAddr;
+                } else {
+                    document.getElementById("edit_sample6_extraAddress").value = '';
+                }
+
+                document.getElementById('edit_sample6_postcode').value = data.zonecode;
+                document.getElementById("edit_sample6_address").value = addr;
+                document.getElementById("edit_sample6_detailAddress").focus();
+            }
+        }).open();
+    }
+
+    function validateAddForm() {
+        var detailAddress = document.getElementById("sample6_detailAddress").value.trim();
+        if (detailAddress === '') {
+            alert("상세주소를 입력해주세요.");
+            return false;
+        }
+        return true;
+    }
+
+    function validateEditForm() {
+        var detailAddress = document.getElementById("edit_sample6_detailAddress").value.trim();
+        if (detailAddress === '') {
+            alert("상세주소를 입력해주세요.");
+            return false;
+        }
+        return true;
+    }
+
     function saveAddress() {
         var address = document.getElementById("sample6_address").value;
         var detailAddress = document.getElementById("sample6_detailAddress").value;
@@ -170,12 +270,48 @@
         var cell3 = newRow.insertCell(2);
 
         cell1.innerHTML = fullAddress;
-        cell2.innerHTML = '<button class="btn btn-info btn-sm" onclick="editAddress(3)">수정</button>';
-        cell3.innerHTML = '<button class="btn btn-danger btn-sm" onclick="deleteAddress(3)">삭제</button>';
+        cell2.innerHTML = '<button class="btn btn-info btn-sm" onclick="editAddress(this)">수정</button>';
+        cell3.innerHTML = '<button class="btn btn-danger btn-sm" onclick="deleteAddress(this)">삭제</button>';
 
         $('#addAddressModal').modal('hide');
+    }
+
+    function editAddress(button) {
+        editRow = button.closest('tr');
+        var cells = editRow.getElementsByTagName('td');
+        var fullAddress = cells[0].innerText.split(' ');
+        var address = fullAddress.slice(0, -2).join(' ');
+        var detailAddress = fullAddress.slice(-2, -1).join(' ');
+        var extraAddress = fullAddress.slice(-1).join(' ');
+
+        document.getElementById('edit_address').value = address;
+        document.getElementById('edit_sample6_postcode').value = ''; // Modify as necessary
+        document.getElementById('edit_sample6_address').value = address;
+        document.getElementById('edit_sample6_detailAddress').value = detailAddress;
+        document.getElementById('edit_sample6_extraAddress').value = extraAddress;
+
+        $('#editAddressModal').modal('show');
+    }
+
+    function updateAddress() {
+        var address = document.getElementById("edit_sample6_address").value;
+        var detailAddress = document.getElementById("edit_sample6_detailAddress").value;
+        var extraAddress = document.getElementById("edit_sample6_extraAddress").value;
+
+        var fullAddress = address + ' ' + detailAddress + ' ' + extraAddress;
+
+        var cells = editRow.getElementsByTagName('td');
+        cells[0].innerText = fullAddress;
+
+        $('#editAddressModal').modal('hide');
+    }
+
+    function deleteAddress(button) {
+        var row = button.closest('tr');
+        row.parentNode.removeChild(row);
     }
 </script>
 <div th:replace="~{layout/store/footer::footer}"></div>
 </body>
 </html>
+

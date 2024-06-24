@@ -4,5 +4,5 @@ import store.novabook.front.api.memberAddress.dto.CreateMemberAddressRequest;
 import store.novabook.front.api.memberAddress.dto.CreateMemberAddressResponse;
 
 public interface MemberAddressService {
-	CreateMemberAddressResponse createMemberAddress(CreateMemberAddressRequest createMemberAddressRequest);
+	CreateMemberAddressResponse createMemberAddress(CreateMemberAddressRequest createMemberAddressRequest, Long memberId);
 }
