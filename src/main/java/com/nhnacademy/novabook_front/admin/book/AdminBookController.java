@@ -11,8 +11,6 @@ import com.nhnacademy.novabook_front.api.book.BookClient;
 @Controller
 public class AdminBookController {
 
-    BookClient bookClient;
-
     @GetMapping("book/form")
     public String getBookForm() {
         return "admin/book/book_form";
