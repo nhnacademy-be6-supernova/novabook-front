@@ -28,7 +28,8 @@ public class MemberController {
 	}
 
 	@PostMapping("/login")
-	public String login(@ModelAttribute LoginMemberRequest loginMemberRequest, Model model, HttpServletResponse response) {
+	public String login(@ModelAttribute LoginMemberRequest loginMemberRequest, Model model,
+		HttpServletResponse response) {
 		LoginMemberResponse loginMemberResponse = memberService.getMember(loginMemberRequest);
 		// response.addHeader("Authorization", "Bearer " + tokenDto.token());
 		Cookie cookie = new Cookie("Authorization", loginMemberResponse.token());
@@ -36,11 +37,10 @@ public class MemberController {
 		cookie.setPath("/");
 		response.addCookie(cookie);
 
-		if(loginMemberResponse.token().isEmpty()){
+		if (loginMemberResponse.token().isEmpty()) {
 			// model.addAttribute("loginMemberResponse", loginMemberResponse);
 			return "redirect:/";
-		}
-		else {
+		} else {
 			return "redirect:/login";
 		}
 	}
