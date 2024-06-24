@@ -1,5 +1,6 @@
 package store.novabook.front.api.member.service.impl;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,24 @@ public class MemberServiceImpl implements MemberService {
 
 		ApiResponse<LoginMemberResponse> loginMemberResponseApiResponse = memberClient.login(loginMemberRequest);
 		return loginMemberResponseApiResponse.getBody();
+
+	}
+
+	@Override
+	public TokenDto getMember(LoginMemberRequest loginMemberRequest) {
+
+		LoginMemberRequest testLoginMemberRequest = LoginMemberRequest.builder()
+			.username("1")
+			.password("12")
+			.build();
+		// ApiResponse<LoginMemberResponse> loginMemberResponseApiResponse = memberClient.login(testLoginMemberRequest);
+		ResponseEntity<TokenDto> tokenDtoApiResponse = memberClient.login(testLoginMemberRequest);
+		LoginMemberResponse loginMemberResponse = LoginMemberResponse.builder()
+			.success(true)
+			.memberId(1L)
+			.name("test")
+			.build();
+		return tokenDtoApiResponse.getBody();
 
 	}
 }
