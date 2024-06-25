@@ -12,6 +12,8 @@ public interface BookClient {
 	// @GetMapping
 	// ResponseEntity<Page<GetBookAllResponse>> getBooks(Pageable pageable);
 
+
+
 	@GetMapping("/book/{id}")
-	ApiResponse<GetBookResponse> getBook(@PathVariable("id") Long id);
+	ApiResponse<GetBookResponse> getBook(@PathVariable("id") Long memberId);
 }

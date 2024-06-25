@@ -23,9 +23,8 @@ public class OrderController {
 
 	@GetMapping("/order/form")
 	public String getOrderForm(Model model) {
-		List<GetWrappingPaperResponse> papers = wrappingPaperClient.getWrappingPaperAllList().getBody().papers();
-		model.addAttribute("papers", papers);
-
+		// List<GetWrappingPaperResponse> papers = wrappingPaperClient.getWrappingPaperAllList().getBody().papers();
+		// model.addAttribute("papers", papers);
 		return "store/order/order_form";
 	}
 

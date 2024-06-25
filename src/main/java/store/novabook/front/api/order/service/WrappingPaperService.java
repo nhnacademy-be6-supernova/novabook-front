@@ -14,7 +14,7 @@ public interface WrappingPaperService {
 	PageResponse<GetWrappingPaperResponse> getWrappingPaperAllPage(int page, int size);
 
 	//단건 조회
-	GetWrappingPaperResponse getWrappingPaper(Long id);
+	GetWrappingPaperResponse getWrappingPaper(Long memberId);
 
 	//생성
 	void createWrappingPaper(CreateWrappingPaperRequest request);
