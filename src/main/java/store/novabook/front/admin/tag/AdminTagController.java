@@ -24,27 +24,15 @@ public class AdminTagController {
     private static final String DEFAULT_SIZE = "5" ;
 
     @GetMapping
-    public String getTagAll( Model model,@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = DEFAULT_SIZE) int size) {
-
+    public String getTagAll( Model model,@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = DEFAULT_SIZE) int size) {
         // 페이져블 라이브러리를 사용하여 페이지별 태그 데이터를 가져옵니다.
         PageResponse<GetTagResponse> tagPage = tagService.getTags(page-1, size);
-        // 현재 페이지 번호
-        int currentPage = page;
-        // 전체 페이지 수
-
-        int totalPage = (int)(tagPage.getTotalCount()/tagPage.getPageSize());
-
-        //전체 남으면 한 페이지 더 추가
-        if(tagPage.getTotalCount()%tagPage.getPageSize() != 0) {
-            totalPage +=1;
-        }
-
         //현재 페이지의 데이터 리스트
         model.addAttribute("tags",tagPage.getData());
         //현재 페이지 번호
-        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("currentPage", page);
         //전체 페이지 수
-        model.addAttribute("pageSize", totalPage);
+        model.addAttribute("pageSize", tagPage.getTotalPageCount());
 
         return "admin/tag/tag_list";
     }

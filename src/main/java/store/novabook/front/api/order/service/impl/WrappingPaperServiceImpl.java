@@ -26,21 +26,25 @@ public class WrappingPaperServiceImpl implements WrappingPaperService {
 	}
 
 	// 페이지 전체 조회
+	@Override
 	public PageResponse<GetWrappingPaperResponse> getWrappingPaperAllPage(int page, int size) {
 		return wrappingPaperClient.getWrappingPaperAllPage(page, size);
 	}
 
 	//단건 조회
+	@Override
 	public GetWrappingPaperResponse getWrappingPaper(Long id) {
 		return wrappingPaperClient.getWrappingPaper(id).getBody();
 	}
 
 	//생성
+	@Override
 	public void createWrappingPaper(CreateWrappingPaperRequest request) {
 		wrappingPaperClient.createWrappingPaper(request);
 	}
 
 	//수정
+	@Override
 	public void updateWrappingPaper(Long id, UpdateWrappingPaperRequest request) {
 		wrappingPaperClient.putWrappingPaper(request, id);
 	}
