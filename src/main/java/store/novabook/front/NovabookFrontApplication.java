@@ -8,8 +8,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 public class NovabookFrontApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(NovabookFrontApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(NovabookFrontApplication.class, args);
+	}
 
 }
