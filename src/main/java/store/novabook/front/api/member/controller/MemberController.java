@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.dto.CreateMemberRequest;
 import store.novabook.front.api.member.dto.LoginMemberRequest;
@@ -26,13 +28,19 @@ public class MemberController {
 	}
 
 	@PostMapping("/login")
-	public String login(@ModelAttribute LoginMemberRequest loginMemberRequest, Model model) {
-		LoginMemberResponse loginMemberResponse = memberService.login(loginMemberRequest);
-		if(loginMemberResponse.success()){
+	public String login(@ModelAttribute LoginMemberRequest loginMemberRequest, Model model,
+		HttpServletResponse response) {
+		LoginMemberResponse loginMemberResponse = memberService.getMember(loginMemberRequest);
+		// response.addHeader("Authorization", "Bearer " + tokenDto.token());
+		Cookie cookie = new Cookie("Authorization", loginMemberResponse.token());
+		cookie.setMaxAge(60 * 60 * 24 * 7);
+		cookie.setPath("/");
+		response.addCookie(cookie);
+
+		if (loginMemberResponse.token().isEmpty()) {
 			// model.addAttribute("loginMemberResponse", loginMemberResponse);
 			return "redirect:/";
-		}
-		else {
+		} else {
 			return "redirect:/login";
 		}
 	}
