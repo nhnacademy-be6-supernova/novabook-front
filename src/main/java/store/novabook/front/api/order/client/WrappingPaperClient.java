@@ -25,7 +25,7 @@ public interface WrappingPaperClient {
 	ApiResponse<GetWrappingPaperAllResponse> getWrappingPaperAllList();
 
 	//페이지 전체 조회
-	@GetMapping
+	@GetMapping("/pageable")
 	PageResponse<GetWrappingPaperResponse> getWrappingPaperAllPage(@RequestParam int page, @RequestParam int size);
 
 	//단건 조회
