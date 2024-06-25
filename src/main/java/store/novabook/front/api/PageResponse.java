@@ -38,6 +38,16 @@ public class PageResponse<T> {
 		return response;
 	}
 
+	public int getTotalPageCount() {
+		long result = this.totalCount / this.pageSize;
+
+		if(this.totalCount % this.pageSize!= 0) {
+			result+=1L;
+		}
+
+		return (int) result;
+	}
+
 	public void addHeader(String key, Object value) {
 		this.header.put(key, value);
 	}
