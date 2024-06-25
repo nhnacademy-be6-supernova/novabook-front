@@ -177,9 +177,10 @@
             <div class="section">
                 <h2 class="section-header">쿠폰 적용</h2>
                 <div class="form-group form-group-inline">
-                    <input type="text" name="coupon" class="form-control" placeholder="쿠폰 코드를 입력하세요"/>
+                    <input type="text" name="coupon" id="selectedCouponName" class="form-control" placeholder="쿠폰 사용" readonly/>
+                    <input type="hidden" name="couponId" id="selectedCouponId"/>
                 </div>
-                <button type="button" class="btn btn-primary" onclick="applyCoupon()">쿠폰 적용</button>
+                <button type="button" class="btn btn-primary" onclick="openCoupon()">쿠폰 적용</button>
             </div>
 
             <!-- 포인트 사용 -->
@@ -240,7 +241,6 @@
                     <input type="text" id="name" name="name" class="form-control" style="width: 70%;" value="홍길동"
                            placeholder="이름"/>
                 </div>
-
 
                 <div class="form-group full-width" style="align-items: center;">
 
@@ -428,20 +428,69 @@
 </div>
 
 
-<!-- 주소록 모달 -->
-<div id="addressBookModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+<!-- 쿠폰 모달 -->
+<div id="couponModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg"> <!-- 모달 창 크기를 large로 설정 -->
         <div class="modal-content">
+            <!-- 모달 헤더 -->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">주소록</h4>
+                <h4 class="modal-title">쿠폰 목록</h4>
             </div>
+            <!-- 모달 바디 -->
             <div class="modal-body">
-                <ul>
-                    <li><a href="#" onclick="selectAddress('서울시 종로구', '010-9876-5432')">서울시 종로구</a></li>
-                    <li><a href="#" onclick="selectAddress('부산시 해운대구', '010-6543-2109')">부산시 해운대구</a></li>
-                </ul>
+                <!-- 쿠폰 테이블 -->
+                <table class="table table-striped"> <!-- Bootstrap 테이블 클래스 추가 -->
+                    <caption class="hidden">쿠폰내역</caption>
+                    <colgroup>
+                        <col style="width:8%;">
+                        <col>
+                        <col style="width:10%;">
+                        <col style="width:10%;">
+                        <col style="width:10%;">
+                        <col style="width:10%;">
+                        <col style="width:10%;">
+                        <col style="width:10%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th scope="col">번호</th>
+                        <th scope="col">쿠폰명</th>
+                        <th scope="col">할인금액(%)</th>
+                        <th scope="col">제한금액</th>
+                        <th scope="col">최대할인</th>
+                        <th scope="col">발급일</th>
+                        <th scope="col">제한일</th>
+                        <th scope="col">사용일</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- 반복구문 시작 -->
+                    <tr onclick="selectCoupon(1, '행복 쿠폰')">
+                        <td>1</td>
+                        <td class="tal"><a href="#">행복 쿠폰</a></td>
+                        <td>30%</td>
+                        <td>5000원</td>
+                        <td>10%</td>
+                        <td>2024-07-12</td>
+                        <td>무제한</td>
+                        <td>미사용</td>
+                    </tr>
+                    <tr onclick="selectCoupon(2, '불행 쿠폰')">
+                        <td>2</td>
+                        <td class="tal"><a href="#">불행 쿠폰</a></td>
+                        <td>30%</td>
+                        <td>5000원</td>
+                        <td>10%</td>
+                        <td>2024-07-12</td>
+                        <td>무제한</td>
+                        <td>미사용</td>
+                    </tr>
+                    <!-- 반복구문 끝 -->
+                    </tbody>
+                </table>
             </div>
+            <!-- 모달 풋터 -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
             </div>
@@ -449,16 +498,27 @@
     </div>
 </div>
 
+
+
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script>
+    function openCoupon() {
+        $('#couponModal').modal('show');
+    }
+
+    function selectCoupon(id, name) {
+        document.getElementById('selectedCouponName').value = name;
+        document.getElementById('selectedCouponId').value = id;
+        $('#couponModal').modal('hide');
+    }
+
     function applyCoupon() {
         alert("쿠폰이 적용되었습니다!");
-        // 실제 적용 로직 필요
-        // 예: 할인 금액 업데이트, 최종 결제 금액 업데이트
-        $('#discountAmount').text("5,000원"); // 예시로 5,000원 할인
-        updateFinalAmount();
     }
+
 
     function applyPoints() {
         const currentPoints = parseInt($('#currentPoints').text().replace('포인트', '').replace(',', ''), 10);
@@ -474,16 +534,6 @@
         // 예: 포인트 금액 업데이트, 최종 결제 금액 업데이트
         $('#pointsUsed').text(pointsInput + "원"); // 입력된 포인트 사용
         updateFinalAmount();
-    }
-
-    function openAddressBook() {
-        $('#addressBookModal').modal('show');
-    }
-
-    function selectAddress(address, phone) {
-        $('#address').val(address);
-        $('#phone').val(phone);
-        $('#addressBookModal').modal('hide');
     }
 
     function updatePackagingPrice(selectElement) {
