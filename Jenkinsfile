@@ -7,13 +7,13 @@ pipeline {
         DEPLOY_PATH_1 = '/home/zei/nova-front'
         DEPLOY_PATH_2 = '/home/zei/nova-front'
         REPO_URL = 'https://github.com/nhnacademy-be6-supernova/novabook-front.git'
-        ARTIFACT_NAME = 'novabook_front-0.0.1-SNAPSHOT.jar'
+        ARTIFACT_NAME = 'front-0.0.1-SNAPSHOT.jar'
         JAVA_OPTS = '-XX:+EnableDynamicAgentLoading -XX:+UseParallelGC'
     }
 
     tools {
-        jdk 'jdk-21' // Global Tool Configuration에서 설정한 JDK 이름
-        maven 'maven-3.9.7' // Global Tool Configuration에서 설정한 Maven 이름
+        jdk 'jdk-21'
+        maven 'maven-3.9.7'
     }
 
     stages {
