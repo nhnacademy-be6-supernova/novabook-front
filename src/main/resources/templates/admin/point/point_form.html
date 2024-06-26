@@ -20,30 +20,6 @@
             font-family: 'Open Sans', sans-serif;
         }
 
-        .navbar {
-            margin-bottom: 0;
-            border-radius: 0;
-        }
-
-        .navbar-brand {
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        .navbar-header {
-            float: left;
-        }
-
-        .sidebar {
-            height: 100%;
-            width: 250px;
-            position: fixed;
-            top: 51px;
-            left: 0;
-            background-color: #343a40;
-            padding-top: 20px;
-        }
-
         .sidebar a {
             padding: 15px 25px;
             text-decoration: none;
@@ -63,13 +39,6 @@
             padding-top: 60px;
         }
 
-        .header {
-            background-color: #f8f9fa;
-            padding: 15px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-
         .card {
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
             transition: 0.3s;
@@ -83,14 +52,6 @@
 
         .card h3 {
             font-weight: 600;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #f8f9fa;
-            border-top: 1px solid #ddd;
-            margin-top: 20px;
         }
 
         .dashboard {
@@ -148,7 +109,6 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th>번호</th>
                             <th>기본 적립금</th>
                             <th>회원가입 적립금</th>
                             <th>리뷰 작성 적립금</th>
@@ -156,7 +116,6 @@
                         </thead>
                         <tbody>
                         <tr th:each="pointPolicy: ${pointPolicies}">
-                            <td th:text="${pointPolicy.id}">1</td>
                             <td th:text="${pointPolicy.basicPoint()}">3000</td>
                             <td th:text="${pointPolicy.registerPoint()}">2000</td>
                             <td th:text="${pointPolicy.reviewPointRate()}">1000</td>
