@@ -1,6 +1,6 @@
 package store.novabook.front.api.coupon.service;
 
-import store.novabook.front.api.PageResponse;
+import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.api.coupon.domain.CouponType;
 import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateResponse;
 import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateResponse;

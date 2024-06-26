@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import store.novabook.front.api.ApiResponse;
+import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.api.category.dto.CreateCategoryRequest;
 import store.novabook.front.api.category.dto.CreateCategoryResponse;
 import store.novabook.front.api.category.dto.GetCategoryListResponse;

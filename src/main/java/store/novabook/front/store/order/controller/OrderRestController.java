@@ -13,15 +13,15 @@ import store.novabook.front.store.order.service.RedisOrderServive;
 @RestController
 public class OrderRestController {
 
-	private final RedisOrderServive orderServive;
+	private final RedisOrderServive orderService;
 
-	public OrderRestController(RedisOrderServive orderServive) {
-		this.orderServive = orderServive;
+	public OrderRestController(RedisOrderServive orderService) {
+		this.orderService = orderService;
 	}
 
 	@PostMapping("/order/form")
 	public ResponseEntity<Void> getOrderForm(@RequestBody OrderTemporaryForm orderTemporaryForm) {
-		orderServive.create(orderTemporaryForm);
+		orderService.create(orderTemporaryForm);
 		return ResponseEntity.ok().build();
 	}
 }

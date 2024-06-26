@@ -1,6 +1,6 @@
 package store.novabook.front.api.point.service;
 
-import store.novabook.front.api.PageResponse;
+import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.api.point.dto.request.CreatePointPolicyRequest;
 import store.novabook.front.api.point.dto.response.GetPointPolicyResponse;
 

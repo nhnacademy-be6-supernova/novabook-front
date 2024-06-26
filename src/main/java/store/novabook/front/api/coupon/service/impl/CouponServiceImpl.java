@@ -3,7 +3,7 @@ package store.novabook.front.api.coupon.service.impl;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.PageResponse;
+import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.api.coupon.CouponClient;
 import store.novabook.front.api.coupon.domain.CouponType;
 import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateResponse;

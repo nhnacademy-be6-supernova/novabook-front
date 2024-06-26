@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.PageResponse;
+import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.api.coupon.CouponClient;
 import store.novabook.front.api.coupon.domain.CouponType;
 import store.novabook.front.api.coupon.dto.request.CreateBookCouponRequest;

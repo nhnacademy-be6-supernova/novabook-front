@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import store.novabook.front.api.ApiResponse;
+import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.api.member.dto.CreateMemberRequest;
 import store.novabook.front.api.member.dto.CreateMemberResponse;
 import store.novabook.front.api.member.dto.LoginMemberRequest;

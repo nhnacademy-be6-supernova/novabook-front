@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.ApiResponse;
+import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.api.member.MemberClient;
 import store.novabook.front.api.member.dto.CreateMemberRequest;
 import store.novabook.front.api.member.dto.CreateMemberResponse;

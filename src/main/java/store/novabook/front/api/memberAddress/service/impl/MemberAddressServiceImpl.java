@@ -3,7 +3,7 @@ package store.novabook.front.api.memberAddress.service.impl;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.ApiResponse;
+import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.api.memberAddress.MemberAddressClient;
 import store.novabook.front.api.memberAddress.dto.CreateMemberAddressRequest;
 import store.novabook.front.api.memberAddress.dto.CreateMemberAddressResponse;

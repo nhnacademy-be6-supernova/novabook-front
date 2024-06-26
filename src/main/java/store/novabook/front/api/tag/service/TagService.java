@@ -1,6 +1,6 @@
 package store.novabook.front.api.tag.service;
 
-import store.novabook.front.api.PageResponse;
+import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.api.tag.dto.CreateTagRequest;
 import store.novabook.front.api.tag.dto.CreateTagResponse;
 import store.novabook.front.api.tag.dto.GetTagResponse;
