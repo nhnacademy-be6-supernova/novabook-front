@@ -12,6 +12,7 @@ import store.novabook.front.api.ApiResponse;
 import store.novabook.front.api.PageResponse;
 import store.novabook.front.api.tag.dto.CreateTagRequest;
 import store.novabook.front.api.tag.dto.CreateTagResponse;
+import store.novabook.front.api.tag.dto.GetTagListResponse;
 import store.novabook.front.api.tag.dto.GetTagResponse;
 
 @FeignClient(name = "tagClient", url = "http://localhost:8090/api/v1/store/tags")
@@ -21,6 +22,9 @@ public interface TagClient {
 
 	@GetMapping
 	PageResponse<GetTagResponse> getTagAll(@RequestParam int page, @RequestParam int size);
+
+	@GetMapping("/list")
+	ApiResponse<GetTagListResponse> getTagAllList();
 
 	@DeleteMapping("/{id}")
 	void deleteTag(@PathVariable Long id);

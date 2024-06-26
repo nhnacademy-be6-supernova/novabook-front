@@ -201,7 +201,7 @@
                         </thead>
                         <tbody id="inventoryTableBody">
                         <!-- Dummy book data -->
-                        <tr th:each="book : ${books}">
+                        <tr th:each="book : ${books.getData()}">
                             <td th:text="${book.title}">책 제목</td>
                             <td th:text="${book.inventory}">10</td>
                             <td th:text="${book.price}">20000</td>
@@ -225,22 +225,23 @@
         </div>
         <!-- End of Book Inventory Table -->
 
-        <!-- Pagination Buttons -->
-        <div class="text-center">
-            <ul class="pagination" id="pagination">
-                <!-- Pagination buttons will be dynamically added here -->
-                <li><a href="#" class="page-link" data-page="1">1</a></li>
-                <li><a href="#" class="page-link" data-page="2">2</a></li>
-                <li><a href="#" class="page-link" data-page="3">3</a></li>
-                <li><a href="#" class="page-link" data-page="4">4</a></li>
-                <li><a href="#" class="page-link" data-page="5">5</a></li>
-                <li><a href="#" class="page-link" data-page="6">6</a></li>
-                <li><a href="#" class="page-link" data-page="7">7</a></li>
-                <li><a href="#" class="page-link" data-page="8">8</a></li>
-                <li><a href="#" class="page-link" data-page="9">9</a></li>
-                <li><a href="#" class="page-link" data-page="10">10</a></li>
-                <!-- Add more pages as needed -->
-            </ul>
+        <div class="pagination">
+            <li class="page-item disabled">
+                            <span th:if="${books.getPageNum()+1 > 1}">
+                                <a th:href="@{/admin/books(page=${books.getPageNum()+1 - 1})}">Previous</a>
+                            </span>
+            </li>
+            <li class="page-item">
+                            <span th:each="i : ${#numbers.sequence(1, books.getTotalCount())}">
+                                <a th:href="@{/admin/books(page=${i})}" th:text="${i}+'&nbsp;' "
+                                   th:classappend="${i == books.getPageNum()+1} ? 'active' : ''"></a>
+                            </span>
+            </li>
+            <li class="page-item disabled">
+                            <span th:if="${books.getPageNum()+1 < books.getTotalCount()}">
+                                <a th:href="@{/admin/books(page=${books.getPageNum()+1 + 1})}">Next</a>
+                            </span>
+            </li>
         </div>
         <!-- End Pagination Buttons -->
 

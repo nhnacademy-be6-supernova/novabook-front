@@ -1,41 +1,49 @@
 package store.novabook.front.admin.admin;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import lombok.RequiredArgsConstructor;
+import store.novabook.front.api.PageResponse;
+import store.novabook.front.api.book.dto.GetBookAllResponse;
+import store.novabook.front.api.book.service.BookService;
 
 @Controller
 @RequestMapping("/admin")
+@RequiredArgsConstructor
 public class AdminIndexController {
 
-    @GetMapping
-    public String index() {
-        return "admin/admin_index";
-    }
+	private final BookService bookService;
+	private static final String DEFAULT_PAGE_SIZE = "10";
 
-    @GetMapping("book/form")
-    public String getBookForm() {
-        return "admin/book/book_form";
-    }
+	@GetMapping
+	public String index() {
+		return "admin/admin_index";
+	}
 
-    @PostMapping
-    public String createBook() {
-        return "";
-    }
+	@GetMapping("book/form")
+	public String getBookForm() {
+		return "admin/book/book_form";
+	}
 
-    @GetMapping("books")
-    public String getBooks() {
+	@PostMapping
+	public String createBook() {
+		return "";
+	}
 
-        return "admin/book/book_manage";
-    }
+	@GetMapping("books")
+	public String getBookAll(Model model,
+		@RequestParam(defaultValue = "1") int page,
+		@RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int size) {
 
-    // @GetMapping
-    // public String getBooks(Model model, Pageable pageable) {
-    //     ResponseEntity<Page<GetBookAllResponse>> response =  storeBookClient.getBooks(pageable);
-    //     model.addAttribute("books", response.getBody());
-    //     return "admin/book/book_manage";
-    // }
+		PageResponse<GetBookAllResponse> response = bookService.getBookAll(page - 1, size);
+		model.addAttribute("books", response);
+		return "/admin/book/book_list";
+	}
 
 
 }
