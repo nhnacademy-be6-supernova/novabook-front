@@ -52,19 +52,17 @@
                                 <td th:text="${address.nickname}"></td>
                                 <td th:text="${address.id}"></td>
                                 <td th:text="${address.zipcode}"></td>
-                                <td th:text="${address.streetAddress} + '&nbsp' + ${address.memberAddressDetail}"></td><td>
-                                <button class="btn btn-info btn-sm edit-btn" th:value="${address.id}"
-                                        th:attr="onclick='openEditModal(\'' + ${address. nickname} + '\', \'' + ${address.zipcode} + '\', \'' + ${address.streetAddress} + '\', \'' + ${address.memberAddressDetail} + '\', \'' + ${address.id} + '\', \'' + ${address.id} + '\' )'">
-                                    수정
-                                </button>
-                            </td>
+                                <td th:text="${address.streetAddress} + '&nbsp' + ${address.memberAddressDetail}"></td>
                                 <td>
-                                    <button class="btn btn-danger btn-sm"
-                                            th:onclick="'deleteAddress(' + ${address.id} + ')'"
-                                            onclick="deleteAddress([[${address.id}]])">
-                                        삭제
+                                    <button class="btn btn-info btn-sm edit-btn" th:value="${address.id}"
+                                            th:attr="onclick='openEditModal(\'' + ${address. nickname} + '\', \'' + ${address.zipcode} + '\', \'' + ${address.streetAddress} + '\', \'' + ${address.memberAddressDetail} + '\', \'' + ${address.id} + '\', \'' + ${address.id} + '\' )'">
+                                        수정
                                     </button>
                                 </td>
+                                <td>
+                                    <a th:href="@{/mypage/addresses/address/{id}/delete(id=${address.id})}" class="btn btn-danger btn-sm">삭제</a>
+                                </td>
+
                                 <input type="hidden" th:id="'addressId_' + ${address.id}" th:value="${address.id}">
                             </tr>
                             </tbody>
@@ -143,12 +141,14 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="edit_address">배송지</label>
-                        <input type="text" class="form-control" id="edit_address" name="nickname" placeholder="배송지를 입력하세요" required>
+                        <input type="text" class="form-control" id="edit_address" name="nickname"
+                               placeholder="배송지를 입력하세요" required>
                     </div>
                     <div class="form-group">
                         <label for="edit_sample6_postcode">우편번호</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="edit_sample6_postcode" name="zipcode" placeholder="우편번호" readonly required>
+                            <input type="text" class="form-control" id="edit_sample6_postcode" name="zipcode"
+                                   placeholder="우편번호" readonly required>
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button" onclick="edit_sample6_execDaumPostcode()">우편번호 찾기</button>
                             </span>
@@ -156,11 +156,13 @@
                     </div>
                     <div class="form-group">
                         <label for="edit_sample6_address">주소</label>
-                        <input type="text" class="form-control" id="edit_sample6_address" name="streetAddress" placeholder="주소" readonly required>
+                        <input type="text" class="form-control" id="edit_sample6_address" name="streetAddress"
+                               placeholder="주소" readonly required>
                     </div>
                     <div class="form-group">
                         <label for="edit_sample6_detailAddress">상세주소</label>
-                        <input type="text" class="form-control" id="edit_sample6_detailAddress" name="memberAddressDetail" placeholder="상세주소" required>
+                        <input type="text" class="form-control" id="edit_sample6_detailAddress"
+                               name="memberAddressDetail" placeholder="상세주소" required>
                     </div>
                     <div class="form-group">
                         <label for="edit_sample6_extraAddress">참고항목</label>
@@ -177,7 +179,6 @@
         </div>
     </div>
 </form>
-
 
 
 <!-- jQuery and Bootstrap JS -->
@@ -297,28 +298,6 @@
         $('#editAddressModal').modal('show');
     }
 
-
-    function saveAddress() {
-        var address = document.getElementById("sample6_address").value;
-        var detailAddress = document.getElementById("sample6_detailAddress").value;
-        var extraAddress = document.getElementById("sample6_extraAddress").value;
-
-        var fullAddress = address + ' ' + detailAddress + ' ' + extraAddress;
-
-        // 테이블에 새로운 행으로 추가3
-        var table = document.getElementById("addressTable").getElementsByTagName('tbody')[0];
-        var newRow = table.insertRow();
-        var cell1 = newRow.insertCell(0);
-        var cell2 = newRow.insertCell(1);
-        var cell3 = newRow.insertCell(2);
-
-        cell1.innerHTML = fullAddress;
-        cell2.innerHTML = '<button class="btn btn-info btn-sm" onclick="editAddress(this)">수정</button>';
-        cell3.innerHTML = '<button class="btn btn-danger btn-sm" onclick="deleteAddress(this)">삭제</button>';
-
-        $('#addAddressModal').modal('hide');
-    }
-
     function editAddress() {
         var address = document.getElementById("edit_address").value;
         var detailAddress = document.getElementById("edit_sample6_detailAddress").value;
@@ -331,31 +310,6 @@
 
         $('#editAddressModal').modal('hide'); // 수정 모달 닫기
     }
-
-    function deleteAddress(addressId) {
-        var confirmed = confirm("정말로 삭제하시겠습니까?");
-        if (!confirmed) {
-            return;
-        }
-
-        fetch(`http://localhost:8090/api/v1/store/addresses/${addressId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('주소 삭제에 실패했습니다.');
-                }
-                // Optionally, update the UI to reflect the deletion
-            })
-            .catch(error => {
-                console.error('주소 삭제 중 오류 발생:', error);
-                // Handle error as needed, e.g., showing an alert
-            });
-    }
-
 
 
     function checkMemberAddressCount() {

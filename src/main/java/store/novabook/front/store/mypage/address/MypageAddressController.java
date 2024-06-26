@@ -43,4 +43,10 @@ public class MypageAddressController {
 		memberAddressService.createMemberAddress(createMemberAddressRequest, MEMBER_ID);
 		return "redirect:/mypage/addresses";
 	}
+
+	@GetMapping("/address/{addressId}/delete")
+	public String deleteAddress(@PathVariable Long addressId) {
+		memberAddressService.deleteMemberAddress(addressId);
+		return "redirect:/mypage/addresses";
+	}
 }
