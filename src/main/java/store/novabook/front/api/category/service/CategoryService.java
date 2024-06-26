@@ -1,7 +1,5 @@
 package store.novabook.front.api.category.service;
 
-import java.util.List;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -14,6 +12,6 @@ public interface CategoryService {
 
 	CreateCategoryResponse createCategory(@RequestBody CreateCategoryRequest category);
 	GetCategoryResponse getCategory(@PathVariable Long id);
-	List<GetCategoryListResponse> getCategoryAll();
+	GetCategoryListResponse getCategoryAll();
 	void deleteCategory(@PathVariable Long id);
 }

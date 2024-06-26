@@ -271,7 +271,7 @@
         <h1 class="dashboard" style="padding-top: 0.3%">책 등록</h1>
         <!-- Book Registration Form -->
         <div class="card book-form">
-            <form id="addBookForm" action="/admin/books/add" method="POST">
+            <form id="addBookForm" action="/admin/books" method="POST">
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
@@ -288,43 +288,52 @@
                         <div class="form-group">
                             <label for="inputBookStatus">책 상태:</label>
                             <select class="form-control" id="inputBookStatus" name="book_status" required>
-                                <option value="판매중">판매중</option>
-                                <option value="일시품절">일시품절</option>
-                                <option value="품절">품절</option>
+                                <option value="1">판매중</option>
+                                <option value="2">일시품절</option>
+                                <option value="3">판매종료</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="inputCategory">책 카테고리:</label>
                             <select class="form-control" id="inputCategory" name="category" required>
-                                <option value="소설">소설</option>
-                                <option value="시">시</option>
-                                <option value="자기계발">자기계발</option>
+                                <!-- Iterate over categories -->
+                                <th:block th:each="category : ${categories.categories}">
+                                    <!-- Display top category -->
+                                    <option th:value="${category.id}" th:text="${category.name}"></option>
+                                    <!-- Iterate over subcategories -->
+                                    <th:block th:each="subCategory : ${category.sub}">
+                                        <!-- Display subcategory -->
+                                        <option th:value="${subCategory.id}" th:text="${category.name} + ' > ' + ${subCategory.name}"></option>
+                                    </th:block>
+                                </th:block>
                             </select>
                         </div>
+
+
+
 
                         <div class="form-group">
                             <label for="tagSelect">책 태그:</label>
                             <select id="tagSelect" class="chosen-select form-control chosen-choices" multiple data-placeholder="태그를 선택하세요">
-                                <option value="tag1">태그1</option>
-                                <option value="tag2">태그2</option>
-                                <option value="tag3">태그3</option>
+                                <option th:each="tag : ${tags}" th:value="${tag.id}" th:text="${tag.name}"></option>
                             </select>
                         </div>
+
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="inputDiscountPrice">할인가:</label>
-                            <input type="number" class="form-control" id="inputDiscountPrice" name="discount_price" required>
+                            <input type="number" class="form-control" id="inputDiscountPrice" name="discountPrice" required>
                         </div>
                         <div class="form-group">
                             <label for="inputStock">재고:</label>
-                            <input type="number" class="form-control" id="inputStock" name="stock" required>
+                            <input type="number" class="form-control" id="inputStock" name="inventory" required>
                         </div>
                         <div class="form-group">
                             <label for="inputPackagingStatus">책 포장여부:</label>
-                            <select class="form-control" id="inputPackagingStatus" name="packaging_status" required>
-                                <option value="가능">가능</option>
-                                <option value="불가능">불가능</option>
+                            <select class="form-control" id="inputPackagingStatus" name="isPackaged" required>
+                                <option value="true">가능</option>
+                                <option value="false">불가능</option>
                             </select>
                         </div>
                     </div>
@@ -352,11 +361,35 @@
             </form>
         </div>
 
-        <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+
         <script src="/js/admin_book_form.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+<!--        <script>-->
+<!--            $(document).ready(function() {-->
+<!--                var editor = new toastui.Editor({-->
+<!--                    el: $('#editor')[0],-->
+<!--                    height: '400px',-->
+<!--                    initialEditType: 'markdown',-->
+<!--                    previewStyle: 'vertical'-->
+<!--                });-->
 
-        <!-- End of Book Registration Form -->
-
+<!--                // Set initial content-->
+<!--                editor.setMarkdown('![image](https://shopping-phinf.pstatic.net/main_3247334/32473349454.20230927071208.jpg)');-->
+<!--                //-->
+<!--                // // Example of getting the content-->
+<!--                // $('#getContentButton').click(function() {-->
+<!--                //     var content = editor.getMarkdown();-->
+<!--                //     console.log(content);-->
+<!--                // });-->
+<!--                //-->
+<!--                // // Example of setting new content-->
+<!--                // $('#setContentButton').click(function() {-->
+<!--                //     editor.setMarkdown('# New Content\nThis is new content set by the button click.');-->
+<!--                // });-->
+<!--            });-->
+        </script>
     </div>
 </div>
 
@@ -372,6 +405,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Bootstrap JS -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script>
+
+
+</script>
 </body>
 
 </html>
