@@ -32,39 +32,41 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h2>배송지 관리
-                            <!--                            <button class="btn btn-primary pull-right addAddressBtn">배송지 추가</button>-->
-                            <button id="addAddressBtn" class="btn btn-primary pull-right" onclick="checkMemberAddressCount()">배송지 추가
+                            <button id="addAddressBtn" class="btn btn-primary pull-right"
+                                    onclick="checkMemberAddressCount()">배송지 추가
                             </button>
-
                         </h2>
                         <table id="addressTable" class="table table-striped">
                             <thead>
                             <tr>
                                 <th>배송지</th>
+                                <th>id</th>
+                                <th>우편번호</th>
+                                <th>주소</th>
                                 <th>수정</th>
                                 <th>삭제</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>서울특별시 강남구 역삼동 123-45</td>
+                            <tr th:each="address : ${addressList}">
+                                <td th:text="${address.nickname}"></td>
+                                <td th:text="${address.id}"></td>
+                                <td th:text="${address.zipcode}"></td>
+                                <td th:text="${address.streetAddress} + '&nbsp' + ${address.memberAddressDetail}"></td><td>
+                                <button class="btn btn-info btn-sm edit-btn" th:value="${address.id}"
+                                        th:attr="onclick='openEditModal(\'' + ${address. nickname} + '\', \'' + ${address.zipcode} + '\', \'' + ${address.streetAddress} + '\', \'' + ${address.memberAddressDetail} + '\', \'' + ${address.id} + '\', \'' + ${address.id} + '\' )'">
+                                    수정
+                                </button>
+                            </td>
                                 <td>
-                                    <button class="btn btn-info btn-sm" onclick="editAddress(this)">수정</button>
+                                    <button class="btn btn-danger btn-sm"
+                                            th:onclick="'deleteAddress(' + ${address.id} + ')'"
+                                            onclick="deleteAddress([[${address.id}]])">
+                                        삭제
+                                    </button>
                                 </td>
-                                <td>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteAddress(this)">삭제</button>
-                                </td>
+                                <input type="hidden" th:id="'addressId_' + ${address.id}" th:value="${address.id}">
                             </tr>
-                            <tr>
-                                <td>경기도 성남시 분당구 판교동 678-90</td>
-                                <td>
-                                    <button class="btn btn-info btn-sm" onclick="editAddress(this)">수정</button>
-                                </td>
-                                <td>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteAddress(this)">삭제</button>
-                                </td>
-                            </tr>
-                            <!-- 추가적인 배송지 항목을 여기에 추가하세요 -->
                             </tbody>
                         </table>
                         <a href="/mypage" class="btn btn-primary">돌아가기</a>
@@ -128,25 +130,25 @@
 </form>
 
 <!-- 배송지 수정 모달 -->
-<div id="editAddressModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title">배송지 수정</h4>
-            </div>
-            <div class="modal-body">
-                <form id="editAddressForm" onsubmit="return validateEditForm()">
+<form method="post" id="editAddressForm">
+    <div id="editAddressModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">배송지 수정</h4>
+                </div>
+                <div class="modal-body">
                     <div class="form-group">
                         <label for="edit_address">배송지</label>
-                        <input type="text" class="form-control" id="edit_address" placeholder="배송지를 입력하세요" required>
+                        <input type="text" class="form-control" id="edit_address" name="nickname" placeholder="배송지를 입력하세요" required>
                     </div>
                     <div class="form-group">
                         <label for="edit_sample6_postcode">우편번호</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="edit_sample6_postcode" placeholder="우편번호"
-                                   readonly required>
+                            <input type="text" class="form-control" id="edit_sample6_postcode" name="zipcode" placeholder="우편번호" readonly required>
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button" onclick="edit_sample6_execDaumPostcode()">우편번호 찾기</button>
                             </span>
@@ -154,32 +156,32 @@
                     </div>
                     <div class="form-group">
                         <label for="edit_sample6_address">주소</label>
-                        <input type="text" class="form-control" id="edit_sample6_address" placeholder="주소" readonly
-                               required>
+                        <input type="text" class="form-control" id="edit_sample6_address" name="streetAddress" placeholder="주소" readonly required>
                     </div>
                     <div class="form-group">
                         <label for="edit_sample6_detailAddress">상세주소</label>
-                        <input type="text" class="form-control" id="edit_sample6_detailAddress" placeholder="상세주소"
-                               required>
+                        <input type="text" class="form-control" id="edit_sample6_detailAddress" name="memberAddressDetail" placeholder="상세주소" required>
                     </div>
                     <div class="form-group">
                         <label for="edit_sample6_extraAddress">참고항목</label>
                         <input type="text" class="form-control" id="edit_sample6_extraAddress" placeholder="참고항목">
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-                <button type="button" class="btn btn-primary" onclick="updateAddress()">저장</button>
+                    <!-- hidden input으로 addressId를 전달 -->
+                    <input type="hidden" id="edit_id" name="addressId">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                    <button type="submit" class="btn btn-primary">저장</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</form>
 
 
 
 <!-- jQuery and Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
@@ -188,6 +190,10 @@
     $(document).ready(function () {
         $('.addAddressBtn').on('click', function () {
             $('#addAddressModal').modal('show');
+        });
+
+        $('.edit-btn').on('click', function () {
+            $('#editAddressModal').modal('show');
         });
     });
 
@@ -277,6 +283,21 @@
         return true;
     }
 
+    function openEditModal(nickname, zipcode, streetAddress, detailAddress, extraAddress, id) {
+        $('#edit_address').val(nickname);
+        $('#edit_sample6_postcode').val(zipcode);
+        $('#edit_sample6_address').val(streetAddress);
+        $('#edit_sample6_detailAddress').val(detailAddress);
+        $('#edit_sample6_extraAddress').val(extraAddress);
+        $('#edit_id').val(id); // addressId를 hidden input에 설정
+
+        // form action 속성 업데이트
+        $('#editAddressForm').attr('action', '/mypage/addresses/address/' + id + '/update');
+
+        $('#editAddressModal').modal('show');
+    }
+
+
     function saveAddress() {
         var address = document.getElementById("sample6_address").value;
         var detailAddress = document.getElementById("sample6_detailAddress").value;
@@ -284,7 +305,7 @@
 
         var fullAddress = address + ' ' + detailAddress + ' ' + extraAddress;
 
-        // 테이블에 새로운 행으로 추가
+        // 테이블에 새로운 행으로 추가3
         var table = document.getElementById("addressTable").getElementsByTagName('tbody')[0];
         var newRow = table.insertRow();
         var cell1 = newRow.insertCell(0);
@@ -298,40 +319,43 @@
         $('#addAddressModal').modal('hide');
     }
 
-    function editAddress(button) {
-        editRow = button.closest('tr');
-        var cells = editRow.getElementsByTagName('td');
-        var fullAddress = cells[0].innerText.split(' ');
-        var address = fullAddress.slice(0, -2).join(' ');
-        var detailAddress = fullAddress.slice(-2, -1).join(' ');
-        var extraAddress = fullAddress.slice(-1).join(' ');
-
-        document.getElementById('edit_address').value = address;
-        document.getElementById('edit_sample6_postcode').value = ''; // Modify as necessary
-        document.getElementById('edit_sample6_address').value = address;
-        document.getElementById('edit_sample6_detailAddress').value = detailAddress;
-        document.getElementById('edit_sample6_extraAddress').value = extraAddress;
-
-        $('#editAddressModal').modal('show');
-    }
-
-    function updateAddress() {
-        var address = document.getElementById("edit_sample6_address").value;
+    function editAddress() {
+        var address = document.getElementById("edit_address").value;
         var detailAddress = document.getElementById("edit_sample6_detailAddress").value;
         var extraAddress = document.getElementById("edit_sample6_extraAddress").value;
 
         var fullAddress = address + ' ' + detailAddress + ' ' + extraAddress;
 
         var cells = editRow.getElementsByTagName('td');
-        cells[0].innerText = fullAddress;
+        cells[1].innerText = fullAddress; // 테이블에서 주소 열 업데이트
 
-        $('#editAddressModal').modal('hide');
+        $('#editAddressModal').modal('hide'); // 수정 모달 닫기
     }
 
-    function deleteAddress(button) {
-        var row = button.closest('tr');
-        row.parentNode.removeChild(row);
+    function deleteAddress(addressId) {
+        var confirmed = confirm("정말로 삭제하시겠습니까?");
+        if (!confirmed) {
+            return;
+        }
+
+        fetch(`http://localhost:8090/api/v1/store/addresses/${addressId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('주소 삭제에 실패했습니다.');
+                }
+                // Optionally, update the UI to reflect the deletion
+            })
+            .catch(error => {
+                console.error('주소 삭제 중 오류 발생:', error);
+                // Handle error as needed, e.g., showing an alert
+            });
     }
+
 
 
     function checkMemberAddressCount() {
@@ -344,7 +368,7 @@
         fetch(url, {
             method: 'GET',
             headers: {
-                'memberId' : memberId,
+                'memberId': memberId,
                 'Content-Type': 'application/json'
             }
         })
