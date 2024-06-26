@@ -1,4 +1,4 @@
 package store.novabook.front.api.coupon.dto.request;
 
-public record UpdateCouponExpirationRequest(String code) {
+public record UpdateCouponExpirationRequest(Long code) {
 }

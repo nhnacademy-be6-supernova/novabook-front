@@ -1,22 +1,20 @@
 package store.novabook.front.admin.coupon;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.PageResponse;
-import store.novabook.front.api.coupon.CouponClient;
 import store.novabook.front.api.coupon.domain.CouponType;
-import store.novabook.front.api.coupon.dto.request.CreateBookCouponRequest;
-import store.novabook.front.api.coupon.dto.request.CreateCategoryCouponRequest;
-import store.novabook.front.api.coupon.dto.request.CreateCouponRequest;
-import store.novabook.front.api.coupon.dto.response.CreateCouponResponse;
+import store.novabook.front.api.coupon.dto.request.CreateBookCouponTemPlateRequest;
+import store.novabook.front.api.coupon.dto.request.CreateCategoryCouponTemplateRequest;
+import store.novabook.front.api.coupon.dto.request.CreateCouponTemplateRequest;
 import store.novabook.front.api.coupon.dto.response.GetCouponTemplateResponse;
 import store.novabook.front.api.coupon.service.CouponService;
 
@@ -26,7 +24,6 @@ import store.novabook.front.api.coupon.service.CouponService;
 public class AdminCouponController {
  	private final CouponService couponService;
 	// TODO : 대충 feign 박아둠. 나중에 수정 ㄱ
-	private final CouponClient couponClient;
 	private static final String PAGE_SIZE = "5";
 	@GetMapping
 	public String getCoupons(Model model,
@@ -48,8 +45,16 @@ public class AdminCouponController {
 		return "admin/coupon/coupon_list";
 	}
 
-	@GetMapping("/common/form")
-	public String getCouponCommonForm() {
+	@GetMapping("/common/{type}")
+	public String getCouponGeneralForm(Model model,@PathVariable String type ) {
+		CouponType couponType = switch (type.toUpperCase()) {
+			case "WELCOME" -> CouponType.WELCOME;
+			case "BIRTHDAY" -> CouponType.BIRTHDAY;
+			default -> CouponType.GENERAL;
+		};
+
+		model.addAttribute("couponType",couponType);
+
 		return "admin/coupon/coupon_common_form";
 	}
 
@@ -64,20 +69,21 @@ public class AdminCouponController {
 	}
 
 	@PostMapping("/common/create")
-	public String createCouponCommon(@ModelAttribute CreateCouponRequest couponRequest) {
-		ResponseEntity<CreateCouponResponse> response = couponClient.saveGeneralCoupon(couponRequest);
+	public String createCouponTemplateCommon(@ModelAttribute CreateCouponTemplateRequest couponRequest) {
+		couponService.createGeneralTemplateCoupon(couponRequest);
 		return "redirect:/admin/coupons";
 	}
 
+
 	@PostMapping("/book/create")
-	public String createCouponBook(@ModelAttribute CreateBookCouponRequest bookCouponRequest) {
-		ResponseEntity<CreateCouponResponse> response = couponClient.saveBookCoupon(bookCouponRequest);
+	public String createCouponTemplateBook(@ModelAttribute CreateBookCouponTemPlateRequest bookCouponRequest) {
+		couponService.createBookTemplateCoupon(bookCouponRequest);
 		return "redirect:/admin/coupons";
 	}
 
 	@PostMapping("/category/create")
-	public String createCouponCategory(@ModelAttribute CreateCategoryCouponRequest createCategoryCouponRequest) {
-		ResponseEntity<CreateCouponResponse> response = couponClient.saveCategoryCoupon(createCategoryCouponRequest);
+	public String createCouponTemplateCategory(@ModelAttribute CreateCategoryCouponTemplateRequest createCategoryCouponTemplateRequest) {
+		couponService.createCategoryTemplateCoupon(createCategoryCouponTemplateRequest);
 		return "redirect:/admin/coupons";
 	}
 
