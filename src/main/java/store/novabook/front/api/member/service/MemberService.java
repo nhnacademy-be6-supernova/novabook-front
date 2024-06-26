@@ -8,5 +8,7 @@ import store.novabook.front.api.member.dto.LoginMemberResponse;
 public interface MemberService {
 	CreateMemberResponse createMember(CreateMemberRequest createMemberRequest);
 
-	LoginMemberResponse login(LoginMemberRequest loginMemberRequest);
+	// LoginMemberResponse login(LoginMemberRequest loginMemberRequest);
+
+	LoginMemberResponse getMember(LoginMemberRequest loginMemberRequest);
 }

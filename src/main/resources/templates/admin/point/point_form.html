@@ -120,21 +120,21 @@
                 <div class="card">
                     <h3>포인트 정책 수정</h3>
                     <div class="container">
-                        <form id="pointForm" action="/admin/point" method="post">
+                        <form id="pointForm" action="/admin/points/point" method="post">
 
                             <div class="form-group full-width">
                                 <label for="basic-point-input">기본 적립금:</label>
-                                <input type="text" class="form-control" id="basic-point-input" name="basicPoint">
+                                <input type="text" class="form-control" id="basic-point-input" name="basicPoint" required>
                             </div>
 
                             <div class="form-group full-width">
                                 <label for="register-point-input">회원가입 적립금:</label>
-                                <input type="text" class="form-control" id="register-point-input" name="registerPoint">
+                                <input type="text" class="form-control" id="register-point-input" name="registerPoint" required>
                             </div>
 
                             <div class="form-group full-width">
                                 <label for="review-point-input">리뷰 작성 적립금:</label>
-                                <input type="text" class="form-control" id="review-point-input" name="reviewPoint">
+                                <input type="text" class="form-control" id="review-point-input" name="reviewPointRate" required>
                             </div>
 
                             <button style="width: 100px; height: 50px;" type="submit" class="btn btn-primary">제출
@@ -148,21 +148,39 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th>#</th>
+                            <th>번호</th>
                             <th>기본 적립금</th>
                             <th>회원가입 적립금</th>
                             <th>리뷰 작성 적립금</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>3000</td>
-                            <td>2000</td>
-                            <td>1000</td>
+                        <tr th:each="pointPolicy: ${pointPolicies}">
+                            <td th:text="${pointPolicy.id}">1</td>
+                            <td th:text="${pointPolicy.basicPoint()}">3000</td>
+                            <td th:text="${pointPolicy.registerPoint()}">2000</td>
+                            <td th:text="${pointPolicy.reviewPointRate()}">1000</td>
                         </tr>
                         </tbody>
                     </table>
+                    <div class="pagination">
+
+                        <li class="page-item disabled">
+                            <span th:if="${currentPage > 1}">
+                                <a th:href="@{/admin/points/point/form(page=${currentPage - 1})}">Previous</a>
+                            </span>
+                        </li>
+                        <li class="page-item">
+                            <span th:each="i : ${#numbers.sequence(1, pageSize)}">
+                                <a th:href="@{/admin/points/point/form(page=${i})}" th:text="${i}+'&nbsp;' " th:classappend="${i == currentPage} ? 'active' : ''"></a>
+                            </span>
+                        </li>
+                        <li class="page-item disabled">
+                            <span th:if="${currentPage < pageSize}">
+                                <a th:href="@{/admin/points/point/form(page=${currentPage + 1})}">Next</a>
+                            </span>
+                        </li>
+                    </div>
                 </div>
             </div>
         </div>
