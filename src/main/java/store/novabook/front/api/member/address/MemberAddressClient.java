@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-import store.novabook.front.api.ApiResponse;
 import store.novabook.front.api.member.address.dto.CreateMemberAddressRequest;
 import store.novabook.front.api.member.address.dto.CreateMemberAddressResponse;
 import store.novabook.front.api.member.address.dto.GetMemberAddressListResponse;
 import store.novabook.front.api.member.address.dto.UpdateMemberAddressRequest;
+import store.novabook.front.common.response.ApiResponse;
 
 @FeignClient(name = "memberAddressClient", url = "http://localhost:8090/api/v1/store/addresses")
 public interface MemberAddressClient {
