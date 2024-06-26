@@ -8,21 +8,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.memberAddress.dto.CreateMemberAddressRequest;
-import store.novabook.front.api.memberAddress.dto.GetMemberAddressResponse;
-import store.novabook.front.api.memberAddress.dto.UpdateMemberAddressRequest;
-import store.novabook.front.api.memberAddress.service.MemberAddressService;
+import store.novabook.front.api.member.address.dto.CreateMemberAddressRequest;
+import store.novabook.front.api.member.address.dto.GetMemberAddressResponse;
+import store.novabook.front.api.member.address.dto.UpdateMemberAddressRequest;
+import store.novabook.front.api.member.address.service.MemberAddressService;
 
 @RequestMapping("/mypage/addresses")
 @Controller
 @RequiredArgsConstructor
 public class MypageAddressController {
 	private final MemberAddressService memberAddressService;
-	// TODO : 로그인 되면 header로 보낼 예정
 	private static final Long MEMBER_ID = 7L;
 
 	@GetMapping

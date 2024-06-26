@@ -1,4 +1,4 @@
-package store.novabook.front.api.member.controller;
+package store.novabook.front.api.member.member.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.member.dto.CreateMemberRequest;
-import store.novabook.front.api.member.dto.LoginMemberRequest;
-import store.novabook.front.api.member.dto.LoginMemberResponse;
-import store.novabook.front.api.member.service.MemberService;
+import store.novabook.front.api.member.member.dto.CreateMemberRequest;
+import store.novabook.front.api.member.member.dto.LoginMemberRequest;
+import store.novabook.front.api.member.member.dto.LoginMemberResponse;
+import store.novabook.front.api.member.member.service.MemberService;
 
 @Controller
 @RequiredArgsConstructor

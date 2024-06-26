@@ -1,4 +1,4 @@
-package store.novabook.front.api.memberAddress.dto;
+package store.novabook.front.api.member.address.dto;
 
 import java.util.List;
 

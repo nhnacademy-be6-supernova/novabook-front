@@ -1,11 +1,11 @@
-package store.novabook.front.api.memberAddress.service;
+package store.novabook.front.api.member.address.service;
 
 import java.util.List;
 
-import store.novabook.front.api.memberAddress.dto.CreateMemberAddressRequest;
-import store.novabook.front.api.memberAddress.dto.CreateMemberAddressResponse;
-import store.novabook.front.api.memberAddress.dto.GetMemberAddressResponse;
-import store.novabook.front.api.memberAddress.dto.UpdateMemberAddressRequest;
+import store.novabook.front.api.member.address.dto.CreateMemberAddressRequest;
+import store.novabook.front.api.member.address.dto.CreateMemberAddressResponse;
+import store.novabook.front.api.member.address.dto.GetMemberAddressResponse;
+import store.novabook.front.api.member.address.dto.UpdateMemberAddressRequest;
 
 public interface MemberAddressService {
 	CreateMemberAddressResponse createMemberAddress(CreateMemberAddressRequest createMemberAddressRequest, Long memberId);
