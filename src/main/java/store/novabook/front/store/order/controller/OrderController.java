@@ -1,21 +1,23 @@
-package store.novabook.front.store.order;
-
-import java.util.List;
+package store.novabook.front.store.order.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import store.novabook.front.api.order.client.WrappingPaperClient;
-import store.novabook.front.api.order.dto.response.GetWrappingPaperResponse;
+import store.novabook.front.store.order.dto.OrderTemporaryForm;
+import store.novabook.front.store.order.service.RedisOrderServive;
 
 @RequestMapping("/orders")
 @Controller
 public class OrderController {
 
 	private final WrappingPaperClient wrappingPaperClient;
+
 
 	public OrderController(WrappingPaperClient wrappingPaperClient) {
 		this.wrappingPaperClient = wrappingPaperClient;
@@ -28,12 +30,11 @@ public class OrderController {
 		return "store/order/order_form";
 	}
 
+
 	@GetMapping("/order/{orderId}/success")
 	public String getOrderSuccessPage(@PathVariable Long orderId) {
-
 		// 넘어 올 정보 입력
 		// 상품 정보, 맴버 정보
-
 		return "store/order/order_success";
 	}
 
