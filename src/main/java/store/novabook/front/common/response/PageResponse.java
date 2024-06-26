@@ -1,4 +1,4 @@
-package store.novabook.front.api;
+package store.novabook.front.common.response;
 
 import java.util.HashMap;
 import java.util.List;

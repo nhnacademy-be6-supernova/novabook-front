@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import store.novabook.front.api.ApiResponse;
-import store.novabook.front.api.PageResponse;
+import store.novabook.front.common.response.ApiResponse;
+import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.api.order.dto.request.CreateWrappingPaperRequest;
 import store.novabook.front.api.order.dto.request.UpdateWrappingPaperRequest;
 import store.novabook.front.api.order.dto.response.CreateWrappingPaperResponse;
