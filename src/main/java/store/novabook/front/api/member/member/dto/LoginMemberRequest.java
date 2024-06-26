@@ -1,4 +1,4 @@
-package store.novabook.front.api.member.dto;
+package store.novabook.front.api.member.member.dto;
 
 import lombok.Builder;
 
