@@ -25,7 +25,6 @@ public class WrappingPaperServiceImpl implements WrappingPaperService {
 		return response.papers();
 	}
 
-	@Override
 	// 페이지 전체 조회
 	@Override
 	public PageResponse<GetWrappingPaperResponse> getWrappingPaperAllPage(int page, int size) {
