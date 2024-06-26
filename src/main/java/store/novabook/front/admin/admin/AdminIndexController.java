@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.PageResponse;
 import store.novabook.front.api.book.dto.GetBookAllResponse;
 import store.novabook.front.api.book.service.BookService;
+import store.novabook.front.common.response.PageResponse;
 
 @Controller
 @RequestMapping("/admin")
@@ -40,8 +40,9 @@ public class AdminIndexController {
 		@RequestParam(defaultValue = "1") int page,
 		@RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int size) {
 
-		PageResponse<GetBookAllResponse> response = bookService.getBookAll(page - 1, size);
-		model.addAttribute("books", response);
+		PageResponse<GetBookAllResponse> bookAll = bookService.getBookAll(page - 1, size);
+
+		model.addAttribute("books", bookAll);
 		return "/admin/book/book_list";
 	}
 

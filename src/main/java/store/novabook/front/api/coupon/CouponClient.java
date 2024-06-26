@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import store.novabook.front.api.ApiResponse;
-import store.novabook.front.api.PageResponse;
 import store.novabook.front.api.coupon.domain.CouponType;
 import store.novabook.front.api.coupon.dto.request.CreateBookCouponTemPlateRequest;
 import store.novabook.front.api.coupon.dto.request.CreateCategoryCouponTemplateRequest;
@@ -19,6 +17,8 @@ import store.novabook.front.api.coupon.dto.response.CreateCouponResponse;
 import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateResponse;
 import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateResponse;
 import store.novabook.front.api.coupon.dto.response.GetCouponTemplateResponse;
+import store.novabook.front.common.response.ApiResponse;
+import store.novabook.front.common.response.PageResponse;
 
 @FeignClient(name = "couponClient", url = "http://localhost:8070/api/v1")
 public interface CouponClient {

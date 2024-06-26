@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.ApiResponse;
 import store.novabook.front.api.member.address.MemberAddressClient;
 import store.novabook.front.api.member.address.dto.CreateMemberAddressRequest;
 import store.novabook.front.api.member.address.dto.CreateMemberAddressResponse;
@@ -13,6 +12,7 @@ import store.novabook.front.api.member.address.dto.GetMemberAddressListResponse;
 import store.novabook.front.api.member.address.dto.GetMemberAddressResponse;
 import store.novabook.front.api.member.address.dto.UpdateMemberAddressRequest;
 import store.novabook.front.api.member.address.service.MemberAddressService;
+import store.novabook.front.common.response.ApiResponse;
 
 @Service
 @RequiredArgsConstructor
