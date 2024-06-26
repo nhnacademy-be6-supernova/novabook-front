@@ -1,7 +1,6 @@
 package store.novabook.front.api.category.service.impl;
 
-import java.util.List;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -18,10 +17,9 @@ import store.novabook.front.api.category.service.CategoryService;
 public class CategoryServiceImpl implements CategoryService {
 	private final CategoryClient categoryClient;
 
-
 	@Override
-	public List<GetCategoryListResponse> getCategoryAll() {
-		ApiResponse<List<GetCategoryListResponse>> apiResponse = categoryClient.getCategoryAll();
+	public GetCategoryListResponse getCategoryAll() {
+		ApiResponse<GetCategoryListResponse> apiResponse = categoryClient.getCategoryAll();
 		return apiResponse.getBody();
 	}
 

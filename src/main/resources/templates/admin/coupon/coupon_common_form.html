@@ -118,7 +118,7 @@
             <div class="col-md-12">
                 <h1 class="dashboard" style="padding-top: 0.3%">Books Management</h1>
                 <div class="card">
-                    <h3>일반 쿠폰 추가</h3>
+                    <h3>쿠폰 추가</h3>
                     <div class="container">
                         <div class="centered-form">
                             <form id="couponForm" action="/admin/coupons/common/create" method="post">
@@ -165,6 +165,12 @@
                                     <input type="datetime-local" class="form-control" id="expirationAt"
                                            name="expirationAt" required>
                                 </div>
+                                <div class="form-group full-width">
+                                    <label for="usePeriod">사용 가능 기간(시간):</label>
+                                    <input type="text" class="form-control" id="usePeriod"
+                                           name="usePeriod" required>
+                                </div>
+                                <input type="hidden" name="type" th:value="${couponType}">
 
                                 <button style="width: 100px; height: 50px; margin-top: 20px" type="submit"
                                         class="btn btn-primary">제출

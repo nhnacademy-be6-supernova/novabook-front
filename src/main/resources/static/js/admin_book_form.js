@@ -68,7 +68,8 @@ window.selectBook = function (index) {
                                 <p><input type="hidden" id="book_link" value="${selectedBook.image}"></p> `;
     // Show the selected book panel
     const selectedBookPanel = document.getElementById('selectedBookPanel');
-    selectedBookPanel.style.display = 'block';
+    // Show the modal
+    $('#bookModal').modal('hide');
 };
 
 
@@ -94,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // 2. url, parameter 세팅
-        const url = '/admin/books';
+        const url = 'http://localhost:8080/admin/books/book/form';
 
         const stock = document.getElementById('inputStock')
         const category = document.getElementById('inputCategory')
@@ -106,12 +107,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const description = document.getElementById('book_description');
         const bookDiscount = document.getElementById('inputDiscountPrice');
-        const isPackaging = document.getElementsByName('inputPackagingStatus');
+        const isPackaging = document.getElementById('inputPackagingStatus');
         const publisher = document.getElementById('publisher');
-        const pubdate = document.getElementById('author');
+        const pubdate = document.getElementById('pubdate');
         const price = document.getElementById('discount');
         const bookLink = document.getElementById('book_link');
         const tags = $("#tagSelect").val();
+
+
 
 
         if (!bookDiscount || bookDiscount.value === null || bookDiscount.value < 1000 || bookDiscount.value > 10000000) {
@@ -128,43 +131,41 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('책을 선택해주세요.');
             throw new Error('Invalid book ');
         }
-
+        console.log(pubdate.textContent)
+        const formattedDate = formatToISO8601(pubdate.textContent);
 
         const params = {
-            statusSelect: statusSelect.value,
+            bookStatusId: statusSelect.value,
             isbn: isbn.textContent,
             title: title.textContent,
             description:description.textContent,
-            content: editor.getHTML(),
+            descriptionDetail:description.textContent,
             author: author.textContent,
             publisher: publisher.textContent,
-            pubdate: pubdate.textContent,
-            stock:stock.value,
+            publicationDate: formattedDate,
+            inventory:stock.value,
             price:price.textContent,
-            bookDiscount:bookDiscount.value,
-            isPackaging:isPackaging.value,
-            bookLink: bookLink.value,
+            discountPrice:bookDiscount.value,
+            isPackaged:isPackaging.value,
+            image: bookLink.value,
             tags: tags,
-            category:category.value
+            categoryId:category.value
         }
 
-        // 3. API 호출
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(params),
+        // axios를 사용한 POST 요청
+        alert( JSON.stringify(params));
+
+        axios.post(url, JSON.stringify(params), {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                alert("등록이 완료되었습니다! " + JSON.stringify(params));
+            })
+            .catch(error => {
+                console.error('저장 실패 : ', error);
             });
-            const responseData = await response.json();
-
-            alert("등록이 완료되었습니다! "+ JSON.stringify(params));
-            location.href = '/admin/books/book/form';
-
-        } catch (error) {
-            console.error('저장 실패 : ', error);
-        }
     }
 
     // 제출 버튼에 클릭 이벤트 리스너 추가
@@ -174,3 +175,22 @@ document.addEventListener('DOMContentLoaded', function () {
         savePost(); // savePost 함수 호출
     });
 });
+
+
+function formatToISO8601(dateString) {
+    // 입력 형식이 'YYYYMMDD'인지 확인합니다.
+    if (dateString.length !== 8) {
+        throw new Error("Invalid date format. Expected 'YYYYMMDD'.");
+    }
+
+    // 연, 월, 일을 추출합니다.
+    const year = dateString.substring(0, 4);
+    const month = dateString.substring(4, 6);
+    const day = dateString.substring(6, 8);
+
+    // ISO 8601 형식의 문자열을 생성합니다.
+    const isoDateString = `${year}-${month}-${day}T00:00:00`;
+
+    return isoDateString;
+}
+

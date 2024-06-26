@@ -138,15 +138,11 @@
                             <td th:text="${generalCoupon.startedAt}">2024.07.15</td>
                             <td th:text="${generalCoupon.expirationAt}">2024.07.22</td>
                             <td th:text="${generalCoupon.usePeriod}">2024.07.22</td>
-                            <td>
-                                <button class="btn btn-sm btn-primary">Edit</button>
-                                <button class="btn btn-sm btn-danger">Delete</button>
-                            </td>
                         </tr>
                         </tbody>
                     </table>
                     <div class="pagination">
-                        <a href="/admin/coupons/common/form">
+                        <a href="/admin/coupons/common/general">
                             <button class="btn btn-primary">쿠폰 추가</button>
                         </a>
                         <li class="page-item disabled">
@@ -156,7 +152,8 @@
                         </li>
                         <li class="page-item">
                             <span th:each="i : ${#numbers.sequence(1, generalCoupons.getTotalCount())}">
-                                <a th:href="@{/admin/coupons(generalPage=${i})}" th:text="${i}+'&nbsp;' " th:classappend="${i == generalCoupons.getPageNum()+1} ? 'active' : ''"></a>
+                                <a th:href="@{/admin/coupons(generalPage=${i})}" th:text="${i}+'&nbsp;' "
+                                   th:classappend="${i == generalCoupons.getPageNum()+1} ? 'active' : ''"></a>
                             </span>
                         </li>
                         <li class="page-item disabled">
@@ -166,7 +163,7 @@
                         </li>
                     </div>
                 </div>
-<!--                생일 쿠폰-->
+                <!--                생일 쿠폰-->
 
                 <div class="card">
                     <h3>생일 쿠폰</h3>
@@ -195,15 +192,11 @@
                             <td th:text="${birthdayCoupon.startedAt}">2024.07.15</td>
                             <td th:text="${birthdayCoupon.expirationAt}">2024.07.22</td>
                             <td th:text="${birthdayCoupon.usePeriod}">2024.07.22</td>
-                            <td>
-                                <button class="btn btn-sm btn-primary">Edit</button>
-                                <button class="btn btn-sm btn-danger">Delete</button>
-                            </td>
                         </tr>
                         </tbody>
                     </table>
                     <div class="pagination">
-                        <a href="/admin/coupons/common/form">
+                        <a href="/admin/coupons/common/birthday">
                             <button class="btn btn-primary">쿠폰 추가</button>
                         </a>
                         <li class="page-item disabled">
@@ -213,7 +206,8 @@
                         </li>
                         <li class="page-item">
                             <span th:each="i : ${#numbers.sequence(1, birthdayCoupons.getTotalCount())}">
-                                <a th:href="@{/admin/coupons(birthdayPage=${i})}" th:text="${i}+'&nbsp;' " th:classappend="${i == birthdayCoupons.getPageNum()+1} ? 'active' : ''"></a>
+                                <a th:href="@{/admin/coupons(birthdayPage=${i})}" th:text="${i}+'&nbsp;' "
+                                   th:classappend="${i == birthdayCoupons.getPageNum()+1} ? 'active' : ''"></a>
                             </span>
                         </li>
                         <li class="page-item disabled">
@@ -225,7 +219,7 @@
                 </div>
 
 
-<!--                환영 쿠폰-->
+                <!--                환영 쿠폰-->
 
                 <div class="card">
                     <h3>환영 쿠폰</h3>
@@ -253,16 +247,12 @@
                             <td th:text="${coupon.minPurchaseAmount}">5000원</td>
                             <td th:text="${coupon.startedAt}">2024.07.15</td>
                             <td th:text="${coupon.expirationAt}">2024.07.22</td>
-                            <td th:text="${coupon.usePeriod}">2024.07.22</td>
-                            <td>
-                                <button class="btn btn-sm btn-primary">Edit</button>
-                                <button class="btn btn-sm btn-danger">Delete</button>
-                            </td>
+                            <td th:text="${coupon.usePeriod}">24</td>
                         </tr>
                         </tbody>
                     </table>
                     <div class="pagination">
-                        <a href="/admin/coupons/common/form">
+                        <a href="/admin/coupons/common/welcome">
                             <button class="btn btn-primary">쿠폰 추가</button>
                         </a>
                         <li class="page-item disabled">
@@ -272,7 +262,8 @@
                         </li>
                         <li class="page-item">
                             <span th:each="i : ${#numbers.sequence(1, welcomeCoupons.getTotalCount())}">
-                                <a th:href="@{/admin/coupons(welcomePage=${i})}" th:text="${i}+'&nbsp;' " th:classappend="${i == welcomeCoupons.getPageNum()+1} ? 'active' : ''"></a>
+                                <a th:href="@{/admin/coupons(welcomePage=${i})}" th:text="${i}+'&nbsp;' "
+                                   th:classappend="${i == welcomeCoupons.getPageNum()+1} ? 'active' : ''"></a>
                             </span>
                         </li>
                         <li class="page-item disabled">
@@ -283,10 +274,10 @@
                     </div>
                 </div>
 
-<!--                책 쿠폰-->
+                <!--                책 쿠폰-->
 
                 <div class="card">
-                    <h3>환영 쿠폰</h3>
+                    <h3>책 쿠폰</h3>
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -314,15 +305,11 @@
                             <td th:text="${coupon.startedAt}">2024.07.15</td>
                             <td th:text="${coupon.expirationAt}">2024.07.22</td>
                             <td th:text="${coupon.usePeriod}">2024.07.22</td>
-                            <td>
-                                <button class="btn btn-sm btn-primary">Edit</button>
-                                <button class="btn btn-sm btn-danger">Delete</button>
-                            </td>
                         </tr>
                         </tbody>
                     </table>
                     <div class="pagination">
-                        <a href="/admin/coupons/common/form">
+                        <a href="/admin/coupons/book/form">
                             <button class="btn btn-primary">쿠폰 추가</button>
                         </a>
                         <li class="page-item disabled">
@@ -332,7 +319,8 @@
                         </li>
                         <li class="page-item">
                             <span th:each="i : ${#numbers.sequence(1, bookCoupons.getTotalCount())}">
-                                <a th:href="@{/admin/coupons(bookPage=${i})}" th:text="${i}+'&nbsp;' " th:classappend="${i == bookCoupons.getPageNum()+1} ? 'active' : ''"></a>
+                                <a th:href="@{/admin/coupons(bookPage=${i})}" th:text="${i}+'&nbsp;' "
+                                   th:classappend="${i == bookCoupons.getPageNum()+1} ? 'active' : ''"></a>
                             </span>
                         </li>
                         <li class="page-item disabled">
@@ -343,9 +331,9 @@
                     </div>
                 </div>
 
-<!--                카테고리 쿠폰-->
+                <!--                카테고리 쿠폰-->
                 <div class="card">
-                    <h3>환영 쿠폰</h3>
+                    <h3>카테고리 쿠폰</h3>
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -373,15 +361,11 @@
                             <td th:text="${coupon.startedAt}">2024.07.15</td>
                             <td th:text="${coupon.expirationAt}">2024.07.22</td>
                             <td th:text="${coupon.usePeriod}">2024.07.22</td>
-                            <td>
-                                <button class="btn btn-sm btn-primary">Edit</button>
-                                <button class="btn btn-sm btn-danger">Delete</button>
-                            </td>
                         </tr>
                         </tbody>
                     </table>
                     <div class="pagination">
-                        <a href="/admin/coupons/common/form">
+                        <a href="/admin/coupons/category/form">
                             <button class="btn btn-primary">쿠폰 추가</button>
                         </a>
                         <li class="page-item disabled">
@@ -391,7 +375,8 @@
                         </li>
                         <li class="page-item">
                             <span th:each="i : ${#numbers.sequence(1, categoryCoupons.getTotalCount())}">
-                                <a th:href="@{/admin/coupons(categoryPage=${i})}" th:text="${i}+'&nbsp;' " th:classappend="${i == categoryCoupons.getPageNum()+1} ? 'active' : ''"></a>
+                                <a th:href="@{/admin/coupons(categoryPage=${i})}" th:text="${i}+'&nbsp;' "
+                                   th:classappend="${i == categoryCoupons.getPageNum()+1} ? 'active' : ''"></a>
                             </span>
                         </li>
                         <li class="page-item disabled">

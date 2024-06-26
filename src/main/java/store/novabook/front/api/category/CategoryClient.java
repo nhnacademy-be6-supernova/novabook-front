@@ -1,7 +1,5 @@
 package store.novabook.front.api.category;
 
-import java.util.List;
-
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +17,13 @@ import store.novabook.front.api.category.dto.GetCategoryResponse;
 public interface CategoryClient {
 	@PostMapping
 	ApiResponse<CreateCategoryResponse> createCategory(@RequestBody CreateCategoryRequest category);
+
 	@GetMapping("/{id}")
 	ApiResponse<GetCategoryResponse> getCategory(@PathVariable Long id);
+
 	@GetMapping
-	ApiResponse<List<GetCategoryListResponse>> getCategoryAll();
+	ApiResponse<GetCategoryListResponse> getCategoryAll();
+
 	@DeleteMapping("/{id}")
 	ApiResponse<Void> deleteCategory(@PathVariable Long id);
 }
