@@ -1,4 +1,4 @@
-package store.novabook.front.api.member.domain;
+package store.novabook.front.api.member.member.domain;
 
 import java.time.LocalDateTime;
 

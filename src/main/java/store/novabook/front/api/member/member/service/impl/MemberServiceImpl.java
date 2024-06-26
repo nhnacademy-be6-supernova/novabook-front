@@ -1,16 +1,16 @@
-package store.novabook.front.api.member.service.impl;
+package store.novabook.front.api.member.member.service.impl;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.ApiResponse;
-import store.novabook.front.api.member.MemberClient;
-import store.novabook.front.api.member.dto.CreateMemberRequest;
-import store.novabook.front.api.member.dto.CreateMemberResponse;
-import store.novabook.front.api.member.dto.LoginMemberRequest;
-import store.novabook.front.api.member.dto.LoginMemberResponse;
-import store.novabook.front.api.member.service.MemberService;
+import store.novabook.front.api.member.member.MemberClient;
+import store.novabook.front.api.member.member.dto.CreateMemberRequest;
+import store.novabook.front.api.member.member.dto.CreateMemberResponse;
+import store.novabook.front.api.member.member.dto.LoginMemberRequest;
+import store.novabook.front.api.member.member.dto.LoginMemberResponse;
+import store.novabook.front.api.member.member.service.MemberService;
 
 @Service
 @RequiredArgsConstructor
