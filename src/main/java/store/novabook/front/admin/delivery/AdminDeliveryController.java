@@ -6,17 +6,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequestMapping("/admin/deliverys/delivery")
+@RequestMapping("/admin/deliveries/delivery")
 @Controller
 public class AdminDeliveryController {
 
-    @GetMapping("/form")
-    public String getDeliveryForm() {
-        return "admin/delivery/deliveryfee_form";
-    }
+	@GetMapping("/form")
+	public String getDeliveryForm() {
+		return "admin/delivery/deliveryfee_form";
+	}
 
-    @PostMapping("/{deliveryId}/update")
-    public String updateDelivery(@PathVariable Long deliveryId) {
-        return "";
-    }
+	@PostMapping("/{deliveryId}/update")
+	public String updateDelivery(@PathVariable Long deliveryId) {
+		return "";
+	}
 }
