@@ -55,9 +55,6 @@ function sample4_execDaumPostcode() {
 }
 
 
-
-
-
 // 쿠폰 모달 JS
 function openCoupon() {
     $('#couponModal').modal('show');
@@ -74,90 +71,15 @@ function applyCoupon() {
 }
 
 
-
 // 페이지를 벗어날때 주문 정보를 전송한다.
-function saveFormData() {
-    const formData = {
-        orderSummary: [...document.querySelectorAll('table tbody tr')].map(row => {
-            return {
-                name: row.querySelector('td:nth-child(1)').innerText,
-                price: row.querySelector('td:nth-child(2)').innerText,
-                quantity: row.querySelector('td:nth-child(3)').innerText,
-                discount: row.querySelector('td:nth-child(4)').innerText,
-                total: row.querySelector('td:nth-child(5)').innerText,
-            };
-        }),
-        packaging: document.querySelector('select[name="packaging"]').value,
-        coupon: document.getElementById('selectedCouponName').value,
-        points: document.getElementById('pointsInput').value,
-        deliveryDate: [...document.querySelectorAll('.delivery-date-btn')].find(btn => btn.classList.contains('selected')).innerText,
-        senderInfo: {
-            name: document.getElementById('sender_name').value,
-            phone: document.getElementById('sender_phone').value
-        },
-        recipientInfo: {
-            name: document.getElementById('name').value,
-            postcode: document.getElementById('sample4_postcode').value,
-            roadAddress: document.getElementById('sample4_roadAddress').value,
-            jibunAddress: document.getElementById('sample4_jibunAddress').value,
-            detailAddress: document.getElementById('sample4_detailAddress').value,
-            extraAddress: document.getElementById('sample4_extraAddress').value,
-            phone: document.getElementById('phone').value,
-            email: document.getElementById('email').value
-        }
-    };
-    sessionStorage.setItem('orderFormData', JSON.stringify(formData));
+window.onbeforeunload = function () {
+
 }
-
-function loadFormData() {
-    const formData = JSON.parse(sessionStorage.getItem('orderFormData'));
-    if (!formData) return;
-
-    formData.orderSummary.forEach((item, index) => {
-        const row = document.querySelector(`table tbody tr:nth-child(${index + 1})`);
-        if (row) {
-            row.querySelector('td:nth-child(1)').innerText = item.name;
-            row.querySelector('td:nth-child(2)').innerText = item.price;
-            row.querySelector('td:nth-child(3)').innerText = item.quantity;
-            row.querySelector('td:nth-child(4)').innerText = item.discount;
-            row.querySelector('td:nth-child(5)').innerText = item.total;
-        }
-    });
-
-    document.querySelector('select[name="packaging"]').value = formData.packaging;
-    document.getElementById('selectedCouponName').value = formData.coupon;
-    document.getElementById('pointsInput').value = formData.points;
-
-    document.querySelectorAll('.delivery-date-btn').forEach(btn => {
-        if (btn.innerText === formData.deliveryDate) {
-            btn.classList.add('selected');
-        } else {
-            btn.classList.remove('selected');
-        }
-    });
-
-    document.getElementById('sender_name').value = formData.senderInfo.name;
-    document.getElementById('sender_phone').value = formData.senderInfo.phone;
-
-    document.getElementById('name').value = formData.recipientInfo.name;
-    document.getElementById('sample4_postcode').value = formData.recipientInfo.postcode;
-    document.getElementById('sample4_roadAddress').value = formData.recipientInfo.roadAddress;
-    document.getElementById('sample4_jibunAddress').value = formData.recipientInfo.jibunAddress;
-    document.getElementById('sample4_detailAddress').value = formData.recipientInfo.detailAddress;
-    document.getElementById('sample4_extraAddress').value = formData.recipientInfo.extraAddress;
-    document.getElementById('phone').value = formData.recipientInfo.phone;
-    document.getElementById('email').value = formData.recipientInfo.email;
-}
-
-window.addEventListener('beforeunload', saveFormData);
-window.addEventListener('DOMContentLoaded', loadFormData);
 
 function selectDeliveryDate(element) {
     document.querySelectorAll('.delivery-date-btn').forEach(btn => btn.classList.remove('selected'));
     element.classList.add('selected');
 }
-
-
 
 
 // 포인트 등록 JS
@@ -202,5 +124,34 @@ function selectDeliveryDate(element) {
 
 
 function processPayment() {
-    $('#toss-method').modal('show');
+    // 폼 데이터 가져오기
+    const formData = {
+        senderName: document.getElementById('sender_name').value,
+        senderPhone: document.getElementById('sender_phone').value,
+        // receiver_name: document.getElementById('receiver_name').value
+        // receiver_phone: document.getElementById('receiver_phone').value
+    };
+
+
+    alert("성공" + JSON.stringify(formData));
+
+    // AJAX를 이용한 POST 요청 보내기
+    const xhr = new XMLHttpRequest();
+    const url = 'http://localhost:8080/orders/order/form';
+
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+
+                $('#toss-method').modal('show');
+            } else {
+                console.error('주문 정보 전송 중 오류가 발생했습니다.');
+            }
+        }
+    };
+
+    xhr.send(JSON.stringify(formData));
 }
