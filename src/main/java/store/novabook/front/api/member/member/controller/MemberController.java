@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.dto.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.LoginMemberRequest;
@@ -22,7 +23,7 @@ public class MemberController {
 	private final MemberService memberService;
 
 	@PostMapping
-	public String register(@ModelAttribute CreateMemberRequest createMemberRequest) {
+	public String register(@ModelAttribute @Valid CreateMemberRequest createMemberRequest) {
 		memberService.createMember(createMemberRequest);
 		return "redirect:/login";
 	}
