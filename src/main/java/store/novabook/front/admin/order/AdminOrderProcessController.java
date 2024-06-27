@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class AdminOrderProcessController {
 
-    @GetMapping
-    public String getOrderAll() {
-        return "admin/order/order_process_list";
-    }
+	@GetMapping
+	public String getOrderAll() {
+		return "admin/order/order_process_list";
+	}
 
-    @PostMapping("order/{orderId}/update")
-    public String updateOrder(@PathVariable Long orderId) {
-        return "";
-    }
+	@PostMapping("order/{orderId}/update")
+	public String updateOrder(@PathVariable Long orderId) {
+		return "";
+	}
 
 }
