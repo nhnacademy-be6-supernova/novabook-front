@@ -1,4 +1,4 @@
 package store.novabook.front.api.coupon.dto.response;
 
-public record CreateCouponResponse(String code) {
+public record CreateCouponResponse(Long id) {
 }

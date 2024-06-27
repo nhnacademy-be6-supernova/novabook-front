@@ -10,7 +10,6 @@ public record GetBookResponse(
 	Long id,
 	String isbn,
 	String title,
-	String bookIndex,
 	String description,
 	String descriptionDetail,
 	String author,

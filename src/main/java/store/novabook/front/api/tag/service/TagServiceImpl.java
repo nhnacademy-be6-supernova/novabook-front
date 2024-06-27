@@ -1,14 +1,17 @@
 package store.novabook.front.api.tag.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import store.novabook.front.api.ApiResponse;
-import store.novabook.front.api.PageResponse;
+import store.novabook.front.common.response.ApiResponse;
+import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.api.tag.TagClient;
 import store.novabook.front.api.tag.dto.CreateTagRequest;
 import store.novabook.front.api.tag.dto.CreateTagResponse;
+import store.novabook.front.api.tag.dto.GetTagListResponse;
 import store.novabook.front.api.tag.dto.GetTagResponse;
 
 @Slf4j
@@ -27,6 +30,12 @@ public class TagServiceImpl implements TagService {
 	public PageResponse<GetTagResponse> getTags(int page, int size) {
 		return tagClient.getTagAll(page, size);
 
+	}
+
+	@Override
+	public List<GetTagResponse> getTagList() {
+		GetTagListResponse response = tagClient.getTagAllList().getBody();
+		return response.getTagResponseList();
 	}
 
 	@Override
