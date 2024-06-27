@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 
 @Getter
-public class memberAddress {
+public class MemberAddress {
 
 	private Long id;
 
