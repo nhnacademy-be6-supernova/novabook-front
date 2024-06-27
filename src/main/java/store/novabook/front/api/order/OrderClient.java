@@ -11,5 +11,5 @@ import store.novabook.front.api.order.dto.CreateOrdersRequest;
 
 @FeignClient(name="orderClient", url = "http://localhost:9777")
 public interface OrderClient {
-	public ResponseEntity<CreateOrderResponse> createOrders(@Valid @RequestBody CreateOrdersRequest request);
+	ResponseEntity<CreateOrderResponse> createOrders(@Valid @RequestBody CreateOrdersRequest request);
 }
