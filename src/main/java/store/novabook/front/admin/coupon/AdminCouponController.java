@@ -46,7 +46,7 @@ public class AdminCouponController {
 	}
 
 	@GetMapping("/common/{type}")
-	public String getCouponGeneralForm(Model model,@PathVariable String type ) {
+	public String getCouponGeneralForm(Model model, @PathVariable String type ) {
 		CouponType couponType = switch (type.toUpperCase()) {
 			case "WELCOME" -> CouponType.WELCOME;
 			case "BIRTHDAY" -> CouponType.BIRTHDAY;
