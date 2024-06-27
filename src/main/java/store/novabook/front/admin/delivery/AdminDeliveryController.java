@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.delivery.dto.CreateDeliveryFeeRequest;
 import store.novabook.front.api.delivery.dto.GetDeliveryFeeResponse;
-import store.novabook.front.api.delivery.service.impl.DeliveryFeeServiceImpl;
+import store.novabook.front.api.delivery.service.DeliveryFeeService;
 import store.novabook.front.common.response.PageResponse;
 
 @RequestMapping("/admin/deliveries/delivery")
 @Controller
 @RequiredArgsConstructor
 public class AdminDeliveryController {
-	private final DeliveryFeeServiceImpl deliveryFeeService;
+	private final DeliveryFeeService deliveryFeeService;
 	private static final String PAGE_SIZE = "5";
 
 	@GetMapping("/form")
@@ -36,11 +36,5 @@ public class AdminDeliveryController {
 	public String createDelivery(@ModelAttribute CreateDeliveryFeeRequest request) {
 		deliveryFeeService.createDeliveryFee(request);
 		return "redirect:/admin/deliveries/delivery/form";
-	}
-
-	@PostMapping("/{deliveryId}/update")
-	public String updateDelivery(@PathVariable Long deliveryId) {
-
-		return "";
 	}
 }

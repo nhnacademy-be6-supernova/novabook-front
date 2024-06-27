@@ -226,21 +226,24 @@
         <!-- End of Book Inventory Table -->
 
         <div class="pagination">
-            <li class="page-item disabled">
-                            <span th:if="${books.getPageNum()+1 > 1}">
-                                <a th:href="@{/admin/books(page=${books.getPageNum()+1 - 1})}">Previous</a>
-                            </span>
+            <!-- Previous button -->
+            <li class="page-item" th:classappend="${books.getPageNum() == 0} ? 'disabled'">
+                <a th:if="${books.getPageNum() > 0}" th:href="@{/admin/books(page=${books.getPageNum() - 1})}">Previous</a>
+                <span th:if="${books.getPageNum() == 0}">Previous</span>
             </li>
-            <li class="page-item">
-                            <span th:each="i : ${#numbers.sequence(1, books.getTotalCount())}">
-                                <a th:href="@{/admin/books(page=${i})}" th:text="${i}+'&nbsp;' "
-                                   th:classappend="${i == books.getPageNum()+1} ? 'active' : ''"></a>
-                            </span>
+
+            <!-- Page numbers -->
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, books.getTotalPageCount() - 1)}">
+                <a th:href="@{/admin/books(page=${i})}" th:text="${i + 1}+'&nbsp;'"
+                   th:classappend="${i == books.getPageNum()} ? 'active' : ''"></a>
             </li>
-            <li class="page-item disabled">
-                            <span th:if="${books.getPageNum()+1 < books.getTotalCount()}">
-                                <a th:href="@{/admin/books(page=${books.getPageNum()+1 + 1})}">Next</a>
-                            </span>
+
+            <!-- Next button -->
+            <li class="page-item"
+                th:classappend="${books.getPageNum() >= books.getTotalPageCount() - 1} ? 'disabled'">
+                <a th:if="${books.getPageNum() < books.getTotalPageCount() - 1}"
+                   th:href="@{/admin/books(page=${books.getPageNum() + 1})}">Next</a>
+                <span th:if="${books.getPageNum() >= books.getTotalPageCount() - 1}">Next</span>
             </li>
         </div>
         <!-- End Pagination Buttons -->

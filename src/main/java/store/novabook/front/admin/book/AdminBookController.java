@@ -33,7 +33,6 @@ public class AdminBookController {
 		return "admin/book/book_form";
 	}
 
-
 	@CrossOrigin(origins = "http://localhost:8080")
 	@PostMapping("/book/form")
 	public String createBook(@RequestBody CreateBookRequest createBookRequest) {
@@ -47,7 +46,5 @@ public class AdminBookController {
 		bookService.updateBook(updateBookRequest);
 		return "redirect:/admin/books";
 	}
-
-
 
 }
