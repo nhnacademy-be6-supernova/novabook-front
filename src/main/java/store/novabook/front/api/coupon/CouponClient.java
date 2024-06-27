@@ -20,7 +20,7 @@ import store.novabook.front.api.coupon.dto.response.GetCouponTemplateResponse;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
 
-@FeignClient(name = "couponClient", url = "http://localhost:8070/api/v1")
+@FeignClient(name = "couponClient", url = "http://localhost:9777/api/v1")
 public interface CouponClient {
 
 	//일반 쿠폰 템플릿 전체 불러오기 쿠폰 타입도 알려줘야 함

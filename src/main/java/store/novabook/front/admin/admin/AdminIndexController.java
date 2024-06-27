@@ -31,10 +31,10 @@ public class AdminIndexController {
 
 	@GetMapping("/books")
 	public String getBookAll(Model model,
-		@RequestParam(defaultValue = "1") int page,
+		@RequestParam(defaultValue = "0") int page,
 		@RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int size) {
 
-		PageResponse<GetBookAllResponse> bookAll = bookService.getBookAll(page - 1, size);
+		PageResponse<GetBookAllResponse> bookAll = bookService.getBookAll(page, size);
 
 		model.addAttribute("books", bookAll);
 		return "/admin/book/book_list";

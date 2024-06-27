@@ -48,6 +48,4 @@ public class AdminBookController {
 		return "redirect:/admin/books";
 	}
 
-
-
 }

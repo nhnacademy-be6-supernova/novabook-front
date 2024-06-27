@@ -145,7 +145,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="tag : ${tags}">
+                        <tr th:each="tag : ${tags.data}">
                             <td th:text="${tag.id}">1</td>
                             <td th:text="${tag.name}">Sample Tag</td>
                             <td>
@@ -158,28 +158,31 @@
                     </table>
                     <!-- 페이져블 JS 추가 -->
                     <div class="pagination">
+                        <!-- Previous button -->
+                        <li class="page-item" th:classappend="${tags.getPageNum() == 0} ? 'disabled'">
+                            <a th:if="${tags.getPageNum() > 0}" th:href="@{/admin/tags(page=${tags.getPageNum() - 1})}">Previous</a>
+                            <span th:if="${tags.getPageNum() == 0}">Previous</span>
+                        </li>
 
-                        <li class="page-item disabled">
-                            <span th:if="${currentPage > 1}">
-                                <a th:href="@{/admin/tags(page=${currentPage - 1})}">Previous</a>
-                            </span>
+                        <!-- Page numbers -->
+                        <li class="page-item" th:each="i : ${#numbers.sequence(0, tags.getTotalPageCount() - 1)}">
+                            <a th:href="@{/admin/tags(page=${i})}" th:text="${i + 1}+'&nbsp;'"
+                               th:classappend="${i == tags.getPageNum()} ? 'active' : ''"></a>
                         </li>
-                        <li class="page-item">
-                            <span th:each="i : ${#numbers.sequence(1, pageSize)}">
-                                <a th:href="@{/admin/tags(page=${i})}" th:text="${i}+'&nbsp;' " th:classappend="${i == currentPage} ? 'active' : ''"></a>
-                            </span>
-                        </li>
-                        <li class="page-item disabled">
-                            <span th:if="${currentPage < pageSize}">
-                                <a th:href="@{/admin/tags(page=${currentPage + 1})}">Next</a>
-                            </span>
+
+                        <!-- Next button -->
+                        <li class="page-item"
+                            th:classappend="${tags.getPageNum() >= tags.getTotalPageCount() - 1} ? 'disabled'">
+                            <a th:if="${tags.getPageNum() < tags.getTotalPageCount() - 1}"
+                               th:href="@{/admin/tags(page=${tags.getPageNum() + 1})}">Next</a>
+                            <span th:if="${tags.getPageNum() >= tags.getTotalPageCount() - 1}">Next</span>
                         </li>
                     </div>
-            </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
 <!--<div class="footer">-->

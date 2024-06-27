@@ -48,7 +48,8 @@
                     <tr>
                         <td class="col1">아이디</td>
                         <td class="col2">
-                            <input type="text" id="loginId" name="loginId" maxlength="20" oninput="handleInputIdChange()">
+                            <input type="text" id="loginId" name="loginId" maxlength="20"
+                                   oninput="handleInputIdChange()">
                             <input class="but1" type="button" value="중복확인" onclick="checkDuplicateId()">
                             <span id="idMessage" class="error-message"></span>
                         </td>
@@ -141,7 +142,6 @@
 <div th:replace="~{layout/store/footer::footer}"></div>
 
 
-
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script th:inline="javascript">
@@ -151,17 +151,20 @@
     let isIdChecked = false;
     // let isIdDuplicate = true; // 초기값을 중복으로 설정
     let isEmailChecked = false;
+
     // let isEmailDuplicate = true; // 초기값을 중복으로 설정
 
     function handleInputIdChange() {
         isIdChecked = false;
         console.log("isIdChecked set to false due to input change");
-        document.getElementById('idMessage').innerText="";
+        document.getElementById('idMessage').innerText = "";
 
     }
+
     function handleInputEmailChange() {
         isEmailChecked = false;
         console.log("isEmailChecked set to false due to input change");
+        document.getElementById('emailMessage').innerText = "";
     }
 
     function updateDays() {
@@ -189,15 +192,42 @@
     // formCheck 함수 정의
     function formCheck(form) {
 
-        if(isIdChecked === false){
+        if (isIdChecked === false) {
             alert("아이디 중복 확인을 해 주세요.")
             return false;
         }
 
-        if(isEmailChecked === false){
+        if (isEmailChecked === false) {
             alert("이메일 중복 확인을 해 주세요.")
             return false;
         }
+
+        // 생년월일 필드 검증
+        if (form.birthYear.value === "select") {
+            alert("생년월일을 모두 선택해주세요.");
+            form.birthYear.focus();
+            return false; // 폼 제출 방지
+        }
+
+        if (form.birthMonth.value === "select") {
+            alert("생년월일을 모두 입력해주세요.");
+            form.birthMonth.focus();
+            return false;
+        }
+
+        if (form.birthDay.value === "select") {
+            alert("생년월일을 모두 입력해주세요.")
+            form.birthDay.focus();
+            return false;
+        }
+
+        // 비밀번호 필드 검증
+        if (!isValidPassword(form.loginPassword.value)) {
+            alert("비밀번호는 문자, 숫자, 특수문자(~!@#$%^&*)의 조합 10 ~ 16자리여야 합니다.");
+            form.loginPassword.focus();
+            return false; // 폼 제출 방지
+        }
+
         // 이름 필드 검증
         if (form.name.value.trim() === "") {
             alert("이름을 입력해주세요.");
@@ -233,18 +263,11 @@
             return false; // 폼 제출 방지
         }
 
-        // 이메일 필드 검증 (이메일 형식이 아닌 경우에 대한 예시)
+        // 이메일 필드 검증
         var emailValue = form.email.value.trim();
         if (emailValue === "" || !isValidEmail(emailValue)) {
             alert("올바른 이메일 주소를 입력해주세요.");
             form.email.focus();
-            return false; // 폼 제출 방지
-        }
-
-        // 생년월일 필드 검증
-        if (form.birth_year.value === "select" || form.birth_month.value === "select" || form.birth_day.value === "select") {
-            alert("생년월일을 모두 선택해주세요.");
-            form.birth_year.focus();
             return false; // 폼 제출 방지
         }
 
@@ -262,11 +285,17 @@
             return false; // 폼 제출 방지
         }
 
-
-
         // 모든 검증을 통과했을 때 폼 제출 가능
         return true;
     }
+
+    // 비밀번호 조건 확인 함수
+    function isValidPassword(password) {
+        // 비밀번호는 문자, 숫자, 특수문자(~!@#$%^&*)의 조합 10 ~ 16자리
+        var regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*])[A-Za-z\d~!@#$%^&*]{10,16}$/;
+        return regex.test(password);
+    }
+
 
     // 아이디 중복 확인 함수
     function checkDuplicateId() {
@@ -350,7 +379,7 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email: email })
+            body: JSON.stringify({email: email})
         })
             .then(response => response.json())
             .then(data => {
@@ -361,11 +390,9 @@
                 isEmailDuplicate = data.body.isDuplicateEmail;
 
                 if (isEmailDuplicate) {
-                    alert("중복");
                     messageElement.innerText = "이미 사용 중인 이메일입니다.";
                     messageElement.style.color = "red";
                 } else {
-                    alert("중복 아님");
                     messageElement.innerText = "사용할 수 있는 이메일입니다.";
                     messageElement.style.color = "green";
                     isEmailChecked = true;
@@ -425,7 +452,7 @@
         }).open();
     }
 
-    document.getElementById('').addEventListener('submit', function(event) {
+    document.getElementById('').addEventListener('submit', function (event) {
         event.preventDefault(); // 폼 제출 이벤트 방지
         if (isIdChecked) {
             // 여기에 회원가입을 보내는 코드를 추가할 수 있습니다.
@@ -436,7 +463,7 @@
         }
     });
 
-     // 페이지 로드 시 초기화
+    // 페이지 로드 시 초기화
     $(document).ready(function () {
         updateDays();
     });

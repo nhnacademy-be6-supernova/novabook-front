@@ -16,7 +16,7 @@ import store.novabook.front.api.order.dto.response.CreateWrappingPaperResponse;
 import store.novabook.front.api.order.dto.response.GetWrappingPaperAllResponse;
 import store.novabook.front.api.order.dto.response.GetWrappingPaperResponse;
 
-@FeignClient(name = "WrappingPaperClient", url = "http://localhost:8090/api/v1/store/orders/wrapping/paper")
+@FeignClient(name = "WrappingPaperClient", url = "http://localhost:9777/api/v1/store/orders/wrapping/paper")
 public interface WrappingPaperClient {
 
 

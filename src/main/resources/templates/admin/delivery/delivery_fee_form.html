@@ -119,6 +119,23 @@
                 <h1 class="dashboard" style="padding-top: 0.3%">Delivery Management</h1>
 
                 <div class="card">
+                    <div class="card">
+                        <h3>배달비 정책 수정</h3>
+                        <div class="container">
+                            <form id="deliveryForm" action="/admin/deliveries/delivery" method="post">
+
+                                <div class="form-group full-width">
+                                    <label for="delivery-fee-input">배달비</label>
+                                    <input type="text" class="form-control" id="delivery-fee-input" name="fee">
+                                </div>
+
+                                <button style="width: 100px; height: 50px; margin-top: 20px" type="submit"
+                                        class="btn btn-primary">제출
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
                     <h3>배달 정책 현황</h3>
                     <table class="table table-striped">
                         <thead>
@@ -128,42 +145,45 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>3000</td>
+                        <tr th:each="delivery : ${deliveries.data}">
+                            <td th:text="${delivery.id}">1</td>
+                            <td th:text="${delivery.fee}">3000</td>
                         </tr>
                         </tbody>
                     </table>
-                </div>
+                    <div class="pagination">
+                        <!-- Previous button -->
+                        <li class="page-item" th:classappend="${deliveries.getPageNum() == 0} ? 'disabled'">
+                            <a th:if="${deliveries.getPageNum() > 0}"
+                               th:href="@{/admin/deliveries/delivery/form(page=${deliveries.getPageNum() - 1})}">Previous</a>
+                            <span th:if="${deliveries.getPageNum() == 0}">Previous</span>
+                        </li>
 
+                        <!-- Page numbers -->
+                        <li class="page-item" th:each="i : ${#numbers.sequence(0, deliveries.getTotalPageCount() - 1)}">
+                            <a th:href="@{/admin/deliveries/delivery/form(page=${i})}" th:text="${i + 1}+'&nbsp;'"
+                               th:classappend="${i == deliveries.getPageNum()} ? 'active' : ''"></a>
+                        </li>
 
-                <div class="card">
-                    <h3>배달비 정책 수정</h3>
-                    <div class="container">
-                        <form id="deliveryForm" action="/admin/delivery" method="post">
-
-                            <div class="form-group full-width">
-                                <label for="delivery-fee-input">배달비</label>
-                                <input type="text" class="form-control" id="delivery-fee-input" name="deliveryFee">
-                            </div>
-
-                            <button style="width: 100px; height: 50px; margin-top: 20px" type="submit"
-                                    class="btn btn-primary">제출
-                            </button>
-                        </form>
+                        <!-- Next button -->
+                        <li class="page-item"
+                            th:classappend="${deliveries.getPageNum() >= deliveries.getTotalPageCount() - 1} ? 'disabled'">
+                            <a th:if="${deliveries.getPageNum() < deliveries.getTotalPageCount() - 1}"
+                               th:href="@{/admin/deliveries/delivery/form(page=${deliveries.getPageNum() + 1})}">Next</a>
+                            <span th:if="${deliveries.getPageNum() >= deliveries.getTotalPageCount() - 1}">Next</span>
+                        </li>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!--<div class="footer">-->
-<!--    <p>&copy; 2024 NovaBook Admin. All rights reserved.</p>-->
-<!--</div>-->
+    <!--<div class="footer">-->
+    <!--    <p>&copy; 2024 NovaBook Admin. All rights reserved.</p>-->
+    <!--</div>-->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </body>
 
 </html>
