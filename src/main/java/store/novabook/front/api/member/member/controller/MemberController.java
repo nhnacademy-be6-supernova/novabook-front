@@ -32,14 +32,12 @@ public class MemberController {
 	public String login(@ModelAttribute LoginMemberRequest loginMemberRequest, Model model,
 		HttpServletResponse response) {
 		LoginMemberResponse loginMemberResponse = memberService.getMember(loginMemberRequest);
-		// response.addHeader("Authorization", "Bearer " + tokenDto.token());
 		Cookie cookie = new Cookie("Authorization", loginMemberResponse.token());
 		cookie.setMaxAge(60 * 60 * 24 * 7);
 		cookie.setPath("/");
 		response.addCookie(cookie);
 
 		if (loginMemberResponse.token().isEmpty()) {
-			// model.addAttribute("loginMemberResponse", loginMemberResponse);
 			return "redirect:/";
 		} else {
 			return "redirect:/login";

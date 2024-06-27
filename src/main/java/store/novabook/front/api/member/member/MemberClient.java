@@ -11,7 +11,7 @@ import store.novabook.front.api.member.member.dto.LoginMemberRequest;
 import store.novabook.front.api.member.member.dto.LoginMemberResponse;
 import store.novabook.front.common.response.ApiResponse;
 
-@FeignClient(name = "memberClient", url = "http://localhost:8090/api/v1/store/members")
+@FeignClient(name = "memberClient", url = "http://localhost:9777/api/v1/store/members")
 public interface MemberClient {
 
 	@PostMapping
@@ -19,6 +19,5 @@ public interface MemberClient {
 
 	@PostMapping("/login")
 	ResponseEntity<LoginMemberResponse> login(@RequestBody LoginMemberRequest loginMemberRequest);
-
 
 }

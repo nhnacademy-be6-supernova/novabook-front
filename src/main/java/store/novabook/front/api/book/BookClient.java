@@ -16,7 +16,7 @@ import store.novabook.front.api.book.dto.UpdateBookRequest;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
 
-@FeignClient(name = "storeBookClient", url = "http://localhost:8090/api/v1/store/books")
+@FeignClient(name = "storeBookClient", url = "http://localhost:9777/api/v1/store/books")
 public interface BookClient {
 
 	@GetMapping("/{id}")
