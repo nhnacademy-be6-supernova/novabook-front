@@ -10,5 +10,5 @@ import store.novabook.front.api.point.dto.GetMemberPointResponse;
 public interface PointClient {
 
 	@GetMapping("/member")
-	public ApiResponse<GetMemberPointResponse> getMemberPoint();
+	ApiResponse<GetMemberPointResponse> getMemberPoint();
 }
