@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.PageResponse;
+import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.api.order.client.WrappingPaperClient;
 import store.novabook.front.api.order.dto.request.CreateWrappingPaperRequest;
 import store.novabook.front.api.order.dto.request.UpdateWrappingPaperRequest;
@@ -31,11 +31,14 @@ public class WrappingPaperServiceImpl implements WrappingPaperService {
 		return wrappingPaperClient.getWrappingPaperAllPage(page, size);
 	}
 
+
 	//단건 조회
 	@Override
 	public GetWrappingPaperResponse getWrappingPaper(Long id) {
 		return wrappingPaperClient.getWrappingPaper(id).getBody();
 	}
+
+
 
 	//생성
 	@Override

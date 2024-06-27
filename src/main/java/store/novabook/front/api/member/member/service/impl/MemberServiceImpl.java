@@ -1,16 +1,17 @@
 package store.novabook.front.api.member.member.service.impl;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.ApiResponse;
 import store.novabook.front.api.member.member.MemberClient;
 import store.novabook.front.api.member.member.dto.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.CreateMemberResponse;
 import store.novabook.front.api.member.member.dto.LoginMemberRequest;
 import store.novabook.front.api.member.member.dto.LoginMemberResponse;
 import store.novabook.front.api.member.member.service.MemberService;
+import store.novabook.front.common.response.ApiResponse;
 
 @Service
 @RequiredArgsConstructor
@@ -21,9 +22,11 @@ public class MemberServiceImpl implements MemberService {
 	public CreateMemberResponse createMember(CreateMemberRequest createMemberRequest) {
 		String fullEmail = createMemberRequest.getEmailFull();
 
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 		CreateMemberRequest newMemberRequest = CreateMemberRequest.builder()
 			.loginId(createMemberRequest.loginId())
-			.loginPassword(createMemberRequest.loginPassword())
+			.loginPassword(passwordEncoder.encode(createMemberRequest.loginPassword()))
 			.name(createMemberRequest.name())
 			.number(createMemberRequest.number())
 			.email(fullEmail)

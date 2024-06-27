@@ -206,8 +206,7 @@
                         </li>
                         <li class="page-item">
                             <span th:each="i : ${#numbers.sequence(1, birthdayCoupons.getTotalCount())}">
-                                <a th:href="@{/admin/coupons(birthdayPage=${i})}" th:text="${i}+'&nbsp;' "
-                                   th:classappend="${i == birthdayCoupons.getPageNum()+1} ? 'active' : ''"></a>
+                                <a th:href="@{/admin/coupons(birthdayPage=${i})}" th:text="${i}+'&nbsp;' " th:classappend="${i == birthdayCoupons.getPageNum()+1} ? 'active' : ''"></a>
                             </span>
                         </li>
                         <li class="page-item disabled">
@@ -219,7 +218,7 @@
                 </div>
 
 
-                <!--                환영 쿠폰-->
+<!--                환영 쿠폰-->
 
                 <div class="card">
                     <h3>환영 쿠폰</h3>
@@ -262,8 +261,7 @@
                         </li>
                         <li class="page-item">
                             <span th:each="i : ${#numbers.sequence(1, welcomeCoupons.getTotalCount())}">
-                                <a th:href="@{/admin/coupons(welcomePage=${i})}" th:text="${i}+'&nbsp;' "
-                                   th:classappend="${i == welcomeCoupons.getPageNum()+1} ? 'active' : ''"></a>
+                                <a th:href="@{/admin/coupons(welcomePage=${i})}" th:text="${i}+'&nbsp;' " th:classappend="${i == welcomeCoupons.getPageNum()+1} ? 'active' : ''"></a>
                             </span>
                         </li>
                         <li class="page-item disabled">
@@ -274,7 +272,7 @@
                     </div>
                 </div>
 
-                <!--                책 쿠폰-->
+<!--                책 쿠폰-->
 
                 <div class="card">
                     <h3>책 쿠폰</h3>
@@ -319,8 +317,7 @@
                         </li>
                         <li class="page-item">
                             <span th:each="i : ${#numbers.sequence(1, bookCoupons.getTotalCount())}">
-                                <a th:href="@{/admin/coupons(bookPage=${i})}" th:text="${i}+'&nbsp;' "
-                                   th:classappend="${i == bookCoupons.getPageNum()+1} ? 'active' : ''"></a>
+                                <a th:href="@{/admin/coupons(bookPage=${i})}" th:text="${i}+'&nbsp;' " th:classappend="${i == bookCoupons.getPageNum()+1} ? 'active' : ''"></a>
                             </span>
                         </li>
                         <li class="page-item disabled">
@@ -331,7 +328,7 @@
                     </div>
                 </div>
 
-                <!--                카테고리 쿠폰-->
+<!--                카테고리 쿠폰-->
                 <div class="card">
                     <h3>카테고리 쿠폰</h3>
                     <table class="table table-striped">
@@ -375,8 +372,7 @@
                         </li>
                         <li class="page-item">
                             <span th:each="i : ${#numbers.sequence(1, categoryCoupons.getTotalCount())}">
-                                <a th:href="@{/admin/coupons(categoryPage=${i})}" th:text="${i}+'&nbsp;' "
-                                   th:classappend="${i == categoryCoupons.getPageNum()+1} ? 'active' : ''"></a>
+                                <a th:href="@{/admin/coupons(categoryPage=${i})}" th:text="${i}+'&nbsp;' " th:classappend="${i == categoryCoupons.getPageNum()+1} ? 'active' : ''"></a>
                             </span>
                         </li>
                         <li class="page-item disabled">
