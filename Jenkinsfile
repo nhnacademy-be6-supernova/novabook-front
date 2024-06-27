@@ -48,7 +48,6 @@ pipeline {
                     sh """
                         mkdir -p ~/.ssh
                         ssh-keyscan -H ${remoteHost1} >> ~/.ssh/known_hosts
-                        ssh-keyscan -H ${remoteHost2} >> ~/.ssh/known_hosts
                     """
                 }
             }
