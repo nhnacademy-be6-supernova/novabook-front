@@ -9,7 +9,7 @@ import jakarta.validation.Valid;
 import store.novabook.front.api.order.dto.CreateOrderResponse;
 import store.novabook.front.api.order.dto.CreateOrdersRequest;
 
-@FeignClient(name="orderClient", url = "http://localhost:8090")
+@FeignClient(name="orderClient", url = "http://localhost:9777")
 public interface OrderClient {
 	public ResponseEntity<CreateOrderResponse> createOrders(@Valid @RequestBody CreateOrdersRequest request);
 }

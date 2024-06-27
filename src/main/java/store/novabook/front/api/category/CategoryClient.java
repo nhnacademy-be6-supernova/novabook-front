@@ -13,7 +13,7 @@ import store.novabook.front.api.category.dto.CreateCategoryResponse;
 import store.novabook.front.api.category.dto.GetCategoryListResponse;
 import store.novabook.front.api.category.dto.GetCategoryResponse;
 
-@FeignClient(name = "categoryClient", url = "http://localhost:8090/api/v1/store/categories")
+@FeignClient(name = "categoryClient", url = "http://localhost:9777/api/v1/store/categories")
 public interface CategoryClient {
 	@PostMapping
 	ApiResponse<CreateCategoryResponse> createCategory(@RequestBody CreateCategoryRequest category);

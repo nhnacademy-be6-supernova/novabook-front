@@ -12,7 +12,7 @@ import store.novabook.front.api.delivery.dto.GetDeliveryFeeResponse;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
 
-@FeignClient(name = "deliveryClient", url = "http://localhost:8090/api/v1/store/orders/delivery/fee")
+@FeignClient(name = "deliveryClient", url = "http://localhost:9777/api/v1/store/orders/delivery/fee")
 public interface DeliveryClient {
 	@GetMapping("/pageable")
 	PageResponse<GetDeliveryFeeResponse> getDeliveryAllPage(@RequestParam int page, @RequestParam int size);
