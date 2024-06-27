@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕-내 정보</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css" type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .info-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .info-container h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333333;
+            text-align: center;
+        }
+        .info-table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+        .info-table th, .info-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+        .info-table th {
+            width: 25%;
+            background-color: #f9f9f9;
+            text-align: left;
+            font-weight: bold;
+        }
+        .info-table td {
+            position: relative;
+        }
+        .info-table input[type="text"], .info-table input[type="password"], .info-table select {
+            width: calc(100% - 90px);
+            padding: 10px;
+            margin-bottom: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .info-table button {
+            padding: 8px 15px;
+            background-color: #337ab7;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .info-table button:hover {
+            background-color: #286090;
+        }
+        .info-table .help-block {
+            color: #777777;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .info-table .btn-default {
+            background-color: #f7f7f7;
+            color: #333;
+            border-color: #ccc;
+        }
+        @media (max-width: 768px) {
+            .info-container {
+                padding: 20px;
+            }
+            .info-table th, .info-table td {
+                padding: 10px;
+                font-size: 12px;
+            }
+            .info-table input[type="text"], .info-table input[type="password"], .info-table select {
+                width: calc(100% - 70px);
+                font-size: 12px;
+            }
+            .info-table button {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+            .info-table .help-block {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{layout/store/nav :: nav}"></div>
+
+<div class="layout">
+    <div class="info-container">
+        <h2>내 정보</h2>
+        <table class="info-table">
+            <tr>
+                <th>아이디</th>
+                <td th:name="loginId">gkrrod714</td>
+            </tr>
+            <tr>
+                <th>이름</th>
+                <td>
+                    <input type="text" name="name" value="강하경" readonly class="form-control">
+                    <button type="button" class="btn btn-default">이름 변경</button>
+                </td>
+            </tr>
+            <tr>
+                <th>생년월일</th>
+                <td>****년 **월 **일</td>
+            </tr>
+            <tr>
+                <th>비밀번호</th>
+                <td><button type="button" name="loginPassword" class="btn btn-default">비밀번호 변경</button></td>
+            </tr>
+            <tr>
+                <th>전화번호</th>
+                <td>
+                    <input type="text" name="number" value="010-7629-****" class="form-control">
+                    <button type="button" class="btn btn-default">수정</button>
+                    <p class="help-block">휴대폰 번호도 입력 가능합니다.</p>
+                </td>
+            </tr>
+            <tr>
+                <th>이메일 주소</th>
+                <td>
+                    <input type="text" name="email" value="g*******4@naver.com" class="form-control">
+                    <button type="button" class="btn btn-default">수정</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div th:replace="~{layout/store/footer :: footer}"></div>
+</body>
+
+</html>
