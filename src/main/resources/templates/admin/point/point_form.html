@@ -154,29 +154,32 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="pointPolicy: ${pointPolicies}">
-                            <td th:text="${pointPolicy.basicPoint()}">3000</td>
-                            <td th:text="${pointPolicy.registerPoint()}">2000</td>
-                            <td th:text="${pointPolicy.reviewPointRate()}">1000</td>
+                        <tr th:each="pointPolicy: ${pointPolicies.data}">
+                            <td th:text="${pointPolicy.basicPoint}">3000</td>
+                            <td th:text="${pointPolicy.registerPoint}">2000</td>
+                            <td th:text="${pointPolicy.reviewPointRate}">1000</td>
                         </tr>
                         </tbody>
                     </table>
                     <div class="pagination">
+                        <!-- Previous button -->
+                        <li class="page-item" th:classappend="${pointPolicies.getPageNum() == 0} ? 'disabled'">
+                            <a th:if="${pointPolicies.getPageNum() > 0}" th:href="@{/admin/points/point/form(page=${pointPolicies.getPageNum() - 1})}">Previous</a>
+                            <span th:if="${pointPolicies.getPageNum() == 0}">Previous</span>
+                        </li>
 
-                        <li class="page-item disabled">
-                            <span th:if="${currentPage > 1}">
-                                <a th:href="@{/admin/points/point/form(page=${currentPage - 1})}">Previous</a>
-                            </span>
+                        <!-- Page numbers -->
+                        <li class="page-item" th:each="i : ${#numbers.sequence(0, pointPolicies.getTotalPageCount() - 1)}">
+                            <a th:href="@{/admin/points/point/form(page=${i})}" th:text="${i + 1}+'&nbsp;'"
+                               th:classappend="${i == pointPolicies.getPageNum()} ? 'active' : ''"></a>
                         </li>
-                        <li class="page-item">
-                            <span th:each="i : ${#numbers.sequence(1, pageSize)}">
-                                <a th:href="@{/admin/points/point/form(page=${i})}" th:text="${i}+'&nbsp;' " th:classappend="${i == currentPage} ? 'active' : ''"></a>
-                            </span>
-                        </li>
-                        <li class="page-item disabled">
-                            <span th:if="${currentPage < pageSize}">
-                                <a th:href="@{/admin/points/point/form(page=${currentPage + 1})}">Next</a>
-                            </span>
+
+                        <!-- Next button -->
+                        <li class="page-item"
+                            th:classappend="${pointPolicies.getPageNum() >= pointPolicies.getTotalPageCount() - 1} ? 'disabled'">
+                            <a th:if="${pointPolicies.getPageNum() < pointPolicies.getTotalPageCount() - 1}"
+                               th:href="@{/admin/points/point/form(page=${pointPolicies.getPageNum() + 1})}">Next</a>
+                            <span th:if="${pointPolicies.getPageNum() >= pointPolicies.getTotalPageCount() - 1}">Next</span>
                         </li>
                     </div>
                 </div>
