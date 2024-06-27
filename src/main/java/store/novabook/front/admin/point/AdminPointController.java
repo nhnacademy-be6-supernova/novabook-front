@@ -24,6 +24,8 @@ public class AdminPointController {
 
     @GetMapping("/form")
     public String getPointForm(@RequestParam(defaultValue = "1") int page,@RequestParam(defaultValue = PAGE_SIZE) int size, Model model) {
+
+
         PageResponse<GetPointPolicyResponse> pointPolicyAllPage = pointPolicyService.getPointPolicyAllPage(page-1, size);
 
         //현재 페이지의 데이터 리스트
