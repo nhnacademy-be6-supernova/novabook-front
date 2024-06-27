@@ -80,7 +80,7 @@ def deployToServer(server, deployPath, port) {
         sh """
         ssh -o StrictHostKeyChecking=no -i \$PEM_FILE ${server} 'fuser -k 8080/tcp || true'
         scp -o StrictHostKeyChecking=no -i \$PEM_FILE target/${ARTIFACT_NAME} ${server}:${deployPath}
-        ssh -o StrictHostKeyChecking=no -i \$PEM_FILE ${server} 'nohup java -jar ${deployPath}/${ARTIFACT_NAME} --server.port=${port} ${env.JAVA_OPTS} > ${deployPath}/app.log 2>&1 &'
+        ssh -o StrictHostKeyChecking=no -i \$PEM_FILE ${server} 'nohup /home/jdk-21.0.3+9/bin/java -jar ${deployPath}/${ARTIFACT_NAME} --server.port=${port} &'
         """
     }
 }
