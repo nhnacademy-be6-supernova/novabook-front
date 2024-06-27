@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Page - NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .navbar-header {
+            float: left;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 51px;
+            left: 0;
+            background-color: #343a40;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #d1d1d1;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            color: #f1f1f1;
+            background-color: #575757;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            padding-top: 60px;
+        }
+
+        .header {
+            background-color: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .card h3 {
+            font-weight: 600;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+        }
+
+        .dashboard {
+            font-weight: bold;
+        }
+
+        .container {
+            margin-left: 0;
+            padding: 20px;
+        }
+
+        .tree ul {
+            list-style-type: none;
+        }
+
+        .tree li {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .tree li:last-child:after {
+            display: block;
+        }
+
+        .tree-toggle {
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px 0;
+            padding: 5px 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: inline-block;
+            width: 30%;
+        }
+
+        .tree ul {
+            margin-top: 5px;
+        }
+
+        .tree-toggle:hover {
+            background-color: #e9ecef;
+        }
+
+        .tree li ul {
+            display: none;
+        }
+
+        .tree-toggle, .tree-toggle + .btn {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+    </style>
+</head>
+
+<body>
+<!--헤더 nav-->
+<div th:replace="~{layout/admin/admin_header::admin_header}"></div>
+<!--사이드바 nav-->
+<div th:replace="~{layout/admin/admin_nav::admin_sidebar}"></div>
+
+<!--컨텐츠 영역-->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="dashboard" style="padding-top: 0.3%">Category Management</h1>
+
+                <div class="card">
+                    <h3>상위 카테고리 추가</h3>
+                    <div class="container">
+                        <form id="categoryForm" action="/admin/categories" method="post">
+                            <div class="form-group full-width">
+                                <label for="register-category-input">추가할 카테고리 이름</label>
+                                <input type="text" class="form-control" id="register-category-input" name="name">
+                            </div>
+                            <button style="width: 100px; height: 50px;" type="submit" class="btn btn-primary">제출
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>하위 카테고리 추가</h3>
+                    <div class="container">
+                        <form id="categoryFormChild" action="/admin/categories" method="post">
+                            <div class="form-group">
+                                <label for="select-parent-category">상위 카테고리 선택</label>
+                                <select class="form-control" id="select-parent-category" name="topCategoryId">
+                                    <option th:each="category : ${categories.categories()}" th:value="${category.id}" th:text="${category.name}">상위 카테고리</option>
+                                </select>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="register-category-input-child">추가할 카테고리 이름</label>
+                                <input type="text" class="form-control" id="register-category-input-child" name="name">
+                            </div>
+                            <button style="width: 100px; height: 50px;" type="submit" class="btn btn-primary">제출</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>카테고리 현황</h3>
+                    <div class="tree">
+                        <ul>
+                            <!-- Iterate over categories -->
+                            <li th:each="category : ${categories.categories()}">
+                                <div style="display: flex; align-items: center;">
+                                    <!-- Display top category name -->
+                                    <span class="tree-toggle" th:text="${category.name}">상위 카테고리 이름</span>
+                                    <!-- Link to delete top category -->
+<!--                                    <a class="btn btn-danger btn-xs" th:href="@{/admin/categories/delete/{id}(id=${category.id})}" style="margin-left: 10px;">삭제</a>-->
+                                    <a class="btn btn-danger btn-xs" th:attr="onclick='deleteCategory(' + ${category.id} + ')'" style="margin-left: 10px;">삭제</a>
+                                </div>
+                                <ul>
+                                    <!-- Iterate over subcategories of current category -->
+                                    <li th:each="subCategory : ${category.sub}">
+                                        <div style="display: flex; align-items: center; justify-content: space-between; width: 29%">
+                                            <!-- Display subcategory name -->
+                                            <span th:text="${subCategory.name}">하위 카테고리 이름</span>
+                                            <!-- Link to delete subcategory -->
+                                            <a class="btn btn-danger btn-xs" th:attr="onclick='deleteCategory(' + ${subCategory.id} + ')'" style="margin-left: 10px;">삭제</a>
+
+
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // 트리 토글 기능
+        $('.tree-toggle').click(function() {
+            $(this).parent().next('ul').toggle();
+        });
+
+        // 페이지가 로드될 때 상위 카테고리의 하위 카테고리가 있다면, 토글 아이콘을 추가
+        $('.tree-toggle').each(function() {
+            if ($(this).parent().next('ul').length > 0) {
+                $(this).prepend('<i class="fa fa-minus" style="margin-right: 5px;"></i>');
+                $(this).parent().next('ul').show(); // Initially show all subcategories
+            }
+        });
+
+        // 토글 시 아이콘 변경
+        $('.tree-toggle').click(function() {
+            var icon = $(this).children('i');
+            if (icon.hasClass('fa-plus')) {
+                icon.removeClass('fa-plus').addClass('fa-minus');
+            } else {
+                icon.removeClass('fa-minus').addClass('fa-plus');
+            }
+        });
+
+    });
+
+    function deleteCategory(id) {
+        axios.delete("http://localhost:8090/api/v1/store/categories/" + id, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                alert("삭제가 완료되었습니다!");
+                location.reload();
+            })
+            .catch(error => {
+                if (error.response && error.response.status === 409) {
+                    alert("해당 카테고리에 등록된 도서가 있어 삭제할 수 없습니다.");
+                } else {
+                    alert("삭제 중 오류가 발생했습니다: " + error.message);
+                }
+            });
+    }
+
+
+</script>
+</body>
+
+</html>

@@ -15,6 +15,8 @@
     <!-- Theme Stylesheet -->
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
+    <!-- 페이져블 CSS 추가 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pagerable/dist/pagerable.css">
     <style>
         body {
             font-family: 'Open Sans', sans-serif;
@@ -121,10 +123,10 @@
                 <div class="card">
                     <h3>태그 추가</h3>
                     <div class="container">
-                        <form id="tagForm" action="/admin/tag/register" method="post">
+                        <form id="tagForm" action="/admin/tags/register" method="post">
                             <div class="form-group full-width">
                                 <label for="register-tag-input">추가할 태그</label>
-                                <input type="text" class="form-control" id="register-tag-input" name="registerTag">
+                                <input type="text" class="form-control" id="register-tag-input" name="name">
                             </div>
                             <button style="width: 100px; height: 50px;" type="submit" class="btn btn-primary">제출
                             </button>
@@ -134,7 +136,7 @@
 
                 <div class="card">
                     <h3>태그 현황</h3>
-                    <table class="table table-striped">
+                    <table class="table table-striped" id="tag-table">
                         <thead>
                         <tr>
                             <th>#</th>
@@ -143,20 +145,45 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>태그1</td>
+                        <tr th:each="tag : ${tags.data}">
+                            <td th:text="${tag.id}">1</td>
+                            <td th:text="${tag.name}">Sample Tag</td>
                             <td>
-                                <button class="btn btn-sm btn-danger">Delete</button>
+                                <form method="get" th:action="@{/admin/tags/tag/{id}/delete(id=${tag.id})}">
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
                             </td>
                         </tr>
                         </tbody>
                     </table>
+                    <!-- 페이져블 JS 추가 -->
+                    <div class="pagination">
+                        <!-- Previous button -->
+                        <li class="page-item" th:classappend="${tags.getPageNum() == 0} ? 'disabled'">
+                            <a th:if="${tags.getPageNum() > 0}" th:href="@{/admin/tags(page=${tags.getPageNum() - 1})}">Previous</a>
+                            <span th:if="${tags.getPageNum() == 0}">Previous</span>
+                        </li>
+
+                        <!-- Page numbers -->
+                        <li class="page-item" th:each="i : ${#numbers.sequence(0, tags.getTotalPageCount() - 1)}">
+                            <a th:href="@{/admin/tags(page=${i})}" th:text="${i + 1}+'&nbsp;'"
+                               th:classappend="${i == tags.getPageNum()} ? 'active' : ''"></a>
+                        </li>
+
+                        <!-- Next button -->
+                        <li class="page-item"
+                            th:classappend="${tags.getPageNum() >= tags.getTotalPageCount() - 1} ? 'disabled'">
+                            <a th:if="${tags.getPageNum() < tags.getTotalPageCount() - 1}"
+                               th:href="@{/admin/tags(page=${tags.getPageNum() + 1})}">Next</a>
+                            <span th:if="${tags.getPageNum() >= tags.getTotalPageCount() - 1}">Next</span>
+                        </li>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <!--<div class="footer">-->
 <!--    <p>&copy; 2024 NovaBook Admin. All rights reserved.</p>-->

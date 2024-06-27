@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Page - NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css" type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.css"/>
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .navbar-header {
+            float: left;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 51px;
+            left: 0;
+            background-color: #343a40;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #d1d1d1;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            color: #f1f1f1;
+            background-color: #575757;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            padding-top: 60px;
+        }
+
+        .header {
+            background-color: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .card h3 {
+            font-weight: 600;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+        }
+
+        .dashboard {
+            font-weight: bold;
+        }
+
+        .book-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .book-item img {
+            width: 50px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .book-item .book-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .book-item .book-info .book-details {
+            flex: 1;
+            padding-right: 10px;
+        }
+
+        .book-item .book-info .book-actions {
+            white-space: nowrap;
+        }
+
+        .book-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .book-info img {
+            width: 50px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .book-info .details {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .book-info .actions {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+        .inventory-table {
+            margin-top: 20px;
+        }
+
+        .inventory-table th,
+        .inventory-table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .add-book-btn {
+            margin-top: 10px;
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+    </style>
+</head>
+
+<body>
+<!--헤더 nav-->
+<div th:replace="~{layout/admin/admin_header::admin_header}"></div>
+<!--사이드바 nav-->
+<div th:replace="~{layout/admin/admin_nav::admin_sidebar}"></div>
+
+<!--컨텐츠 영역-->
+<div class="content">
+    <div class="container-fluid">
+        <!-- Book Inventory Table -->
+        <h1 class="dashboard" style="padding-top: 0.3%">책 관리</h1>
+        <div class="add-book-btn">
+            <a href="/admin/books/book/form" class="btn btn-primary"><i class="fa fa-plus"></i> 책 등록</a>
+        </div>
+        <div class="card inventory-table">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">도서 목록 내역</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>책 제목</th>
+                            <th>재고</th>
+                            <th>정상가</th>
+                            <th>할인가</th>
+                            <th>책 상태</th>
+                            <th style="width: 10%">책 포장여부</th>
+                            <th style="width: 10%">수정</th>
+                        </tr>
+                        </thead>
+                        <tbody id="inventoryTableBody">
+                        <!-- Dummy book data -->
+                        <tr th:each="book : ${books.getData()}">
+                            <td th:text="${book.title}">책 제목</td>
+                            <td th:text="${book.inventory}">10</td>
+                            <td th:text="${book.price}">20000</td>
+                            <td th:text="${book.discountPrice}">15000</td>
+                            <td th:text="${book.bookStatusId == 1 ? '판매중' : (book.bookStatusId == 2 ? '일시품절' : (book.bookStatusId == 3 ? '품절' : '삭제(노출불가)'))}">판매중</td>
+                            <td th:text="${book.isPackaged} ? '가능' : '불가능'">가능</td>
+                            <td>
+                                <button class="btn btn-info btn-sm edit-btn"
+                                        th:data-book-id="${book.id}"
+                                        data-toggle="modal"
+                                        data-target="#editBookModal">
+                                    <i class="fa fa-pencil"></i> 수정
+                                </button>
+                            </td>
+                        </tr>
+                        <!-- End of dummy book data -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- End of Book Inventory Table -->
+
+        <div class="pagination">
+            <!-- Previous button -->
+            <li class="page-item" th:classappend="${books.getPageNum() == 0} ? 'disabled'">
+                <a th:if="${books.getPageNum() > 0}" th:href="@{/admin/books(page=${books.getPageNum() - 1})}">Previous</a>
+                <span th:if="${books.getPageNum() == 0}">Previous</span>
+            </li>
+
+            <!-- Page numbers -->
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, books.getTotalPageCount() - 1)}">
+                <a th:href="@{/admin/books(page=${i})}" th:text="${i + 1}+'&nbsp;'"
+                   th:classappend="${i == books.getPageNum()} ? 'active' : ''"></a>
+            </li>
+
+            <!-- Next button -->
+            <li class="page-item"
+                th:classappend="${books.getPageNum() >= books.getTotalPageCount() - 1} ? 'disabled'">
+                <a th:if="${books.getPageNum() < books.getTotalPageCount() - 1}"
+                   th:href="@{/admin/books(page=${books.getPageNum() + 1})}">Next</a>
+                <span th:if="${books.getPageNum() >= books.getTotalPageCount() - 1}">Next</span>
+            </li>
+        </div>
+        <!-- End Pagination Buttons -->
+
+    </div>
+</div>
+
+<!-- Edit Book Modal -->
+<div class="modal fade" id="editBookModal" tabindex="-1" role="dialog" aria-labelledby="editBookModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editBookModalLabel">책 수정</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="editTitle">책 제목:</label>
+                    <input type="text" class="form-control" id="editTitle" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="editStock">재고:</label>
+                    <input type="number" class="form-control" id="editStock">
+                </div>
+                <div class="form-group">
+                    <label for="editOriginalPrice">정상가:</label>
+                    <input type="number" class="form-control" id="editOriginalPrice">
+                </div>
+                <div class="form-group">
+                    <label for="editDiscountedPrice">할인가:</label>
+                    <input type="number" class="form-control" id="editDiscountedPrice">
+                </div>
+                <div class="form-group">
+                    <label for="editStatus">책 상태:</label>
+                    <select class="form-control" id="editStatus">
+                        <option value="1">판매중</option>
+                        <option value="2">일시품절</option>
+                        <option value="3">품절</option>
+                        <option value="4">삭제(노출불가)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editPackaging">책 포장여부:</label>
+                    <select class="form-control" id="editPackaging">
+                        <option value="true">가능</option>
+                        <option value="false">불가능</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-primary" id="saveChangesBtn">저장</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Edit Book Modal -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Edit 버튼 클릭 이벤트 핸들러
+        $(document).on('click', '.edit-btn', function () {
+            const bookId = $(this).data('book-id');
+            const bookTitle = $(this).closest('tr').find('td:nth-child(1)').text().trim();
+            const stock = $(this).closest('tr').find('td:nth-child(2)').text().trim();
+            const originalPrice = $(this).closest('tr').find('td:nth-child(3)').text().trim();
+            const discountedPrice = $(this).closest('tr').find('td:nth-child(4)').text().trim();
+            const status = $(this).closest('tr').find('td:nth-child(5)').val();
+            const packaging = $(this).closest('tr').find('td:nth-child(6)').val();
+
+            $('#editTitle').val(bookTitle);
+            $('#editStock').val(stock);
+            $('#editOriginalPrice').val(originalPrice);
+            $('#editDiscountedPrice').val(discountedPrice);
+            $('#editStatus option').filter(function() {
+                return $(this).val() === status;
+            }).prop('selected', true);
+
+            // 책 포장여부 값 설정
+            $('#editPackaging option').filter(function() {
+                return $(this).val() === packaging;
+            }).prop('selected', true);
+
+            // 저장 버튼 클릭 이벤트 핸들러
+            $('#saveChangesBtn').off('click').on('click', function () {
+                // 저장 처리 구현
+                saveChanges(bookId);
+            });
+        });
+
+        // 변경사항 저장 함수
+        function saveChanges(bookId) {
+            const updatedStock = $('#editStock').val();
+            const updatedOriginalPrice = $('#editOriginalPrice').val();
+            const updatedDiscountedPrice = $('#editDiscountedPrice').val();
+            const updatedStatus = $('#editStatus').val();
+            const updatedPackaging = $('#editPackaging').val(); // 변경된 포장 여부 값 가져오기
+
+            var params = {
+
+                 id : bookId,
+
+                 bookStatusId : updatedStatus,
+
+                 inventory : updatedStock,
+
+                 price : updatedOriginalPrice,
+
+                 discountPrice : updatedDiscountedPrice,
+
+                 isPackaged : updatedPackaging
+            }
+
+            axios.post("http://localhost:8080/admin/books/book/update", JSON.stringify(params), {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    // 모달 닫기
+                    $('#editBookModal').modal('hide');
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('저장 실패 : ', error);
+                });
+
+        }
+    });
+</script>
