@@ -23,6 +23,7 @@ public record CreateBookRequest(
 	Long discountPrice,
 	Boolean isPackaged,
 	List<Long> tags,
-	Long categoryId
+	Long categoryId,
+	String image
 ) {
 }

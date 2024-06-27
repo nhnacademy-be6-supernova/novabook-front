@@ -9,6 +9,7 @@ import store.novabook.front.api.book.BookClient;
 import store.novabook.front.api.book.dto.CreateBookRequest;
 import store.novabook.front.api.book.dto.GetBookAllResponse;
 import store.novabook.front.api.book.dto.GetBookResponse;
+import store.novabook.front.api.book.dto.UpdateBookRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -18,9 +19,7 @@ public class BookService {
 
 	public GetBookResponse getBookClient(Long id) {
 		ApiResponse<GetBookResponse> book = bookClient.getBook(id);
-
-		GetBookResponse getBookResponse = book.getBody();
-		return getBookResponse;
+		return book.getBody();
 	}
 
 	public void createBook(CreateBookRequest createBookRequest) {
@@ -29,5 +28,9 @@ public class BookService {
 
 	public PageResponse<GetBookAllResponse> getBookAll(int page, int size) {
 		return bookClient.getBookAll(page, size);
+	}
+
+	public void updateBook(UpdateBookRequest updateBookRequest) {
+		bookClient.updateBook(updateBookRequest);
 	}
 }

@@ -57,15 +57,10 @@
     <div class="container">
 
         <div class="row">
-
-            <span>Home > </span>
-
-            <span>Men > </span>
-
-            <span>Eyewear > </span>
-
-            <span>Blue Jacket</span>
-
+            <span class="strong-text">카테고리:</span>
+            <span th:each="category, iterStat : ${book.categories}">
+                    <span th:text="${category}"></span>
+                    <span th:if="${!iterStat.last}">> </span>
         </div>
 
     </div>
@@ -117,7 +112,6 @@
                 <div class="product-info">
                     <span class="product-id"><span class="strong-text"
                                                    th:text="${book.author}">저자:</span> 한야 야나기하라</span>
-                    <span class="product-avilability"><span class="strong-text">원제:</span> A LITTLE LIFE</span>
                 </div>
                 <br>
 
@@ -141,9 +135,15 @@
 
                 <hr>
 
-                <p><span class="strong-text">판매가:</span> <span class="price_real"> 12,600 원</span>
-                    &nbsp;<span class="strong-text">적립 포인트:</span> 400원
-                    <span style="margin-left: 16px; font-size: 11px;" th:if="${book.isPackaged}">포장 가능</span>
+                <p>
+                    <span class="strong-text" style="font-size: 16px;">판매가:</span>
+                    <span th:text="${book.discountPrice} + ' 원'" class="price_real"> 12,600 원</span>
+                    <span style="margin-left: 16px; font-size: 16px;" class="strong-text">정가:</span> <!-- 정가 텍스트 추가 -->
+                    <span th:text="${book.price} + ' 원'"> 12,600 원</span>
+                    &nbsp;<span style="margin-left: 16px; font-size: 16px;"class="strong-text">적립 포인트:</span> 400원
+                    <span style="margin-left: 16px; font-size: 16px;" th:if="${book.isPackaged}">포장 가능</span>
+                    <span style="margin-left: 16px; font-size: 16px;" th:if="${!book.isPackaged}">포장 불가</span>
+
                 </p>
 
 
@@ -193,13 +193,6 @@
 
                 </ul>
 
-                <p><i class="fa fa-check"></i> 관련분류
-                    카테고리 분류
-                    국내도서 > 소설/시/희곡 > 영미소설 > 영미 장편소설
-                    수상내역 및 미디어 추천 분류
-                    국내도서 > 미디어 추천 > 중앙일보
-                    국내도서 > 미디어 추천 > 동아일보
-                </p>
 
                 <button type="button" class="btn btn-primary" style="color: white; background-color: #0e0e0e"
                         data-toggle="modal" data-target="#couponModal">
@@ -278,14 +271,6 @@
                 <div class="tab-pane active" id="description">
 
                     <div class="product-desc">
-
-                        <h3>책 목차</h3>
-                        목차 1
-                        - 내용
-                        - 내용2
-                        목차 2
-                        - 내용
-
 
                         <h2>책 설명</h2>
 
