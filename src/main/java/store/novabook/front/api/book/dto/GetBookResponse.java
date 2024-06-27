@@ -19,10 +19,10 @@ public record GetBookResponse(
 	Long price,
 	Long discountPrice,
 	boolean isPackaged,
-	String image,
 	List<String> tags,
 	List<String> categories,
 	int likes,
-	int score
+	int score,
+	String image
 ) {
 }
