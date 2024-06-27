@@ -6,16 +6,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.PageResponse;
 import store.novabook.front.api.delivery.dto.CreateDeliveryFeeRequest;
 import store.novabook.front.api.delivery.dto.GetDeliveryFeeResponse;
-import store.novabook.front.api.delivery.service.DeliveryFeeService;
 import store.novabook.front.api.delivery.service.impl.DeliveryFeeServiceImpl;
+import store.novabook.front.common.response.PageResponse;
 
 @RequestMapping("/admin/deliveries/delivery")
 @Controller
