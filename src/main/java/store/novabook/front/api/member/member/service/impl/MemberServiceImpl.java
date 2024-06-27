@@ -40,14 +40,6 @@ public class MemberServiceImpl implements MemberService {
 		return createMemberResponse.getBody();
 	}
 
-	// @Override
-	// public LoginMemberResponse login(LoginMemberRequest loginMemberRequest) {
-	//
-	// 	ApiResponse<LoginMemberResponse> loginMemberResponseApiResponse = memberClient.login(loginMemberRequest);
-	// 	return loginMemberResponseApiResponse.getBody();
-	//
-	// }
-
 	@Override
 	public LoginMemberResponse getMember(LoginMemberRequest loginMemberRequest) {
 		ResponseEntity<LoginMemberResponse> tokenDtoApiResponse = memberClient.login(loginMemberRequest);

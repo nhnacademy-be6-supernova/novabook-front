@@ -20,5 +20,4 @@ public interface MemberClient {
 	@PostMapping("/login")
 	ResponseEntity<LoginMemberResponse> login(@RequestBody LoginMemberRequest loginMemberRequest);
 
-
 }
