@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import store.novabook.front.api.ApiResponse;
-import store.novabook.front.api.PageResponse;
+import store.novabook.front.common.response.ApiResponse;
+import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.api.tag.TagClient;
 import store.novabook.front.api.tag.dto.CreateTagRequest;
 import store.novabook.front.api.tag.dto.CreateTagResponse;

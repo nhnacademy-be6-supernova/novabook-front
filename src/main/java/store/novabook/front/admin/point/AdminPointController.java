@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.PageResponse;
+import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.api.point.dto.request.CreatePointPolicyRequest;
 import store.novabook.front.api.point.dto.response.GetPointPolicyResponse;
 import store.novabook.front.api.point.service.PointPolicyService;

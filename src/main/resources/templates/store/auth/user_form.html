@@ -23,6 +23,12 @@
         .button-container .but3, .button-container .but4 {
             margin: 0 10px; /* 버튼들 사이 간격 조정 */
         }
+
+        #register-button[disabled] {
+            background-color: #ccc;
+            border-color: #ccc;
+            color: #555;
+        }
     </style>
 </head>
 <body>
@@ -42,7 +48,7 @@
                     <tr>
                         <td class="col1">아이디</td>
                         <td class="col2">
-                            <input type="text" id="loginId" name="loginId" maxlength="20">
+                            <input type="text" id="loginId" name="loginId" maxlength="20" oninput="handleInputIdChange()">
                             <input class="but1" type="button" value="중복확인" onclick="checkDuplicateId()">
                             <span id="idMessage" class="error-message"></span>
                         </td>
@@ -64,7 +70,7 @@
                     <tr>
                         <td class="col1">이메일</td>
                         <td class="col2">
-                            <input type="text" name="email">
+                            <input type="text" id="email" name="email" oninput="handleInputEmailChange()">
                             <span class="a">@</span>
                             <input type="text" id="emailDomain" name="emailDomain">
                             <select name="mailslc" onchange="updateEmail()">
@@ -74,7 +80,9 @@
                                 <option value="da">daum.com</option>
                                 <option value="yah">yahoo.com</option>
                             </select>
-                            <input class="but2" type="button" value="이메일 중복확인" onclick="">
+                            <input class="but2" type="button" value="이메일 중복확인" onclick="checkDuplicateEmail()">
+                            <!-- 아래에 이메일 중복 확인 결과 메시지 출력할 공간 추가 -->
+                            <span id="emailMessage" class="error-message"></span>
                         </td>
                     </tr>
                     <tr>
@@ -124,17 +132,38 @@
                 </table>
             </div>
             <div class="button-container">
-                <button type="submit" class="but4">회원가입</button>
+                <button type="submit" id="register-button" class="but4">회원가입</button>
                 <input class="but3" type="button" value="가입취소" onclick="">
             </div>
         </div>
     </form>
 </div>
 <div th:replace="~{layout/store/footer::footer}"></div>
+
+
+
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script th:inline="javascript">
     /*<![CDATA[*/
+
+    // 중복 확인 상태 변수
+    let isIdChecked = false;
+    // let isIdDuplicate = true; // 초기값을 중복으로 설정
+    let isEmailChecked = false;
+    // let isEmailDuplicate = true; // 초기값을 중복으로 설정
+
+    function handleInputIdChange() {
+        isIdChecked = false;
+        console.log("isIdChecked set to false due to input change");
+        document.getElementById('idMessage').innerText="";
+
+    }
+    function handleInputEmailChange() {
+        isEmailChecked = false;
+        console.log("isEmailChecked set to false due to input change");
+    }
+
     function updateDays() {
         var year = parseInt($('#birth_year').val());
         var month = parseInt($('#birth_month').val());
@@ -159,6 +188,16 @@
 
     // formCheck 함수 정의
     function formCheck(form) {
+
+        if(isIdChecked === false){
+            alert("아이디 중복 확인을 해 주세요.")
+            return false;
+        }
+
+        if(isEmailChecked === false){
+            alert("이메일 중복 확인을 해 주세요.")
+            return false;
+        }
         // 이름 필드 검증
         if (form.name.value.trim() === "") {
             alert("이름을 입력해주세요.");
@@ -223,8 +262,49 @@
             return false; // 폼 제출 방지
         }
 
+
+
         // 모든 검증을 통과했을 때 폼 제출 가능
         return true;
+    }
+
+    // 아이디 중복 확인 함수
+    function checkDuplicateId() {
+        var loginId = document.getElementById('loginId').value.trim(); // 아이디 필드 값 가져오기
+
+        if (loginId === "") {
+            alert("아이디를 입력해주세요.");
+            return;
+        }
+
+        // AJAX request to check for duplicate ID
+        fetch(`http://localhost:8090/api/v1/store/members/checkDuplicatedLoginId?loginId=${encodeURIComponent(loginId)}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                var messageElement = document.getElementById('idMessage');
+
+                console.log("id 중복 체크 실행")
+                // 응답 데이터 구조가 변경됨에 따라 수정
+                isIdDuplicate = data.body.isDuplicateLoginId;
+
+                if (isIdDuplicate) {
+                    messageElement.innerText = "이미 사용 중인 아이디입니다.";
+                    messageElement.style.color = "red";
+                } else {
+                    messageElement.innerText = "사용할 수 있는 아이디입니다.";
+                    messageElement.style.color = "green";
+                    isIdChecked = true;
+                }
+            })
+            .catch(error => {
+                console.error('Error checking ID:', error);
+                alert("아이디 중복 확인 중 오류가 발생했습니다. " + error);
+            });
     }
 
     // 이메일 도메인 자동 완성 함수
@@ -254,40 +334,46 @@
         }
     }
 
-    // 아이디 중복 확인 함수
-    function checkDuplicateId() {
-        var loginId = document.getElementById('loginId').value.trim(); // 아이디 필드 값 가져오기
+    function checkDuplicateEmail() {
+        // 이메일 입력값 가져오기
+        var emailLocalPart = document.getElementById('email').value.trim();
+        var emailDomainPart = document.getElementById('emailDomain').value.trim();
+        var email = emailLocalPart + '@' + emailDomainPart; // 이메일 합치기
 
-        if (loginId === "") {
-            alert("아이디를 입력해주세요.");
+        if (emailLocalPart === "" || emailDomainPart === "") {
+            alert("이메일을 입력해주세요.");
             return;
         }
 
-        // AJAX request to check for duplicate ID
-        fetch(`http://localhost:8090/api/v1/store/members/checkDuplicated?loginId=${encodeURIComponent(loginId)}`, {
-            method: 'GET',
+        fetch('http://localhost:8090/api/v1/store/members/checkDuplicatedEmail', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify({ email: email })
         })
             .then(response => response.json())
             .then(data => {
-                var messageElement = document.getElementById('idMessage');
+                var messageElement = document.getElementById('emailMessage'); // emailMessage 사용
 
-                // 응답 데이터 구조가 변경됨에 따라 수정
-                var isDuplicate = data.body.isDuplicateLoginId;
+                console.log("이메일 중복체크 실행")
+                isEmailChecked = true; // 이메일 중복 버튼 수행
+                isEmailDuplicate = data.body.isDuplicateEmail;
 
-                if (isDuplicate) {
-                    messageElement.innerText = "이미 사용 중인 아이디입니다.";
+                if (isEmailDuplicate) {
+                    alert("중복");
+                    messageElement.innerText = "이미 사용 중인 이메일입니다.";
                     messageElement.style.color = "red";
                 } else {
-                    messageElement.innerText = "사용할 수 있는 아이디입니다.";
+                    alert("중복 아님");
+                    messageElement.innerText = "사용할 수 있는 이메일입니다.";
                     messageElement.style.color = "green";
+                    isEmailChecked = true;
                 }
             })
             .catch(error => {
-                console.error('Error checking ID:', error);
-                alert("아이디 중복 확인 중 오류가 발생했습니다. " + error);
+                console.error('Error checking email:', error);
+                alert("이메일 중복 확인 중 오류가 발생했습니다. " + error);
             });
     }
 
@@ -339,7 +425,18 @@
         }).open();
     }
 
-    // 페이지 로드 시 초기화
+    document.getElementById('').addEventListener('submit', function(event) {
+        event.preventDefault(); // 폼 제출 이벤트 방지
+        if (isIdChecked) {
+            // 여기에 회원가입을 보내는 코드를 추가할 수 있습니다.
+            console.log("회원가입 요청을 보냈습니다.");
+            // 예를 들어, 서버로 회원가입 요청을 보내는 Ajax 요청 등을 추가할 수 있습니다.
+        } else {
+            console.log("ID 체크가 필요합니다.");
+        }
+    });
+
+     // 페이지 로드 시 초기화
     $(document).ready(function () {
         updateDays();
     });
