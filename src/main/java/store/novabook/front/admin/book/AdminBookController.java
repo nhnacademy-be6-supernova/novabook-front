@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.book.dto.CreateBookRequest;
+import store.novabook.front.api.book.dto.UpdateBookRequest;
 import store.novabook.front.api.book.service.BookService;
 import store.novabook.front.api.category.service.CategoryService;
 import store.novabook.front.api.tag.service.TagService;
@@ -32,11 +33,17 @@ public class AdminBookController {
 		return "admin/book/book_form";
 	}
 
-
 	@CrossOrigin(origins = "http://localhost:8080")
 	@PostMapping("/book/form")
 	public String createBook(@RequestBody CreateBookRequest createBookRequest) {
 		bookService.createBook(createBookRequest);
+		return "redirect:/admin/books";
+	}
+
+	@CrossOrigin(origins = "http://localhost:8080")
+	@PostMapping("/book/update")
+	public String updateBook(@RequestBody UpdateBookRequest updateBookRequest) {
+		bookService.updateBook(updateBookRequest);
 		return "redirect:/admin/books";
 	}
 

@@ -46,7 +46,7 @@ public class TossController {
 		} catch (ParseException e) {
 			throw new RuntimeException(e);
 		}
-		;
+
 		JSONObject obj = new JSONObject();
 		obj.put("orderId", orderId);
 		obj.put("amount", amount);
@@ -68,7 +68,7 @@ public class TossController {
 		connection.setDoOutput(true);
 
 		OutputStream outputStream = connection.getOutputStream();
-		outputStream.write(obj.toString().getBytes("UTF-8"));
+		outputStream.write(obj.toString().getBytes(StandardCharsets.UTF_8));
 
 		int code = connection.getResponseCode();
 		boolean isSuccess = code == 200;

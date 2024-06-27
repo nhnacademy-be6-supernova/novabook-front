@@ -206,7 +206,7 @@
                             <td th:text="${book.inventory}">10</td>
                             <td th:text="${book.price}">20000</td>
                             <td th:text="${book.discountPrice}">15000</td>
-                            <td th:text="${book.bookStatusId eq 1} ? '판매중' : (${book.bookStatusId eq 2} ? '일시품절' : '품절')">판매중</td>
+                            <td th:text="${book.bookStatusId == 1 ? '판매중' : (book.bookStatusId == 2 ? '일시품절' : (book.bookStatusId == 3 ? '품절' : '삭제(노출불가)'))}">판매중</td>
                             <td th:text="${book.isPackaged} ? '가능' : '불가능'">가능</td>
                             <td>
                                 <button class="btn btn-info btn-sm edit-btn"
@@ -226,21 +226,24 @@
         <!-- End of Book Inventory Table -->
 
         <div class="pagination">
-            <li class="page-item disabled">
-                            <span th:if="${books.getPageNum()+1 > 1}">
-                                <a th:href="@{/admin/books(page=${books.getPageNum()+1 - 1})}">Previous</a>
-                            </span>
+            <!-- Previous button -->
+            <li class="page-item" th:classappend="${books.getPageNum() == 0} ? 'disabled'">
+                <a th:if="${books.getPageNum() > 0}" th:href="@{/admin/books(page=${books.getPageNum() - 1})}">Previous</a>
+                <span th:if="${books.getPageNum() == 0}">Previous</span>
             </li>
-            <li class="page-item">
-                            <span th:each="i : ${#numbers.sequence(1, books.getTotalCount())}">
-                                <a th:href="@{/admin/books(page=${i})}" th:text="${i}+'&nbsp;' "
-                                   th:classappend="${i == books.getPageNum()+1} ? 'active' : ''"></a>
-                            </span>
+
+            <!-- Page numbers -->
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, books.getTotalPageCount() - 1)}">
+                <a th:href="@{/admin/books(page=${i})}" th:text="${i + 1}+'&nbsp;'"
+                   th:classappend="${i == books.getPageNum()} ? 'active' : ''"></a>
             </li>
-            <li class="page-item disabled">
-                            <span th:if="${books.getPageNum()+1 < books.getTotalCount()}">
-                                <a th:href="@{/admin/books(page=${books.getPageNum()+1 + 1})}">Next</a>
-                            </span>
+
+            <!-- Next button -->
+            <li class="page-item"
+                th:classappend="${books.getPageNum() >= books.getTotalPageCount() - 1} ? 'disabled'">
+                <a th:if="${books.getPageNum() < books.getTotalPageCount() - 1}"
+                   th:href="@{/admin/books(page=${books.getPageNum() + 1})}">Next</a>
+                <span th:if="${books.getPageNum() >= books.getTotalPageCount() - 1}">Next</span>
             </li>
         </div>
         <!-- End Pagination Buttons -->
@@ -278,16 +281,17 @@
                 <div class="form-group">
                     <label for="editStatus">책 상태:</label>
                     <select class="form-control" id="editStatus">
-                        <option value="판매중">판매중</option>
-                        <option value="일시품절">일시품절</option>
-                        <option value="품절">품절</option>
+                        <option value="1">판매중</option>
+                        <option value="2">일시품절</option>
+                        <option value="3">품절</option>
+                        <option value="4">삭제(노출불가)</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="editPackaging">책 포장여부:</label>
                     <select class="form-control" id="editPackaging">
-                        <option value="가능">가능</option>
-                        <option value="불가능">불가능</option>
+                        <option value="true">가능</option>
+                        <option value="false">불가능</option>
                     </select>
                 </div>
             </div>
@@ -302,6 +306,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     $(document).ready(function () {
         // Edit 버튼 클릭 이벤트 핸들러
@@ -311,15 +316,21 @@
             const stock = $(this).closest('tr').find('td:nth-child(2)').text().trim();
             const originalPrice = $(this).closest('tr').find('td:nth-child(3)').text().trim();
             const discountedPrice = $(this).closest('tr').find('td:nth-child(4)').text().trim();
-            const status = $(this).closest('tr').find('td:nth-child(5)').text().trim();
-            const packaging = $(this).closest('tr').find('td:nth-child(6)').text().trim(); // 포장 여부 추가
+            const status = $(this).closest('tr').find('td:nth-child(5)').val();
+            const packaging = $(this).closest('tr').find('td:nth-child(6)').val();
 
             $('#editTitle').val(bookTitle);
             $('#editStock').val(stock);
             $('#editOriginalPrice').val(originalPrice);
             $('#editDiscountedPrice').val(discountedPrice);
-            $('#editStatus').val(status);
-            $('#editPackaging').val(packaging); // 포장 여부 셀렉트 박스 설정
+            $('#editStatus option').filter(function() {
+                return $(this).val() === status;
+            }).prop('selected', true);
+
+            // 책 포장여부 값 설정
+            $('#editPackaging option').filter(function() {
+                return $(this).val() === packaging;
+            }).prop('selected', true);
 
             // 저장 버튼 클릭 이벤트 핸들러
             $('#saveChangesBtn').off('click').on('click', function () {
@@ -336,11 +347,35 @@
             const updatedStatus = $('#editStatus').val();
             const updatedPackaging = $('#editPackaging').val(); // 변경된 포장 여부 값 가져오기
 
-            // 여기서는 예시로 alert를 사용하여 변경사항을 보여줍니다.
-            alert(`책 ID ${bookId}의 변경된 정보:\n재고: ${updatedStock}\n정상가: ${updatedOriginalPrice}\n할인가: ${updatedDiscountedPrice}\n책 상태: ${updatedStatus}\n포장 여부: ${updatedPackaging}`);
+            var params = {
 
-            // 모달 닫기
-            $('#editBookModal').modal('hide');
+                 id : bookId,
+
+                 bookStatusId : updatedStatus,
+
+                 inventory : updatedStock,
+
+                 price : updatedOriginalPrice,
+
+                 discountPrice : updatedDiscountedPrice,
+
+                 isPackaged : updatedPackaging
+            }
+
+            axios.post("http://localhost:8080/admin/books/book/update", JSON.stringify(params), {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    // 모달 닫기
+                    $('#editBookModal').modal('hide');
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('저장 실패 : ', error);
+                });
+
         }
     });
 </script>

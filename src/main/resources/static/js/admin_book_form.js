@@ -86,10 +86,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // 게시글 저장
     async function savePost() {
         // 1. 콘텐츠 입력 유효성 검사
-        const content = editor.getMarkdown().trim();
+        const content = editor.getMarkdown();
 
 
-        if (content.length < 1) {
+        if (content.trim().length < 1) {
             alert('에디터 내용을 입력해 주세요.');
             throw new Error('editor content is required!');
         }
@@ -113,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const price = document.getElementById('discount');
         const bookLink = document.getElementById('book_link');
         const tags = $("#tagSelect").val();
+        const detailDescription =  content;
 
 
 
@@ -131,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('책을 선택해주세요.');
             throw new Error('Invalid book ');
         }
-        console.log(pubdate.textContent)
+
         const formattedDate = formatToISO8601(pubdate.textContent);
 
         const params = {
@@ -139,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
             isbn: isbn.textContent,
             title: title.textContent,
             description:description.textContent,
-            descriptionDetail:description.textContent,
+            descriptionDetail: detailDescription,
             author: author.textContent,
             publisher: publisher.textContent,
             publicationDate: formattedDate,
@@ -161,7 +162,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         })
             .then(response => {
-                alert("등록이 완료되었습니다! " + JSON.stringify(params));
+                alert("등록이 완료되었습니다! ");
+                location.reload();
             })
             .catch(error => {
                 console.error('저장 실패 : ', error);
