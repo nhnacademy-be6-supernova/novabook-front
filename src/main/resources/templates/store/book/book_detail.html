@@ -137,13 +137,13 @@
 
                 <p>
                     <span class="strong-text" style="font-size: 16px;">판매가:</span>
-                    <span th:text="${book.discountPrice} + ' 원'" class="price_real"> 12,600 원</span>
-                    <span style="margin-left: 16px; font-size: 16px;" class="strong-text">정가:</span> <!-- 정가 텍스트 추가 -->
-                    <span th:text="${book.price} + ' 원'"> 12,600 원</span>
-                    &nbsp;<span style="margin-left: 16px; font-size: 16px;"class="strong-text">적립 포인트:</span> 400원
-                    <span style="margin-left: 16px; font-size: 16px;" th:if="${book.isPackaged}">포장 가능</span>
-                    <span style="margin-left: 16px; font-size: 16px;" th:if="${!book.isPackaged}">포장 불가</span>
-
+                    <span th:text="${#numbers.formatInteger(book.discountPrice, 1, 'COMMA')} + '원'" class="price_real">12,600 원</span>
+                    <span style="margin-left: 16px; font-size: 16px;" class="strong-text">정가:</span>
+                    <span th:text="${#numbers.formatInteger(book.price, 1, 'COMMA')} + '원'" class="price_original">12,600 원</span>
+                    <span style="margin-left: 16px; font-size: 16px;" class="strong-text">적립 포인트:</span>
+                    <span th:text="${#numbers.formatInteger(400, 1, 'COMMA')} + '원'" class="price_point">400 원</span>
+                    <span style="margin-left: 16px; font-size: 16px;" class="strong-text" th:if="${book.isPackaged}">포장 가능</span>
+                    <span style="margin-left: 16px; font-size: 16px;" class="strong-text" th:if="${!book.isPackaged}">포장 불가</span>
                 </p>
 
 

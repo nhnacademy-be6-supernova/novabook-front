@@ -206,7 +206,7 @@
                             <td th:text="${book.inventory}">10</td>
                             <td th:text="${book.price}">20000</td>
                             <td th:text="${book.discountPrice}">15000</td>
-                            <td th:text="${book.bookStatusId eq 1} ? '판매중' : (${book.bookStatusId eq 2} ? '일시품절' : '품절')">판매중</td>
+                            <td th:text="${book.bookStatusId == 1 ? '판매중' : (book.bookStatusId == 2 ? '일시품절' : (book.bookStatusId == 3 ? '품절' : '삭제(노출불가)'))}">판매중</td>
                             <td th:text="${book.isPackaged} ? '가능' : '불가능'">가능</td>
                             <td>
                                 <button class="btn btn-info btn-sm edit-btn"
@@ -281,6 +281,7 @@
                         <option value="1">판매중</option>
                         <option value="2">일시품절</option>
                         <option value="3">품절</option>
+                        <option value="4">삭제(노출불가)</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -313,14 +314,20 @@
             const originalPrice = $(this).closest('tr').find('td:nth-child(3)').text().trim();
             const discountedPrice = $(this).closest('tr').find('td:nth-child(4)').text().trim();
             const status = $(this).closest('tr').find('td:nth-child(5)').val();
-            const packaging = $(this).closest('tr').find('td:nth-child(6)').val(); // 포장 여부 추가
+            const packaging = $(this).closest('tr').find('td:nth-child(6)').val();
 
             $('#editTitle').val(bookTitle);
             $('#editStock').val(stock);
             $('#editOriginalPrice').val(originalPrice);
             $('#editDiscountedPrice').val(discountedPrice);
-            $('#editStatus').val(status);
-            $('#editPackaging').val(packaging); // 포장 여부 셀렉트 박스 설정
+            $('#editStatus option').filter(function() {
+                return $(this).val() === status;
+            }).prop('selected', true);
+
+            // 책 포장여부 값 설정
+            $('#editPackaging option').filter(function() {
+                return $(this).val() === packaging;
+            }).prop('selected', true);
 
             // 저장 버튼 클릭 이벤트 핸들러
             $('#saveChangesBtn').off('click').on('click', function () {

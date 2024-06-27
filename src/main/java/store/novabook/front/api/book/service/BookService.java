@@ -3,13 +3,13 @@ package store.novabook.front.api.book.service;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.ApiResponse;
-import store.novabook.front.api.PageResponse;
 import store.novabook.front.api.book.BookClient;
 import store.novabook.front.api.book.dto.CreateBookRequest;
 import store.novabook.front.api.book.dto.GetBookAllResponse;
 import store.novabook.front.api.book.dto.GetBookResponse;
 import store.novabook.front.api.book.dto.UpdateBookRequest;
+import store.novabook.front.common.response.ApiResponse;
+import store.novabook.front.common.response.PageResponse;
 
 @Service
 @RequiredArgsConstructor
