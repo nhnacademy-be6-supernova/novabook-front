@@ -21,7 +21,7 @@ import store.novabook.front.common.response.PageResponse;
  * 쿠폰 클라이언트 인터페이스입니다.
  * 쿠폰 템플릿의 생성 및 조회를 위한 API 호출을 정의합니다.
  */
-@FeignClient(name = "couponClient", url = "http://localhost:9777/api/v1/coupon/templates")
+@FeignClient(name = "couponClient", url = "http://localhost:9777/api/v1/coupon")
 public interface CouponClient {
 
 	/**
@@ -32,7 +32,7 @@ public interface CouponClient {
 	 * @param size 페이지 크기
 	 * @return 페이지 응답 객체
 	 */
-	@GetMapping
+	@GetMapping( name = "/templates", params = "type")
 	PageResponse<GetCouponTemplateResponse> getCouponTemplateAll(@RequestParam(required = false) CouponType type,
 		@RequestParam int page, @RequestParam int size);
 
@@ -43,7 +43,7 @@ public interface CouponClient {
 	 * @param size 페이지 크기
 	 * @return 페이지 응답 객체
 	 */
-	@GetMapping("/book")
+	@GetMapping("/templates/book")
 	PageResponse<GetBookCouponTemplateResponse> getBookCouponTemplateAll(@RequestParam int page,
 		@RequestParam int size);
 
@@ -64,7 +64,7 @@ public interface CouponClient {
 	 * @param request 쿠폰 템플릿 생성 요청 객체
 	 * @return API 응답 객체
 	 */
-	@PostMapping
+	@PostMapping("/templates")
 	ApiResponse<CreateCouponResponse> createCouponTemplate(@RequestBody CreateCouponTemplateRequest request);
 
 	/**
@@ -73,7 +73,7 @@ public interface CouponClient {
 	 * @param request 책 쿠폰 템플릿 생성 요청 객체
 	 * @return API 응답 객체
 	 */
-	@PostMapping("/book")
+	@PostMapping("/templates/book")
 	ApiResponse<CreateCouponResponse> createBookCouponTemplate(@RequestBody CreateBookCouponTemPlateRequest request);
 
 	/**
@@ -82,7 +82,7 @@ public interface CouponClient {
 	 * @param request 카테고리 쿠폰 템플릿 생성 요청 객체
 	 * @return API 응답 객체
 	 */
-	@PostMapping("/category")
+	@PostMapping("/templates/category")
 	ApiResponse<CreateCouponResponse> createCategoryCouponTemplate(
 		@RequestBody CreateCategoryCouponTemplateRequest request);
 }
