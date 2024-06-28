@@ -9,4 +9,5 @@ public interface MemberService {
 	CreateMemberResponse createMember(CreateMemberRequest createMemberRequest);
 
 	LoginMemberResponse getMember(LoginMemberRequest loginMemberRequest);
+
 }
