@@ -2,21 +2,19 @@ package store.novabook.front.common.config;
 
 import java.util.Arrays;
 
-import feign.RequestInterceptor;
-import feign.RequestTemplate;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import feign.RequestInterceptor;
+import feign.RequestTemplate;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+
 @Component
+@RequiredArgsConstructor
 public class FeignClientInterceptor implements RequestInterceptor {
 
-	private static final String COOKIE_HEADER = "Cookie";
-
-	@Autowired
-	private HttpServletRequest request;
+	private final HttpServletRequest request;
 
 	@Override
 	public void apply(RequestTemplate template) {
