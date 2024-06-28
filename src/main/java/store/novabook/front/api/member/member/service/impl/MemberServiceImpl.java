@@ -20,8 +20,6 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public CreateMemberResponse createMember(CreateMemberRequest createMemberRequest) {
-		String fullEmail = createMemberRequest.getEmailFull();
-
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 		CreateMemberRequest newMemberRequest = CreateMemberRequest.builder()
@@ -29,8 +27,8 @@ public class MemberServiceImpl implements MemberService {
 			.loginPassword(passwordEncoder.encode(createMemberRequest.loginPassword()))
 			.name(createMemberRequest.name())
 			.number(createMemberRequest.number())
-			.email(fullEmail)
-			.emailDomain(null)
+			.email(createMemberRequest.email())
+			.emailDomain(createMemberRequest.emailDomain())
 			.birthYear(createMemberRequest.birthYear())
 			.birthMonth(createMemberRequest.birthMonth())
 			.birthDay(createMemberRequest.birthDay())
