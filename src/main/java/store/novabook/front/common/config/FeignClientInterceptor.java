@@ -1,5 +1,7 @@
 package store.novabook.front.common.config;
 
+import java.util.Arrays;
+
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import jakarta.servlet.http.Cookie;
@@ -18,15 +20,9 @@ public class FeignClientInterceptor implements RequestInterceptor {
 
 	@Override
 	public void apply(RequestTemplate template) {
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if ("Authorization".equals(cookie.getName())) {
-					String token = cookie.getValue();
-					template.header("Authorization", "Bearer " + token);
-					break;
-				}
-			}
-		}
+		Arrays.stream(request.getCookies())
+			.filter(cookie -> "Authorization".equals(cookie.getName()))
+			.findFirst()
+			.ifPresent(cookie -> template.header("Authorization", "Bearer " + cookie.getValue()));
 	}
 }
