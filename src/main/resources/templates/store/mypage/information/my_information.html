@@ -111,18 +111,19 @@
     <table class="info-table">
         <tr>
             <th>아이디</th>
-            <td th:name="loginId">gkrrod714</td>
+            <td th:text="${member.loginId}">MemberId</td>
         </tr>
         <tr>
             <th>이름</th>
             <td>
-                <span class="info-text" id="nameText">강하경</span>
+                <span class="info-text" th:text="${member.name}" id="name">MemberName</span>
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#nameModal">이름 변경</button>
             </td>
         </tr>
         <tr>
             <th>생년월일</th>
-            <td>****년 **월 **일</td>
+            <td th:text="${member.birthYear} + '년' + ${member.birthMonth()} + '월' + ${member.birthDay()} + '일'"></td>
+
         </tr>
         <tr>
             <th>비밀번호</th>
@@ -131,7 +132,7 @@
         <tr>
             <th>전화번호</th>
             <td>
-                <span class="info-text" id="phoneText">010-7629-****</span>
+                <span class="info-text" th:text="${member.number}" id="number">MemberNumber</span>
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#phoneModal">수정</button>
                 <p class="help-block">휴대폰 번호도 입력 가능합니다.</p>
             </td>
@@ -139,7 +140,7 @@
         <tr>
             <th>이메일 주소</th>
             <td>
-                <span class="info-text" id="emailText">g*******4@naver.com</span>
+                <span class="info-text" th:text="${member.email}" id="email">MemberEmail</span>
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#emailModal">수정</button>
             </td>
         </tr>
