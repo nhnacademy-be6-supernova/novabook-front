@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const author = document.getElementById('author');
 
-        const description = document.getElementById('book_description');
+        var description = document.getElementById('book_description');
         const bookDiscount = document.getElementById('inputDiscountPrice');
         const isPackaging = document.getElementById('inputPackagingStatus');
         const publisher = document.getElementById('publisher');
@@ -118,9 +118,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-        if (!bookDiscount || bookDiscount.value === null || bookDiscount.value < 1000 || bookDiscount.value > 10000000) {
-            alert('판매가는 1000원에서 10000000원 사이여야 합니다.');
+        if (!bookDiscount || bookDiscount.value === null || bookDiscount.value < 1 || bookDiscount.value > 10000000) {
+            alert('판매가는 1원에서 10000000원 사이여야 합니다.');
             throw new Error('Invalid discount value');
+        }
+
+        if(bookDiscount.value > price.value){
+            alert('정가보다 할인가가 더 큽니다.')
+            throw new Error('Invalid discount value');
+        }
+
+        if (!description || description.textContent === null || description.textContent === "") {
+            description.textContent = "책 설명이 없습니다.";
+        }
+
+        if (!publisher || publisher.textContent === null || publisher.textContent === "") {
+            publisher.textContent = "작가 정보가 없습니다.";
         }
 
         if (!stock || stock.value==="" || stock.value < 0 || stock.value > 1000) {
@@ -153,8 +166,6 @@ document.addEventListener('DOMContentLoaded', function () {
             categoryId:category.value
         }
 
-        // axios를 사용한 POST 요청
-        alert( JSON.stringify(params));
 
         axios.post(url, JSON.stringify(params), {
             headers: {
