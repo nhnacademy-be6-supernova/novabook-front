@@ -11,8 +11,7 @@ import store.novabook.front.api.member.member.dto.LoginMemberRequest;
 import store.novabook.front.api.member.member.dto.LoginMemberResponse;
 import store.novabook.front.common.response.ApiResponse;
 
-// @FeignClient(name = "memberClient", url = "http://localhost:9777/auth/admin")
-@FeignClient(name = "memberClient", url = "http://localhost:9777/auth")
+@FeignClient(name = "memberClient")
 public interface MemberClient {
 
 	@PostMapping
