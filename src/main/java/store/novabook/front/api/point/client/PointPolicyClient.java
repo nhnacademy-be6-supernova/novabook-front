@@ -12,7 +12,7 @@ import store.novabook.front.api.point.dto.request.CreatePointPolicyRequest;
 import store.novabook.front.api.point.dto.response.CreatePointPolicyResponse;
 import store.novabook.front.api.point.dto.response.GetPointPolicyResponse;
 
-@FeignClient(name = "pointPolicyClient", url = "http://localhost:9777/api/v1/store/point/policies")
+@FeignClient(name = "pointPolicyClient")
 public interface PointPolicyClient {
 
 	//pageable로 모두 가져오기
