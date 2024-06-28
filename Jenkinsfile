@@ -3,9 +3,7 @@ pipeline {
 
     environment {
         FRONT_SERVER_1 = 'zei@125.6.36.57'
-        FRONT_SERVER_2 = 'zei@125.6.36.57'
         DEPLOY_PATH_1 = '/home/zei/nova-front'
-        DEPLOY_PATH_2 = '/home/zei/nova-front'
         REPO_URL = 'https://github.com/nhnacademy-be6-supernova/novabook-front.git'
         ARTIFACT_NAME = 'front-0.0.1-SNAPSHOT.jar'
         JAVA_OPTS = '-XX:+EnableDynamicAgentLoading -XX:+UseParallelGC'
@@ -44,11 +42,9 @@ pipeline {
             steps {
                 script {
                     def remoteHost1 = '125.6.36.57'
-                    def remoteHost2 = '125.6.36.57'
                     sh """
                         mkdir -p ~/.ssh
                         ssh-keyscan -H ${remoteHost1} >> ~/.ssh/known_hosts
-                        ssh-keyscan -H ${remoteHost2} >> ~/.ssh/known_hosts
                     """
                 }
             }
@@ -59,16 +55,10 @@ pipeline {
                 showLogs(FRONT_SERVER_1, DEPLOY_PATH_1)
             }
         }
-        stage('Deploy to Front Server 2') {
-            steps {
-                deployToServer(FRONT_SERVER_2, DEPLOY_PATH_2, 8081)
-                showLogs(FRONT_SERVER_2, DEPLOY_PATH_2)
-            }
-        }
+
         stage('Verification') {
             steps {
                 verifyDeployment(FRONT_SERVER_1, 8080)
-                verifyDeployment(FRONT_SERVER_2, 8081)
             }
         }
     }

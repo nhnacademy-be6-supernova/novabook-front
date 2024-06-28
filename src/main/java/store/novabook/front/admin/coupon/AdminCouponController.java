@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.category.service.CategoryService;
 import store.novabook.front.api.coupon.domain.CouponType;
@@ -22,7 +23,7 @@ import store.novabook.front.common.response.PageResponse;
 @Controller
 @RequiredArgsConstructor
 public class AdminCouponController {
- 	private final CouponService couponService;
+	private final CouponService couponService;
 	private final CategoryService categoryService;
 	private static final String PAGE = "0";
 	private static final String PAGE_SIZE = "5";
@@ -38,7 +39,7 @@ public class AdminCouponController {
 		@RequestParam(defaultValue = PAGE_SIZE) int size) {
 
 		PageResponse<GetCouponTemplateResponse> birthdayCoupons = couponService.getCouponTemplateAll(
-			CouponType.BIRTHDAY, birthdayPage - 1, size);
+			CouponType.BIRTHDAY, birthdayPage, size);
 		model.addAttribute("birthdayCoupons", birthdayCoupons);
 		model.addAttribute("welcomeCoupons",
 			couponService.getCouponTemplateAll(CouponType.WELCOME, welcomePage, size));
@@ -72,20 +73,20 @@ public class AdminCouponController {
 	}
 
 	@PostMapping("/common/create")
-	public String createCouponTemplateCommon(@ModelAttribute CreateCouponTemplateRequest couponRequest) {
+	public String createCouponTemplateCommon(@Valid @ModelAttribute CreateCouponTemplateRequest couponRequest) {
 		couponService.createGeneralTemplateCoupon(couponRequest);
 		return REDIRECT_ADMIN_COUPONS;
 	}
 
 	@PostMapping("/book/create")
-	public String createCouponTemplateBook(@ModelAttribute CreateBookCouponTemPlateRequest bookCouponRequest) {
+	public String createCouponTemplateBook(@Valid @ModelAttribute CreateBookCouponTemPlateRequest bookCouponRequest) {
 		couponService.createBookTemplateCoupon(bookCouponRequest);
 		return REDIRECT_ADMIN_COUPONS;
 	}
 
 	@PostMapping("/category/create")
 	public String createCouponTemplateCategory(
-		@ModelAttribute CreateCategoryCouponTemplateRequest request) {
+		@Valid @ModelAttribute CreateCategoryCouponTemplateRequest request) {
 		couponService.createCategoryTemplateCoupon(request);
 		return REDIRECT_ADMIN_COUPONS;
 	}

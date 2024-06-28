@@ -24,8 +24,6 @@ public class AdminBookController {
 	private final CategoryService categoryService;
 	private final TagService tagService;
 
-	private static final String DEFAULT_PAGE_SIZE = "10";
-
 	@GetMapping("/book/form")
 	public String getBookForm(Model model) {
 		model.addAttribute("categories", categoryService.getCategoryAll());
