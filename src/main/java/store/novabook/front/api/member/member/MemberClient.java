@@ -33,5 +33,3 @@ public interface MemberClient {
 		@RequestBody UpdateMemberRequest updateMemberRequest);
 
 }
-
-}
