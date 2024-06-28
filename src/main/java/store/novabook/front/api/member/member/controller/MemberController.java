@@ -16,10 +16,6 @@ import store.novabook.front.api.member.member.dto.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.LoginMemberRequest;
 import store.novabook.front.api.member.member.dto.LoginMemberResponse;
 import store.novabook.front.api.member.member.service.MemberService;
-import store.novabook.front.api.member.dto.CreateMemberRequest;
-import store.novabook.front.api.member.dto.LoginMemberRequest;
-import store.novabook.front.api.member.dto.LoginMemberResponse;
-import store.novabook.front.api.member.service.MemberService;
 import store.novabook.front.common.config.TokenHolder;
 
 @Controller
@@ -45,21 +41,19 @@ public class MemberController {
 			TokenHolder.setToken(token);
 
 			// 필요 시 쿠키에도 추가
-			Cookie cookie = new Cookie("Authorization", token);
+
+			Cookie cookie = new Cookie("Authorization", loginMemberResponse.token());
 			cookie.setMaxAge(60 * 60 * 24 * 7);
 			cookie.setPath("/");
 			response.addCookie(cookie);
-		Cookie cookie = new Cookie("Authorization", loginMemberResponse.token());
-		cookie.setMaxAge(60 * 60 * 24 * 7);
-		cookie.setPath("/");
-		response.addCookie(cookie);
 
-		if (loginMemberResponse.token().isEmpty()) {
-			return "redirect:/";
-			return "redirect:/dashboard"; // 로그인 성공 후 리다이렉트할 경로
-		} else {
-			return "redirect:/login"; // 로그인 실패 시 리다이렉트할 경로
+			if (loginMemberResponse.token().isEmpty()) {
+				return "redirect:/dashboard"; // 로그인 성공 후 리다이렉트할 경로
+			} else {
+				return "redirect:/login"; // 로그인 실패 시 리다이렉트할 경로
+			}
 		}
+		return token;
 	}
 
 	// @PostMapping("/login")
