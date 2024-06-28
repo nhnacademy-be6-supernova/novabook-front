@@ -316,7 +316,7 @@
         var memberId = 7;
 
         // memberId를 쿼리 문자열에 추가
-        var url = new URL(`http://localhost:8090/api/v1/store/addresses/checkMemberAddressCount`);
+        var url = new URL(`http://localhost:9777/api/v1/store/addresses/checkMemberAddressCount`);
         url.searchParams.append('memberId', memberId);
 
         fetch(url, {
