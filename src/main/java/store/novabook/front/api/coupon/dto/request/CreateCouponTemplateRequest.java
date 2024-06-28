@@ -10,7 +10,7 @@ import store.novabook.front.api.coupon.domain.CouponType;
 import store.novabook.front.api.coupon.domain.DiscountType;
 
 public record CreateCouponTemplateRequest(
-	@NotNull(message = "이름은 필수 입력 항목입니다.") @NotBlank(message = "이름은 필수 입력 항목입니다.") @Size(max = 255, message = "이름은 255자 이하로 입력해야 합니다.") String name,
+	@NotBlank(message = "이름은 필수 입력 항목입니다.") @Size(max = 255, message = "이름은 255자 이하로 입력해야 합니다.") String name,
 	@NotNull(message = "쿠폰 타입은 필수 입력 항목입니다.") CouponType type,
 	@NotNull(message = "할인 금액은 필수 입력 항목입니다.") @Min(value = 0, message = "할인 금액은 0 이상이어야 합니다.") Long discountAmount,
 	@NotNull(message = "할인 유형은 필수 입력 항목입니다.") DiscountType discountType,
