@@ -20,9 +20,9 @@ public class FeignClientInterceptor implements RequestInterceptor {
 
 	@Override
 	public void apply(RequestTemplate template) {
-		Arrays.stream(request.getCookies())
-			.filter(cookie -> "Authorization".equals(cookie.getName()))
-			.findFirst()
-			.ifPresent(cookie -> template.header("Authorization", "Bearer " + cookie.getValue()));
+		// Arrays.stream(request.getCookies())
+		// 	.filter(cookie -> "Authorization".equals(cookie.getName()))
+		// 	.findFirst()
+		// 	.ifPresent(cookie -> template.header("Authorization", "Bearer " + cookie.getValue()));
 	}
 }
