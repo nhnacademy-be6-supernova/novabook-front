@@ -8,8 +8,10 @@ import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.MemberClient;
 import store.novabook.front.api.member.member.dto.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.CreateMemberResponse;
+import store.novabook.front.api.member.member.dto.GetMemberResponse;
 import store.novabook.front.api.member.member.dto.LoginMemberRequest;
 import store.novabook.front.api.member.member.dto.LoginMemberResponse;
+import store.novabook.front.api.member.member.dto.UpdateMemberRequest;
 import store.novabook.front.api.member.member.service.MemberService;
 import store.novabook.front.common.response.ApiResponse;
 
@@ -20,8 +22,6 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public CreateMemberResponse createMember(CreateMemberRequest createMemberRequest) {
-		String fullEmail = createMemberRequest.getEmailFull();
-
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 		CreateMemberRequest newMemberRequest = CreateMemberRequest.builder()
@@ -29,8 +29,8 @@ public class MemberServiceImpl implements MemberService {
 			.loginPassword(passwordEncoder.encode(createMemberRequest.loginPassword()))
 			.name(createMemberRequest.name())
 			.number(createMemberRequest.number())
-			.email(fullEmail)
-			.emailDomain(null)
+			.email(createMemberRequest.email())
+			.emailDomain(createMemberRequest.emailDomain())
 			.birthYear(createMemberRequest.birthYear())
 			.birthMonth(createMemberRequest.birthMonth())
 			.birthDay(createMemberRequest.birthDay())
@@ -44,6 +44,15 @@ public class MemberServiceImpl implements MemberService {
 	public LoginMemberResponse getMember(LoginMemberRequest loginMemberRequest) {
 		ResponseEntity<LoginMemberResponse> tokenDtoApiResponse = memberClient.login(loginMemberRequest);
 		return tokenDtoApiResponse.getBody();
-
 	}
+
+	@Override
+	public GetMemberResponse getMemberById(Long memberId) {
+		return memberClient.getMember(memberId).getBody();
+	}
+
+	public void updateMember(Long memberId, UpdateMemberRequest updateMemberRequest) {
+		memberClient.updateMember(memberId, updateMemberRequest);
+	}
+
 }

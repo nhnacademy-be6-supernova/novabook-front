@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -52,6 +54,7 @@ public record CreateBookRequest(
 	Long price,
 
 	@NotNull
+	@Max(value = Long.BYTES, message = "DiscountPrice bigger than price")
 	Long discountPrice,
 
 	@NotNull
@@ -63,5 +66,10 @@ public record CreateBookRequest(
 	Long categoryId,
 
 	String image
+
 ) {
+	@AssertTrue(message = "DiscountPrice bigger than price")
+	public boolean isValid() {
+		return price > discountPrice;
+	}
 }

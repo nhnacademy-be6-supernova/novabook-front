@@ -15,7 +15,7 @@ import store.novabook.front.api.tag.dto.CreateTagResponse;
 import store.novabook.front.api.tag.dto.GetTagListResponse;
 import store.novabook.front.api.tag.dto.GetTagResponse;
 
-@FeignClient(name = "tagClient", url = "http://localhost:9777/api/v1/store/tags")
+@FeignClient(name = "tagClient")
 public interface TagClient {
 	@PostMapping
 	ApiResponse<CreateTagResponse> createTag(@RequestBody CreateTagRequest createTagRequest);

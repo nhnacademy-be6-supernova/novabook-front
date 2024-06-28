@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕-내 정보</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css" type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0; /* Body margin added */
+        }
+        .info-container {
+            width: 90%; /* Adjusted width */
+            max-width: 500px; /* Maximum width */
+            margin: 20px auto; /* Centered and margin adjusted */
+            padding: 30px 20px; /* Adjusted padding */
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .info-container h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333333;
+            text-align: center;
+        }
+        .info-table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+        .info-table th, .info-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+        .info-table th {
+            width: 25%;
+            background-color: #f9f9f9;
+            text-align: left;
+            font-weight: bold;
+        }
+        .info-table td {
+            position: relative;
+        }
+        .info-table .info-text {
+            display: inline-block;
+            width: calc(100% - 90px);
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        .info-table button {
+            padding: 8px 15px;
+            background-color: #337ab7;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .info-table button:hover {
+            background-color: #017dc1;
+        }
+        .info-table .help-block {
+            color: #777777;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .info-table .btn-default {
+            background-color: #f7f7f7;
+            color: #333;
+            border-color: #ccc;
+        }
+        @media (max-width: 768px) {
+            .info-container {
+                width: 100%; /* Full width on smaller screens */
+                padding: 20px 10px; /* Adjusted padding */
+            }
+            .info-table th, .info-table td {
+                padding: 10px;
+                font-size: 12px;
+            }
+            .info-table .info-text {
+                font-size: 12px;
+            }
+            .info-table button {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+            .info-table .help-block {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{layout/store/nav :: nav}"></div>
+
+<div class="info-container">
+    <h2>내 정보</h2>
+    <table class="info-table">
+        <tr>
+            <th>아이디</th>
+            <td th:text="${member.loginId}">MemberId</td>
+        </tr>
+        <tr>
+            <th>이름</th>
+            <td>
+                <span class="info-text" th:text="${member.name}" id="name">MemberName</span>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#nameModal">이름 변경</button>
+            </td>
+        </tr>
+        <tr>
+            <th>생년월일</th>
+            <td th:text="${member.birthYear} + '년' + ${member.birthMonth()} + '월' + ${member.birthDay()} + '일'"></td>
+
+        </tr>
+        <tr>
+            <th>비밀번호</th>
+            <td><button type="button" name="loginPassword" class="btn btn-default" data-toggle="modal" data-target="#passwordModal">비밀번호 변경</button></td>
+        </tr>
+        <tr>
+            <th>전화번호</th>
+            <td>
+                <span class="info-text" th:text="${member.number}" id="number">MemberNumber</span>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#phoneModal">수정</button>
+                <p class="help-block">휴대폰 번호도 입력 가능합니다.</p>
+            </td>
+        </tr>
+        <tr>
+            <th>이메일 주소</th>
+            <td>
+                <span class="info-text" th:text="${member.email}" id="email">MemberEmail</span>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#emailModal">수정</button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<!-- Modals -->
+<div id="nameModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">이름 변경</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="newName" class="form-control" placeholder="새 이름 입력">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="saveName()">저장</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="passwordModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">비밀번호 변경</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="newPassword">새 비밀번호</label>
+                    <input type="password" id="newPassword" class="form-control" placeholder="새 비밀번호 입력">
+                </div>
+                <p>※비밀번호는 <span class="num">문자, 숫자, 특수문자(~!@#$%^&*)의 조합 10 ~ 16자리</span>로 입력이 가능합니다.</p>
+                <br>
+                <div class="form-group">
+                    <label for="confirmPassword">새 비밀번호 확인</label>
+                    <input type="password" id="confirmPassword" class="form-control" placeholder="새 비밀번호 재입력">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="savePassword()">저장</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="phoneModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">전화번호 수정</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="newPhone" class="form-control" placeholder="새 전화번호 입력">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="savePhone()">저장</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="emailModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">이메일 주소 수정</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="newEmail" class="form-control" placeholder="새 이메일 주소 입력">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="saveEmail()">저장</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/store/footer :: footer}"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script>
+    function saveName() {
+        var newName = document.getElementById("newName").value;
+        if (newName) {
+            document.getElementById("nameText").textContent = newName;
+            $('#nameModal').modal('hide');
+        }
+    }
+
+    function savePassword() {
+        var newPassword = document.getElementById("newPassword").value;
+        if (newPassword) {
+            // Perform password change logic here
+            $('#passwordModal').modal('hide');
+        }
+    }
+
+    function savePhone() {
+        var newPhone = document.getElementById("newPhone").value;
+        if (newPhone) {
+            document.getElementById("phoneText").textContent = newPhone;
+            $('#phoneModal').modal('hide');
+        }
+    }
+
+    function saveEmail() {
+        var newEmail = document.getElementById("newEmail").value;
+        if (newEmail) {
+            document.getElementById("emailText").textContent = newEmail;
+            $('#emailModal').modal('hide');
+        }
+    }
+</script>
+</body>
+</html>
