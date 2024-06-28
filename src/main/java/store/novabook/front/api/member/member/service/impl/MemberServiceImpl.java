@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.MemberClient;
 import store.novabook.front.api.member.member.dto.CreateMemberRequest;
@@ -39,9 +40,17 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public LoginMemberResponse getMember(LoginMemberRequest loginMemberRequest) {
+	public LoginMemberResponse getMember(LoginMemberRequest loginMemberRequest, HttpServletResponse response) {
 		ResponseEntity<LoginMemberResponse> tokenDtoApiResponse = memberClient.login(loginMemberRequest);
+		response.setHeader("Authorization", tokenDtoApiResponse.getHeaders().getFirst("Authorization"));
+		response.setHeader("Cookie", tokenDtoApiResponse.getHeaders().getFirst("Cookie"));
 		return tokenDtoApiResponse.getBody();
-
 	}
+
+	// @Override
+	// public LoginMemberResponse getMember(LoginMemberRequest loginMemberRequest) {
+	// 	ResponseEntity<LoginMemberResponse> tokenDtoApiResponse = memberClient.login(loginMemberRequest);
+	// 	return tokenDtoApiResponse.getBody();
+	//
+	// }
 }
