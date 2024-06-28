@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.category.service.CategoryService;
 import store.novabook.front.api.coupon.domain.CouponType;
@@ -72,20 +73,20 @@ public class AdminCouponController {
 	}
 
 	@PostMapping("/common/create")
-	public String createCouponTemplateCommon(@ModelAttribute CreateCouponTemplateRequest couponRequest) {
+	public String createCouponTemplateCommon(@Valid @ModelAttribute CreateCouponTemplateRequest couponRequest) {
 		couponService.createGeneralTemplateCoupon(couponRequest);
 		return REDIRECT_ADMIN_COUPONS;
 	}
 
 	@PostMapping("/book/create")
-	public String createCouponTemplateBook(@ModelAttribute CreateBookCouponTemPlateRequest bookCouponRequest) {
+	public String createCouponTemplateBook(@Valid @ModelAttribute CreateBookCouponTemPlateRequest bookCouponRequest) {
 		couponService.createBookTemplateCoupon(bookCouponRequest);
 		return REDIRECT_ADMIN_COUPONS;
 	}
 
 	@PostMapping("/category/create")
 	public String createCouponTemplateCategory(
-		@ModelAttribute CreateCategoryCouponTemplateRequest request) {
+		@Valid @ModelAttribute CreateCategoryCouponTemplateRequest request) {
 		couponService.createCategoryTemplateCoupon(request);
 		return REDIRECT_ADMIN_COUPONS;
 	}
