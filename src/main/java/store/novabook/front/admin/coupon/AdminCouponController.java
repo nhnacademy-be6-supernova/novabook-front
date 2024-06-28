@@ -22,7 +22,7 @@ import store.novabook.front.common.response.PageResponse;
 @Controller
 @RequiredArgsConstructor
 public class AdminCouponController {
- 	private final CouponService couponService;
+	private final CouponService couponService;
 	private final CategoryService categoryService;
 	private static final String PAGE = "0";
 	private static final String PAGE_SIZE = "5";
@@ -38,7 +38,7 @@ public class AdminCouponController {
 		@RequestParam(defaultValue = PAGE_SIZE) int size) {
 
 		PageResponse<GetCouponTemplateResponse> birthdayCoupons = couponService.getCouponTemplateAll(
-			CouponType.BIRTHDAY, birthdayPage - 1, size);
+			CouponType.BIRTHDAY, birthdayPage, size);
 		model.addAttribute("birthdayCoupons", birthdayCoupons);
 		model.addAttribute("welcomeCoupons",
 			couponService.getCouponTemplateAll(CouponType.WELCOME, welcomePage, size));
