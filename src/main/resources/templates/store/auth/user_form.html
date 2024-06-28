@@ -307,7 +307,7 @@
         }
 
         // AJAX request to check for duplicate ID
-        fetch(`http://localhost:8090/api/v1/store/members/checkDuplicatedLoginId?loginId=${encodeURIComponent(loginId)}`, {
+        fetch(`http://localhost:9777/api/v1/store/members/checkDuplicatedLoginId?loginId=${encodeURIComponent(loginId)}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -374,7 +374,7 @@
             return;
         }
 
-        fetch('http://localhost:8090/api/v1/store/members/checkDuplicatedEmail', {
+        fetch('http://localhost:9777/api/v1/store/members/checkDuplicatedEmail', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
