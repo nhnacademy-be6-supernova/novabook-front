@@ -15,7 +15,7 @@ import store.novabook.front.api.member.address.dto.GetMemberAddressListResponse;
 import store.novabook.front.api.member.address.dto.UpdateMemberAddressRequest;
 import store.novabook.front.common.response.ApiResponse;
 
-@FeignClient(name = "memberAddressClient", url = "http://localhost:9777/api/v1/store/addresses")
+@FeignClient(name = "memberAddressClient")
 public interface MemberAddressClient {
 
 	@PostMapping
