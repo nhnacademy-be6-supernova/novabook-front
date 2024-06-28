@@ -11,10 +11,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @Component
-@RequiredArgsConstructor
+// @RequiredArgsConstructor
 public class FeignClientInterceptor implements RequestInterceptor {
 
-	private final HttpServletRequest request;
+	@Autowired
+	private HttpServletRequest request;
 
 	@Override
 	public void apply(RequestTemplate template) {
