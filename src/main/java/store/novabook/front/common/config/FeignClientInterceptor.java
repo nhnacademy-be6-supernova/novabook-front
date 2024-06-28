@@ -19,13 +19,15 @@ public class FeignClientInterceptor implements RequestInterceptor {
 
 	@Override
 	public void apply(RequestTemplate template) {
-		Arrays.stream(request.getCookies())
-			.forEach(cookie -> {
-				if ("Authorization".equals(cookie.getName())) {
-					template.header("Authorization", "Bearer " + cookie.getValue());
-				} else if ("Refresh".equals(cookie.getName())) {
-					template.header("Refresh", "Bearer " + cookie.getValue());
-				}
-			});
+		if (request.getCookies() != null) {
+			Arrays.stream(request.getCookies())
+				.forEach(cookie -> {
+					if ("Authorization".equals(cookie.getName())) {
+						template.header("Authorization", "Bearer " + cookie.getValue());
+					} else if ("Refresh".equals(cookie.getName())) {
+						template.header("Refresh", "Bearer " + cookie.getValue());
+					}
+				});
+		}
 	}
 }
