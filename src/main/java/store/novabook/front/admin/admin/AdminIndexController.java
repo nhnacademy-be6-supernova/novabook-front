@@ -18,6 +18,7 @@ public class AdminIndexController {
 
 	private final BookService bookService;
 	private static final String DEFAULT_PAGE_SIZE = "10";
+	private static final String DEFAULT_PAGE_NUM = "0";
 
 	@GetMapping
 	public String index() {
@@ -31,7 +32,7 @@ public class AdminIndexController {
 
 	@GetMapping("/books")
 	public String getBookAll(Model model,
-		@RequestParam(defaultValue = "0") int page,
+		@RequestParam(defaultValue = DEFAULT_PAGE_NUM) int page,
 		@RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int size) {
 
 		PageResponse<GetBookAllResponse> bookAll = bookService.getBookAll(page, size);
