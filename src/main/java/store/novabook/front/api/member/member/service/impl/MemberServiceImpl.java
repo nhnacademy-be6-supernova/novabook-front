@@ -4,7 +4,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import store.novabook.front.api.member.member.MemberAuthClient;
 import store.novabook.front.api.member.member.MemberClient;
 import store.novabook.front.api.member.member.dto.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.CreateMemberResponse;
@@ -19,6 +22,7 @@ import store.novabook.front.common.response.ApiResponse;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 	private final MemberClient memberClient;
+	private final MemberAuthClient memberAuthClient;
 
 	@Override
 	public CreateMemberResponse createMember(CreateMemberRequest createMemberRequest) {
@@ -41,10 +45,16 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public LoginMemberResponse getMember(LoginMemberRequest loginMemberRequest) {
-		ResponseEntity<LoginMemberResponse> tokenDtoApiResponse = memberClient.login(loginMemberRequest);
+	public LoginMemberResponse getMember(@Valid LoginMemberRequest loginMemberRequest, HttpServletResponse response) {
+		ResponseEntity<LoginMemberResponse> tokenDtoApiResponse = memberAuthClient.login(loginMemberRequest);
+
+		// 헤더 설정
+		response.setHeader("Authorization", tokenDtoApiResponse.getHeaders().getFirst("Authorization"));
+		response.setHeader("Cookie", tokenDtoApiResponse.getHeaders().getFirst("Cookie"));
+
 		return tokenDtoApiResponse.getBody();
 	}
+
 
 	@Override
 	public GetMemberResponse getMemberById(Long memberId) {
@@ -55,4 +65,11 @@ public class MemberServiceImpl implements MemberService {
 		memberClient.updateMember(memberId, updateMemberRequest);
 	}
 
+
+	// @Override
+	// public LoginMemberResponse getMember(LoginMemberRequest loginMemberRequest) {
+	// 	ResponseEntity<LoginMemberResponse> tokenDtoApiResponse = memberClient.login(loginMemberRequest);
+	// 	return tokenDtoApiResponse.getBody();
+	//
+	// }
 }
