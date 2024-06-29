@@ -10,34 +10,38 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.address.dto.CreateMemberAddressRequest;
 import store.novabook.front.api.member.address.dto.GetMemberAddressResponse;
 import store.novabook.front.api.member.address.dto.UpdateMemberAddressRequest;
 import store.novabook.front.api.member.address.service.MemberAddressService;
+import store.novabook.front.api.member.grade.service.MemberGradeService;
 
 @RequestMapping("/mypage/addresses")
 @Controller
 @RequiredArgsConstructor
 public class MypageAddressController {
 	private final MemberAddressService memberAddressService;
+	private final MemberGradeService memberGradeService;
 	private static final Long MEMBER_ID = 7L;
 
 	@GetMapping
 	public String getAddressForm(Model model) {
 		List<GetMemberAddressResponse> responses = memberAddressService.getMemberAddresses(MEMBER_ID);
+		model.addAttribute("grade", memberGradeService.getMemberGrade(MEMBER_ID));
 		model.addAttribute("addressList", responses);
 		return "store/mypage/address/address_list";
 	}
 
 	@PostMapping("/address/{addressId}/update")
-	public String updateAddress(@PathVariable Long addressId, UpdateMemberAddressRequest request) {
+	public String updateAddress(@PathVariable Long addressId, @Valid UpdateMemberAddressRequest request) {
 		memberAddressService.updateMemberAddress(addressId, request);
 		return "redirect:/mypage/addresses";
 	}
 
 	@PostMapping
-	public String register(@ModelAttribute CreateMemberAddressRequest createMemberAddressRequest) {
+	public String register(@Valid @ModelAttribute CreateMemberAddressRequest createMemberAddressRequest) {
 		memberAddressService.createMemberAddress(createMemberAddressRequest, MEMBER_ID);
 		return "redirect:/mypage/addresses";
 	}

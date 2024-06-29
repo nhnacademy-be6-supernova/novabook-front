@@ -1,7 +1,6 @@
 package store.novabook.front.api.coupon.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum CouponType {
 	GENERAL,
@@ -15,8 +14,9 @@ public enum CouponType {
 		return CouponType.valueOf(value.toUpperCase());
 	}
 
-	@JsonValue
-	public String toValue() {
-		return this.name().toLowerCase();
-	}
+
+
+
+
+
 }

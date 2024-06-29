@@ -22,9 +22,6 @@ public interface MemberClient {
 	@PostMapping
 	ApiResponse<CreateMemberResponse> createMember(@RequestBody CreateMemberRequest createMemberRequest);
 
-	@PostMapping("/login")
-	ResponseEntity<LoginMemberResponse> login(@RequestBody LoginMemberRequest loginMemberRequest);
-
 	@GetMapping("/member")
 	ApiResponse<GetMemberResponse> getMember(@RequestHeader Long memberId);
 

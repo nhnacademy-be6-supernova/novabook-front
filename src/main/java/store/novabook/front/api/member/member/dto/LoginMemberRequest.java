@@ -1,5 +1,11 @@
 package store.novabook.front.api.member.member.dto;
 
-public record LoginMemberRequest(String loginId, String loginPassword) {
+import jakarta.validation.constraints.NotBlank;
+
+public record LoginMemberRequest(
+	@NotBlank
+	String loginId,
+	@NotBlank
+	String loginPassword) {
 }
 
