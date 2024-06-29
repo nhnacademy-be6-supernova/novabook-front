@@ -30,7 +30,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
-          source: "front/*.jar"
+          source: "target/*.jar"
           target: "~/front/"
           rm: false
       - name: execute shell script
@@ -43,8 +43,8 @@ jobs:
           script_stop: true
           script: |
             chmod 755 ./front/target/front-0.0.1-SNAPSHOT.jar
-            fuser -k 8080/tcp
-            fuser -k 8081/tcp
+            fuser -k 8080/tcp | true
+            fuser -k 8081/tcp | true
             ./front/startup.sh
 
 
