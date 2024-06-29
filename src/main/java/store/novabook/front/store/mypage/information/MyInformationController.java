@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.dto.UpdateMemberNameRequest;
 import store.novabook.front.api.member.member.dto.UpdateMemberNumberRequest;
 import store.novabook.front.api.member.member.dto.UpdateMemberPasswordRequest;
+import store.novabook.front.api.member.grade.service.MemberGradeService;
 import store.novabook.front.api.member.member.service.MemberService;
 
 @Controller
@@ -19,10 +20,12 @@ public class MyInformationController {
 	private static final Long MEMBER_ID = 7L;
 
 	private final MemberService memberService;
+	private final MemberGradeService memberGradeService;
 
 	@GetMapping
 	public String getMyInformation(Model model) {
 		memberService.getMemberById(MEMBER_ID);
+		model.addAttribute("grade", memberGradeService.getMemberGrade(MEMBER_ID));
 		model.addAttribute("member", memberService.getMemberById(MEMBER_ID));
 		return "store/mypage/information/my_information";
 	}
