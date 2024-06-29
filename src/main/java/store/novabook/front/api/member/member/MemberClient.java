@@ -44,6 +44,6 @@ public interface MemberClient {
 		@RequestBody UpdateMemberPasswordRequest updateMemberPasswordRequest);
 
 	@PutMapping("/member/withdraw")
-	ApiResponse<Void> updateMemberStatusToWithdraw(@RequestHeader(required = false) Long memberId, DeleteMemberRequest deleteMemberRequest);
+	ApiResponse<Void> updateMemberStatusToWithdraw(@RequestHeader(required = false) Long memberId, @RequestBody DeleteMemberRequest deleteMemberRequest);
 
 }
