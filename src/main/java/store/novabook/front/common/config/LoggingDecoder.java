@@ -2,6 +2,8 @@ package store.novabook.front.common.config;
 
 import feign.Response;
 import feign.codec.Decoder;
+import lombok.extern.slf4j.Slf4j;
+import store.novabook.front.api.member.member.dto.LoginMemberResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,8 +11,11 @@ import java.io.InputStreamReader;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
 
+@Slf4j
 public class LoggingDecoder implements Decoder {
 
 	private final Decoder delegate;
@@ -23,9 +28,9 @@ public class LoggingDecoder implements Decoder {
 	@Override
 	public Object decode(Response response, Type type) throws IOException {
 		// 응답 본문을 로깅합니다.
-
 		if(response.request().url().contains("auth/login")) {
-			return response;
+			LoginMemberResponse result = (LoginMemberResponse) delegate.decode(response, LoginMemberResponse.class);
+			return ResponseEntity.of(Optional.of(result));
 		}
 		String body = "";
 		if (response.body() != null) {
