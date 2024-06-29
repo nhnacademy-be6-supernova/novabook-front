@@ -6,12 +6,15 @@ import feign.codec.Decoder;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
+
 
 public class LoggingDecoder implements Decoder {
 
 	private final Decoder delegate;
+
 
 	public LoggingDecoder(Decoder delegate) {
 		this.delegate = delegate;
@@ -20,9 +23,14 @@ public class LoggingDecoder implements Decoder {
 	@Override
 	public Object decode(Response response, Type type) throws IOException {
 		// 응답 본문을 로깅합니다.
+
+		if(response.request().url().contains("auth/login")) {
+			return response;
+		}
 		String body = "";
 		if (response.body() != null) {
-			try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.body().asInputStream(), StandardCharsets.UTF_8))) {
+			try (BufferedReader bufferedReader = new BufferedReader(
+				new InputStreamReader(response.body().asInputStream(), StandardCharsets.UTF_8))) {
 				StringBuilder sb = new StringBuilder();
 				String line;
 				while ((line = bufferedReader.readLine()) != null) {
@@ -37,6 +45,10 @@ public class LoggingDecoder implements Decoder {
 		// 새 Response 객체를 생성합니다.
 		Response newResponse = response.toBuilder().body(body, StandardCharsets.UTF_8).build();
 
-		return delegate.decode(newResponse, type);
+		// 응답 바디를 역직렬화
+		Object result = delegate.decode(newResponse, type);
+
+		return result;
 	}
 }
+

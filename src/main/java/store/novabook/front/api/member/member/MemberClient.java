@@ -16,15 +16,11 @@ import store.novabook.front.api.member.member.dto.LoginMemberResponse;
 import store.novabook.front.api.member.member.dto.UpdateMemberRequest;
 import store.novabook.front.common.response.ApiResponse;
 
-// @FeignClient(name = "memberClient", url = "http://localhost:9777/api/v1/store/members")
-@FeignClient(name = "memberClient", url = "http://localhost:9777/auth")
+@FeignClient(name = "memberClient", url = "http://localhost:9777/api/v1/store/members")
 public interface MemberClient {
 
 	@PostMapping
 	ApiResponse<CreateMemberResponse> createMember(@RequestBody CreateMemberRequest createMemberRequest);
-
-	@PostMapping("/login")
-	ResponseEntity<LoginMemberResponse> login(@RequestBody LoginMemberRequest loginMemberRequest);
 
 	@GetMapping("/member")
 	ApiResponse<GetMemberResponse> getMember(@RequestHeader Long memberId);

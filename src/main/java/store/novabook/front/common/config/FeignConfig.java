@@ -24,9 +24,9 @@ public class FeignConfig {
 		return new FeignClientInterceptor(request);
 	}
 
-	@Bean
-	public Decoder feignDecoder() {
-		return new LoggingDecoder(new SpringDecoder(messageConverters));
-	}
+	// @Bean
+	// public Decoder feignDecoder() {
+	// 	return new LoggingDecoder(new SpringDecoder(messageConverters));
+	// }
 
 }
