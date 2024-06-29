@@ -38,7 +38,7 @@ public class AdminIndexController {
 		PageResponse<GetBookAllResponse> bookAll = bookService.getBookAll(page, size);
 
 		model.addAttribute("books", bookAll);
-		return "/admin/book/book_list";
+		return "admin/book/book_list";
 	}
 
 }
