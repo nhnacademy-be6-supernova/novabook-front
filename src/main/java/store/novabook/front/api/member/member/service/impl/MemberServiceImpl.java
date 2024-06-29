@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.MemberAuthClient;
 import store.novabook.front.api.member.member.MemberClient;
@@ -44,7 +45,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public LoginMemberResponse getMember(LoginMemberRequest loginMemberRequest, HttpServletResponse response) {
+	public LoginMemberResponse getMember(@Valid LoginMemberRequest loginMemberRequest, HttpServletResponse response) {
 		ResponseEntity<LoginMemberResponse> tokenDtoApiResponse = memberAuthClient.login(loginMemberRequest);
 
 		// 헤더 설정
