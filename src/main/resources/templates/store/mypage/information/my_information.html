@@ -141,13 +141,13 @@
             <th>이메일 주소</th>
             <td>
                 <span class="info-text" th:text="${member.email}" id="email">MemberEmail</span>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#emailModal">수정</button>
             </td>
         </tr>
     </table>
 </div>
 
 <!-- Modals -->
+<form method="post" th:action="@{/mypage/information/name}">
 <div id="nameModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -156,44 +156,50 @@
                 <h4 class="modal-title">이름 변경</h4>
             </div>
             <div class="modal-body">
-                <input type="text" id="newName" class="form-control" placeholder="새 이름 입력">
+                <input type="text" id="newName" class="form-control" name="name" placeholder="새 이름 입력">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="saveName()">저장</button>
+                <button type="submit" class="btn btn-primary" onclick="saveName()">저장</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
             </div>
         </div>
     </div>
 </div>
+</form>
 
-<div id="passwordModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">비밀번호 변경</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="newPassword">새 비밀번호</label>
-                    <input type="password" id="newPassword" class="form-control" placeholder="새 비밀번호 입력">
+<form method="post" id="passwordForm" th:action="@{/mypage/information/password}">
+    <div id="passwordModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">비밀번호 변경</h4>
                 </div>
-                <p>※비밀번호는 <span class="num">문자, 숫자, 특수문자(~!@#$%^&*)의 조합 10 ~ 16자리</span>로 입력이 가능합니다.</p>
-                <br>
-                <div class="form-group">
-                    <label for="confirmPassword">새 비밀번호 확인</label>
-                    <input type="password" id="confirmPassword" class="form-control" placeholder="새 비밀번호 재입력">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="newPassword">새 비밀번호</label>
+                        <input type="password" id="newPassword" class="form-control" name="loginPassword" onkeyup="validatePassword()" placeholder="새 비밀번호 입력">
+                    </div>
+                    <p>※비밀번호는 <span class="num">문자, 숫자, 특수문자(~!@#$%^&*)의 조합 10 ~ 16자리</span>로 입력이 가능합니다.</p>
+                    <br>
+                    <div class="form-group">
+                        <label for="confirmPassword">새 비밀번호 확인</label>
+                        <input type="password" id="confirmPassword" class="form-control" name="loginPasswordConfirm" onkeyup="validatePassword()" placeholder="새 비밀번호 재입력">
+                    </div>
+                    <div id="passwordError" style="color: red; display: none;">비밀번호가 일치하지 않습니다.</div>
+                    <div id="passwordPatternError" style="color: red; display: none;">비밀번호는 문자, 숫자, 특수문자(~!@#$%^&*)의 조합 10 ~ 16자리로 입력이 가능합니다.</div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="savePassword()">저장</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" onclick="savePassword(event)">저장</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</form>
 
 
+<form method="post" th:action="@{/mypage/information/number}">
 <div id="phoneModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -202,39 +208,22 @@
                 <h4 class="modal-title">전화번호 수정</h4>
             </div>
             <div class="modal-body">
-                <input type="text" id="newPhone" class="form-control" placeholder="새 전화번호 입력">
+                <input type="text" id="newPhone" class="form-control" name="number" placeholder="새 전화번호 입력">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="savePhone()">저장</button>
+                <button type="submit" class="btn btn-primary" onclick="savePhone()">저장</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
             </div>
         </div>
     </div>
 </div>
-
-<div id="emailModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">이메일 주소 수정</h4>
-            </div>
-            <div class="modal-body">
-                <input type="text" id="newEmail" class="form-control" placeholder="새 이메일 주소 입력">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="saveEmail()">저장</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-            </div>
-        </div>
-    </div>
-</div>
+</form>
 
 <div th:replace="~{layout/store/footer :: footer}"></div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script>
+<script th:inline="javascript">
     function saveName() {
         var newName = document.getElementById("newName").value;
         if (newName) {
@@ -243,13 +232,66 @@
         }
     }
 
-    function savePassword() {
+    function validatePassword() {
         var newPassword = document.getElementById("newPassword").value;
-        if (newPassword) {
-            // Perform password change logic here
-            $('#passwordModal').modal('hide');
+        var confirmPassword = document.getElementById("confirmPassword").value;
+        var passwordError = document.getElementById("passwordError");
+        var passwordPatternError = document.getElementById("passwordPatternError");
+
+        // 정규표현식을 사용하여 비밀번호 조건 검사
+        var passwordPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*])[A-Za-z\d~!@#$%^&*]{10,16}$/;
+
+        // 비밀번호 확인 입력이 되었는지 확인
+        if (confirmPassword.length > 0) {
+            // 비밀번호와 확인 비밀번호가 일치하지 않는 경우
+            if (newPassword !== confirmPassword) {
+                passwordError.style.display = "block";
+                passwordPatternError.style.display = "none"; // 추가
+                return false;
+            } else {
+                passwordError.style.display = "none";
+            }
         }
+
+        // 비밀번호가 입력되었고, 조건에 맞지 않는 경우
+        if (newPassword.length > 0 && !passwordPattern.test(newPassword)) {
+            passwordPatternError.style.display = "block";
+            passwordError.style.display = "none"; // 추가
+            return false;
+        } else {
+            passwordPatternError.style.display = "none";
+        }
+
+        return true;
     }
+
+    function savePassword(event) {
+        var newPassword = document.getElementById("newPassword").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+
+        if (!newPassword || !confirmPassword) {
+            alert("비밀번호를 입력해주세요.");
+            event.preventDefault();
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            alert("비밀번호가 일치하지 않습니다.");
+            event.preventDefault();
+            return;
+        }
+
+        // 비밀번호가 정규식 패턴을 충족하지 않는 경우
+        if (!validatePassword()) {
+            event.preventDefault();
+            return;
+        }
+
+        // Perform password change logic here
+        document.getElementById("passwordForm").submit();
+        $('#passwordModal').modal('hide');
+    }
+
 
     function savePhone() {
         var newPhone = document.getElementById("newPhone").value;
@@ -259,13 +301,18 @@
         }
     }
 
-    function saveEmail() {
-        var newEmail = document.getElementById("newEmail").value;
-        if (newEmail) {
-            document.getElementById("emailText").textContent = newEmail;
-            $('#emailModal').modal('hide');
-        }
-    }
+
+    $('#nameModal').on('shown.bs.modal', function () {
+        $('#newName').val($('#nameText').text().trim());
+    });
+
+    /* 전화번호 수정 모달에서 전화번호 텍스트 업데이트 */
+    $('#phoneModal').on('shown.bs.modal', function () {
+        $('#newPhone').val($('#phoneText').text().trim());
+    });
+
+
+
 </script>
 </body>
 </html>
