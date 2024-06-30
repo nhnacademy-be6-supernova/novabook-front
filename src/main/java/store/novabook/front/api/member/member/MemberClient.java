@@ -19,14 +19,11 @@ import store.novabook.front.api.member.member.dto.UpdateMemberNumberRequest;
 import store.novabook.front.api.member.member.dto.UpdateMemberPasswordRequest;
 import store.novabook.front.common.response.ApiResponse;
 
-@FeignClient(name = "memberClient", url = "http://localhost:9777/api/v1/store/members")
+@FeignClient(name = "memberClient")
 public interface MemberClient {
 
 	@PostMapping
 	ApiResponse<CreateMemberResponse> createMember(@RequestBody CreateMemberRequest createMemberRequest);
-
-	@PostMapping("/login")
-	ResponseEntity<LoginMemberResponse> login(@RequestBody LoginMemberRequest loginMemberRequest);
 
 	@GetMapping("/member")
 	ApiResponse<GetMemberResponse> getMember(@RequestHeader(required = false) Long memberId);
