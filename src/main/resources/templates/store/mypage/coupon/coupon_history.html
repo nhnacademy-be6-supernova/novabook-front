@@ -47,6 +47,50 @@
             border-top: none;
             border-radius: 0 0 4px 4px;
             padding: 15px;
+            margin-top: 20px; /* 콘텐츠 상단 여백 추가 */
+        }
+
+        .coupon-container {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .coupon-container h3 {
+            margin-top: 0;
+            font-size: 24px;
+            color: #333;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .coupon-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .coupon-list-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .coupon-list-item h4 {
+            margin-top: 0;
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .coupon-list-item p {
+            margin: 0;
+            font-size: 14px;
+            color: #777;
         }
     </style>
 </head>
@@ -58,6 +102,24 @@
     <div class="container">
         <div class="row">
             <div th:replace="~{layout/store/sidebar::sidebar}"></div>
+
+            <!-- 다운로드받은 쿠폰함 -->
+            <div class="col-md-9">
+                <div class="coupon-container">
+                    <h3>내 쿠폰함</h3>
+                    <ul class="coupon-list">
+                        <li class="coupon-list-item">
+                            <h4>CUPON1234</h4>
+                            <p>할인 쿠폰 | 정률 할인 | 10% 할인</p>
+                        </li>
+                        <li class="coupon-list-item">
+                            <h4>CUPON5678</h4>
+                            <p>할인 쿠폰 | 정액 할인 | 5000원 할인</p>
+                        </li>
+                        <!-- 추가적인 쿠폰 데이터 예시 -->
+                    </ul>
+                </div>
+            </div>
 
             <!-- 콘텐츠 섹션 -->
             <div class="col-md-9">
@@ -82,7 +144,7 @@
                                         <thead>
                                         <tr>
                                             <th style="width: 16.67%;">발급 일자</th>
-                                            <th style="width: 16.67%;">쿠폰 코드</th>
+                                            <th style="width: 16.67%;">쿠폰 이름</th>
                                             <th style="width: 16.67%;">쿠폰 종류</th>
                                             <th style="width: 16.67%;">할인 종류</th>
                                             <th style="width: 16.67%;">할인 가격</th>
@@ -120,7 +182,7 @@
                                         <thead>
                                         <tr>
                                             <th style="width: 16.67%;">사용 일자</th>
-                                            <th style="width: 16.67%;">쿠폰 코드</th>
+                                            <th style="width: 16.67%;">쿠폰 이름</th>
                                             <th style="width: 16.67%;">쿠폰 종류</th>
                                             <th style="width: 16.67%;">할인 종류</th>
                                             <th style="width: 16.67%;">할인 가격</th>
