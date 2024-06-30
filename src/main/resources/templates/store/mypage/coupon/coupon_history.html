@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <style>
+        /* 책갈피 스타일 */
+        .bookmark-tabs {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        .bookmark-tabs > .tab {
+            cursor: pointer;
+            padding: 10px 15px; /* 조정된 너비 */
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+            transition: background-color 0.3s;
+            flex: 1; /* 동일한 너비를 가지도록 설정 */
+            text-align: center; /* 가운데 정렬 */
+        }
+
+        .bookmark-tabs > .tab.active {
+            background-color: #fff;
+            border-bottom: 2px solid #017DC1;
+        }
+
+        .tab-content {
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{layout/store/nav::nav}"></div>
+
+<div class="layout">
+    <div class="container">
+        <div class="row">
+            <div th:replace="~{layout/store/sidebar::sidebar}"></div>
+
+            <!-- 콘텐츠 섹션 -->
+            <div class="col-md-9">
+                <!-- 책갈피 탭 네비게이션 -->
+                <div class="bookmark-tabs">
+                    <div class="tab tab-issue active" onclick="openTab('issue')">쿠폰 발급 내역</div>
+                    <div class="tab tab-usage" onclick="openTab('usage')">쿠폰 사용 내역</div>
+                </div>
+
+                <!-- 탭 내용 -->
+                <div class="tab-content">
+                    <!-- 쿠폰 발급 내역 탭 -->
+                    <div role="tabpanel" class="tab-pane active" id="issue">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">쿠폰 발급 내역</h3>
+                            </div>
+                            <div class="panel-body">
+                                <!-- 테이블 형태로 쿠폰 발급 내역을 나타내는 부분 -->
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th style="width: 16.67%;">발급 일자</th>
+                                            <th style="width: 16.67%;">쿠폰 코드</th>
+                                            <th style="width: 16.67%;">쿠폰 종류</th>
+                                            <th style="width: 16.67%;">할인 종류</th>
+                                            <th style="width: 16.67%;">할인 가격</th>
+                                            <th style="width: 16.67%;">쿠폰 상태</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <!-- 각 행에 해당하는 데이터 반복적으로 추가 -->
+                                        <tr>
+                                            <td>2024-06-25</td>
+                                            <td>CUPON5678</td>
+                                            <td>할인 쿠폰</td>
+                                            <td>정액 할인</td>
+                                            <td>5000원</td>
+                                            <td>사용 전</td>
+                                        </tr>
+                                        <!-- 데이터 추가 예시 -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 쿠폰 사용 내역 탭 -->
+                    <div role="tabpanel" class="tab-pane" id="usage">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">쿠폰 사용 내역</h3>
+                            </div>
+                            <div class="panel-body">
+                                <!-- 테이블 형태로 쿠폰 사용 내역을 나타내는 부분 -->
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th style="width: 16.67%;">사용 일자</th>
+                                            <th style="width: 16.67%;">쿠폰 코드</th>
+                                            <th style="width: 16.67%;">쿠폰 종류</th>
+                                            <th style="width: 16.67%;">할인 종류</th>
+                                            <th style="width: 16.67%;">할인 가격</th>
+                                            <th style="width: 16.67%;">사용 내용</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <!-- 각 행에 해당하는 데이터 반복적으로 추가 -->
+                                        <tr>
+                                            <td>2024-06-30</td>
+                                            <td>CUPON1234</td>
+                                            <td>할인 쿠폰</td>
+                                            <td>정률 할인</td>
+                                            <td>10%</td>
+                                            <td>상품 할인 적용</td>
+                                        </tr>
+                                        <!-- 데이터 추가 예시 -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/store/footer::footer}"></div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script>
+    function openTab(tabName) {
+        var tabs = document.querySelectorAll('.bookmark-tabs .tab');
+        var panels = document.querySelectorAll('.tab-content .tab-pane');
+
+        tabs.forEach(function(tab) {
+            tab.classList.remove('active');
+        });
+
+        panels.forEach(function(panel) {
+            panel.classList.remove('active');
+        });
+
+        document.querySelector('.tab-' + tabName).classList.add('active');
+        document.getElementById(tabName).classList.add('active');
+    }
+</script>
+</body>
+
+</html>
