@@ -72,7 +72,28 @@
                             </tbody>
                         </table>
 
-                        <a href="/mypage" class="btn btn-primary">돌아가기</a>
+                        <div class="pagination">
+                            <a href="/mypage" class="btn btn-primary">돌아가기</a>
+                            <!-- Previous button -->
+                            <li class="page-item" th:classappend="${LikeBooks.getPageNum() == 0} ? 'disabled'">
+                                <a th:if="${LikeBooks.getPageNum() > 0}" th:href="@{/mypage/likebooks(page=${LikeBooks.getPageNum() - 1})}">Previous</a>
+                                <span th:if="${LikeBooks.getPageNum() == 0}">Previous</span>
+                            </li>
+
+                            <!-- Page numbers -->
+                            <li class="page-item" th:each="i : ${#numbers.sequence(0, LikeBooks.getTotalPageCount() - 1)}">
+                                <a th:href="@{/admin/likebooks(page=${i})}" th:text="${i + 1}+'&nbsp;'"
+                                   th:classappend="${i == LikeBooks.getPageNum()} ? 'active' : ''"></a>
+                            </li>
+
+                            <!-- Next button -->
+                            <li class="page-item"
+                                th:classappend="${LikeBooks.getPageNum() >= LikeBooks.getTotalPageCount() - 1} ? 'disabled'">
+                                <a th:if="${LikeBooks.getPageNum() < LikeBooks.getTotalPageCount() - 1}"
+                                   th:href="@{/admin/likebooks(page=${LikeBooks.getPageNum() + 1})}">Next</a>
+                                <span th:if="${LikeBooks.getPageNum() >= LikeBooks.getTotalPageCount() - 1}">Next</span>
+                            </li>
+                        </div>
                     </div>
                 </div>
             </div>

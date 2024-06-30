@@ -23,7 +23,8 @@ public class MypageLikeBookController {
 
 	@GetMapping
 	public String getLikeBookAll(Model model,
-		@RequestParam(defaultValue = PAGE) int page, @RequestParam(defaultValue = PAGE_SIZE) int size) {
+		@RequestParam(defaultValue = PAGE) int page,
+		@RequestParam(defaultValue = PAGE_SIZE) int size) {
 		model.addAttribute("grade", memberGradeService.getMemberGrade());
 		model.addAttribute("LikeBooks", likeService.getBookLikeAllPage(page, size));
 
