@@ -18,6 +18,10 @@ public record CreateMemberRequest(
 	@Size(max = 150, message = "최대 150자까지 가능합니다.")
 	String loginPassword,
 
+	@NotBlank(message = "비밀번호는 필수 입력 값입니다.")
+	@Size(max = 150, message = "최대 150자까지 가능합니다.")
+	String loginPasswordConfirm,
+
 	@NotBlank(message = "이름은 필수 입력 값입니다.")
 	@Size(max = 50, message = "최대 50자까지 가능합니다.")
 	String name,
