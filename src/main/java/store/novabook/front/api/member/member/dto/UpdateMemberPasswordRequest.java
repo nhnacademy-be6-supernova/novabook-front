@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-
 public record UpdateMemberPasswordRequest(
 	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[~!@#$%^&*]).{10,16}$")
 	@NotBlank(message = "비밀번호는 필수 입력 값입니다.")

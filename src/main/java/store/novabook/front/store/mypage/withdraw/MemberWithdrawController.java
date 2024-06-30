@@ -15,7 +15,7 @@ import store.novabook.front.api.member.member.service.MemberService;
 @RequiredArgsConstructor
 public class MemberWithdrawController {
 	private final MemberService memberService;
-	private static final Long MEMBER_ID = 8L;
+	private static final Long MEMBER_ID = 9L;
 
 	@GetMapping
 	public String memberWithdraw(Model model) {

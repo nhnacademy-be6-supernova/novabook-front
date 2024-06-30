@@ -26,10 +26,10 @@ import store.novabook.front.common.response.ApiResponse;
 public class MemberServiceImpl implements MemberService {
 	private final MemberClient memberClient;
 	private final MemberAuthClient memberAuthClient;
+	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Override
 	public CreateMemberResponse createMember(CreateMemberRequest createMemberRequest) {
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 		CreateMemberRequest newMemberRequest = CreateMemberRequest.builder()
 			.loginId(createMemberRequest.loginId())
