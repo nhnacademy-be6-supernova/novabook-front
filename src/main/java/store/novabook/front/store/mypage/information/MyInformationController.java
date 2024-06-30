@@ -26,7 +26,7 @@ public class MyInformationController {
 	@GetMapping
 	public String getMyInformation(Model model) {
 		memberService.getMemberById(MEMBER_ID);
-		model.addAttribute("grade", memberGradeService.getMemberGrade(MEMBER_ID));
+		model.addAttribute("grade", memberGradeService.getMemberGrade());
 		model.addAttribute("member", memberService.getMemberById(MEMBER_ID));
 		return "store/mypage/information/my_information";
 	}

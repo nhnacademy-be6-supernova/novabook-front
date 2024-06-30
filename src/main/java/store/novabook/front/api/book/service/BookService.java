@@ -16,7 +16,6 @@ import store.novabook.front.common.response.PageResponse;
 public class BookService {
 
 	private final BookClient bookClient;
-
 	public GetBookResponse getBookClient(Long id) {
 		ApiResponse<GetBookResponse> book = bookClient.getBook(id);
 		return book.getBody();

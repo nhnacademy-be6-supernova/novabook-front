@@ -13,11 +13,10 @@ import store.novabook.front.api.member.grade.service.MemberGradeService;
 @RequiredArgsConstructor
 public class MypageReviewController {
 	private final MemberGradeService memberGradeService;
-	private static final Long MEMBER_ID = 7L;
 
 	@GetMapping
 	public String getReviewAll(Model model) {
-		model.addAttribute("grade", memberGradeService.getMemberGrade(MEMBER_ID));
+		model.addAttribute("grade", memberGradeService.getMemberGrade());
 		return "store/mypage/review/review_list";
 	}
 }
