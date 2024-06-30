@@ -16,7 +16,7 @@ public interface BookLikeClient {
 	@GetMapping("/member")
 	PageResponse<GetBookLikeResponse> getBookLikeAllPage(@RequestParam int page, @RequestParam int size);
 
-	@DeleteMapping("{likesId}")
+	@DeleteMapping("/{likesId}")
 	ApiResponse<Void> deleteBookLike(@PathVariable("likesId") Long likesId);
 
 }
