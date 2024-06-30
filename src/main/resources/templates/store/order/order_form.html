@@ -152,10 +152,10 @@
                     </thead>
                     <tbody>
                     <tr th:each="item, iterStat : ${items}">
-                        <td th:text="${item.name}">Product Name</td>
-                        <td th:text="${item.price}">14,800원</td>
-                        <td th:text="${item.quantity}">1</td>
-                        <td th:text="${item.discount}">10%</td>
+                        <td th:text="${item.name()}">Product Name</td>
+                        <td th:text="${item.price()}">14,800원</td>
+                        <td th:text="${item.quantity()}">1</td>
+                        <td th:text="${item.discount()}">10%</td>
                         <td th:text="${item.total}">13,320원</td>
                         <!--                        <td>내일 (6/15)</td>-->
                     </tr>

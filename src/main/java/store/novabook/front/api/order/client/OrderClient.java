@@ -1,4 +1,4 @@
-package store.novabook.front.api.order;
+package store.novabook.front.api.order.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
