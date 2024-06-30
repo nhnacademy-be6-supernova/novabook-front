@@ -11,10 +11,13 @@ import store.novabook.front.api.member.member.MemberAuthClient;
 import store.novabook.front.api.member.member.MemberClient;
 import store.novabook.front.api.member.member.dto.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.CreateMemberResponse;
+import store.novabook.front.api.member.member.dto.DeleteMemberRequest;
 import store.novabook.front.api.member.member.dto.GetMemberResponse;
 import store.novabook.front.api.member.member.dto.LoginMemberRequest;
 import store.novabook.front.api.member.member.dto.LoginMemberResponse;
-import store.novabook.front.api.member.member.dto.UpdateMemberRequest;
+import store.novabook.front.api.member.member.dto.UpdateMemberNameRequest;
+import store.novabook.front.api.member.member.dto.UpdateMemberNumberRequest;
+import store.novabook.front.api.member.member.dto.UpdateMemberPasswordRequest;
 import store.novabook.front.api.member.member.service.MemberService;
 import store.novabook.front.common.response.ApiResponse;
 
@@ -23,10 +26,10 @@ import store.novabook.front.common.response.ApiResponse;
 public class MemberServiceImpl implements MemberService {
 	private final MemberClient memberClient;
 	private final MemberAuthClient memberAuthClient;
+	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Override
 	public CreateMemberResponse createMember(CreateMemberRequest createMemberRequest) {
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 		CreateMemberRequest newMemberRequest = CreateMemberRequest.builder()
 			.loginId(createMemberRequest.loginId())
@@ -61,8 +64,24 @@ public class MemberServiceImpl implements MemberService {
 		return memberClient.getMember(memberId).getBody();
 	}
 
-	public void updateMember(Long memberId, UpdateMemberRequest updateMemberRequest) {
-		memberClient.updateMember(memberId, updateMemberRequest);
+	@Override
+	public void updateMemberName(Long memberId, UpdateMemberNameRequest updateMemberNameRequest) {
+		memberClient.updateMemberName(memberId, updateMemberNameRequest);
+	}
+
+	@Override
+	public void updateMemberNumber(Long memberId, UpdateMemberNumberRequest updateMemberNumberRequest) {
+		memberClient.updateMemberNumber(memberId, updateMemberNumberRequest);
+	}
+
+	@Override
+	public void updateMemberPassword(Long memberId, UpdateMemberPasswordRequest updateMemberPasswordRequest) {
+		memberClient.updateMemberPassword(memberId, updateMemberPasswordRequest);
+	}
+
+	@Override
+	public void deleteMember(Long memberId, DeleteMemberRequest deleteMemberRequest) {
+		memberClient.updateMemberStatusToWithdraw(memberId, deleteMemberRequest);
 	}
 
 

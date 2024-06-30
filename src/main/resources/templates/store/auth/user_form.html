@@ -322,7 +322,7 @@
                 isIdDuplicate = data.body.isDuplicateLoginId;
 
                 if (isIdDuplicate) {
-                    messageElement.innerText = "이미 사용 중인 아이디입니다.";
+                    messageElement.innerText = "사용할 수 없는 아이디입니다.";
                     messageElement.style.color = "red";
                 } else {
                     messageElement.innerText = "사용할 수 있는 아이디입니다.";
@@ -400,7 +400,7 @@
             })
             .catch(error => {
                 console.error('Error checking email:', error);
-                alert("이메일 중복 확인 중 오류가 발생했습니다. " + error);
+                alert("이메일 중복 확인 중 오류가 발생했습니다." + error);
             });
     }
 
