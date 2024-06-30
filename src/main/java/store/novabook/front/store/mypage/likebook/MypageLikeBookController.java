@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.book.service.LikeService;
+import store.novabook.front.api.member.grade.service.MemberGradeService;
 import store.novabook.front.api.member.grade.service.impl.MemberGradeServiceImpl;
 
 @RequiredArgsConstructor
@@ -17,7 +18,7 @@ import store.novabook.front.api.member.grade.service.impl.MemberGradeServiceImpl
 public class MypageLikeBookController {
 
 	private final LikeService likeService;
-	private final MemberGradeServiceImpl memberGradeService;
+	private final MemberGradeService memberGradeService;
 	private static final String PAGE_SIZE = "10";
 	private static final String PAGE = "0";
 

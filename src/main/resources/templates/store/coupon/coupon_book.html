@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕 - 쿠폰 다운로드</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <!-- Custom Stylesheet for Coupon Page -->
+    <link rel="stylesheet" href="/css/coupon.css">
+
+    <style>
+        /* coupon.css */
+
+        .coupon-wrapper {
+            margin: 50px auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .coupon-wrapper h2 {
+            font-size: 24px;
+            color: #017DC1;
+            margin-bottom: 20px;
+        }
+
+        .coupon-form {
+            margin-bottom: 20px;
+        }
+
+        .coupon-form input[type="text"] {
+            width: calc(100% - 120px);
+            height: 48px;
+            padding: 0 10px;
+            box-sizing: border-box;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .coupon-form input[type="submit"] {
+            width: 100px;
+            height: 48px;
+            background-color: #017DC1;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .coupon-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0 0;
+        }
+
+        .coupon-list li {
+            border: 1px solid #ddd;
+            border-radius: 12px; /* 크기를 키우기 위해 더 큰 border-radius 설정 */
+            padding: 20px; /* 내부 여백을 더 넓게 설정 */
+            margin-bottom: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 적용 */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .coupon-list li .coupon-code {
+            font-size: 20px; /* 쿠폰 코드의 크기를 조정 */
+            font-weight: bold;
+            color: #017DC1;
+        }
+
+        .coupon-list li .coupon-expiry {
+            font-size: 16px; /* 유효기간 텍스트 크기 조정 */
+            color: #666;
+        }
+
+        .coupon-list li .coupon-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .coupon-list li .coupon-actions a {
+            display: inline-block;
+            background-color: #017DC1;
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 20px; /* 버튼의 패딩을 크게 설정 */
+            border-radius: 6px;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+
+        .coupon-list li .coupon-actions a i {
+            margin-right: 5px;
+        }
+
+        .coupon-list li .coupon-actions a:hover {
+            background-color: #015B87;
+        }
+
+    </style>
+</head>
+
+<body>
+<div th:replace="~{layout/store/nav::nav}"></div>
+
+<div class="layout">
+    <div class="container">
+        <div class="coupon-wrapper">
+            <h2>쿠폰 다운로드</h2>
+            <ul class="coupon-list">
+                <li>
+                    <div class="coupon-details">
+                        <div class="coupon-code">ABC123</div>
+                        <div class="coupon-expiry">유효기간: 2024년 12월 31일</div>
+                    </div>
+                    <div class="coupon-actions">
+                        <a href="/download-coupon?coupon=ABC123" download><i class="fa fa-download"></i> 다운로드</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="coupon-details">
+                        <div class="coupon-code">DEF456</div>
+                        <div class="coupon-expiry">유효기간: 2024년 11월 30일</div>
+                    </div>
+                    <div class="coupon-actions">
+                        <a href="/download-coupon?coupon=DEF456" download><i class="fa fa-download"></i> 다운로드</a>
+                    </div>
+                </li>
+                <!-- 추가 쿠폰 항목들 -->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/store/footer::footer}"></div>
+
+<!-- JavaScript 코드 추가 -->
+<script>
+    // JavaScript 코드를 여기에 추가할 수 있습니다.
+</script>
+
+</body>
+
+</html>
