@@ -29,7 +29,7 @@ public class MypageAddressController {
 	@GetMapping
 	public String getAddressForm(Model model) {
 		List<GetMemberAddressResponse> responses = memberAddressService.getMemberAddresses(MEMBER_ID);
-		model.addAttribute("grade", memberGradeService.getMemberGrade(MEMBER_ID));
+		model.addAttribute("grade", memberGradeService.getMemberGrade());
 		model.addAttribute("addressList", responses);
 		return "store/mypage/address/address_list";
 	}

@@ -13,17 +13,16 @@ import store.novabook.front.api.member.grade.service.MemberGradeService;
 @RequiredArgsConstructor
 public class MypageOrderController {
 	private final MemberGradeService memberGradeService;
-	private static final Long MEMBER_ID = 7L;
 
 	@GetMapping
 	public String getOrderAll(Model model) {
-		model.addAttribute("grade", memberGradeService.getMemberGrade(MEMBER_ID));
+		model.addAttribute("grade", memberGradeService.getMemberGrade());
 		return "store/mypage/order/order_list";
 	}
 
 	@GetMapping("/cancel")
 	public String getOrderCancelAll(Model model) {
-		model.addAttribute("grade", memberGradeService.getMemberGrade(MEMBER_ID));
+		model.addAttribute("grade", memberGradeService.getMemberGrade());
 		return "store/mypage/order/order_cancel_list";
 	}
 

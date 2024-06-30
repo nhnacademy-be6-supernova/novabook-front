@@ -13,11 +13,10 @@ import store.novabook.front.api.member.grade.service.MemberGradeService;
 @RequiredArgsConstructor
 public class MypageRefundController {
 	private final MemberGradeService memberGradeService;
-	private static final Long MEMBER_ID = 7L;
 
 	@GetMapping
 	public String getRefundAll(Model model) {
-		model.addAttribute("grade", memberGradeService.getMemberGrade(MEMBER_ID));
+		model.addAttribute("grade", memberGradeService.getMemberGrade());
 		return "store/mypage/refund/refund_list";
 	}
 

@@ -14,7 +14,7 @@ import store.novabook.front.api.member.grade.service.MemberGradeService;
 public class MemberGradeServiceImpl implements MemberGradeService {
 	private final MemberGradeClient memberGradeClient;
 
-	public GetMemberGradeResponse getMemberGrade(Long memberId) {
-		return memberGradeClient.getMemberGrade(memberId).getBody();
+	public GetMemberGradeResponse getMemberGrade() {
+		return memberGradeClient.getMemberGrade().getBody();
 	}
 }
