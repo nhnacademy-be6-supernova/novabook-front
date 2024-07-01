@@ -2,7 +2,6 @@ package store.novabook.front.common.config;
 
 import java.util.Arrays;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import feign.RequestInterceptor;

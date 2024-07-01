@@ -15,9 +15,7 @@ import store.novabook.front.api.coupon.domain.CouponType;
 import store.novabook.front.api.coupon.dto.request.CreateBookCouponTemPlateRequest;
 import store.novabook.front.api.coupon.dto.request.CreateCategoryCouponTemplateRequest;
 import store.novabook.front.api.coupon.dto.request.CreateCouponTemplateRequest;
-import store.novabook.front.api.coupon.dto.response.GetCouponTemplateResponse;
 import store.novabook.front.api.coupon.service.CouponService;
-import store.novabook.front.common.response.PageResponse;
 
 @RequestMapping("/admin/coupons")
 @Controller
@@ -27,7 +25,6 @@ public class AdminCouponController {
 	private final CategoryService categoryService;
 	private static final String PAGE = "0";
 	private static final String PAGE_SIZE = "5";
-	private static final String REDIRECT_ADMIN_COUPONS = "redirect:/admin/coupons";
 
 	@GetMapping
 	public String getCoupons(Model model,
@@ -38,9 +35,8 @@ public class AdminCouponController {
 		@RequestParam(defaultValue = PAGE) int categoryPage,
 		@RequestParam(defaultValue = PAGE_SIZE) int size) {
 
-		PageResponse<GetCouponTemplateResponse> birthdayCoupons = couponService.getCouponTemplateAll(
-			CouponType.BIRTHDAY, birthdayPage, size);
-		model.addAttribute("birthdayCoupons", birthdayCoupons);
+		model.addAttribute("birthdayCoupons", couponService.getCouponTemplateAll(
+			CouponType.BIRTHDAY, birthdayPage, size));
 		model.addAttribute("welcomeCoupons",
 			couponService.getCouponTemplateAll(CouponType.WELCOME, welcomePage, size));
 		model.addAttribute("generalCoupons",
@@ -55,9 +51,7 @@ public class AdminCouponController {
 
 	@GetMapping("/common/type")
 	public String getCouponGeneralForm(Model model, @RequestParam CouponType type) {
-
 		model.addAttribute("couponType", type);
-
 		return "admin/coupon/coupon_common_form";
 	}
 
@@ -75,20 +69,20 @@ public class AdminCouponController {
 	@PostMapping("/common/create")
 	public String createCouponTemplateCommon(@Valid @ModelAttribute CreateCouponTemplateRequest couponRequest) {
 		couponService.createGeneralTemplateCoupon(couponRequest);
-		return REDIRECT_ADMIN_COUPONS;
+		return "redirect:/admin/coupons";
 	}
 
 	@PostMapping("/book/create")
 	public String createCouponTemplateBook(@Valid @ModelAttribute CreateBookCouponTemPlateRequest bookCouponRequest) {
 		couponService.createBookTemplateCoupon(bookCouponRequest);
-		return REDIRECT_ADMIN_COUPONS;
+		return "redirect:/admin/coupons";
 	}
 
 	@PostMapping("/category/create")
 	public String createCouponTemplateCategory(
 		@Valid @ModelAttribute CreateCategoryCouponTemplateRequest request) {
 		couponService.createCategoryTemplateCoupon(request);
-		return REDIRECT_ADMIN_COUPONS;
+		return "redirect:/admin/coupons";
 	}
 
 }

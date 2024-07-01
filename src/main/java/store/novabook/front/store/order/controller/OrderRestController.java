@@ -7,15 +7,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import store.novabook.front.store.order.dto.OrderTemporaryForm;
-import store.novabook.front.store.order.service.RedisOrderServive;
+import store.novabook.front.store.order.service.RedisOrderService;
+import store.novabook.front.store.order.service.impl.RedisOrderServiceImpl;
 
 @RequestMapping("/orders")
 @RestController
 public class OrderRestController {
 
-	private final RedisOrderServive orderService;
+	private final RedisOrderService orderService;
 
-	public OrderRestController(RedisOrderServive orderService) {
+	public OrderRestController(RedisOrderServiceImpl orderService) {
 		this.orderService = orderService;
 	}
 

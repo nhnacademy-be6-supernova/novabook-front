@@ -6,18 +6,19 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import store.novabook.front.api.tag.dto.request.CreateTagRequest;
+import store.novabook.front.api.tag.dto.response.CreateTagResponse;
+import store.novabook.front.api.tag.dto.response.GetTagListResponse;
+import store.novabook.front.api.tag.dto.response.GetTagResponse;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
-import store.novabook.front.api.tag.TagClient;
-import store.novabook.front.api.tag.dto.CreateTagRequest;
-import store.novabook.front.api.tag.dto.CreateTagResponse;
-import store.novabook.front.api.tag.dto.GetTagListResponse;
-import store.novabook.front.api.tag.dto.GetTagResponse;
+
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class TagServiceImpl implements TagService {
+
 	private final TagClient tagClient;
 
 	@Override
