@@ -16,36 +16,30 @@ import store.novabook.front.api.order.service.WrappingPaperService;
 @Service
 @RequiredArgsConstructor
 public class WrappingPaperServiceImpl implements WrappingPaperService {
+
 	private final WrappingPaperClient wrappingPaperClient;
 
-	//List 전체 조회
 	@Override
 	public List<GetWrappingPaperResponse> getWrappingPaperAllList() {
 		GetWrappingPaperAllResponse response = wrappingPaperClient.getWrappingPaperAllList().getBody();
 		return response.papers();
 	}
 
-	// 페이지 전체 조회
 	@Override
 	public PageResponse<GetWrappingPaperResponse> getWrappingPaperAllPage(int page, int size) {
 		return wrappingPaperClient.getWrappingPaperAllPage(page, size);
 	}
 
-
-	//단건 조회
 	@Override
 	public GetWrappingPaperResponse getWrappingPaper(Long id) {
 		return wrappingPaperClient.getWrappingPaper(id).getBody();
 	}
 
-
-	//생성
 	@Override
 	public void createWrappingPaper(CreateWrappingPaperRequest request) {
 		wrappingPaperClient.createWrappingPaper(request);
 	}
 
-	//수정
 	@Override
 	public void updateWrappingPaper(Long id, UpdateWrappingPaperRequest request) {
 		wrappingPaperClient.putWrappingPaper(request, id);

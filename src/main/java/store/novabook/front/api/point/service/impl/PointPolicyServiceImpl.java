@@ -3,8 +3,8 @@ package store.novabook.front.api.point.service.impl;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import store.novabook.front.api.point.service.PointPolicyClient;
 import store.novabook.front.common.response.PageResponse;
-import store.novabook.front.api.point.client.PointPolicyClient;
 import store.novabook.front.api.point.dto.request.CreatePointPolicyRequest;
 import store.novabook.front.api.point.dto.response.GetPointPolicyResponse;
 import store.novabook.front.api.point.service.PointPolicyService;

@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import store.novabook.front.api.delivery.dto.CreateDeliveryFeeRequest;
-import store.novabook.front.api.delivery.dto.CreateDeliveryFeeResponse;
-import store.novabook.front.api.delivery.dto.GetDeliveryFeeResponse;
+import store.novabook.front.api.delivery.dto.request.CreateDeliveryFeeRequest;
+import store.novabook.front.api.delivery.dto.response.CreateDeliveryFeeResponse;
+import store.novabook.front.api.delivery.dto.response.GetDeliveryFeeResponse;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
 

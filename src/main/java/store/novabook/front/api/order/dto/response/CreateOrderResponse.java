@@ -1,4 +1,4 @@
-package store.novabook.front.api.order.dto;
+package store.novabook.front.api.order.dto.response;
 
 import lombok.Builder;
 

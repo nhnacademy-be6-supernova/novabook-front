@@ -1,4 +1,4 @@
-package store.novabook.front.api.member.address;
+package store.novabook.front.api.member.address.service;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import store.novabook.front.api.member.address.dto.request.CreateMemberAddressRequest;
 import store.novabook.front.api.member.address.dto.request.UpdateMemberAddressRequest;
 import store.novabook.front.api.member.address.dto.response.CreateMemberAddressResponse;
 import store.novabook.front.api.member.address.dto.response.GetMemberAddressListResponse;

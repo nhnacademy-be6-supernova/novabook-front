@@ -1,4 +1,4 @@
-package store.novabook.front.api.member.member.dto;
+package store.novabook.front.api.member.member.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

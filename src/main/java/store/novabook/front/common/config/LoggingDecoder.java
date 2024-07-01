@@ -3,7 +3,7 @@ package store.novabook.front.common.config;
 import feign.Response;
 import feign.codec.Decoder;
 import lombok.extern.slf4j.Slf4j;
-import store.novabook.front.api.member.member.dto.LoginMemberResponse;
+import store.novabook.front.api.member.member.dto.response.LoginMemberResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;

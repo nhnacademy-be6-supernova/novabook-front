@@ -1,4 +1,4 @@
-package store.novabook.front.api.point.client;
+package store.novabook.front.api.point.service;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.api.point.dto.GetMemberPointResponse;
 
-@FeignClient(name = "pointClient", url = "http://localhost:9777/api/v1/store/point/histories")
+@FeignClient(name = "pointClient")
 public interface PointClient {
 
 	@GetMapping("/member")

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.delivery.dto.CreateDeliveryFeeRequest;
-import store.novabook.front.api.delivery.dto.GetDeliveryFeeResponse;
+
+import store.novabook.front.api.delivery.dto.request.CreateDeliveryFeeRequest;
 import store.novabook.front.api.delivery.service.DeliveryFeeService;
 import store.novabook.front.common.response.PageResponse;
 

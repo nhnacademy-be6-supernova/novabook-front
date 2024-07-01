@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.member.member.dto.DeleteMemberRequest;
+import store.novabook.front.api.member.member.dto.request.DeleteMemberRequest;
 import store.novabook.front.api.member.member.service.MemberService;
 
 @Controller

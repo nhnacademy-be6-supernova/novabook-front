@@ -4,8 +4,7 @@ import org.springframework.stereotype.Service;
 
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
-import store.novabook.front.api.member.member.MemberClient;
-import store.novabook.front.api.point.client.PointClient;
+import store.novabook.front.api.member.member.service.MemberClient;
 import store.novabook.front.api.point.dto.GetMemberPointResponse;
 
 @Slf4j

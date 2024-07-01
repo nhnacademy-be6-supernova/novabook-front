@@ -1,4 +1,4 @@
-package store.novabook.front.api.member.member.dto;
+package store.novabook.front.api.member.member.dto.response;
 
 public record GetMemberResponse(
 	Long id,

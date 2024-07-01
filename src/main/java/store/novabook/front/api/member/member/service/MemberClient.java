@@ -1,4 +1,4 @@
-package store.novabook.front.api.member.member;
+package store.novabook.front.api.member.member.service;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-import store.novabook.front.api.member.member.dto.CreateMemberRequest;
-import store.novabook.front.api.member.member.dto.CreateMemberResponse;
-import store.novabook.front.api.member.member.dto.DeleteMemberRequest;
-import store.novabook.front.api.member.member.dto.GetMemberResponse;
-import store.novabook.front.api.member.member.dto.UpdateMemberNameRequest;
-import store.novabook.front.api.member.member.dto.UpdateMemberNumberRequest;
-import store.novabook.front.api.member.member.dto.UpdateMemberPasswordRequest;
+import store.novabook.front.api.member.member.dto.request.CreateMemberRequest;
+import store.novabook.front.api.member.member.dto.request.DeleteMemberRequest;
+import store.novabook.front.api.member.member.dto.request.UpdateMemberNameRequest;
+import store.novabook.front.api.member.member.dto.request.UpdateMemberNumberRequest;
+import store.novabook.front.api.member.member.dto.request.UpdateMemberPasswordRequest;
+import store.novabook.front.api.member.member.dto.response.CreateMemberResponse;
+import store.novabook.front.api.member.member.dto.response.GetMemberResponse;
 import store.novabook.front.common.response.ApiResponse;
 
 @FeignClient(name = "memberClient")

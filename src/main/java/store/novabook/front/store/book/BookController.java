@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.book.service.BookServiceImpl;
+import store.novabook.front.api.book.service.impl.BookServiceImpl;
 
 @RequestMapping("/books")
 

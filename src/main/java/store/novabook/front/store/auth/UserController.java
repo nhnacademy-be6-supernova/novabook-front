@@ -13,10 +13,4 @@ public class UserController {
     public String getUserForm() {
         return "store/auth/user_form";
     }
-
-    @PostMapping
-    public String createUser() {
-        return "";
-    }
-
 }
