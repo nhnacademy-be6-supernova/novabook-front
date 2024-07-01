@@ -12,6 +12,7 @@ import store.novabook.front.api.member.grade.service.MemberGradeService;
 @Controller
 @RequiredArgsConstructor
 public class MypageOrderController {
+
 	private final MemberGradeService memberGradeService;
 
 	@GetMapping

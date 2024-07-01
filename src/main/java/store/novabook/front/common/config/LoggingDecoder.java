@@ -1,19 +1,18 @@
 package store.novabook.front.common.config;
 
-import feign.Response;
-import feign.codec.Decoder;
-import lombok.extern.slf4j.Slf4j;
-import store.novabook.front.api.member.member.dto.LoginMemberResponse;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+
+import feign.Response;
+import feign.codec.Decoder;
+import lombok.extern.slf4j.Slf4j;
+import store.novabook.front.api.member.member.dto.response.LoginMemberResponse;
 
 @Slf4j
 public class LoggingDecoder implements Decoder {
