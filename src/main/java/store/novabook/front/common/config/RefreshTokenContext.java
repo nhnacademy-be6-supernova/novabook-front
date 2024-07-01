@@ -3,9 +3,8 @@ package store.novabook.front.common.config;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GlobalContext {
+public class RefreshTokenContext {
 
-	// 필요한 데이터를 저장하는 필드
 	private String someData;
 
 	public String getSomeData() {

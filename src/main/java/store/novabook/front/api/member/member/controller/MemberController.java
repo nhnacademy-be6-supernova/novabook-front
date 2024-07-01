@@ -61,27 +61,4 @@ public class MemberController {
 		}
 		return auth;
 	}
-
-	// @PostMapping("/login")
-	// public String login(@ModelAttribute LoginMemberRequest loginMemberRequest, Model model,
-	// 	HttpServletResponse response) {
-	// 	LoginMemberResponse loginMemberResponse = memberService.getMember(loginMemberRequest);
-	// 	String token = loginMemberResponse.token();
-	//
-	// 	if (token != null && !token.isEmpty()) {
-	// 		// 로그인 성공 시 토큰을 TokenHolder에 설정
-	// 		TokenHolder.setToken(token);
-	//
-	// 		// 필요 시 쿠키에도 추가
-	// 		Cookie cookie = new Cookie("Authorization", token);
-	// 		cookie.setMaxAge(60 * 60 * 24 * 7);
-	// 		cookie.setPath("/");
-	// 		response.addCookie(cookie);
-	//
-	// 		return "redirect:/dashboard"; // 로그인 성공 후 리다이렉트할 경로
-	// 	} else {
-	// 		return "redirect:/login"; // 로그인 실패 시 리다이렉트할 경로
-	// 	}
-	// }
-
 }

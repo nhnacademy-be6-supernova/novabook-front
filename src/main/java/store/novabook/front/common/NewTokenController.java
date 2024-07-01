@@ -28,18 +28,16 @@ package store.novabook.front.common;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
 import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
 import store.novabook.front.api.member.member.service.MemberService;
-import store.novabook.front.common.config.GlobalContext;
+import store.novabook.front.common.config.RefreshTokenContext;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,41 +47,16 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class NewTokenController {
 
-	private final GlobalContext globalContext;
+	private final RefreshTokenContext refreshTokenContext;
 	private final MemberService memberService;
 
 	@GetMapping("/new-token")
 	public String getNewToken(HttpServletResponse response, HttpServletRequest request) {
-		// 원래 요청 정보 파싱 (간단한 구현)
-		// Map<String, String> requestInfo = parseRequestInfo(originalRequestInfo);
-
-		// Refresh token을 사용하여 새로운 Access token 요청
-		// String newAccessToken = requestNewAccessToken(requestInfo.get("headers"));
-		//
-		// // 원래 요청 URL로 리다이렉트
-		// String redirectUrl = requestInfo.get("url") + "?access_token=" + newAccessToken;
-		// response.setHeader("Location", redirectUrl);
-		// response.setStatus(HttpServletResponse.SC_SEE_OTHER);
-
-		Cookie accessCookie = new Cookie("Authorization", "ZZDASDASDA");
-		accessCookie.setMaxAge(60 * 60 * 24 * 7);
-		accessCookie.setPath("/");
-		response.addCookie(accessCookie);
-
-		Cookie accessCookie2 = new Cookie("ghfshgfhgdfh", "qeqwewqrert");
-		accessCookie2.setMaxAge(60 * 60 * 24 * 7);
-		accessCookie2.setPath("/");
-		response.addCookie(accessCookie2);
-
 		String refresh = request.getHeader("Refresh");
 		GetNewTokenRequest getNewTokenRequest = new GetNewTokenRequest(refresh);
 		GetNewTokenResponse getNewTokenResponse = memberService.newToken(getNewTokenRequest);
 
-		// memberService.newToken()
-
-		globalContext.setSomeData(getNewTokenResponse.accessToken());
-
-
+		refreshTokenContext.setSomeData(getNewTokenResponse.accessToken());
 
 		return null;
 	}
