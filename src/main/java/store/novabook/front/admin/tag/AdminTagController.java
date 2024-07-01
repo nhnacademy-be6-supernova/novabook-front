@@ -19,10 +19,11 @@ import store.novabook.front.api.tag.service.TagService;
 public class AdminTagController {
 
 	private final TagService tagService;
+	public static final String PAGE = "0";
 	private static final String DEFAULT_SIZE = "5";
 
 	@GetMapping
-	public String getTagAll(Model model, @RequestParam(defaultValue = "0") int page,
+	public String getTagAll(Model model, @RequestParam(defaultValue = PAGE) int page,
 		@RequestParam(defaultValue = DEFAULT_SIZE) int size) {
 		model.addAttribute("tags", tagService.getTags(page, size));
 		return "admin/tag/tag_list";
