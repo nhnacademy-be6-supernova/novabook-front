@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.book.service.LikeService;
 import store.novabook.front.api.member.grade.service.MemberGradeService;
-import store.novabook.front.api.member.grade.service.impl.MemberGradeServiceImpl;
 
 @RequiredArgsConstructor
-@RequestMapping("/mypage/likebooks")
+@RequestMapping("/mypage/like")
 @Controller
 public class MypageLikeBookController {
 
