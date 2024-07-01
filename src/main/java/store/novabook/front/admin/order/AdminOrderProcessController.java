@@ -15,9 +15,4 @@ public class AdminOrderProcessController {
 		return "admin/order/order_process_list";
 	}
 
-	@PostMapping("order/{orderId}/update")
-	public String updateOrder(@PathVariable Long orderId) {
-		return "";
-	}
-
 }
