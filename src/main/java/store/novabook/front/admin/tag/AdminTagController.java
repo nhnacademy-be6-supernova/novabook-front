@@ -28,7 +28,6 @@ public class AdminTagController {
 		return "admin/tag/tag_list";
 	}
 
-	//태그 생성
 	@PostMapping("/register")
 	public String createTag(@ModelAttribute CreateTagRequest tagRequest) {
 		tagService.createTags(tagRequest);
