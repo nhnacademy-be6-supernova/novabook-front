@@ -5,6 +5,8 @@ import store.novabook.front.api.member.member.dto.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.CreateMemberResponse;
 import store.novabook.front.api.member.member.dto.DeleteMemberRequest;
 import store.novabook.front.api.member.member.dto.GetMemberResponse;
+import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
+import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
 import store.novabook.front.api.member.member.dto.LoginMemberRequest;
 import store.novabook.front.api.member.member.dto.LoginMemberResponse;
 import store.novabook.front.api.member.member.dto.UpdateMemberNameRequest;
@@ -26,4 +28,5 @@ public interface MemberService {
 
 	void deleteMember(Long memberId, DeleteMemberRequest deleteMemberRequest);
 
+	GetNewTokenResponse newToken(GetNewTokenRequest getNewTokenRequest);
 }

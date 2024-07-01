@@ -37,7 +37,6 @@ public class MemberController {
 		String refresh = response.getHeader("Cookie");
 		// String token = loginMemberResponse.token();
 
-
 		if (auth != null && !auth.isEmpty()) {
 			// 로그인 성공 시 토큰을 TokenHolder에 설정
 

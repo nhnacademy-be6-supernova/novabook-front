@@ -13,6 +13,8 @@ import store.novabook.front.api.member.member.dto.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.CreateMemberResponse;
 import store.novabook.front.api.member.member.dto.DeleteMemberRequest;
 import store.novabook.front.api.member.member.dto.GetMemberResponse;
+import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
+import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
 import store.novabook.front.api.member.member.dto.LoginMemberRequest;
 import store.novabook.front.api.member.member.dto.LoginMemberResponse;
 import store.novabook.front.api.member.member.dto.UpdateMemberNameRequest;
@@ -58,7 +60,6 @@ public class MemberServiceImpl implements MemberService {
 		return tokenDtoApiResponse.getBody();
 	}
 
-
 	@Override
 	public GetMemberResponse getMemberById(Long memberId) {
 		return memberClient.getMember(memberId).getBody();
@@ -84,6 +85,11 @@ public class MemberServiceImpl implements MemberService {
 		memberClient.updateMemberStatusToWithdraw(memberId, deleteMemberRequest);
 	}
 
+	@Override
+	public GetNewTokenResponse newToken(GetNewTokenRequest getNewTokenRequest) {
+		return memberAuthClient.newToken(getNewTokenRequest).getBody();
+
+	}
 
 	// @Override
 	// public LoginMemberResponse getMember(LoginMemberRequest loginMemberRequest) {

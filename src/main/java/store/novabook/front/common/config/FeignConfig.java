@@ -17,11 +17,13 @@ public class FeignConfig {
 
 	private final HttpServletRequest request;
 
+	private final GlobalContext globalContext;
+
 	private final ObjectFactory<HttpMessageConverters> messageConverters;
 
 	@Bean
 	public RequestInterceptor requestInterceptor() {
-		return new FeignClientInterceptor(request);
+		return new FeignClientInterceptor(request, globalContext);
 	}
 
 	// @Bean

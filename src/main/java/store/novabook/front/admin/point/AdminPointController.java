@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.common.response.PageResponse;
@@ -24,12 +25,14 @@ public class AdminPointController {
 
 	@GetMapping("/form")
 	public String getPointForm(@RequestParam(defaultValue = "0") int page,
-		@RequestParam(defaultValue = PAGE_SIZE) int size, Model model) {
+		@RequestParam(defaultValue = PAGE_SIZE) int size, Model model,
+		HttpServletRequest request) {
+		// pointPolicyService.getPointPolicyAllPage(page,
+		// 	size);
 		PageResponse<GetPointPolicyResponse> pointPolicyAllPage = pointPolicyService.getPointPolicyAllPage(page,
 			size);
 
 		model.addAttribute("pointPolicies", pointPolicyAllPage);
-
 
 		return "admin/point/point_form";
 	}

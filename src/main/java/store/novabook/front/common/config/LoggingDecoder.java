@@ -1,6 +1,7 @@
 package store.novabook.front.common.config;
 
 import feign.Response;
+import feign.Util;
 import feign.codec.Decoder;
 import lombok.extern.slf4j.Slf4j;
 import store.novabook.front.api.member.member.dto.LoginMemberResponse;
@@ -28,10 +29,18 @@ public class LoggingDecoder implements Decoder {
 	@Override
 	public Object decode(Response response, Type type) throws IOException {
 		// 응답 본문을 로깅합니다.
-		if(response.request().url().contains("auth/login")) {
-			LoginMemberResponse result = (LoginMemberResponse) delegate.decode(response, LoginMemberResponse.class);
-			return ResponseEntity.of(Optional.of(result));
-		}
+		// if(response.request().url().contains("auth/login")) {
+		// 	Object result = delegate.decode(response, type);
+		// 	return ResponseEntity.of(Optional.of(result));
+		// }
+		// if(response.request().url().contains("auth/login")) {
+		// 	// Object decode = delegate.decode(response, type);
+		// 	LoginMemberResponse result = (LoginMemberResponse) delegate.decode(response, LoginMemberResponse.class);
+		// 	return ResponseEntity.of(Optional.of(result));
+		//
+		// 	// return Util.toString(response.body().asReader(Util.UTF_8));
+		//
+		// }
 		String body = "";
 		if (response.body() != null) {
 			try (BufferedReader bufferedReader = new BufferedReader(
