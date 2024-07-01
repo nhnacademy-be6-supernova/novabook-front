@@ -1,8 +1,8 @@
 package store.novabook.front.api.point.service;
 
-import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.api.point.dto.request.CreatePointPolicyRequest;
 import store.novabook.front.api.point.dto.response.GetPointPolicyResponse;
+import store.novabook.front.common.response.PageResponse;
 
 /**
  * 포인트 정책 서비스 인터페이스입니다.

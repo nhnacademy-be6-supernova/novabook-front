@@ -1,6 +1,5 @@
 package store.novabook.front.api.category.service.impl;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -9,8 +8,8 @@ import store.novabook.front.api.category.dto.response.CreateCategoryResponse;
 import store.novabook.front.api.category.dto.response.GetCategoryListResponse;
 import store.novabook.front.api.category.dto.response.GetCategoryResponse;
 import store.novabook.front.api.category.service.CategoryClient;
-import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.api.category.service.CategoryService;
+import store.novabook.front.common.response.ApiResponse;
 
 @Service
 @RequiredArgsConstructor

@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import store.novabook.front.common.response.ApiResponse;
-import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.api.order.dto.request.CreateWrappingPaperRequest;
 import store.novabook.front.api.order.dto.request.UpdateWrappingPaperRequest;
 import store.novabook.front.api.order.dto.response.CreateWrappingPaperResponse;
 import store.novabook.front.api.order.dto.response.GetWrappingPaperAllResponse;
 import store.novabook.front.api.order.dto.response.GetWrappingPaperResponse;
+import store.novabook.front.common.response.ApiResponse;
+import store.novabook.front.common.response.PageResponse;
 
 @FeignClient(name = "WrappingPaperClient")
 public interface WrappingPaperClient {

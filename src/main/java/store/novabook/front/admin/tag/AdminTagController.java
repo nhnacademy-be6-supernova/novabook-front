@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.tag.dto.request.CreateTagRequest;
-import store.novabook.front.common.response.PageResponse;
-
 import store.novabook.front.api.tag.service.TagService;
 
 @RequestMapping("/admin/tags")
