@@ -25,15 +25,10 @@ public class AdminPointController {
 
 	@GetMapping("/form")
 	public String getPointForm(@RequestParam(defaultValue = "0") int page,
-		@RequestParam(defaultValue = PAGE_SIZE) int size, Model model,
-		HttpServletRequest request) {
-		// pointPolicyService.getPointPolicyAllPage(page,
-		// 	size);
-		PageResponse<GetPointPolicyResponse> pointPolicyAllPage = pointPolicyService.getPointPolicyAllPage(page,
-			size);
-
-		model.addAttribute("pointPolicies", pointPolicyAllPage);
-
+		@RequestParam(defaultValue = PAGE_SIZE) int size, Model model, HttpServletRequest
+		request) {
+		model.addAttribute("pointPolicies", pointPolicyService.getPointPolicyAllPage(page,
+			size));
 		return "admin/point/point_form";
 	}
 

@@ -1,6 +1,5 @@
 package store.novabook.front.api.coupon.service;
 
-import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.api.coupon.domain.CouponType;
 import store.novabook.front.api.coupon.dto.request.CreateBookCouponTemPlateRequest;
 import store.novabook.front.api.coupon.dto.request.CreateCategoryCouponTemplateRequest;
@@ -8,6 +7,7 @@ import store.novabook.front.api.coupon.dto.request.CreateCouponTemplateRequest;
 import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateResponse;
 import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateResponse;
 import store.novabook.front.api.coupon.dto.response.GetCouponTemplateResponse;
+import store.novabook.front.common.response.PageResponse;
 
 public interface CouponService {
 	PageResponse<GetBookCouponTemplateResponse> getBookCouponTemplateAll(int page, int size);

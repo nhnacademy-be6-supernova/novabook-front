@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.member.member.dto.UpdateMemberNameRequest;
-import store.novabook.front.api.member.member.dto.UpdateMemberNumberRequest;
-import store.novabook.front.api.member.member.dto.UpdateMemberPasswordRequest;
 import store.novabook.front.api.member.grade.service.MemberGradeService;
+import store.novabook.front.api.member.member.dto.request.UpdateMemberNameRequest;
+import store.novabook.front.api.member.member.dto.request.UpdateMemberNumberRequest;
+import store.novabook.front.api.member.member.dto.request.UpdateMemberPasswordRequest;
 import store.novabook.front.api.member.member.service.MemberService;
 
 @Controller
