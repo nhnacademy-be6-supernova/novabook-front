@@ -18,16 +18,15 @@ import store.novabook.front.common.response.PageResponse;
 @Controller
 @RequiredArgsConstructor
 public class AdminDeliveryController {
+
 	private final DeliveryFeeService deliveryFeeService;
+	private static final String PAGE = "0";
 	private static final String PAGE_SIZE = "5";
 
 	@GetMapping("/form")
-	public String getDeliveryForm(@RequestParam(defaultValue = "0") int page,
+	public String getDeliveryForm(@RequestParam(defaultValue = PAGE) int page,
 		@RequestParam(defaultValue = PAGE_SIZE) int size, Model model) {
-
-		PageResponse<GetDeliveryFeeResponse> deliveries = deliveryFeeService.getDeliveryFeeAllPage(page, size);
-		model.addAttribute("deliveries", deliveries);
-
+		model.addAttribute("deliveries", deliveryFeeService.getDeliveryFeeAllPage(page, size));
 		return "admin/delivery/delivery_fee_form";
 	}
 

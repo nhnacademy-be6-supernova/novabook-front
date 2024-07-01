@@ -20,17 +20,14 @@ import store.novabook.front.api.tag.service.TagService;
 @Controller
 @RequiredArgsConstructor
 public class AdminTagController {
+
 	private final TagService tagService;
 	private static final String DEFAULT_SIZE = "5";
 
 	@GetMapping
 	public String getTagAll(Model model, @RequestParam(defaultValue = "0") int page,
 		@RequestParam(defaultValue = DEFAULT_SIZE) int size) {
-
-		PageResponse<GetTagResponse> tagPage = tagService.getTags(page, size);
-
-		model.addAttribute("tags", tagPage);
-
+		model.addAttribute("tags", tagService.getTags(page, size));
 		return "admin/tag/tag_list";
 	}
 
@@ -43,7 +40,6 @@ public class AdminTagController {
 
 	@PostMapping("/tag/{tagId}/update")
 	public String createTag(@PathVariable Long tagId) {
-
 		return "redirect:/admin/tags";
 	}
 

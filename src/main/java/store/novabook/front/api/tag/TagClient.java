@@ -23,7 +23,7 @@ public interface TagClient {
 	@GetMapping
 	PageResponse<GetTagResponse> getTagAll(@RequestParam int page, @RequestParam int size);
 
-	@GetMapping("/list")
+	@GetMapping
 	ApiResponse<GetTagListResponse> getTagAllList();
 
 	@DeleteMapping("/{id}")

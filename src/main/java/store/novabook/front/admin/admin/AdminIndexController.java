@@ -7,16 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.book.dto.GetBookAllResponse;
-import store.novabook.front.api.book.service.BookService;
-import store.novabook.front.common.response.PageResponse;
+import store.novabook.front.api.book.service.impl.BookServiceImpl;
 
 @Controller
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 public class AdminIndexController {
 
-	private final BookService bookService;
+	private final BookServiceImpl bookServiceImpl;
 	private static final String DEFAULT_PAGE_SIZE = "10";
 	private static final String DEFAULT_PAGE_NUM = "0";
 
@@ -25,7 +23,7 @@ public class AdminIndexController {
 		return "admin/admin_index";
 	}
 
-	@GetMapping("book/form")
+	@GetMapping("/book/form")
 	public String getBookForm() {
 		return "admin/book/book_form";
 	}
@@ -34,10 +32,7 @@ public class AdminIndexController {
 	public String getBookAll(Model model,
 		@RequestParam(defaultValue = DEFAULT_PAGE_NUM) int page,
 		@RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int size) {
-
-		PageResponse<GetBookAllResponse> bookAll = bookService.getBookAll(page, size);
-
-		model.addAttribute("books", bookAll);
+		model.addAttribute("books", bookServiceImpl.getBookAll(page, size));
 		return "admin/book/book_list";
 	}
 

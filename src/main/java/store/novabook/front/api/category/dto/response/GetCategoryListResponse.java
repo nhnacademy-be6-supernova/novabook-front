@@ -1,4 +1,4 @@
-package store.novabook.front.api.category.dto;
+package store.novabook.front.api.category.dto.response;
 
 import java.util.List;
 

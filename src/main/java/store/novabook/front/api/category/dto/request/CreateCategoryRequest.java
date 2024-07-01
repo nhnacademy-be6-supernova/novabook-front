@@ -1,4 +1,4 @@
-package store.novabook.front.api.category.dto;
+package store.novabook.front.api.category.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

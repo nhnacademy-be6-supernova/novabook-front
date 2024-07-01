@@ -1,4 +1,4 @@
-package store.novabook.front.api.delivery.dto;
+package store.novabook.front.api.delivery.dto.response;
 
 import java.time.LocalDateTime;
 

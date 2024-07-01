@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.book.service.BookService;
+import store.novabook.front.api.book.service.BookServiceImpl;
 
 @RequestMapping("/books")
 
@@ -15,7 +15,7 @@ import store.novabook.front.api.book.service.BookService;
 @RequiredArgsConstructor
 public class BookController {
 
-	private final BookService bookService;
+	private final BookServiceImpl bookServiceImpl;
 
 	@GetMapping
 	public String getBookAll() {
@@ -24,7 +24,7 @@ public class BookController {
 
 	@GetMapping("/book/{bookId}")
 	public String getBook(@PathVariable Long bookId, Model model) {
-		model.addAttribute("book", bookService.getBookClient(bookId));
+		model.addAttribute("book", bookServiceImpl.getBookClient(bookId));
 		return "store/book/book_detail";
 	}
 }

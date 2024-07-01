@@ -1,4 +1,4 @@
-package store.novabook.front.api.book;
+package store.novabook.front.api.book.service;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import store.novabook.front.api.book.dto.CreateBookRequest;
-import store.novabook.front.api.book.dto.GetBookAllResponse;
-import store.novabook.front.api.book.dto.GetBookResponse;
-import store.novabook.front.api.book.dto.UpdateBookRequest;
+import store.novabook.front.api.book.dto.request.CreateBookRequest;
+import store.novabook.front.api.book.dto.request.UpdateBookRequest;
+import store.novabook.front.api.book.dto.response.GetBookAllResponse;
+import store.novabook.front.api.book.dto.response.GetBookResponse;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
 
