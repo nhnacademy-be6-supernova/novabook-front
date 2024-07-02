@@ -24,11 +24,10 @@ import store.novabook.front.api.member.grade.service.MemberGradeService;
 public class MypageAddressController {
 	private final MemberAddressService memberAddressService;
 	private final MemberGradeService memberGradeService;
-	private static final Long MEMBER_ID = 7L;
 
 	@GetMapping
 	public String getAddressForm(Model model) {
-		List<GetMemberAddressResponse> responses = memberAddressService.getMemberAddresses(MEMBER_ID);
+		List<GetMemberAddressResponse> responses = memberAddressService.getMemberAddresses();
 		model.addAttribute("grade", memberGradeService.getMemberGrade());
 		model.addAttribute("addressList", responses);
 		return "store/mypage/address/address_list";
@@ -42,7 +41,7 @@ public class MypageAddressController {
 
 	@PostMapping
 	public String register(@Valid @ModelAttribute CreateMemberAddressRequest createMemberAddressRequest) {
-		memberAddressService.createMemberAddress(createMemberAddressRequest, MEMBER_ID);
+		memberAddressService.createMemberAddress(createMemberAddressRequest);
 		return "redirect:/mypage/addresses";
 	}
 
