@@ -25,25 +25,24 @@ public class FeignClientInterceptor implements RequestInterceptor {
 		Cookie[] cookies = request.getCookies();
 		String access = response.getHeader("access");
 		String refresh = response.getHeader("refresh");
-		if (Objects.isNull(access)) {
-			if (Objects.nonNull(cookies)) {
-				Arrays.stream(cookies)
-					.forEach(cookie -> {
-						if ("Authorization".equals(cookie.getName())) {
-							if (Objects.isNull(access)) {
-								template.header("Authorization", "Bearer " + cookie.getValue());
-							} else {
-								template.header("Authorization", "Bearer " + access);
-							}
-						} else if ("Refresh".equals(cookie.getName())) {
-							template.header("Refresh", "Bearer " + cookie.getValue());
-						}
-					});
-			}
-		} else {
+		// access 가 있으면 그대로 씀
+		if (Objects.nonNull(access)){
 			template.header("Authorization", "Bearer " + access);
 			template.header("Refresh", "Bearer " + refresh);
+			return;
 		}
-
+		//cookies 에도 없으면 그냥 종료
+		if (Objects.isNull(cookies)) {
+			return;
+		}
+		//쿠키에 있으면 있있는거 그대로 씀
+		Arrays.stream(cookies)
+			.forEach(cookie -> {
+				if ("Authorization".equals(cookie.getName())) {
+					template.header("Authorization", "Bearer " + cookie.getValue());
+				} else if ("Refresh".equals(cookie.getName())) {
+					template.header("Refresh", "Bearer " + cookie.getValue());
+				}
+			});
 	}
 }
