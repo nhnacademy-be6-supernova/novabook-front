@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>NovaBook📕</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <!-- Google Font -->
@@ -44,6 +45,14 @@
     .coupon-download:hover {
         color: #23527c;
     }
+
+    .modal-dialog {
+        max-width: 800px; /* 원하는 너비로 조정 */
+    }
+
+    .table th:nth-child(3), .table td:nth-child(3) {
+        white-space: pre-line; /* 줄 바꿈 허용 */
+    }
 </style>
 
 
@@ -61,11 +70,11 @@
             <span th:each="category, iterStat : ${book.categories}">
                     <span th:text="${category}"></span>
                     <span th:if="${!iterStat.last}">> </span>
+            </span>
         </div>
-
     </div>
-
 </div>
+
 
 <div class="short-description">
 
@@ -121,10 +130,10 @@
                     <span th:text="${category}"></span>
                     <span th:if="${!iterStat.last}">, </span>
                 </span>
-                        </p>
-                        <p>
-                            <span class="strong-text">태그:</span>
-                            <span th:each="tag, iterStat : ${book.tags}">
+                </p>
+                <p>
+                    <span class="strong-text">태그:</span>
+                    <span th:each="tag, iterStat : ${book.tags}">
                     <span th:text="${tag}"></span>
                     <span th:if="${!iterStat.last}">, </span>
                 </span>
@@ -167,7 +176,8 @@
 
                 <button class="btn product-info-btn" type="submit"><i class="fa fa-heart-o"></i>좋아요</button>
                 <button type="button" class="btn btn-primary" style="color: white; background-color: #0e0e0e"
-                        data-toggle="modal" data-target="#couponModal">
+                        data-toggle="modal" data-target="#couponModal"
+                        th:data-book-id="${book.id}">
                     쿠폰 다운로드
                 </button>
 
@@ -189,34 +199,13 @@
                 <h4 class="modal-title" id="couponModalLabel">쿠폰 다운로드</h4>
             </div>
             <div class="modal-body">
-                <p>사용 가능한 쿠폰 목록:</p>
-                <ul class="coupon-list">
-                    <li>
-                        <div>
-                            <span class="coupon-title">10% 할인 쿠폰</span>
-                            <span class="coupon-desc"> - 전체 상품에 적용 가능</span>
-                        </div>
-                        <button class="coupon-download"><i class="fa fa-download"></i></button>
-                    </li>
-                    <li>
-                        <div>
-                            <span class="coupon-title">무료 배송 쿠폰</span>
-                            <span class="coupon-desc"> - 최소 구매 금액 50,000원</span>
-                        </div>
-                        <button class="coupon-download"><i class="fa fa-download"></i></button>
-                    </li>
-                    <li>
-                        <div>
-                            <span class="coupon-title">20,000원 이상 구매 시 2,000원 할인 쿠폰</span>
-                            <span class="coupon-desc"> - 일부 품목 제외</span>
-                        </div>
-                        <button class="coupon-download"><i class="fa fa-download"></i></button>
-                    </li>
+                <ul class="coupon-list" id="bookCouponList">
+                    <!-- 도서 쿠폰 데이터가 여기에 동적으로 추가됩니다 -->
                 </ul>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-                <button type="button" class="btn btn-primary">쿠폰 적용</button>
+                <!--                <button type="button" class="btn btn-primary">쿠폰 적용</button>-->
             </div>
         </div>
     </div>
@@ -526,7 +515,8 @@
 
 </div>
 
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var swiper = new Swiper('.swiper-container', {
@@ -543,6 +533,98 @@
             },
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log("DOMContentLoaded");
+        $('#couponModal').on('show.bs.modal', function (event) {
+            console.log("function start");
+            var button = $(event.relatedTarget); // 버튼을 통해 이벤트를 트리거
+            var bookId = button.data('book-id'); // `data-book-id` 속성에서 값 가져오기
+
+            // 도서 쿠폰 가져오기
+            axios.get(`http://localhost:8080/coupons/book/${bookId}`)
+                .then(function (response) {
+                    var bookCouponList = document.getElementById('bookCouponList');
+                    bookCouponList.innerHTML = ''; // 기존 목록을 비웁니다.
+
+                    var table = document.createElement('table');
+                    table.className = 'table table-striped text-center tc'; // 가운데 정렬
+
+                    var thead = document.createElement('thead');
+                    var headerRow = document.createElement('tr');
+                    headerRow.innerHTML = `
+                    <th class="tc">쿠폰명</th>
+                    <th class="tc">할인 금액</th>
+                    <th class="tc">다운로드 가능 기간</th>
+                    <th class="tc">사용 가능 기간</th>
+                    <th class="tc">다운로드</th>
+                `;
+                    thead.appendChild(headerRow);
+                    table.appendChild(thead);
+
+                    var tbody = document.createElement('tbody');
+
+                    response.data.responseList.forEach(function (couponTemplate) {
+                        var row = document.createElement('tr');
+
+                        var couponNameCell = document.createElement('td');
+                        couponNameCell.textContent = couponTemplate.name;
+
+                        var discountInfoCell = document.createElement('td');
+                        discountInfoCell.textContent = couponTemplate.discountAmount + (couponTemplate.discountType === 'PERCENT' ? '%' : '원');
+
+                        var validPeriodCell = document.createElement('td');
+                        var startedAt = new Date(couponTemplate.startedAt).toLocaleString();
+                        var expirationAt = new Date(couponTemplate.expirationAt).toLocaleString();
+                        validPeriodCell.textContent = `${startedAt}\n~\n${expirationAt}`;
+
+                        var usePeriodCell = document.createElement('td');
+                        var days = Math.floor(couponTemplate.usePeriod / 24);
+                        var hours = couponTemplate.usePeriod % 24;
+                        usePeriodCell.textContent = `${days}일 ${hours}시간`;
+
+                        var downloadButtonCell = document.createElement('td');
+                        var downloadButton = document.createElement('button');
+                        downloadButton.className = 'coupon-download';
+                        downloadButton.innerHTML = '<i class="fa fa-download"></i>';
+                        downloadButton.onclick = function () {
+                            downloadCoupon(couponTemplate.id, downloadButton);
+                        };
+
+                        downloadButtonCell.appendChild(downloadButton);
+
+                        row.appendChild(couponNameCell);
+                        row.appendChild(discountInfoCell);
+                        row.appendChild(validPeriodCell);
+                        row.appendChild(usePeriodCell);
+                        row.appendChild(downloadButtonCell);
+
+                        tbody.appendChild(row);
+                    });
+
+                    table.appendChild(tbody);
+                    bookCouponList.appendChild(table);
+                })
+                .catch(function (error) {
+                    console.error('Error fetching book coupons:', error);
+                });
+        });
+    });
+
+    function downloadCoupon(couponTemplateId, buttonElement) {
+        axios.post('http://localhost:8080/coupons/download', {couponTemplateId: couponTemplateId})
+            .then(function (response) {
+                alert('쿠폰이 성공적으로 다운로드되었습니다.');
+                buttonElement.classList.add('disabled');
+                buttonElement.disabled = true;
+                buttonElement.style.color = 'gray';
+                buttonElement.querySelector('.fa-download').style.color = 'gray';
+            })
+            .catch(function (error) {
+                console.error('Error downloading coupon:', error);
+            });
+    }
+
 </script>
 
 <div th:replace="~{layout/store/footer::footer}"></div>
