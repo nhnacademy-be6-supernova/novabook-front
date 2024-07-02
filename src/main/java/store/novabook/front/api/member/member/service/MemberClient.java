@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import store.novabook.front.api.member.member.dto.request.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.request.DeleteMemberRequest;
-import store.novabook.front.api.member.member.dto.request.UpdateMemberNameRequest;
-import store.novabook.front.api.member.member.dto.request.UpdateMemberNumberRequest;
 import store.novabook.front.api.member.member.dto.request.UpdateMemberPasswordRequest;
+import store.novabook.front.api.member.member.dto.request.UpdateMemberRequest;
 import store.novabook.front.api.member.member.dto.response.CreateMemberResponse;
 import store.novabook.front.api.member.member.dto.response.GetMemberResponse;
 import store.novabook.front.common.response.ApiResponse;
@@ -25,13 +24,9 @@ public interface MemberClient {
 	@GetMapping("/member")
 	ApiResponse<GetMemberResponse> getMember(@RequestHeader(required = false) Long memberId);
 
-	@PutMapping("/member/name")
-	ApiResponse<Void> updateMemberName(@RequestHeader(required = false) Long memberId,
-		@RequestBody UpdateMemberNameRequest updateMemberNameRequest);
-
-	@PutMapping("/member/number")
-	ApiResponse<Void> updateMemberNumber(@RequestHeader(required = false) Long memberId,
-		@RequestBody UpdateMemberNumberRequest updateMemberNumberRequest);
+	@PutMapping("/member/update")
+	ApiResponse<Void> updateMember(@RequestHeader(required = false) Long memberId,
+		@RequestBody UpdateMemberRequest updateMemberRequest);
 
 	@PutMapping("/member/password")
 	ApiResponse<Void> updateMemberPassword(@RequestHeader(required = false) Long memberId,
