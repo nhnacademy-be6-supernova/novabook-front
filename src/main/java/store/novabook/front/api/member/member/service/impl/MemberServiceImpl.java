@@ -12,9 +12,8 @@ import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
 import store.novabook.front.api.member.member.dto.request.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.request.DeleteMemberRequest;
 import store.novabook.front.api.member.member.dto.request.LoginMemberRequest;
-import store.novabook.front.api.member.member.dto.request.UpdateMemberNameRequest;
-import store.novabook.front.api.member.member.dto.request.UpdateMemberNumberRequest;
 import store.novabook.front.api.member.member.dto.request.UpdateMemberPasswordRequest;
+import store.novabook.front.api.member.member.dto.request.UpdateMemberRequest;
 import store.novabook.front.api.member.member.dto.response.CreateMemberResponse;
 import store.novabook.front.api.member.member.dto.response.GetMemberResponse;
 import store.novabook.front.api.member.member.dto.response.LoginMemberResponse;
@@ -67,13 +66,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void updateMemberName(Long memberId, UpdateMemberNameRequest updateMemberNameRequest) {
-		memberClient.updateMemberName(memberId, updateMemberNameRequest);
-	}
-
-	@Override
-	public void updateMemberNumber(Long memberId, UpdateMemberNumberRequest updateMemberNumberRequest) {
-		memberClient.updateMemberNumber(memberId, updateMemberNumberRequest);
+	public void updateMember(Long memberId, UpdateMemberRequest updateMemberRequest) {
+		memberClient.updateMember(memberId, updateMemberRequest);
 	}
 
 	@Override
