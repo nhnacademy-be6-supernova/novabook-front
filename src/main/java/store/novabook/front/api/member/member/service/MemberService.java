@@ -1,6 +1,8 @@
 package store.novabook.front.api.member.member.service;
 
 import jakarta.servlet.http.HttpServletResponse;
+import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
+import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
 import store.novabook.front.api.member.member.dto.request.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.request.DeleteMemberRequest;
 import store.novabook.front.api.member.member.dto.request.LoginMemberRequest;
@@ -23,4 +25,5 @@ public interface MemberService {
 
 	void deleteMember(Long memberId, DeleteMemberRequest deleteMemberRequest);
 
+	GetNewTokenResponse newToken(GetNewTokenRequest getNewTokenRequest);
 }

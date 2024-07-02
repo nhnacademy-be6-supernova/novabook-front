@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
+import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
 import store.novabook.front.api.member.member.dto.request.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.request.DeleteMemberRequest;
 import store.novabook.front.api.member.member.dto.request.LoginMemberRequest;
@@ -78,6 +80,11 @@ public class MemberServiceImpl implements MemberService {
 		memberClient.updateMemberStatusToWithdraw(memberId, deleteMemberRequest);
 	}
 
+	@Override
+	public GetNewTokenResponse newToken(GetNewTokenRequest getNewTokenRequest) {
+		return memberAuthClient.newToken(getNewTokenRequest).getBody();
+
+	}
 
 	// @Override
 	// public LoginMemberResponse getMember(LoginMemberRequest loginMemberRequest) {
