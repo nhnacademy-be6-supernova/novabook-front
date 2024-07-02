@@ -12,11 +12,21 @@ public class WebConfig implements WebMvcConfigurer {
 
 	private final RefreshTokenContext refreshTokenContext;
 
-
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new RefreshTokenInterceptor(refreshTokenContext))
-			.addPathPatterns("/**");
+			.excludePathPatterns(
+				"/auth/**",
+				"/",
+				"/api/v1/front/new-token",
+				"/**/*.css",
+				"/**/*.html",
+				"/**/*.js",
+				"/**/*.png",
+				"/**/*.jpg",
+				"/**/*.jpeg",
+				"/**/*.gif"
+			);
 	}
 
 }

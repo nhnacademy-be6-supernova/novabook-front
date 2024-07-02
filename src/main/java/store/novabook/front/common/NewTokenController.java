@@ -25,7 +25,6 @@ package store.novabook.front.common;
 // 	}
 // }
 
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,7 +55,7 @@ public class NewTokenController {
 		GetNewTokenRequest getNewTokenRequest = new GetNewTokenRequest(refresh);
 		GetNewTokenResponse getNewTokenResponse = memberService.newToken(getNewTokenRequest);
 
-		refreshTokenContext.setSomeData(getNewTokenResponse.accessToken());
+		refreshTokenContext.setTokenData(getNewTokenResponse.accessToken());
 
 		return null;
 	}

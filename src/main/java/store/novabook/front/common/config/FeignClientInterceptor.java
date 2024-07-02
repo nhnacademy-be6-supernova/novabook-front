@@ -16,35 +16,33 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FeignClientInterceptor implements RequestInterceptor {
 
-	// @Autowired
 	private final HttpServletRequest request;
 	private final HttpServletResponse response;
-	private final RefreshTokenContext refreshTokenContext;
 
 	@Override
 	public void apply(RequestTemplate template) {
 
 		Cookie[] cookies = request.getCookies();
-		String header = response.getHeader("refresh");
-		if (Objects.isNull(cookies)) {
-			if (Objects.isNull(header)) {
-				return;
-			} else {
-				template.header("Authorization", "Bearer " + header);
+		String access = response.getHeader("access");
+		String refresh = response.getHeader("refresh");
+		if (Objects.isNull(access)) {
+			if (Objects.nonNull(cookies)) {
+				Arrays.stream(cookies)
+					.forEach(cookie -> {
+						if ("Authorization".equals(cookie.getName())) {
+							if (Objects.isNull(access)) {
+								template.header("Authorization", "Bearer " + cookie.getValue());
+							} else {
+								template.header("Authorization", "Bearer " + access);
+							}
+						} else if ("Refresh".equals(cookie.getName())) {
+							template.header("Refresh", "Bearer " + cookie.getValue());
+						}
+					});
 			}
 		} else {
-			Arrays.stream(cookies)
-				.forEach(cookie -> {
-					if ("Authorization".equals(cookie.getName())) {
-						if (Objects.isNull(header)) {
-							template.header("Authorization", "Bearer " + cookie.getValue());
-						} else {
-							template.header("Authorization", "Bearer " + header);
-						}
-					} else if ("Refresh".equals(cookie.getName())) {
-						template.header("Refresh", "Bearer " + cookie.getValue());
-					}
-				});
+			template.header("Authorization", "Bearer " + access);
+			template.header("Refresh", "Bearer " + refresh);
 		}
 
 	}

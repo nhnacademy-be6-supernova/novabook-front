@@ -24,23 +24,23 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 		ModelAndView modelAndView) throws Exception {
 
-		if (refreshTokenContext.getSomeData() == null) {
+		if (refreshTokenContext.getTokenData() == null) {
 			return;
 		}
-		if (refreshTokenContext.getSomeData().equals("expired")) {
-			refreshTokenContext.setSomeData(null);
+		if (refreshTokenContext.getTokenData().equals("expired")) {
+			refreshTokenContext.setTokenData(null);
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token expired");
 			return;
 		}
 
-		Cookie cookie = new Cookie("Authorization", refreshTokenContext.getSomeData());
+		Cookie cookie = new Cookie("Authorization", refreshTokenContext.getTokenData());
 		cookie.setPath("/");
 		cookie.setMaxAge(60 * 60 * 24 * 7);
 		response.addCookie(cookie);
-		response.setHeader("refresh", refreshTokenContext.getSomeData());
-		refreshTokenContext.setSomeData(null);
+		response.setHeader("access", refreshTokenContext.getTokenData());
+		refreshTokenContext.setTokenData(null);
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/points/point/form");
+		RequestDispatcher dispatcher = request.getRequestDispatcher(request.getRequestURI());
 		dispatcher.forward(request, response);
 
 	}
@@ -48,7 +48,7 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
 		Exception ex) throws Exception {
-		refreshTokenContext.setSomeData(null);
+		refreshTokenContext.setTokenData(null);
 
 	}
 }

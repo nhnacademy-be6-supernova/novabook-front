@@ -5,13 +5,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class RefreshTokenContext {
 
-	private String someData;
+	private String tokenData;
 
-	public String getSomeData() {
-		return someData;
+	public String getTokenData() {
+		return tokenData;
 	}
 
-	public void setSomeData(String someData) {
-		this.someData = someData;
+	public void setTokenData(String tokenData) {
+		this.tokenData = tokenData;
 	}
 }
