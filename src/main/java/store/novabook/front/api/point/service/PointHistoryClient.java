@@ -13,7 +13,7 @@ import store.novabook.front.common.response.ApiResponse;
 @FeignClient(name = "pointHistoryClient")
 public interface PointHistoryClient {
 
-	@PostMapping
+	@PostMapping("/member")
 	ApiResponse<GetPointHistoryListResponse> getPointHistoryListByMemberId(
 		@RequestBody GetPointHistoryRequest getPointHistoryRequest);
 

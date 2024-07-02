@@ -89,7 +89,7 @@ public interface CouponClient {
 	ApiResponse<CreateCouponResponse> createCategoryCouponTemplate(
 		@RequestBody CreateCategoryCouponTemplateRequest request);
 
-	@PostMapping("/sufficient")
+	@PostMapping("/coupons/sufficient")
 	ApiResponse<GetCouponAllResponse> getSufficientCouponAll(
 		@Valid @RequestBody GetCouponAllRequest request);
 }

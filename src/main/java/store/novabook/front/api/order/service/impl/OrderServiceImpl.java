@@ -49,8 +49,9 @@ public class OrderServiceImpl implements OrderService {
 			categoryIdList.addAll(categoryIds);
 		});
 
-		List<Long> couponIdList = memberCouponClient.getMemberCoupon(memberId).getBody().couponIds();
-		List<GetWrappingPaperResponse> papers = wrappingPaperClient.getWrappingPaperAllList().getBody().papers();
+		List<Long> couponIdList = memberCouponClient.getMemberCoupon().getBody().couponIds();
+
+		List<GetWrappingPaperResponse> papers = wrappingPaperClient.getWrappingPaperAllList().getBody().getWrappingPaperResponse();
 
 		GetCouponAllRequest couponRequest = GetCouponAllRequest.builder()
 			.couponIdList(couponIdList)

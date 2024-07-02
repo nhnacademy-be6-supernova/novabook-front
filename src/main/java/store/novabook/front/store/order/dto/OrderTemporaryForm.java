@@ -9,5 +9,4 @@ public record OrderTemporaryForm(
 	Long memberId,
 	String senderName,
 	String senderPhone
-) {
-}
+) {}
