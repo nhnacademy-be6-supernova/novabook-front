@@ -1,4 +1,4 @@
-package store.novabook.front.api.order.dto.response;
+package store.novabook.front.api.coupon.dto.response;
 
 import java.util.List;
 

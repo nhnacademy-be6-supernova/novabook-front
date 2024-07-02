@@ -14,8 +14,9 @@ import store.novabook.front.api.coupon.dto.request.CreateCouponTemplateRequest;
 import store.novabook.front.api.coupon.dto.response.CreateCouponResponse;
 import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateResponse;
 import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateResponse;
+import store.novabook.front.api.coupon.dto.response.GetCouponAllResponse;
 import store.novabook.front.api.coupon.dto.response.GetCouponTemplateResponse;
-import store.novabook.front.api.order.dto.request.GetCouponAllRequest;
+import store.novabook.front.api.coupon.dto.request.GetCouponAllRequest;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
 
