@@ -35,8 +35,9 @@ public interface MemberClient {
 		@RequestBody UpdateMemberPasswordRequest updateMemberPasswordRequest);
 
 	@PutMapping("/member/withdraw")
-	ApiResponse<Void> updateMemberStatusToWithdraw(@RequestHeader(required = false) Long memberId, @RequestBody DeleteMemberRequest deleteMemberRequest);
+	ApiResponse<Void> updateMemberStatusToWithdraw(@RequestHeader(required = false) Long memberId,
+		@RequestBody DeleteMemberRequest deleteMemberRequest);
 
 	@PostMapping("/coupons")
-	ApiResponse<CreateMemberCouponResponse> createMemberCoupon(@RequestHeader Long memberId, @RequestBody CreateMemberCouponRequest request);
+	ApiResponse<CreateMemberCouponResponse> createMemberCoupon(@RequestBody CreateMemberCouponRequest request);
 }

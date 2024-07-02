@@ -14,7 +14,7 @@ public class MemberCouponServiceImpl implements MemberCouponService {
 	private final MemberClient memberClient;
 
 	@Override
-	public CreateMemberCouponResponse downloadCoupon(Long memberId, CreateMemberCouponRequest request) {
-		return memberClient.createMemberCoupon(memberId, request).getBody();
+	public CreateMemberCouponResponse downloadCoupon(CreateMemberCouponRequest request) {
+		return memberClient.createMemberCoupon(request).getBody();
 	}
 }

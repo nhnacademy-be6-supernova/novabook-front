@@ -20,8 +20,6 @@ public class MemberCouponController {
 	// 컨트롤러 메소드
 	@PostMapping("/download")
 	public void downloadCoupon(@Valid @RequestBody CreateMemberCouponRequest request) {
-		// 임시로 설정한 회원 ID
-		Long memberId = 3L;
-		memberCouponService.downloadCoupon(memberId, request);
+		memberCouponService.downloadCoupon(request);
 	}
 }
