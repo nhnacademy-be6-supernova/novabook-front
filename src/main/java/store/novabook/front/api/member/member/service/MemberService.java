@@ -17,13 +17,13 @@ public interface MemberService {
 
 	LoginMemberResponse getMember(LoginMemberRequest loginMemberRequest, HttpServletResponse response);
 
-	GetMemberResponse getMemberById(Long memberId);
+	GetMemberResponse getMemberById();
 
-	void updateMember(Long memberId, UpdateMemberRequest updateMemberRequest);
+	void updateMember(UpdateMemberRequest updateMemberRequest);
 
-	void updateMemberPassword(Long memberId, UpdateMemberPasswordRequest updateMemberPasswordRequest);
+	void updateMemberPassword(UpdateMemberPasswordRequest updateMemberPasswordRequest);
 
-	void deleteMember(Long memberId, DeleteMemberRequest deleteMemberRequest);
+	void deleteMember(DeleteMemberRequest deleteMemberRequest);
 
 	GetNewTokenResponse newToken(GetNewTokenRequest getNewTokenRequest);
 }
