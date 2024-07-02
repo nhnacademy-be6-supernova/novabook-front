@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.book.dto.CreateBookRequest;
-import store.novabook.front.api.book.dto.GetBookAllResponse;
-import store.novabook.front.api.book.dto.UpdateBookRequest;
+import store.novabook.front.api.book.dto.request.CreateBookRequest;
+
+import store.novabook.front.api.book.dto.request.UpdateBookRequest;
+import store.novabook.front.api.book.dto.response.GetBookAllResponse;
 import store.novabook.front.api.book.service.BookService;
 import store.novabook.front.api.category.service.CategoryService;
 import store.novabook.front.api.tag.service.TagService;
