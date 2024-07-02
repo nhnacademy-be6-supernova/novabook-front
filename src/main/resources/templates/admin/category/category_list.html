@@ -203,7 +203,7 @@
                                     <!-- Display top category name -->
                                     <span class="tree-toggle" th:text="${category.name}">상위 카테고리 이름</span>
                                     <!-- Link to delete top category -->
-<!--                                    <a class="btn btn-danger btn-xs" th:href="@{/admin/categories/delete/{id}(id=${category.id})}" style="margin-left: 10px;">삭제</a>-->
+<!--                                    <a class="btn btn-danger btn-xs" th:href="@{/admin/categories/delete/{reviewId}(reviewId=${category.reviewId})}" style="margin-left: 10px;">삭제</a>-->
                                     <a class="btn btn-danger btn-xs" th:attr="onclick='deleteCategory(' + ${category.id} + ')'" style="margin-left: 10px;">삭제</a>
                                 </div>
                                 <ul>

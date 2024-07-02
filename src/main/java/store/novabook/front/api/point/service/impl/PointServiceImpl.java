@@ -26,7 +26,7 @@ public class PointServiceImpl implements PointService {
 
 		try {
 			// 회원 ID 조회
-			// Long memberIdResponse = memberClient.(memberId).getBody().id();
+			// Long memberIdResponse = memberClient.(memberId).getBody().reviewId();
 			// if (memberIdResponse == null) {
 			// 	throw new IllegalArgumentException("존재하지 않는 ID 입니다.");
 			// }
