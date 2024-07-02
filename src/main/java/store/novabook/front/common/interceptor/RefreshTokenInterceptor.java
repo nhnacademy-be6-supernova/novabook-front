@@ -1,4 +1,4 @@
-package store.novabook.front.common.config;
+package store.novabook.front.common.interceptor;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -8,6 +8,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import store.novabook.front.common.security.RefreshTokenContext;
 
 @RequiredArgsConstructor
 public class RefreshTokenInterceptor implements HandlerInterceptor {

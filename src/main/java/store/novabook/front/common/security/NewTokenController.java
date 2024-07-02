@@ -1,4 +1,4 @@
-package store.novabook.front.common;
+package store.novabook.front.common.security;
 //
 // import org.springframework.stereotype.Controller;
 // import org.springframework.ui.Model;
@@ -36,7 +36,6 @@ import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
 import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
 import store.novabook.front.api.member.member.service.MemberService;
-import store.novabook.front.common.config.RefreshTokenContext;
 
 import java.util.HashMap;
 import java.util.Map;

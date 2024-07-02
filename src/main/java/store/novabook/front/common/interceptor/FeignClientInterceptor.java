@@ -1,4 +1,4 @@
-package store.novabook.front.common.config;
+package store.novabook.front.common.interceptor;
 
 import java.util.Arrays;
 import java.util.Objects;

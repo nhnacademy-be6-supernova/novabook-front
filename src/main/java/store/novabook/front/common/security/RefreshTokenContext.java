@@ -1,4 +1,4 @@
-package store.novabook.front.common.config;
+package store.novabook.front.common.security;
 
 import org.springframework.stereotype.Component;
 

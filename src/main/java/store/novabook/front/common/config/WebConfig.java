@@ -5,6 +5,8 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import lombok.RequiredArgsConstructor;
+import store.novabook.front.common.interceptor.RefreshTokenInterceptor;
+import store.novabook.front.common.security.RefreshTokenContext;
 
 @Configuration
 @RequiredArgsConstructor

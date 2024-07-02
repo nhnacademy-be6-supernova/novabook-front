@@ -2,6 +2,8 @@ package store.novabook.front.common.config;
 
 import feign.Response;
 import feign.codec.ErrorDecoder;
+import store.novabook.front.common.security.exception.InternalServerErrorException;
+import store.novabook.front.common.security.exception.NotFoundException;
 
 public class CustomErrorDecoder implements ErrorDecoder {
 	private final ErrorDecoder defaultErrorDecoder = new Default();
