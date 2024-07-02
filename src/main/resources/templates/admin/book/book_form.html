@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>Admin Page - NovaBook📕</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <!-- Google Font -->
@@ -294,12 +295,12 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="inputCategory">책 카테고리:</label>
-                            <select class="form-control" id="inputCategory" name="category" required>
+                            <label for="categorySelect">책 카테고리:</label>
+                            <select id="categorySelect" class="chosen-select form-control chosen-choices" multiple data-placeholder="태그를 선택하세요">
                                 <!-- Iterate over categories -->
                                 <th:block th:each="category : ${categories.categories}">
                                     <!-- Display top category -->
-                                    <option th:value="${category.id}" th:text="${category.name}"></option>
+                                    <option th:if="${#lists.isEmpty(category.sub)}" th:value="${category.id}" th:text="${category.name}"></option>
                                     <!-- Iterate over subcategories -->
                                     <th:block th:each="subCategory : ${category.sub}">
                                         <!-- Display subcategory -->
@@ -307,8 +308,8 @@
                                     </th:block>
                                 </th:block>
                             </select>
-                        </div>
 
+                        </div>
 
 
 

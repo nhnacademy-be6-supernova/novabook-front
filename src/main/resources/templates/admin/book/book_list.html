@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>Admin Page - NovaBook📕</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <!-- Google Font -->
@@ -179,7 +180,7 @@
         <!-- Book Inventory Table -->
         <h1 class="dashboard" style="padding-top: 0.3%">책 관리</h1>
         <div class="add-book-btn">
-            <a href="/admin/books/book/form" class="btn btn-primary"><i class="fa fa-plus"></i> 책 등록</a>
+            <a href="/admin/books/form" class="btn btn-primary"><i class="fa fa-plus"></i> 책 등록</a>
         </div>
         <div class="card inventory-table">
             <div class="panel panel-default">
@@ -456,7 +457,7 @@
                  isPackaged : updatedPackaging
             }
 
-            axios.post("http://localhost:8080/admin/books/book/update", JSON.stringify(params), {
+            axios.post("https://www.novabook.store/admin/books/book/update", JSON.stringify(params), {
                 headers: {
                     'Content-Type': 'application/json'
                 }
