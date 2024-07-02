@@ -29,13 +29,14 @@ public class CouponServiceImpl implements CouponService {
 	}
 
 	@Override
-	public PageResponse<GetCategoryCouponTemplateResponse> getCategoryCouponTemplateAll(int page, int size) {
-		return couponClient.getCategoryCouponTemplateAll(page, size);
+	public PageResponse<GetCategoryCouponTemplateResponse> getCategoryCouponTemplateAll(Boolean isValid, int page, int size) {
+		return couponClient.getCategoryCouponTemplateAll(isValid, page, size);
 	}
 
 	@Override
-	public PageResponse<GetCouponTemplateResponse> getCouponTemplateAll(CouponType type, int page, int size) {
-		return couponClient.getCouponTemplateAll(type, page, size);
+	public PageResponse<GetCouponTemplateResponse> getCouponTemplateAll(CouponType type, Boolean isValid, int page,
+		int size) {
+		return couponClient.getCouponTemplateAll(type, isValid, page, size);
 	}
 
 	@Override

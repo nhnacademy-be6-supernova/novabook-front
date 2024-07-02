@@ -27,24 +27,19 @@ public class AdminCouponController {
 	private static final String PAGE_SIZE = "5";
 
 	@GetMapping
-	public String getCoupons(Model model,
-		@RequestParam(defaultValue = PAGE) int birthdayPage,
-		@RequestParam(defaultValue = PAGE) int welcomePage,
-		@RequestParam(defaultValue = PAGE) int generalPage,
-		@RequestParam(defaultValue = PAGE) int bookPage,
-		@RequestParam(defaultValue = PAGE) int categoryPage,
+	public String getCoupons(Model model, @RequestParam(defaultValue = PAGE) int birthdayPage,
+		@RequestParam(defaultValue = PAGE) int welcomePage, @RequestParam(defaultValue = PAGE) int generalPage,
+		@RequestParam(defaultValue = PAGE) int bookPage, @RequestParam(defaultValue = PAGE) int categoryPage,
 		@RequestParam(defaultValue = PAGE_SIZE) int size) {
 
-		model.addAttribute("birthdayCoupons", couponService.getCouponTemplateAll(
-			CouponType.BIRTHDAY, birthdayPage, size));
+		model.addAttribute("birthdayCoupons",
+			couponService.getCouponTemplateAll(CouponType.BIRTHDAY, false, birthdayPage, size));
 		model.addAttribute("welcomeCoupons",
-			couponService.getCouponTemplateAll(CouponType.WELCOME, welcomePage, size));
+			couponService.getCouponTemplateAll(CouponType.WELCOME, false, welcomePage, size));
 		model.addAttribute("generalCoupons",
-			couponService.getCouponTemplateAll(CouponType.GENERAL, generalPage, size));
-		model.addAttribute("bookCoupons",
-			couponService.getBookCouponTemplateAll(bookPage, size));
-		model.addAttribute("categoryCoupons",
-			couponService.getCategoryCouponTemplateAll(categoryPage, size));
+			couponService.getCouponTemplateAll(CouponType.GENERAL, false, generalPage, size));
+		model.addAttribute("bookCoupons", couponService.getBookCouponTemplateAll(bookPage, size));
+		model.addAttribute("categoryCoupons", couponService.getCategoryCouponTemplateAll(false, categoryPage, size));
 
 		return "admin/coupon/coupon_list";
 	}
@@ -79,8 +74,7 @@ public class AdminCouponController {
 	}
 
 	@PostMapping("/category/create")
-	public String createCouponTemplateCategory(
-		@Valid @ModelAttribute CreateCategoryCouponTemplateRequest request) {
+	public String createCouponTemplateCategory(@Valid @ModelAttribute CreateCategoryCouponTemplateRequest request) {
 		couponService.createCategoryTemplateCoupon(request);
 		return "redirect:/admin/coupons";
 	}
