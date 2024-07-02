@@ -22,7 +22,7 @@ public interface MemberAddressClient {
 		@RequestBody CreateMemberAddressRequest createMemberAddressRequest);
 
 	@GetMapping
-	ApiResponse<GetMemberAddressListResponse> getMemberAddressList();
+	ApiResponse<GetMemberAddressListResponse> getMemberAddressAll();
 
 	@PutMapping("/{memberAddressId}")
 	ApiResponse<Void> updateMemberAddress(@PathVariable Long memberAddressId,

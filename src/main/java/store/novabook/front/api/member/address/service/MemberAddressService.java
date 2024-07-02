@@ -11,7 +11,7 @@ public interface MemberAddressService {
 
 	CreateMemberAddressResponse createMemberAddress(CreateMemberAddressRequest createMemberAddressRequest);
 
-	List<GetMemberAddressResponse> getMemberAddresses();
+	List<GetMemberAddressResponse> getMemberAddressAll();
 
 	void updateMemberAddress(Long memberAddressId, UpdateMemberAddressRequest updateMemberAddressRequest);
 
