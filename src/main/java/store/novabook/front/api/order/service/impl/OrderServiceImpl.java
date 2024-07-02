@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import store.novabook.front.api.book.service.BookClient;
 import store.novabook.front.api.category.service.CategoryClient;
 import store.novabook.front.api.coupon.client.CouponClient;
+import store.novabook.front.api.coupon.dto.request.GetCouponAllRequest;
+import store.novabook.front.api.member.member.service.MemberClient;
 import store.novabook.front.api.order.client.WrappingPaperClient;
 import store.novabook.front.api.order.dto.response.GetWrappingPaperResponse;
 import store.novabook.front.api.order.service.OrderService;
@@ -17,13 +19,15 @@ import store.novabook.front.store.order.dto.OrderViewDTO;
 @Service
 public class OrderServiceImpl implements OrderService {
 	private final WrappingPaperClient wrappingPaperClient;
+	private final MemberClient memberClient;
 	private final CouponClient couponClient;
 
 
 	public OrderServiceImpl(WrappingPaperClient wrappingPaperClient, CouponClient couponClient,
-		CategoryClient categoryClient) {
+		CategoryClient categoryClient, MemberClient memberClient) {
 		this.wrappingPaperClient = wrappingPaperClient;
 		this.couponClient = couponClient;
+		this.memberClient = memberClient;
 	}
 
 	@Override
@@ -39,10 +43,13 @@ public class OrderServiceImpl implements OrderService {
 			}
 		}
 
+
+
 		// DTO에 담을 내용
 		List<GetWrappingPaperResponse> papers = wrappingPaperClient.getWrappingPaperAllList().getBody().papers();
 
-
+		// GetCouponAllRequest.builder().couponIdList()
+		// couponClient.getSufficientCouponAll();
 		// 쿠폰
 
 
