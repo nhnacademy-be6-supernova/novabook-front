@@ -16,7 +16,6 @@ public class MypagePointController {
 
 	@GetMapping
 	public String getPointAll(Model model) {
-
 		model.addAttribute("grade", memberGradeService.getMemberGrade());
 		return "store/mypage/point/point_list";
 	}

@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.member.member.dto.UpdateMemberNameRequest;
-import store.novabook.front.api.member.member.dto.UpdateMemberNumberRequest;
-import store.novabook.front.api.member.member.dto.UpdateMemberPasswordRequest;
 import store.novabook.front.api.member.grade.service.MemberGradeService;
+import store.novabook.front.api.member.member.dto.request.UpdateMemberPasswordRequest;
+import store.novabook.front.api.member.member.dto.request.UpdateMemberRequest;
 import store.novabook.front.api.member.member.service.MemberService;
 
 @Controller
@@ -31,15 +30,9 @@ public class MyInformationController {
 		return "store/mypage/information/my_information";
 	}
 
-	@PostMapping("/name")
-	public String updateMemberName(@Valid UpdateMemberNameRequest updateMemberNameRequest) {
-		memberService.updateMemberName(MEMBER_ID, updateMemberNameRequest);
-		return "redirect:/mypage/information";
-	}
-
-	@PostMapping("/number")
-	public String updateMemberNumber(@Valid UpdateMemberNumberRequest updateMemberNumberRequest) {
-		memberService.updateMemberNumber(MEMBER_ID, updateMemberNumberRequest);
+	@PostMapping("/update")
+	public String updateMember(@Valid UpdateMemberRequest updateMemberRequest) {
+		memberService.updateMember(MEMBER_ID, updateMemberRequest);
 		return "redirect:/mypage/information";
 	}
 

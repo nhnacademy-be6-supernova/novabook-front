@@ -7,17 +7,18 @@ import org.springframework.stereotype.Service;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.member.member.MemberAuthClient;
-import store.novabook.front.api.member.member.MemberClient;
-import store.novabook.front.api.member.member.dto.CreateMemberRequest;
-import store.novabook.front.api.member.member.dto.CreateMemberResponse;
-import store.novabook.front.api.member.member.dto.DeleteMemberRequest;
-import store.novabook.front.api.member.member.dto.GetMemberResponse;
-import store.novabook.front.api.member.member.dto.LoginMemberRequest;
-import store.novabook.front.api.member.member.dto.LoginMemberResponse;
-import store.novabook.front.api.member.member.dto.UpdateMemberNameRequest;
-import store.novabook.front.api.member.member.dto.UpdateMemberNumberRequest;
-import store.novabook.front.api.member.member.dto.UpdateMemberPasswordRequest;
+import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
+import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
+import store.novabook.front.api.member.member.dto.request.CreateMemberRequest;
+import store.novabook.front.api.member.member.dto.request.DeleteMemberRequest;
+import store.novabook.front.api.member.member.dto.request.LoginMemberRequest;
+import store.novabook.front.api.member.member.dto.request.UpdateMemberPasswordRequest;
+import store.novabook.front.api.member.member.dto.request.UpdateMemberRequest;
+import store.novabook.front.api.member.member.dto.response.CreateMemberResponse;
+import store.novabook.front.api.member.member.dto.response.GetMemberResponse;
+import store.novabook.front.api.member.member.dto.response.LoginMemberResponse;
+import store.novabook.front.api.member.member.service.MemberAuthClient;
+import store.novabook.front.api.member.member.service.MemberClient;
 import store.novabook.front.api.member.member.service.MemberService;
 import store.novabook.front.common.response.ApiResponse;
 
@@ -65,13 +66,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void updateMemberName(Long memberId, UpdateMemberNameRequest updateMemberNameRequest) {
-		memberClient.updateMemberName(memberId, updateMemberNameRequest);
-	}
-
-	@Override
-	public void updateMemberNumber(Long memberId, UpdateMemberNumberRequest updateMemberNumberRequest) {
-		memberClient.updateMemberNumber(memberId, updateMemberNumberRequest);
+	public void updateMember(Long memberId, UpdateMemberRequest updateMemberRequest) {
+		memberClient.updateMember(memberId, updateMemberRequest);
 	}
 
 	@Override
@@ -84,6 +80,11 @@ public class MemberServiceImpl implements MemberService {
 		memberClient.updateMemberStatusToWithdraw(memberId, deleteMemberRequest);
 	}
 
+	@Override
+	public GetNewTokenResponse newToken(GetNewTokenRequest getNewTokenRequest) {
+		return memberAuthClient.newToken(getNewTokenRequest).getBody();
+
+	}
 
 	// @Override
 	// public LoginMemberResponse getMember(LoginMemberRequest loginMemberRequest) {
