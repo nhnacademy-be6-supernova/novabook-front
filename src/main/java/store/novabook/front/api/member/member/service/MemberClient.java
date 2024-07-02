@@ -6,10 +6,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import store.novabook.front.api.coupon.dto.request.CreateMemberCouponRequest;
 import store.novabook.front.api.member.member.dto.request.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.request.DeleteMemberRequest;
 import store.novabook.front.api.member.member.dto.request.UpdateMemberPasswordRequest;
 import store.novabook.front.api.member.member.dto.request.UpdateMemberRequest;
+import store.novabook.front.api.member.member.dto.response.CreateMemberCouponResponse;
 import store.novabook.front.api.member.member.dto.response.CreateMemberResponse;
 import store.novabook.front.api.member.member.dto.response.GetMemberResponse;
 import store.novabook.front.common.response.ApiResponse;
@@ -32,4 +34,6 @@ public interface MemberClient {
 	@PutMapping("/member/withdraw")
 	ApiResponse<Void> updateMemberStatusToWithdraw(@RequestBody DeleteMemberRequest deleteMemberRequest);
 
+	@PostMapping("/coupons")
+	ApiResponse<CreateMemberCouponResponse> createMemberCoupon(@RequestBody CreateMemberCouponRequest request);
 }
