@@ -7,13 +7,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import store.novabook.front.common.response.ApiResponse;
-import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.api.tag.dto.CreateTagRequest;
 import store.novabook.front.api.tag.dto.CreateTagResponse;
 import store.novabook.front.api.tag.dto.GetTagListResponse;
 import store.novabook.front.api.tag.dto.GetTagResponse;
+import store.novabook.front.common.response.ApiResponse;
+import store.novabook.front.common.response.PageResponse;
 
 @FeignClient(name = "tagClient")
 public interface TagClient {
@@ -23,7 +22,7 @@ public interface TagClient {
 	@GetMapping
 	PageResponse<GetTagResponse> getTagAll(@RequestParam int page, @RequestParam int size);
 
-	@GetMapping("/list")
+	@GetMapping
 	ApiResponse<GetTagListResponse> getTagAllList();
 
 	@DeleteMapping("/{id}")

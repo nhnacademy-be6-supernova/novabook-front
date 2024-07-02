@@ -62,8 +62,7 @@ public record CreateBookRequest(
 
 	List<Long> tags,
 
-	@NotNull
-	Long categoryId,
+	List<Long> categories,
 
 	String image
 
