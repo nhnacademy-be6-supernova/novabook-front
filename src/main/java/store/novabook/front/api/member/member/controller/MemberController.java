@@ -26,6 +26,7 @@ public class MemberController {
 	public String register(@ModelAttribute @Valid CreateMemberRequest createMemberRequest) {
 		memberService.createMember(createMemberRequest);
 		return "redirect:/login";
+
 	}
 
 	@PostMapping("/login")
