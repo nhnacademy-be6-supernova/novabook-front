@@ -32,7 +32,6 @@ public class CouponController {
 		model.addAttribute("generalCouponList",
 			couponService.getCouponTemplateAll(CouponType.GENERAL, true, generalPage, size));
 		model.addAttribute("categoryCouponList", couponService.getCategoryCouponTemplateAll(true, categoryPage, size));
-
 		return "store/coupon/coupon_book";
 	}
 
