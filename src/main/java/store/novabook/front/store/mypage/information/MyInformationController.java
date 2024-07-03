@@ -17,28 +17,27 @@ import store.novabook.front.api.member.member.service.MemberService;
 @RequestMapping("/mypage/information")
 @RequiredArgsConstructor
 public class MyInformationController {
-	private static final Long MEMBER_ID = 7L;
 
 	private final MemberService memberService;
 	private final MemberGradeService memberGradeService;
 
 	@GetMapping
 	public String getMyInformation(Model model) {
-		memberService.getMemberById(MEMBER_ID);
+		memberService.getMemberById();
 		model.addAttribute("grade", memberGradeService.getMemberGrade());
-		model.addAttribute("member", memberService.getMemberById(MEMBER_ID));
+		model.addAttribute("member", memberService.getMemberById());
 		return "store/mypage/information/my_information";
 	}
 
 	@PostMapping("/update")
 	public String updateMember(@Valid UpdateMemberRequest updateMemberRequest) {
-		memberService.updateMember(MEMBER_ID, updateMemberRequest);
+		memberService.updateMember(updateMemberRequest);
 		return "redirect:/mypage/information";
 	}
 
 	@PostMapping("/password")
 	public String updateMemberPassword(@Valid UpdateMemberPasswordRequest updateMemberPasswordRequest) {
-		memberService.updateMemberPassword(MEMBER_ID, updateMemberPasswordRequest);
+		memberService.updateMemberPassword(updateMemberPasswordRequest);
 		return "redirect:/mypage/information";
 	}
 

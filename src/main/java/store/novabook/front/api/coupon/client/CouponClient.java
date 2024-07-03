@@ -1,7 +1,10 @@
 package store.novabook.front.api.coupon.client;
 
+import java.util.List;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,7 +14,9 @@ import store.novabook.front.api.coupon.dto.request.CreateBookCouponTemPlateReque
 import store.novabook.front.api.coupon.dto.request.CreateCategoryCouponTemplateRequest;
 import store.novabook.front.api.coupon.dto.request.CreateCouponTemplateRequest;
 import store.novabook.front.api.coupon.dto.response.CreateCouponResponse;
+import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateAllResponse;
 import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateResponse;
+import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateAllResponse;
 import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateResponse;
 import store.novabook.front.api.coupon.dto.response.GetCouponTemplateResponse;
 import store.novabook.front.common.response.ApiResponse;
@@ -32,7 +37,7 @@ public interface CouponClient {
 	 * @param size 페이지 크기
 	 * @return 페이지 응답 객체
 	 */
-	@GetMapping
+	@GetMapping("/templates")
 	PageResponse<GetCouponTemplateResponse> getCouponTemplateAll(@RequestParam(required = false) CouponType type,
 		@RequestParam int page, @RequestParam int size);
 
@@ -43,7 +48,7 @@ public interface CouponClient {
 	 * @param size 페이지 크기
 	 * @return 페이지 응답 객체
 	 */
-	@GetMapping("/book")
+	@GetMapping("/templates/book")
 	PageResponse<GetBookCouponTemplateResponse> getBookCouponTemplateAll(@RequestParam int page,
 		@RequestParam int size);
 
@@ -54,7 +59,7 @@ public interface CouponClient {
 	 * @param size 페이지 크기
 	 * @return 페이지 응답 객체
 	 */
-	@GetMapping("/category")
+	@GetMapping("/templates/category")
 	PageResponse<GetCategoryCouponTemplateResponse> getCategoryCouponTemplateAll(@RequestParam int page,
 		@RequestParam int size);
 
@@ -64,7 +69,7 @@ public interface CouponClient {
 	 * @param request 쿠폰 템플릿 생성 요청 객체
 	 * @return API 응답 객체
 	 */
-	@PostMapping
+	@PostMapping("/templates")
 	ApiResponse<CreateCouponResponse> createCouponTemplate(@RequestBody CreateCouponTemplateRequest request);
 
 	/**
@@ -73,7 +78,7 @@ public interface CouponClient {
 	 * @param request 책 쿠폰 템플릿 생성 요청 객체
 	 * @return API 응답 객체
 	 */
-	@PostMapping("/book")
+	@PostMapping("/templates/book")
 	ApiResponse<CreateCouponResponse> createBookCouponTemplate(@RequestBody CreateBookCouponTemPlateRequest request);
 
 	/**
@@ -82,7 +87,25 @@ public interface CouponClient {
 	 * @param request 카테고리 쿠폰 템플릿 생성 요청 객체
 	 * @return API 응답 객체
 	 */
-	@PostMapping("/category")
+	@PostMapping("/templates/category")
 	ApiResponse<CreateCouponResponse> createCategoryCouponTemplate(
 		@RequestBody CreateCategoryCouponTemplateRequest request);
+
+
+	/**
+	 * 여러 카테고리 ID로 쿠폰 템플릿을 조회합니다.
+	 *
+	 * @param categoryIdList 조회할 카테고리의 ID 리스트
+	 * @param isValid        유효성 여부
+	 * @return 조회된 카테고리 쿠폰 템플릿의 응답
+	 */
+	@GetMapping(value = "/api/v1/coupon/templates/category/categories", params = "categoryIdList")
+	GetCategoryCouponTemplateAllResponse getCategoryCouponTemplateAllByCategoryIdAll(
+		@RequestParam("categoryIdList") List<Long> categoryIdList,
+		@RequestParam("isValid") boolean isValid);
+
+
+	@GetMapping("/templates/book/{bookId}")
+	ApiResponse<GetBookCouponTemplateAllResponse> getCouponTemplateByBookId(@PathVariable Long bookId,
+		@RequestParam(defaultValue = "true") boolean isValid);
 }

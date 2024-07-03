@@ -9,10 +9,9 @@ import store.novabook.front.api.member.address.dto.response.GetMemberAddressResp
 
 public interface MemberAddressService {
 
-	CreateMemberAddressResponse createMemberAddress(CreateMemberAddressRequest createMemberAddressRequest,
-		Long memberId);
+	CreateMemberAddressResponse createMemberAddress(CreateMemberAddressRequest createMemberAddressRequest);
 
-	List<GetMemberAddressResponse> getMemberAddresses(Long memberId);
+	List<GetMemberAddressResponse> getMemberAddresses();
 
 	void updateMemberAddress(Long memberAddressId, UpdateMemberAddressRequest updateMemberAddressRequest);
 
