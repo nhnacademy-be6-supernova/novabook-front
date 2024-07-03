@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import store.novabook.front.common.aop.CurrentUser;
 import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.api.point.dto.request.CreatePointPolicyRequest;
 import store.novabook.front.api.point.dto.response.GetPointPolicyResponse;
@@ -26,7 +27,7 @@ public class AdminPointController {
 	@GetMapping("/form")
 	public String getPointForm(@RequestParam(defaultValue = "0") int page,
 		@RequestParam(defaultValue = PAGE_SIZE) int size, Model model, HttpServletRequest
-		request) {
+		request, @CurrentUser Long id) {
 		model.addAttribute("pointPolicies", pointPolicyService.getPointPolicyAllPage(page,
 			size));
 		return "admin/point/point_form";
