@@ -51,6 +51,10 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
 		Exception ex) throws Exception {
+		if(refreshTokenContext.getTokenData() == null) {
+			return;
+		}
+
 		if (refreshTokenContext.getTokenData().equals("expired")) {
 			refreshTokenContext.setTokenData(null);
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token expired");
