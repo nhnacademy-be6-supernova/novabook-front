@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 내 주소지 선택 시 내용을 채움
 function selectAddress(button) {
+
     var streetAddress = button.getAttribute('data-street-address');
     var detailAddress = button.getAttribute('data-detail-address');
     var postcode = button.getAttribute('data-zipcode');
@@ -95,6 +96,7 @@ function selectCoupon(button) {
     $('#couponModal').modal('hide');
 }
 
+// 책에 총 가격 계산
 function calculateTotalDiscount() {
     let totalDiscount = 0;
     const itemTotalElements = document.querySelectorAll('[name="totalPrice"]');
@@ -124,11 +126,14 @@ function applyPoints() {
     updateFinalAmount();
 }
 
-// 그 외
+// 포장지 가격 업데이트
 function updatePackagingPrice(selectElement) {
     const price = parseInt($(selectElement).find('option:selected').data('price'), 10);
     if(price == 1000) {
         $('#additionalAmount').text(1000 + "원");
+        updateFinalAmount();
+    } else {
+        $('#additionalAmount').text(0 + "원");
         updateFinalAmount();
     }
 }
