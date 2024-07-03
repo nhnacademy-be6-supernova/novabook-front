@@ -28,8 +28,8 @@ public class MemberAddressServiceImpl implements MemberAddressService {
 	}
 
 	@Override
-	public List<GetMemberAddressResponse> getMemberAddresses() {
-		ApiResponse<GetMemberAddressListResponse> response = memberAddressClient.getMemberAddressList();
+	public List<GetMemberAddressResponse> getMemberAddressAll() {
+		ApiResponse<GetMemberAddressListResponse> response = memberAddressClient.getMemberAddressAll();
 		return response.getBody().memberAddresses();
 	}
 

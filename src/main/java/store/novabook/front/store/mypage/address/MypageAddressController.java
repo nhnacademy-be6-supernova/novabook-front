@@ -26,8 +26,8 @@ public class MypageAddressController {
 	private final MemberGradeService memberGradeService;
 
 	@GetMapping
-	public String getAddressForm(Model model) {
-		List<GetMemberAddressResponse> responses = memberAddressService.getMemberAddresses();
+	public String getAddress(Model model) {
+		List<GetMemberAddressResponse> responses = memberAddressService.getMemberAddressAll();
 		model.addAttribute("grade", memberGradeService.getMemberGrade());
 		model.addAttribute("addressList", responses);
 		return "store/mypage/address/address_list";
