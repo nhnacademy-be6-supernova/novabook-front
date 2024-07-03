@@ -9,6 +9,8 @@ import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
 import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
 import store.novabook.front.api.member.member.dto.request.LoginMemberRequest;
 import store.novabook.front.api.member.member.dto.response.LoginMemberResponse;
+import store.novabook.front.common.aop.GetMembersUUIDRequest;
+import store.novabook.front.common.aop.GetMembersUUIDResponse;
 
 @FeignClient(name = "memberAuthClient")
 public interface MemberAuthClient {
@@ -18,4 +20,8 @@ public interface MemberAuthClient {
 
 	@PostMapping("/refresh")
 	ResponseEntity<GetNewTokenResponse> newToken(@RequestBody GetNewTokenRequest getNewTokenRequest);
+
+
+	@PostMapping("/members/uuid")
+	ResponseEntity<GetMembersUUIDResponse> uuid(@RequestBody GetMembersUUIDRequest getMembersUuidRequest);
 }

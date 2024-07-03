@@ -11,6 +11,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import store.novabook.front.common.security.RefreshTokenContext;
 
 @Component
 @RequiredArgsConstructor
@@ -18,6 +19,11 @@ public class FeignClientInterceptor implements RequestInterceptor {
 
 	private final HttpServletRequest request;
 	private final HttpServletResponse response;
+	private final RefreshTokenContext refreshTokenContext;
+
+	private final String AUTHORIZATION = "Authorization";
+	private final String REFRESH = "Refresh";
+	private final String BEARER = "Bearer";
 
 	@Override
 	public void apply(RequestTemplate template) {
@@ -25,23 +31,22 @@ public class FeignClientInterceptor implements RequestInterceptor {
 		Cookie[] cookies = request.getCookies();
 		String access = response.getHeader("access");
 		String refresh = response.getHeader("refresh");
-		// access 가 있으면 그대로 씀
-		if (Objects.nonNull(access)){
-			template.header("Authorization", "Bearer " + access);
-			template.header("Refresh", "Bearer " + refresh);
+		if (Objects.nonNull(access)) {
+			template.header(AUTHORIZATION, BEARER + " " + access);
+			template.header(REFRESH, BEARER + " " + refresh);
+			refreshTokenContext.setTokenData(null);
+			refreshTokenContext.setUri(null);
 			return;
 		}
-		//cookies 에도 없으면 그냥 종료
 		if (Objects.isNull(cookies)) {
 			return;
 		}
-		//쿠키에 있으면 있있는거 그대로 씀
 		Arrays.stream(cookies)
 			.forEach(cookie -> {
-				if ("Authorization".equals(cookie.getName())) {
-					template.header("Authorization", "Bearer " + cookie.getValue());
-				} else if ("Refresh".equals(cookie.getName())) {
-					template.header("Refresh", "Bearer " + cookie.getValue());
+				if (AUTHORIZATION.equals(cookie.getName())) {
+					template.header(AUTHORIZATION, BEARER + " " + cookie.getValue());
+				} else if (REFRESH.equals(cookie.getName())) {
+					template.header(REFRESH, BEARER + " " + cookie.getValue());
 				}
 			});
 	}
