@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // 2. url, parameter 세팅
-        const url = 'https://www.novabook.store/admin/books/book/form';
+        const url = 'http://localhost:8080/admin/books/book/form';
 
         const stock = document.getElementById('inputStock')
         const category = $("#categorySelect").val();
@@ -173,7 +173,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         })
             .then(response => {
-                alert("등록이 완료되었습니다! ");
+                console.log('응답:', response.data);
+                alert("등록이 완료되었습니다!");
                 location.reload();
             })
             .catch(error => {
