@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import store.novabook.front.api.member.member.dto.request.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.request.DeleteMemberRequest;
+import store.novabook.front.api.member.member.dto.request.DuplicateEmailRequest;
+import store.novabook.front.api.member.member.dto.request.DuplicateLoginIdRequest;
 import store.novabook.front.api.member.member.dto.request.UpdateMemberPasswordRequest;
 import store.novabook.front.api.member.member.dto.request.UpdateMemberRequest;
 import store.novabook.front.api.member.member.dto.response.CreateMemberResponse;
+import store.novabook.front.api.member.member.dto.response.DuplicateResponse;
 import store.novabook.front.api.member.member.dto.response.GetMemberResponse;
 import store.novabook.front.common.response.ApiResponse;
 
@@ -31,5 +34,11 @@ public interface MemberClient {
 
 	@PutMapping("/member/withdraw")
 	ApiResponse<Void> updateMemberStatusToWithdraw(@RequestBody DeleteMemberRequest deleteMemberRequest);
+
+	@PostMapping("/login-id/is-duplicate")
+	ApiResponse<DuplicateResponse> isDuplicateLoginId(@RequestBody DuplicateLoginIdRequest request);
+
+	@PostMapping("/email/is-duplicate")
+	ApiResponse<DuplicateResponse> isDuplicateEmail(@RequestBody DuplicateEmailRequest request);
 
 }

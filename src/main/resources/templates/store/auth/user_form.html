@@ -307,7 +307,7 @@
         }
 
         // AJAX request to check for duplicate ID
-        fetch('http://localhost:8080/api/v1/store/members/loginId/is-creatable', {
+        fetch('http://novabook.store:8080/api/v1/store/members/loginId/is-duplicate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -376,7 +376,7 @@
             return;
         }
 
-        fetch('http://localhost:8080/api/v1/store/members/email/is-creatable', {
+        fetch('http://novabook.store:8080/api/v1/store/members/email/is-duplicate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

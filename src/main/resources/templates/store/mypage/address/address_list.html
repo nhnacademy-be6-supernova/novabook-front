@@ -39,6 +39,7 @@
                         <table id="addressTable" class="table table-striped">
                             <thead>
                             <tr>
+                                <th>번호</th>
                                 <th>배송지</th>
                                 <th>우편번호</th>
                                 <th>주소</th>
@@ -48,6 +49,7 @@
                             </thead>
                             <tbody>
                             <tr th:each="address : ${addressList}">
+                                <td th:text="${addressStat.index + 1}"></td>
                                 <td th:text="${address.nickname}"></td>
                                 <td th:text="${address.zipcode}"></td>
                                 <td th:text="${address.streetAddress} + '&nbsp' + ${address.memberAddressDetail}"></td>
@@ -289,13 +291,13 @@
 
     function checkMemberAddressCount() {
         // memberId를 쿼리 문자열에 추가
-        var url = new URL(`http://localhost:9777/api/v1/store/addresses/checkMemberAddressCount`);
-        url.searchParams.append('memberId', memberId);
+        var url = new URL(`http://novabook.store:8080/api/v1/store/addresses/is-exceed`);
+        // url.searchParams.append('memberId', memberId);
+        console.log("주소 갯수 체크")
 
         fetch(url, {
             method: 'GET',
             headers: {
-                'memberId': memberId,
                 'Content-Type': 'application/json'
             }
         })
@@ -306,7 +308,7 @@
                 return response.json();
             })
             .then(data => {
-                var isExceedMemberAddressCount = data.body; // 서버에서 제공하는 데이터 구조에 따라 수정
+                var isExceedMemberAddressCount = data.isExceed; // 서버에서 제공하는 데이터 구조에 따라 수정
                 if (isExceedMemberAddressCount) {
                     alert('주소는 10개까지만 등록 가능합니다.');
                 } else {

@@ -19,13 +19,13 @@ public class MemberRestController {
 
 	private final MemberRestService memberRestService;
 
-	@PostMapping("/loginId/is-creatable")
+	@PostMapping("/loginId/is-duplicate")
 	public ResponseEntity<DuplicateResponse> isCreatableLoginId(@RequestBody DuplicateLoginIdRequest request) {
 		DuplicateResponse isDuplicateLoginId = memberRestService.isDuplicateLoginId(request);
 		return ResponseEntity.ok().body(isDuplicateLoginId);
 	}
 
-	@PostMapping("/email/is-creatable")
+	@PostMapping("/email/is-duplicate")
 	public ResponseEntity<DuplicateResponse> isCreatableEmail(@RequestBody DuplicateEmailRequest request) {
 		DuplicateResponse isDuplicateEmail = memberRestService.isDuplicateEmail(request);
 		return ResponseEntity.ok().body(isDuplicateEmail);
