@@ -26,6 +26,7 @@ public record CreateMemberRequest(
 	@Size(max = 50, message = "최대 50자까지 가능합니다.")
 	String name,
 
+	@Pattern(regexp = "^[0-9]{11}$")
 	@NotBlank(message = "연락처는 필수 입력 값입니다.")
 	@Size(max = 20, message = "최대 20자까지 가능합니다.")
 	String number,
