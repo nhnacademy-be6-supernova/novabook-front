@@ -23,12 +23,6 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public void deleteCategory(Long id) {
-		ApiResponse<Void> apiResponse = categoryClient.deleteCategory(id);
-
-	}
-
-	@Override
 	public CreateCategoryResponse createCategory(CreateCategoryRequest category) {
 		ApiResponse<CreateCategoryResponse> apiResponse = categoryClient.createCategory(category);
 		return apiResponse.getBody();
