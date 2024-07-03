@@ -61,23 +61,23 @@ public class MemberServiceImpl implements MemberService {
 
 
 	@Override
-	public GetMemberResponse getMemberById(Long memberId) {
-		return memberClient.getMember(memberId).getBody();
+	public GetMemberResponse getMemberById() {
+		return memberClient.getMember().getBody();
 	}
 
 	@Override
-	public void updateMember(Long memberId, UpdateMemberRequest updateMemberRequest) {
-		memberClient.updateMember(memberId, updateMemberRequest);
+	public void updateMember(UpdateMemberRequest updateMemberRequest) {
+		memberClient.updateMember(updateMemberRequest);
 	}
 
 	@Override
-	public void updateMemberPassword(Long memberId, UpdateMemberPasswordRequest updateMemberPasswordRequest) {
-		memberClient.updateMemberPassword(memberId, updateMemberPasswordRequest);
+	public void updateMemberPassword(UpdateMemberPasswordRequest updateMemberPasswordRequest) {
+		memberClient.updateMemberPassword(updateMemberPasswordRequest);
 	}
 
 	@Override
-	public void deleteMember(Long memberId, DeleteMemberRequest deleteMemberRequest) {
-		memberClient.updateMemberStatusToWithdraw(memberId, deleteMemberRequest);
+	public void deleteMember(DeleteMemberRequest deleteMemberRequest) {
+		memberClient.updateMemberStatusToWithdraw(deleteMemberRequest);
 	}
 
 	@Override
