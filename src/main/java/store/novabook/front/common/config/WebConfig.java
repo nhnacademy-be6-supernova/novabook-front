@@ -17,12 +17,12 @@ import store.novabook.front.common.security.RefreshTokenContext;
 public class WebConfig implements WebMvcConfigurer {
 
 	private final RefreshTokenContext refreshTokenContext;
-	private final CurrentUserArgumentResolver currentUserArgumentResolver;
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new RefreshTokenInterceptor(refreshTokenContext))
 			.excludePathPatterns(
+				"/users/user/form/login",
 				"/auth/**",
 				"/",
 				"/api/v1/front/new-token",
@@ -34,11 +34,6 @@ public class WebConfig implements WebMvcConfigurer {
 				"/**/*.jpeg",
 				"/**/*.gif"
 			);
-	}
-
-	@Override
-	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-		argumentResolvers.add(currentUserArgumentResolver);
 	}
 
 }

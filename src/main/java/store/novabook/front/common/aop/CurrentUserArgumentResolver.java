@@ -11,12 +11,13 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import store.novabook.front.api.member.member.service.MemberAuthClient;
 
 @Component
 @RequiredArgsConstructor
 public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolver {
 
-	private final CurrentMembersClient currentMembersClient;
+	private final MemberAuthClient currentMembersClient;
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
@@ -34,9 +35,14 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
 				for (Cookie cookie : cookies) {
 					if ("Authorization".equals(cookie.getName())) {
 						String token = cookie.getValue();
-						GetMembersUUIDRequest getMembersUUIDRequest = new GetMembersUUIDRequest("Bearer " + token);
-						ResponseEntity<GetMembersUUIDResponse> uuid = currentMembersClient.uuid(getMembersUUIDRequest);
-						return uuid.getBody().usersId(); // 또는 필요한 값을 반환합니다.
+						try {
+							GetMembersUUIDRequest getMembersUUIDRequest = new GetMembersUUIDRequest("Bearer " + token);
+							ResponseEntity<GetMembersUUIDResponse> uuid = currentMembersClient.uuid(getMembersUUIDRequest);
+							return uuid.getBody().usersId();
+						} catch (Exception e) {
+							e.printStackTrace(); // 예외를 로그에 출력합니다.
+							return null; // 예외 발생 시 null 반환 또는 적절한 에러 처리
+						}
 					}
 				}
 			}
