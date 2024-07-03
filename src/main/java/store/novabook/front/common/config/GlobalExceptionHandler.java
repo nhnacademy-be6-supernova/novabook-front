@@ -11,6 +11,7 @@ import org.thymeleaf.exceptions.TemplateInputException;
 
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.common.security.RefreshTokenContext;
+import store.novabook.front.common.security.exception.InternalServerErrorException;
 import store.novabook.front.common.security.exception.NotFoundException;
 
 @ControllerAdvice
@@ -24,7 +25,7 @@ public class GlobalExceptionHandler {
 	// 	return new ResponseEntity<>("서버에서 오류가 발생했습니다. 나중에 다시 시도해주세요.", HttpStatus.SEE_OTHER);
 	// }
 
-	@ExceptionHandler(NullPointerException.class)
+	@ExceptionHandler({NullPointerException.class, InternalServerErrorException.class})
 	public void handleNullPointerException(NullPointerException ex, WebRequest request) {
 		if(Objects.nonNull(refreshTokenContext.getUri()) && Objects.nonNull(refreshTokenContext.getTokenData())){
 			return;
