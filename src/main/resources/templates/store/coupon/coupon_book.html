@@ -221,6 +221,7 @@
         // 이벤트 전파를 막기 위해 기본 동작을 방지
         const couponType = button.getAttribute('data-coupon-type');
         const couponTemplateId = button.getAttribute('data-coupon-id');
+        button.disabled = true;
 
         try {
             // 특정한 값을 가져오는 요청
@@ -238,10 +239,10 @@
                 eventSource.close();
             });
 
-        eventSource.addEventListener('error', function (event) {
-            console.error('EventSource failed:', event);
-            eventSource.close();
-        });
+            eventSource.addEventListener('error', function (event) {
+                console.error('EventSource failed:', event);
+                eventSource.close();
+            });
 
             const message = {
                 memberId: memberId,
@@ -260,6 +261,7 @@
         } catch (error) {
             alert('로그인이 필요합니다.');
             console.error('Failed to fetch memberId or process request:', error);
+            button.disabled = false;
         }
 
         return false; // 기본 동작을 막기 위해 false 반환

@@ -19,7 +19,7 @@ public class NotificationController {
 
 	@GetMapping("/notifications/subscribe")
 	public SseEmitter subscribe(@RequestParam Long clientId) {
-		SseEmitter emitter = new SseEmitter();
+		SseEmitter emitter = new SseEmitter(60000L);
 		clients.put(clientId.toString(), emitter);
 		emitter.onCompletion(() -> clients.remove(clientId.toString()));
 		emitter.onTimeout(() -> clients.remove(clientId.toString()));
