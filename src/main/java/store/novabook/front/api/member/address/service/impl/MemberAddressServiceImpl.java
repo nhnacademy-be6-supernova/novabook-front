@@ -21,16 +21,15 @@ public class MemberAddressServiceImpl implements MemberAddressService {
 	private final MemberAddressClient memberAddressClient;
 
 	@Override
-	public CreateMemberAddressResponse createMemberAddress(CreateMemberAddressRequest createMemberAddressRequest,
-		Long memberId) {
+	public CreateMemberAddressResponse createMemberAddress(CreateMemberAddressRequest createMemberAddressRequest) {
 		ApiResponse<CreateMemberAddressResponse> memberAddress = memberAddressClient.createMemberAddress(
-			createMemberAddressRequest, memberId);
+			createMemberAddressRequest);
 		return memberAddress.getBody();
 	}
 
 	@Override
-	public List<GetMemberAddressResponse> getMemberAddresses(Long memberId) {
-		ApiResponse<GetMemberAddressListResponse> response = memberAddressClient.getMemberAddressList(memberId);
+	public List<GetMemberAddressResponse> getMemberAddressAll() {
+		ApiResponse<GetMemberAddressListResponse> response = memberAddressClient.getMemberAddressAll();
 		return response.getBody().memberAddresses();
 	}
 

@@ -7,13 +7,17 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.listener.ChannelTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import store.novabook.front.redis.listener.RedisMessageSubscriber;
+
 @Configuration
 @EnableRedisRepositories
-
 public class RedisConfig {
 	@Value("${spring.data.redis.host}")
 	private String host;
@@ -46,4 +50,23 @@ public class RedisConfig {
 		redisTemplate.setHashKeySerializer(new StringRedisSerializer());
 		return redisTemplate;
 	}
+
+	/**
+	 * RedisMessageListenerContainer는 Spring Data Redis에서 제공하는 클래스이다.
+	 * 컨테이너는 메시지가 도착하면 등록된 MessageListener를 호출하여 메시지를 처리한다.
+	 */
+	@Bean
+	public RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory,
+		MessageListenerAdapter listenerAdapter) {
+		RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+		container.setConnectionFactory(connectionFactory);
+		container.addMessageListener(listenerAdapter, new ChannelTopic("notificationTopic"));
+		return container;
+	}
+
+	@Bean
+	public MessageListenerAdapter listenerAdapter(RedisMessageSubscriber subscriber) {
+		return new MessageListenerAdapter(subscriber, "onMessage");
+	}
+
 }

@@ -1,5 +1,7 @@
 package store.novabook.front.common.interceptor;
 
+import java.util.Objects;
+
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,6 +20,10 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws
 		Exception {
+		if (refreshTokenContext.getUri() == null && !request.getRequestURI().equals("/error")
+			&& !request.getRequestURI().equals("/admin")) {
+			refreshTokenContext.setUri(request.getRequestURI());
+		}
 		return true;
 	}
 
@@ -39,9 +45,8 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
 		cookie.setMaxAge(60 * 60 * 24 * 7);
 		response.addCookie(cookie);
 		response.setHeader("access", refreshTokenContext.getTokenData());
-		refreshTokenContext.setTokenData(null);
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher(request.getRequestURI());
+		RequestDispatcher dispatcher = request.getRequestDispatcher(refreshTokenContext.getUri());
 		dispatcher.forward(request, response);
 
 	}
@@ -49,7 +54,24 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
 		Exception ex) throws Exception {
-		refreshTokenContext.setTokenData(null);
+
+		if (Objects.nonNull(refreshTokenContext.getTokenData()) && refreshTokenContext.getTokenData()
+			.equals("expired")) {
+			refreshTokenContext.setTokenData(null);
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token expired");
+			return;
+		}
+
+		if (Objects.nonNull(refreshTokenContext.getTokenData()) && refreshTokenContext.getUri() != null) {
+			Cookie cookie = new Cookie("Authorization", refreshTokenContext.getTokenData());
+			cookie.setPath("/");
+			cookie.setMaxAge(60 * 60 * 24 * 7);
+			response.addCookie(cookie);
+			response.setHeader("access", refreshTokenContext.getTokenData());
+			RequestDispatcher dispatcher = request.getRequestDispatcher(refreshTokenContext.getUri());
+			refreshTokenContext.setUri(null);
+			dispatcher.forward(request, response);
+		}
 
 	}
 }
