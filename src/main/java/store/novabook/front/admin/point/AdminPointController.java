@@ -25,8 +25,6 @@ public class AdminPointController {
 	public String getPointForm(@RequestParam(defaultValue = "0") int page,
 		@RequestParam(defaultValue = PAGE_SIZE) int size, Model model, HttpServletRequest
 		request, @CurrentMembers Long id) {
-		pointPolicyService.getPointPolicyAllPage(page,
-			size)
 		model.addAttribute("pointPolicies", pointPolicyService.getPointPolicyAllPage(page,
 			size));
 		return "admin/point/point_form";
