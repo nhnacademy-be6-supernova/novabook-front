@@ -1,9 +1,14 @@
 package store.novabook.front.api.book.service;
 
-import store.novabook.front.api.order.dto.response.GetOrdersBookReviewIdResponse;
-import store.novabook.front.common.response.PageResponse;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import store.novabook.front.api.book.dto.request.CreateReviewRequest;
 
 public interface ReviewService {
 
-	PageResponse<GetOrdersBookReviewIdResponse> getOrdersBookReviewId(int page, int size);
+	void createReview(CreateReviewRequest createReviewRequest, Long ordersBookId);
+
+	void createReview(String content, int score, List<MultipartFile> reviewImages, Long ordersBookId);
 }

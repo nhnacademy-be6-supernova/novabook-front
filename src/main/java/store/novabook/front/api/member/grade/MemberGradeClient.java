@@ -9,7 +9,7 @@ import store.novabook.front.common.response.ApiResponse;
 @FeignClient(name = "memberGradeClient")
 public interface MemberGradeClient {
 
-	@GetMapping
+	@GetMapping()
 	ApiResponse<GetMemberGradeResponse> getMemberGrade();
 
 }
