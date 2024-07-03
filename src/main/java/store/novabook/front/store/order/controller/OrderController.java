@@ -1,5 +1,8 @@
 package store.novabook.front.store.order.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -24,7 +27,6 @@ public class OrderController {
 
 	@GetMapping("/order/form")
 	public String getOrderForm(Model model) {
-		// 임시 데이터
 		BookDTO 임시데이터 = BookDTO.builder()
 			.id(5L)
 			.price(1000)
@@ -32,7 +34,20 @@ public class OrderController {
 			.discount(1000)
 			.isPackage(true)
 			.quantity(10)
+			.imageUrl("https://shopping-phinf.pstatic.net/main_3247334/32473349454.20230927071208.jpg")
 			.build();
+
+		List<String> dates = new ArrayList<>();
+		LocalDate today = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d (E)");
+
+		for (int i = 0; i < 6; i++) {
+			dates.add(today.plusDays(i).format(formatter));
+		}
+
+		model.addAttribute("dates", dates);
+
+
 		BookListDTO build = BookListDTO.builder().bookDTOS(List.of(임시데이터)).build();
 		model.addAttribute("items", build.bookDTOS());
 		model.addAttribute("orderDTO", orderService.getOrder(build.bookDTOS(), 7L));

@@ -11,6 +11,8 @@ import store.novabook.front.api.category.service.CategoryClient;
 import store.novabook.front.api.coupon.client.CouponClient;
 import store.novabook.front.api.coupon.dto.request.GetCouponAllRequest;
 import store.novabook.front.api.coupon.dto.response.GetCouponResponse;
+import store.novabook.front.api.member.address.dto.response.GetMemberAddressResponse;
+import store.novabook.front.api.member.address.service.MemberAddressClient;
 import store.novabook.front.api.member.coupon.service.MemberCouponClient;
 import store.novabook.front.api.order.client.WrappingPaperClient;
 import store.novabook.front.api.order.dto.response.GetWrappingPaperResponse;
@@ -30,6 +32,7 @@ public class OrderServiceImpl implements OrderService {
 	private final CategoryClient categoryClient;
 	private final MemberCouponClient memberCouponClient;
 	private final PointHistoryClient pointHistoryClient;
+	private final MemberAddressClient memberAddressClient;
 
 	@Override
 	public OrderViewDTO getOrder(List<BookDTO> bookDTOS, Long memberId) {
@@ -70,10 +73,15 @@ public class OrderServiceImpl implements OrderService {
 			.mapToLong(GetPointHistoryResponse::pointAmount)
 			.sum();
 
+		List<GetMemberAddressResponse> memberAddresses = memberAddressClient.getMemberAddressList(memberId)
+			.getBody()
+			.memberAddresses();
+
 		return OrderViewDTO.builder()
 			.isPackable(isPackage)
 			.coupons(coupons)
 			.wrappingPapers(papers)
+			.memberAddresses(memberAddresses)
 			.myPoint(myPoint)
 			.build();
 	}
