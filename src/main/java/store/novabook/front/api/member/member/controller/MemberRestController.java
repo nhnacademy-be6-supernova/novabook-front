@@ -19,7 +19,7 @@ public class MemberRestController {
 
 	private final MemberRestService memberRestService;
 
-	@PostMapping("/loginId/is-duplicate")
+	@PostMapping("/login-id/is-duplicate")
 	public ResponseEntity<DuplicateResponse> isCreatableLoginId(@RequestBody DuplicateLoginIdRequest request) {
 		DuplicateResponse isDuplicateLoginId = memberRestService.isDuplicateLoginId(request);
 		return ResponseEntity.ok().body(isDuplicateLoginId);
