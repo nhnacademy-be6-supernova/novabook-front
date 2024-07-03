@@ -73,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
 			.mapToLong(GetPointHistoryResponse::pointAmount)
 			.sum();
 
-		List<GetMemberAddressResponse> memberAddresses = memberAddressClient.getMemberAddressList(memberId)
+		List<GetMemberAddressResponse> memberAddresses = memberAddressClient.getMemberAddressAll()
 			.getBody()
 			.memberAddresses();
 

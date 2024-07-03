@@ -25,9 +25,6 @@ public interface MemberAddressClient {
 	ApiResponse<CreateMemberAddressResponse> createMemberAddress(
 		@RequestBody CreateMemberAddressRequest createMemberAddressRequest);
 
-	@GetMapping
-	ApiResponse<GetMemberAddressListResponse> getMemberAddressAll();
-
 	@GetMapping("/{memberAddressId}")
 	public ResponseEntity<GetMemberAddressResponse> getMemberAddress(@PathVariable Long memberAddressId);
 
@@ -37,6 +34,9 @@ public interface MemberAddressClient {
 
 	@DeleteMapping("/{memberAddressId}")
 	ApiResponse<Void> deleteMemberAddress(@PathVariable Long memberAddressId);
+
+	@GetMapping
+	ApiResponse<GetMemberAddressListResponse> getMemberAddressAll();
 
 	@GetMapping("/is-exceed")
 	ApiResponse<ExceedResponse> isExceedMemberAddressCount();
