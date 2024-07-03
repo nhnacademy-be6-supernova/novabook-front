@@ -235,7 +235,7 @@
                     <h4 class="modal-title">전화번호 수정</h4>
                 </div>
                 <div class="modal-body">
-                    <input type="text" id="newPhone" class="form-control" name="number" placeholder="새 전화번호 입력">
+                    <input type="text" id="newPhone" class="form-control" name="number" placeholder="새 전화번호 입력" pattern="[0-9]{11}" title="숫자만 입력해주세요 (11자리)">
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary" onclick="savePhone()">저장</button>
