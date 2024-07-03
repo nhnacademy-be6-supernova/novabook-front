@@ -26,7 +26,7 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addInterceptor(new RefreshTokenInterceptor(refreshTokenContext))
 			.excludePathPatterns(
 				"/login",
-				"/users/user/form/login",
+				"/users/user/form/**",
 				// "/auth/**",
 				"/",
 				"/api/v1/front/new-token",
