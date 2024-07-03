@@ -307,19 +307,21 @@
         }
 
         // AJAX request to check for duplicate ID
-        fetch(`http://localhost:9777/api/v1/store/members/checkDuplicatedLoginId?loginId=${encodeURIComponent(loginId)}`, {
-            method: 'GET',
+        fetch('http://novabook.store:8080/api/v1/store/members/loginId/is-duplicate', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify({ loginId: loginId })
         })
             .then(response => response.json())
             .then(data => {
                 var messageElement = document.getElementById('idMessage');
 
                 console.log("id 중복 체크 실행")
+                console.log(data)
                 // 응답 데이터 구조가 변경됨에 따라 수정
-                isIdDuplicate = data.body.isDuplicateLoginId;
+                isIdDuplicate = data.isDuplicate;
 
                 if (isIdDuplicate) {
                     messageElement.innerText = "사용할 수 없는 아이디입니다.";
@@ -374,7 +376,7 @@
             return;
         }
 
-        fetch('http://localhost:9777/api/v1/store/members/checkDuplicatedEmail', {
+        fetch('http://novabook.store:8080/api/v1/store/members/email/is-duplicate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -387,7 +389,7 @@
 
                 console.log("이메일 중복체크 실행")
                 isEmailChecked = true; // 이메일 중복 버튼 수행
-                isEmailDuplicate = data.body.isDuplicateEmail;
+                isEmailDuplicate = data.isDuplicate;
 
                 if (isEmailDuplicate) {
                     messageElement.innerText = "이미 사용 중인 이메일입니다.";
