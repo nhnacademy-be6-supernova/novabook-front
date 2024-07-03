@@ -39,6 +39,7 @@
                         <table id="addressTable" class="table table-striped">
                             <thead>
                             <tr>
+                                <th>번호</th>
                                 <th>배송지</th>
                                 <th>우편번호</th>
                                 <th>주소</th>
@@ -48,6 +49,7 @@
                             </thead>
                             <tbody>
                             <tr th:each="address : ${addressList}">
+                                <td th:text="${addressStat.index + 1}"></td>
                                 <td th:text="${address.nickname}"></td>
                                 <td th:text="${address.zipcode}"></td>
                                 <td th:text="${address.streetAddress} + '&nbsp' + ${address.memberAddressDetail}"></td>
@@ -273,15 +275,6 @@
         return true;
     }
 
-    function validateEditForm() {
-        var detailAddress = document.getElementById("edit_sample6_detailAddress").value.trim();
-        if (detailAddress === '') {
-            alert("상세주소를 입력해주세요.");
-            return false;
-        }
-        return true;
-    }
-
     function openEditModal(nickname, zipcode, streetAddress, detailAddress, extraAddress, id) {
         $('#edit_address').val(nickname);
         $('#edit_sample6_postcode').val(zipcode);
@@ -296,31 +289,15 @@
         $('#editAddressModal').modal('show');
     }
 
-    function editAddress() {
-        var address = document.getElementById("edit_address").value;
-        var detailAddress = document.getElementById("edit_sample6_detailAddress").value;
-        var extraAddress = document.getElementById("edit_sample6_extraAddress").value;
-
-        var fullAddress = address + ' ' + detailAddress + ' ' + extraAddress;
-
-        var cells = editRow.getElementsByTagName('td');
-        cells[1].innerText = fullAddress; // 테이블에서 주소 열 업데이트
-
-        $('#editAddressModal').modal('hide'); // 수정 모달 닫기
-    }
-
-
     function checkMemberAddressCount() {
-        var memberId = 7;
-
         // memberId를 쿼리 문자열에 추가
-        var url = new URL(`http://localhost:9777/api/v1/store/addresses/checkMemberAddressCount`);
-        url.searchParams.append('memberId', memberId);
+        var url = new URL(`http://novabook.store:8080/api/v1/store/addresses/is-exceed`);
+        // url.searchParams.append('memberId', memberId);
+        console.log("주소 갯수 체크")
 
         fetch(url, {
             method: 'GET',
             headers: {
-                'memberId': memberId,
                 'Content-Type': 'application/json'
             }
         })
@@ -331,7 +308,7 @@
                 return response.json();
             })
             .then(data => {
-                var isExceedMemberAddressCount = data.body; // 서버에서 제공하는 데이터 구조에 따라 수정
+                var isExceedMemberAddressCount = data.isExceed; // 서버에서 제공하는 데이터 구조에 따라 수정
                 if (isExceedMemberAddressCount) {
                     alert('주소는 10개까지만 등록 가능합니다.');
                 } else {

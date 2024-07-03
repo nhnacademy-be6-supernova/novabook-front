@@ -7,8 +7,10 @@
     <title>NovaBook📕-내 정보</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <!-- Google Font -->
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
     <!-- Theme Stylesheet -->
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
@@ -19,6 +21,7 @@
             background-color: #f5f5f5;
             margin: 0; /* Body margin added */
         }
+
         .info-container {
             width: 90%; /* Adjusted width */
             max-width: 500px; /* Maximum width */
@@ -28,36 +31,43 @@
             border-radius: 8px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
+
         .info-container h2 {
             margin-bottom: 20px;
             font-size: 24px;
             color: #333333;
             text-align: center;
         }
+
         .info-table {
             width: 100%;
             margin-bottom: 20px;
             border-collapse: collapse;
         }
+
         .info-table th, .info-table td {
             padding: 12px;
             border: 1px solid #ddd;
         }
+
         .info-table th {
             width: 25%;
             background-color: #f9f9f9;
             text-align: left;
             font-weight: bold;
         }
+
         .info-table td {
             position: relative;
         }
+
         .info-table .info-text {
             display: inline-block;
             width: calc(100% - 90px);
             margin-bottom: 5px;
             font-size: 14px;
         }
+
         .info-table button {
             padding: 8px 15px;
             background-color: #337ab7;
@@ -67,35 +77,43 @@
             border-radius: 4px;
             font-size: 14px;
         }
+
         .info-table button:hover {
             background-color: #017dc1;
         }
+
         .info-table .help-block {
             color: #777777;
             font-size: 12px;
             margin-top: 5px;
         }
+
         .info-table .btn-default {
             background-color: #f7f7f7;
             color: #333;
             border-color: #ccc;
         }
+
         @media (max-width: 768px) {
             .info-container {
                 width: 100%; /* Full width on smaller screens */
                 padding: 20px 10px; /* Adjusted padding */
             }
+
             .info-table th, .info-table td {
                 padding: 10px;
                 font-size: 12px;
             }
+
             .info-table .info-text {
                 font-size: 12px;
             }
+
             .info-table button {
                 padding: 6px 12px;
                 font-size: 12px;
             }
+
             .info-table .help-block {
                 font-size: 10px;
             }
@@ -117,7 +135,8 @@
             <th>이름</th>
             <td>
                 <span class="info-text" th:text="${member.name}" id="name">MemberName</span>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#nameModal">이름 변경</button>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#nameModal">이름 변경
+                </button>
             </td>
         </tr>
         <tr>
@@ -127,7 +146,11 @@
         </tr>
         <tr>
             <th>비밀번호</th>
-            <td><button type="button" name="loginPassword" class="btn btn-default" data-toggle="modal" data-target="#passwordModal">비밀번호 변경</button></td>
+            <td>
+                <button type="button" name="loginPassword" class="btn btn-default" data-toggle="modal"
+                        data-target="#passwordModal">비밀번호 변경
+                </button>
+            </td>
         </tr>
         <tr>
             <th>전화번호</th>
@@ -148,23 +171,23 @@
 
 <!-- Modals -->
 <form method="post" th:action="@{/mypage/information/update}">
-<div id="nameModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">이름 변경</h4>
-            </div>
-            <div class="modal-body">
-                <input type="text" id="newName" class="form-control" name="name" placeholder="새 이름 입력">
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" onclick="saveName()">저장</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+    <div id="nameModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">이름 변경</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="newName" class="form-control" name="name" placeholder="새 이름 입력">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" onclick="saveName()">저장</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </form>
 
 <form method="post" id="passwordForm" th:action="@{/mypage/information/password}">
@@ -178,16 +201,20 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="newPassword">새 비밀번호</label>
-                        <input type="password" id="newPassword" class="form-control" name="loginPassword" onkeyup="validatePassword()" placeholder="새 비밀번호 입력">
+                        <input type="password" id="newPassword" class="form-control" name="loginPassword"
+                               onkeyup="validatePassword()" placeholder="새 비밀번호 입력">
                     </div>
                     <p>※비밀번호는 <span class="num">문자, 숫자, 특수문자(~!@#$%^&*)의 조합 10 ~ 16자리</span>로 입력이 가능합니다.</p>
                     <br>
                     <div class="form-group">
                         <label for="confirmPassword">새 비밀번호 확인</label>
-                        <input type="password" id="confirmPassword" class="form-control" name="loginPasswordConfirm" onkeyup="validatePassword()" placeholder="새 비밀번호 재입력">
+                        <input type="password" id="confirmPassword" class="form-control" name="loginPasswordConfirm"
+                               onkeyup="validatePassword()" placeholder="새 비밀번호 재입력">
                     </div>
                     <div id="passwordError" style="color: red; display: none;">비밀번호가 일치하지 않습니다.</div>
-                    <div id="passwordPatternError" style="color: red; display: none;">비밀번호는 문자, 숫자, 특수문자(~!@#$%^&*)의 조합 10 ~ 16자리로 입력이 가능합니다.</div>
+                    <div id="passwordPatternError" style="color: red; display: none;">비밀번호는 문자, 숫자, 특수문자(~!@#$%^&*)의 조합
+                        10 ~ 16자리로 입력이 가능합니다.
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary" onclick="savePassword(event)">저장</button>
@@ -200,23 +227,26 @@
 
 
 <form method="post" th:action="@{/mypage/information/update}">
-<div id="phoneModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">전화번호 수정</h4>
-            </div>
-            <div class="modal-body">
-                <input type="text" id="newPhone" class="form-control" name="number" placeholder="새 전화번호 입력">
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" onclick="savePhone()">저장</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+    <div id="phoneModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">전화번호 수정</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="newPhone" class="form-control" name="number" placeholder="새 전화번호 입력" pattern="[0-9]{11}" title="숫자만 입력해주세요 (11자리)">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" onclick="savePhone()">저장</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="/mypage" class="btn btn-primary">돌아가기</a>
+    </div>
 </form>
 
 <div th:replace="~{layout/store/footer :: footer}"></div>
@@ -310,7 +340,6 @@
     $('#phoneModal').on('shown.bs.modal', function () {
         $('#newPhone').val($('#phoneText').text().trim());
     });
-
 
 
 </script>
