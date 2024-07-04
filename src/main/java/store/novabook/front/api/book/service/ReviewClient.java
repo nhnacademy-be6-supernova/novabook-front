@@ -27,3 +27,7 @@ public interface ReviewClient {
 	@GetMapping("/books/{bookId}")
 	ApiResponse<GetReviewListResponse> GetReviewListByBookId(@PathVariable Long bookId);
 }
+
+
+
+
