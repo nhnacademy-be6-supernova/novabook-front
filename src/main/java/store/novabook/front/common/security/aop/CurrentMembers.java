@@ -1,4 +1,4 @@
-package store.novabook.front.common.aop;
+package store.novabook.front.common.security.aop;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

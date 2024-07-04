@@ -9,18 +9,19 @@ import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
 import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
 import store.novabook.front.api.member.member.dto.request.LoginMemberRequest;
 import store.novabook.front.api.member.member.dto.response.LoginMemberResponse;
-import store.novabook.front.common.aop.GetMembersTokenResponse;
+import store.novabook.front.common.security.aop.GetMembersTokenResponse;
 
 @FeignClient(name = "memberAuthClient")
 public interface MemberAuthClient {
 	@PostMapping("/login")
 	ResponseEntity<LoginMemberResponse> login(@RequestBody LoginMemberRequest loginMemberRequest);
 
-
 	@PostMapping("/refresh")
 	ResponseEntity<GetNewTokenResponse> newToken(@RequestBody GetNewTokenRequest getNewTokenRequest);
 
-
 	@PostMapping("/members/token")
 	ResponseEntity<GetMembersTokenResponse> token();
+
+	@PostMapping("/logout")
+	ResponseEntity<Void> logout();
 }

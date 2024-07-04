@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NovaBook📕</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
           rel='stylesheet' type='text/css'>
@@ -307,7 +308,7 @@
         }
 
         // AJAX request to check for duplicate ID
-        fetch('https://novabook.store/api/v1/front/members/loginId/is-duplicate', {
+        fetch('https://novabook.store/api/v1/front/members/login-id/is-duplicate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -451,17 +452,6 @@
             }
         }).open();
     }
-
-    document.getElementById('').addEventListener('submit', function (event) {
-        event.preventDefault(); // 폼 제출 이벤트 방지
-        if (isIdChecked) {
-            // 여기에 회원가입을 보내는 코드를 추가할 수 있습니다.
-            console.log("회원가입 요청을 보냈습니다.");
-            // 예를 들어, 서버로 회원가입 요청을 보내는 Ajax 요청 등을 추가할 수 있습니다.
-        } else {
-            console.log("ID 체크가 필요합니다.");
-        }
-    });
 
     // 페이지 로드 시 초기화
     $(document).ready(function () {

@@ -13,7 +13,7 @@ import store.novabook.front.api.member.member.dto.request.DuplicateEmailRequest;
 import store.novabook.front.api.member.member.dto.response.DuplicateResponse;
 import store.novabook.front.api.member.member.dto.request.DuplicateLoginIdRequest;
 import store.novabook.front.api.member.member.service.MemberRestService;
-import store.novabook.front.common.aop.CurrentMembers;
+import store.novabook.front.common.security.aop.CurrentMembers;
 
 @RestController
 @RequiredArgsConstructor

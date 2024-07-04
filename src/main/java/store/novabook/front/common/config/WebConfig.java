@@ -10,8 +10,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.service.MemberAuthClient;
-import store.novabook.front.common.aop.CurrentMembersArgumentResolver;
-import store.novabook.front.common.interceptor.RefreshTokenInterceptor;
+import store.novabook.front.common.interceptor.LoginStatusInterceptor;
+import store.novabook.front.common.security.aop.CurrentMembersArgumentResolver;
+import store.novabook.front.common.interceptor.TokenInterceptor;
 import store.novabook.front.common.security.RefreshTokenContext;
 
 @Configuration
@@ -23,7 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new RefreshTokenInterceptor(refreshTokenContext))
+		registry.addInterceptor(new TokenInterceptor(refreshTokenContext))
 			.excludePathPatterns(
 				"/login",
 				"/users/user/form/**",
@@ -38,6 +39,8 @@ public class WebConfig implements WebMvcConfigurer {
 				"/**/*.jpeg",
 				"/**/*.gif"
 			);
+		registry.addInterceptor(new LoginStatusInterceptor())
+			.addPathPatterns("/users/user/form", "/login");
 	}
 
 	@Override
