@@ -172,14 +172,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
 
-        axios.post(url, JSON.stringify(params), {
+
+        fetch(url, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             }
         })
-            console.log("실행됨")
-            .then(response => {
-                console.log('응답:', response.data);
+            .then(response => response.json())
+            .then(data => {
                 alert("등록이 완료되었습니다!");
                 location.reload();
             })

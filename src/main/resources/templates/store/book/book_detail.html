@@ -541,7 +541,7 @@
             var bookId = button.data('book-id'); // `data-book-id` 속성에서 값 가져오기
 
             // 도서 쿠폰 가져오기
-            axios.get(`http://localhost:8080/coupons/book/${bookId}`)
+            axios.get(`https://novabooks.store/coupons/book/${bookId}`)
                 .then(function (response) {
                     var bookCouponList = document.getElementById('bookCouponList');
                     bookCouponList.innerHTML = ''; // 기존 목록을 비웁니다.

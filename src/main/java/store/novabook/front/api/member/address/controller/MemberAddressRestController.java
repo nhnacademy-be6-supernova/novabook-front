@@ -1,6 +1,7 @@
 package store.novabook.front.api.member.address.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ import store.novabook.front.api.member.address.service.MemberAddressRestService;
 public class MemberAddressRestController {
 	private final MemberAddressRestService memberAddressRestService;
 
+	@CrossOrigin(origins = "https://novabook.store")
 	@GetMapping("/is-exceed")
 	public ResponseEntity<ExceedResponse> isExceed() {
 		ExceedResponse isExceedMemberAddressCount = memberAddressRestService.isExceedMemberAddressCount();
