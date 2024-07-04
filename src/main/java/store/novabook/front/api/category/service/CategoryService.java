@@ -13,5 +13,4 @@ public interface CategoryService {
 	CreateCategoryResponse createCategory(@RequestBody CreateCategoryRequest category);
 	GetCategoryResponse getCategory(@PathVariable Long id);
 	GetCategoryListResponse getCategoryAll();
-	void deleteCategory(@PathVariable Long id);
 }
