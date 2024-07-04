@@ -8,11 +8,13 @@ import store.novabook.front.store.order.service.RedisOrderService;
 
 @Service
 public class RedisOrderServiceImpl implements RedisOrderService {
+
 	private final RedisOrderRepository repository;
 
 	public RedisOrderServiceImpl(RedisOrderRepository repository) {
 		this.repository = repository;
 	}
+
 	@Override
 	public void create(OrderTemporaryForm orderTemporaryForm) {
 		repository.save(orderTemporaryForm);

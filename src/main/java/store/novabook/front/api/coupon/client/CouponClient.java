@@ -39,7 +39,7 @@ public interface CouponClient {
 	 */
 	@GetMapping("/templates")
 	PageResponse<GetCouponTemplateResponse> getCouponTemplateAll(@RequestParam(required = false) CouponType type,
-		@RequestParam int page, @RequestParam int size);
+		@RequestParam(defaultValue = "true") Boolean isValid, @RequestParam int page, @RequestParam int size);
 
 	/**
 	 * 모든 책 쿠폰 템플릿을 조회합니다.
@@ -60,8 +60,8 @@ public interface CouponClient {
 	 * @return 페이지 응답 객체
 	 */
 	@GetMapping("/templates/category")
-	PageResponse<GetCategoryCouponTemplateResponse> getCategoryCouponTemplateAll(@RequestParam int page,
-		@RequestParam int size);
+	PageResponse<GetCategoryCouponTemplateResponse> getCategoryCouponTemplateAll(@RequestParam boolean isValid,
+		@RequestParam int page, @RequestParam int size);
 
 	/**
 	 * 일반 쿠폰 템플릿을 생성합니다.
@@ -91,7 +91,6 @@ public interface CouponClient {
 	ApiResponse<CreateCouponResponse> createCategoryCouponTemplate(
 		@RequestBody CreateCategoryCouponTemplateRequest request);
 
-
 	/**
 	 * 여러 카테고리 ID로 쿠폰 템플릿을 조회합니다.
 	 *
@@ -101,9 +100,7 @@ public interface CouponClient {
 	 */
 	@GetMapping(value = "/api/v1/coupon/templates/category/categories", params = "categoryIdList")
 	GetCategoryCouponTemplateAllResponse getCategoryCouponTemplateAllByCategoryIdAll(
-		@RequestParam("categoryIdList") List<Long> categoryIdList,
-		@RequestParam("isValid") boolean isValid);
-
+		@RequestParam("categoryIdList") List<Long> categoryIdList, @RequestParam("isValid") boolean isValid);
 
 	@GetMapping("/templates/book/{bookId}")
 	ApiResponse<GetBookCouponTemplateAllResponse> getCouponTemplateByBookId(@PathVariable Long bookId,

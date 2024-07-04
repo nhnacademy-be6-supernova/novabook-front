@@ -1,6 +1,7 @@
 package store.novabook.front.api.member.member.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,10 +12,11 @@ import store.novabook.front.api.member.member.dto.request.DuplicateEmailRequest;
 import store.novabook.front.api.member.member.dto.response.DuplicateResponse;
 import store.novabook.front.api.member.member.dto.request.DuplicateLoginIdRequest;
 import store.novabook.front.api.member.member.service.MemberRestService;
+import store.novabook.front.common.aop.CurrentMembers;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/store/members")
+@RequestMapping("/api/v1/front/members")
 public class MemberRestController {
 
 	private final MemberRestService memberRestService;
@@ -31,4 +33,11 @@ public class MemberRestController {
 		return ResponseEntity.ok().body(isDuplicateEmail);
 	}
 
+	@GetMapping("/login-id/current")
+	public ResponseEntity<Long> getCurrentLoginId(@CurrentMembers Long memberId) {
+		if (memberId == null) {
+			throw new IllegalArgumentException("현재 로그인 정보가 없습니다.");
+		}
+		return ResponseEntity.ok().body(memberId);
+	}
 }
