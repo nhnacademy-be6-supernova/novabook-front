@@ -1,15 +1,19 @@
 package store.novabook.front.store.mypage.coupon;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.coupon.dto.response.GetCouponAllResponse;
-import store.novabook.front.api.coupon.dto.response.GetCouponHistoryAllResponse;
-import store.novabook.front.api.coupon.dto.response.GetUsedCouponHistoryAllResponse;
+import store.novabook.front.api.coupon.dto.response.GetCouponHistoryResponse;
+import store.novabook.front.api.coupon.dto.response.GetUsedCouponHistoryResponse;
 import store.novabook.front.api.member.grade.service.MemberGradeService;
 import store.novabook.front.api.member.member.service.MemberCouponService;
 
@@ -18,24 +22,27 @@ import store.novabook.front.api.member.member.service.MemberCouponService;
 @RequiredArgsConstructor
 public class MyCouponController {
 
-	private static final String DEFAULT_PAGE_SIZE = "5";
-	public static final String DEFAULT_PAGE = "0";
-
 	private final MemberGradeService memberGradeService;
 	private final MemberCouponService memberCouponService;
 
 	@GetMapping
-	public String getMyCoupon(@RequestParam(defaultValue = DEFAULT_PAGE) int page,
-		@RequestParam(defaultValue = DEFAULT_PAGE) int usagePage,
-		@RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int size, Model model) {
+	public String getMyCoupon(@Qualifier("createdPageable") @PageableDefault(size = 5) Pageable createdPageable,
+		@Qualifier("usedPageable") @PageableDefault(size = 5) Pageable usedPageable, Model model) {
 		GetCouponAllResponse myCouponList = memberCouponService.getMyCouponAllWithValid();
-		GetCouponHistoryAllResponse createdList =  memberCouponService.getMyCouponHistoryAll(page, size);
-		GetUsedCouponHistoryAllResponse usedList = memberCouponService.getMyUsedCouponHistory(usagePage, size);
-
 		model.addAttribute("myCouponList", myCouponList);
-		model.addAttribute("createdList", createdList);
-		model.addAttribute("usedList", usedList);
 		model.addAttribute("grade", memberGradeService.getMemberGrade());
 		return "store/mypage/coupon/coupon_history";
+	}
+
+	@GetMapping("/api/issued")
+	@ResponseBody
+	public Page<GetCouponHistoryResponse> getIssuedCouponsApi(@PageableDefault(size = 5) Pageable pageable) {
+		return memberCouponService.getMyCouponHistoryAll(pageable);
+	}
+
+	@GetMapping("/api/used")
+	@ResponseBody
+	public Page<GetUsedCouponHistoryResponse> getUsedCouponsApi(@PageableDefault(size = 5) Pageable pageable) {
+		return memberCouponService.getMyUsedCouponHistory(pageable);
 	}
 }

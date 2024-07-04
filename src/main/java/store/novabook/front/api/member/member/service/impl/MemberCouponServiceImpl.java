@@ -1,12 +1,14 @@
 package store.novabook.front.api.member.member.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.coupon.dto.request.CreateMemberCouponRequest;
 import store.novabook.front.api.coupon.dto.response.GetCouponAllResponse;
-import store.novabook.front.api.coupon.dto.response.GetCouponHistoryAllResponse;
-import store.novabook.front.api.coupon.dto.response.GetUsedCouponHistoryAllResponse;
+import store.novabook.front.api.coupon.dto.response.GetCouponHistoryResponse;
+import store.novabook.front.api.coupon.dto.response.GetUsedCouponHistoryResponse;
 import store.novabook.front.api.member.coupon.service.MemberCouponClient;
 import store.novabook.front.api.member.member.dto.response.CreateMemberCouponResponse;
 import store.novabook.front.api.member.member.service.MemberClient;
@@ -32,13 +34,15 @@ public class MemberCouponServiceImpl implements MemberCouponService {
 	}
 
 	@Override
-	public GetCouponHistoryAllResponse getMyCouponHistoryAll(int page, int size) {
-		return memberCouponClient.getMemberCouponHistoryByMemberId(page, size).getBody();
+	public Page<GetCouponHistoryResponse> getMyCouponHistoryAll(Pageable pageable) {
+		return memberCouponClient.getMemberCouponHistoryByMemberId(pageable.getPageNumber(), pageable.getPageSize())
+			.toPage();
 	}
 
 	@Override
-	public GetUsedCouponHistoryAllResponse getMyUsedCouponHistory(int page, int size) {
-		return memberCouponClient.getMemberUsedCouponHistoryByMemberId(page, size).getBody();
+	public Page<GetUsedCouponHistoryResponse> getMyUsedCouponHistory(Pageable pageable) {
+		return memberCouponClient.getMemberUsedCouponHistoryByMemberId(pageable.getPageNumber(), pageable.getPageSize())
+			.toPage();
 	}
 
 }
