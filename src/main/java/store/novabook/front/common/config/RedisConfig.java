@@ -51,6 +51,16 @@ public class RedisConfig {
 		return redisTemplate;
 	}
 
+	@Bean
+	public RedisTemplate<String, Object> redisCartTemplate() {
+		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+		redisTemplate.setKeySerializer(new StringRedisSerializer());
+		redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+		redisTemplate.setConnectionFactory(redisConnectionFactory());
+		redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+		return redisTemplate;
+	}
+
 	/**
 	 * RedisMessageListenerContainer는 Spring Data Redis에서 제공하는 클래스이다.
 	 * 컨테이너는 메시지가 도착하면 등록된 MessageListener를 호출하여 메시지를 처리한다.

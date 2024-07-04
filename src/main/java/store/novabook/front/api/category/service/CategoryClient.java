@@ -29,7 +29,6 @@ public interface CategoryClient {
 
 	@DeleteMapping("/{id}")
 	ApiResponse<DeleteResponse> delete(@PathVariable Long id);
-	ApiResponse<Void> deleteCategory(@PathVariable Long id);
 
 	@GetMapping("/book/{bookId}")
 	ApiResponse<GetCategoryIdsByBookIdResponse> getCategoryByBId(@PathVariable Long bookId);
