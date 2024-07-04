@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.context.request.WebRequest;
 import org.thymeleaf.exceptions.TemplateInputException;
 
+import feign.FeignException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -73,6 +74,11 @@ public class GlobalExceptionHandler {
 			return;
 		}
 		System.out.println();
+	}
+
+	@ExceptionHandler(FeignException.Unauthorized.class)
+	public ResponseEntity<String> handleNullPointerException(FeignException.Unauthorized ex, WebRequest request) {
+		return new ResponseEntity<>("리프레쉬토큰 끝남", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	// @ExceptionHandler(NullPointerException.class)
