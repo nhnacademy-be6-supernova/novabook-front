@@ -16,13 +16,14 @@ import store.novabook.front.common.response.PageResponse;
 public interface CouponService {
 	PageResponse<GetBookCouponTemplateResponse> getBookCouponTemplateAll(int page, int size);
 
-	PageResponse<GetCategoryCouponTemplateResponse> getCategoryCouponTemplateAll(int page, int size);
+	PageResponse<GetCategoryCouponTemplateResponse> getCategoryCouponTemplateAll(Boolean isValid, int page, int size);
 
-	PageResponse<GetCouponTemplateResponse> getCouponTemplateAll(CouponType type, int page, int size);
+	PageResponse<GetCouponTemplateResponse> getCouponTemplateAll(CouponType type, Boolean isValid, int page,
+		int size);
 
 	void createGeneralTemplateCoupon(CreateCouponTemplateRequest request);
 
-	void createBookTemplateCoupon (CreateBookCouponTemPlateRequest request);
+	void createBookTemplateCoupon(CreateBookCouponTemPlateRequest request);
 
 	void createCategoryTemplateCoupon(CreateCategoryCouponTemplateRequest request);
 

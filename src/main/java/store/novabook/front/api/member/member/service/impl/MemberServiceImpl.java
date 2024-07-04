@@ -1,7 +1,6 @@
 package store.novabook.front.api.member.member.service.impl;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,14 +26,14 @@ import store.novabook.front.common.response.ApiResponse;
 public class MemberServiceImpl implements MemberService {
 	private final MemberClient memberClient;
 	private final MemberAuthClient memberAuthClient;
-	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Override
 	public CreateMemberResponse createMember(CreateMemberRequest createMemberRequest) {
 
 		CreateMemberRequest newMemberRequest = CreateMemberRequest.builder()
 			.loginId(createMemberRequest.loginId())
-			.loginPassword(passwordEncoder.encode(createMemberRequest.loginPassword()))
+			.loginPassword(createMemberRequest.loginPassword())
+			.loginPasswordConfirm(createMemberRequest.loginPasswordConfirm())
 			.name(createMemberRequest.name())
 			.number(createMemberRequest.number())
 			.email(createMemberRequest.email())

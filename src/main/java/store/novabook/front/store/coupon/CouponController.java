@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
+import store.novabook.front.api.coupon.domain.CouponType;
 import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateAllResponse;
 import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateAllResponse;
 import store.novabook.front.api.coupon.service.CouponService;
@@ -20,10 +21,17 @@ import store.novabook.front.api.coupon.service.CouponService;
 @RequiredArgsConstructor
 public class CouponController {
 
+	private static final String DEFAULT_PAGE_SIZE = "5";
+	public static final String DEFAULT_PAGE = "0";
 	private final CouponService couponService;
 
 	@GetMapping
-	public String getCouponAll() {
+	public String getCouponAll(@RequestParam(defaultValue = DEFAULT_PAGE) int generalPage,
+		@RequestParam(defaultValue = DEFAULT_PAGE) int categoryPage,
+		@RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int size, Model model) {
+		model.addAttribute("generalCouponList",
+			couponService.getCouponTemplateAll(CouponType.GENERAL, true, generalPage, size));
+		model.addAttribute("categoryCouponList", couponService.getCategoryCouponTemplateAll(true, categoryPage, size));
 		return "store/coupon/coupon_book";
 	}
 
@@ -40,6 +48,5 @@ public class CouponController {
 		Model model) {
 		return couponService.getCategoryCouponTemplate(categoryIdList, true);
 	}
-
 
 }

@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NovaBook📕</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
           rel='stylesheet' type='text/css'>
@@ -57,14 +58,14 @@
                     <tr>
                         <td class="col1">비밀번호</td>
                         <td class="col2">
-                            <input type="password" id="loginPassword" name="loginPassword" maxlength="20">
+                            <input type="password" id="loginPassword" name="loginPassword" maxlength="16">
                             <p>※비밀번호는 <span class="num">문자, 숫자, 특수문자(~!@#$%^&*)의 조합 10 ~ 16자리</span>로 입력이 가능합니다.</p>
                         </td>
                     </tr>
                     <tr>
                         <td class="col1">비밀번호 확인</td>
                         <td class="col2">
-                            <input type="password" id="loginPasswordConfirm" name="loginPasswordConfirm" maxlength="20">
+                            <input type="password" id="loginPasswordConfirm" name="loginPasswordConfirm" maxlength="16">
                             <span id="passwordMessage"></span>
                         </td>
                     </tr>
@@ -127,7 +128,7 @@
                     <tr>
                         <td class="col1">연락처</td>
                         <td class="col2">
-                            <input type="text" id="phone" name="number" required>
+                            <input type="text" id="phone" name="number" pattern="[0-9]{11}" title="숫자만 입력해주세요 (11자리)" required>
                         </td>
                     </tr>
                 </table>
@@ -307,7 +308,7 @@
         }
 
         // AJAX request to check for duplicate ID
-        fetch('http://novabook.store:8080/api/v1/store/members/loginId/is-duplicate', {
+        fetch('https://novabook.store/api/v1/front/members/login-id/is-duplicate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -318,7 +319,6 @@
             .then(data => {
                 var messageElement = document.getElementById('idMessage');
 
-                console.log("id 중복 체크 실행")
                 console.log(data)
                 // 응답 데이터 구조가 변경됨에 따라 수정
                 isIdDuplicate = data.isDuplicate;
@@ -376,7 +376,7 @@
             return;
         }
 
-        fetch('http://novabook.store:8080/api/v1/store/members/email/is-duplicate', {
+        fetch('https://novabook.store/api/v1/front/members/email/is-duplicate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -387,7 +387,6 @@
             .then(data => {
                 var messageElement = document.getElementById('emailMessage'); // emailMessage 사용
 
-                console.log("이메일 중복체크 실행")
                 isEmailChecked = true; // 이메일 중복 버튼 수행
                 isEmailDuplicate = data.isDuplicate;
 
@@ -453,17 +452,6 @@
             }
         }).open();
     }
-
-    document.getElementById('').addEventListener('submit', function (event) {
-        event.preventDefault(); // 폼 제출 이벤트 방지
-        if (isIdChecked) {
-            // 여기에 회원가입을 보내는 코드를 추가할 수 있습니다.
-            console.log("회원가입 요청을 보냈습니다.");
-            // 예를 들어, 서버로 회원가입 요청을 보내는 Ajax 요청 등을 추가할 수 있습니다.
-        } else {
-            console.log("ID 체크가 필요합니다.");
-        }
-    });
 
     // 페이지 로드 시 초기화
     $(document).ready(function () {

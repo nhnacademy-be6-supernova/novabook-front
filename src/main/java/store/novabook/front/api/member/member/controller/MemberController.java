@@ -31,6 +31,7 @@ public class MemberController {
 		HttpServletRequest request) {
 		memberService.createMember(createMemberRequest);
 		return "redirect:/login";
+
 	}
 
 	@PostMapping("/login")

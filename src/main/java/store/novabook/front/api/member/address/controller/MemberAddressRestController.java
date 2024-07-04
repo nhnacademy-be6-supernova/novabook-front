@@ -11,7 +11,7 @@ import store.novabook.front.api.member.address.service.MemberAddressRestService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/store/addresses")
+@RequestMapping("/api/v1/front/addresses")
 public class MemberAddressRestController {
 	private final MemberAddressRestService memberAddressRestService;
 
