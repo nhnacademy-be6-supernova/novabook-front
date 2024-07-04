@@ -16,13 +16,13 @@ import store.novabook.front.api.order.dto.response.GetWrappingPaperResponse;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
 
-@FeignClient(name = "WrappingPaperClient")
+@FeignClient(name = "wrappingPaperClient")
 public interface WrappingPaperClient {
 
 	@GetMapping
 	ApiResponse<GetWrappingPaperAllResponse> getWrappingPaperAllList();
 
-	@GetMapping("/pageable")
+	@GetMapping
 	PageResponse<GetWrappingPaperResponse> getWrappingPaperAllPage(@RequestParam int page, @RequestParam int size);
 
 	@GetMapping("/{id}")
