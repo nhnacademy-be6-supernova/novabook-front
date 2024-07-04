@@ -1,4 +1,4 @@
-package store.novabook.front.common.aop;
+package store.novabook.front.common.security.aop;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.http.ResponseEntity;
