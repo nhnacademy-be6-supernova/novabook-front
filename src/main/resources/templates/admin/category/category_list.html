@@ -181,17 +181,14 @@
                             <div class="form-group">
                                 <label for="select-parent-category">상위 카테고리 선택</label>
                                 <select class="form-control" id="select-parent-category" name="topCategoryId">
-                                    <option th:each="category : ${categories.categories()}" th:value="${category.id}"
-                                            th:text="${category.name}">상위 카테고리
-                                    </option>
+                                    <option th:each="category : ${categories.categories()}" th:value="${category.id}" th:text="${category.name}">상위 카테고리</option>
                                 </select>
                             </div>
                             <div class="form-group full-width">
                                 <label for="register-category-input-child">추가할 카테고리 이름</label>
                                 <input type="text" class="form-control" id="register-category-input-child" name="name">
                             </div>
-                            <button style="width: 100px; height: 50px;" type="submit" class="btn btn-primary">제출
-                            </button>
+                            <button style="width: 100px; height: 50px;" type="submit" class="btn btn-primary">제출</button>
                         </form>
                     </div>
                 </div>
@@ -206,10 +203,8 @@
                                     <!-- Display top category name -->
                                     <span class="tree-toggle" th:text="${category.name}">상위 카테고리 이름</span>
                                     <!-- Link to delete top category -->
-                                    <!--                                    <a class="btn btn-danger btn-xs" th:href="@{/admin/categories/delete/{id}(id=${category.id})}" style="margin-left: 10px;">삭제</a>-->
-                                    <a class="btn btn-danger btn-xs"
-                                       th:attr="onclick='deleteCategory(' + ${category.id} + ')'"
-                                       style="margin-left: 10px;">삭제</a>
+<!--                                    <a class="btn btn-danger btn-xs" th:href="@{/admin/categories/delete/{id}(id=${category.id})}" style="margin-left: 10px;">삭제</a>-->
+                                    <a class="btn btn-danger btn-xs" th:attr="onclick='deleteCategory(' + ${category.id} + ')'" style="margin-left: 10px;">삭제</a>
                                 </div>
                                 <ul>
                                     <!-- Iterate over subcategories of current category -->
@@ -218,9 +213,9 @@
                                             <!-- Display subcategory name -->
                                             <span th:text="${subCategory.name}">하위 카테고리 이름</span>
                                             <!-- Link to delete subcategory -->
-                                            <a class="btn btn-danger btn-xs"
-                                               th:attr="onclick='deleteCategory(' + ${subCategory.id} + ')'"
-                                               style="margin-left: 10px;">삭제</a>
+                                            <a class="btn btn-danger btn-xs" th:attr="onclick='deleteCategory(' + ${subCategory.id} + ')'" style="margin-left: 10px;">삭제</a>
+
+
                                         </div>
                                     </li>
                                 </ul>
@@ -228,6 +223,7 @@
                         </ul>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -235,16 +231,16 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         // 트리 토글 기능
-        $('.tree-toggle').click(function () {
+        $('.tree-toggle').click(function() {
             $(this).parent().next('ul').toggle();
         });
 
         // 페이지가 로드될 때 상위 카테고리의 하위 카테고리가 있다면, 토글 아이콘을 추가
-        $('.tree-toggle').each(function () {
+        $('.tree-toggle').each(function() {
             if ($(this).parent().next('ul').length > 0) {
                 $(this).prepend('<i class="fa fa-minus" style="margin-right: 5px;"></i>');
                 $(this).parent().next('ul').show(); // Initially show all subcategories
@@ -252,7 +248,7 @@
         });
 
         // 토글 시 아이콘 변경
-        $('.tree-toggle').click(function () {
+        $('.tree-toggle').click(function() {
             var icon = $(this).children('i');
             if (icon.hasClass('fa-plus')) {
                 icon.removeClass('fa-plus').addClass('fa-minus');
@@ -260,26 +256,41 @@
                 icon.removeClass('fa-minus').addClass('fa-plus');
             }
         });
+
     });
 
+
     function deleteCategory(id) {
-        axios.delete("http://localhost:8080/api/v1/store/categories/" + id, {
+        fetch("https://novabook.store/api/v1/front/categories/" + id, {
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
             }
         })
             .then(response => {
-                alert("삭제가 완료되었습니다!");
-                location.reload();
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // 응답 데이터 구조가 변경됨에 따라 수정
+                var deleted = data.isDeleted;
+                console.log(deleted)
+
+                if (!deleted) {
+                    alert("카테고리에 등록된 도서가 있어 삭제할 수 없습니다.");
+                } else {
+                    alert("삭제가 완료되었습니다.");
+                    location.reload()
+                }
             })
             .catch(error => {
-                if (error.response && error.response.status === 409) {
-                    alert("해당 카테고리에 등록된 도서가 있어 삭제할 수 없습니다.");
-                } else {
-                    alert("삭제 중 오류가 발생했습니다: " + error.message);
-                }
+                console.error('Error checking:', error);
             });
     }
+
+
 
 </script>
 </body>

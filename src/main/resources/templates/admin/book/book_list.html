@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<!--    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">-->
     <title>Admin Page - NovaBook📕</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <!-- Google Font -->
@@ -457,7 +457,10 @@
                  isPackaged : updatedPackaging
             }
 
-            axios.post("https://www.novabook.store/admin/books/book/update", JSON.stringify(params), {
+            var url = "https://novabook.store/admin/books/book/update";
+            // var url = "http://localhost:8080/admin/books/book/update";
+
+            axios.post(url, JSON.stringify(params), {
                 headers: {
                     'Content-Type': 'application/json'
                 }
