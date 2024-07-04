@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<!--    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">-->
     <title>Admin Page - NovaBook📕</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css" type="text/css">
@@ -394,7 +394,7 @@
 <!-- End of Edit Book Modal -->
 <!-- Create Book Coupon Modal -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     $(document).ready(function () {
@@ -457,7 +457,10 @@
                  isPackaged : updatedPackaging
             }
 
-            axios.post("https://www.novabook.store/admin/books/book/update", JSON.stringify(params), {
+            var url = "https://novabook.store/admin/books/book/update";
+            // var url = "http://localhost:8080/admin/books/book/update";
+
+            axios.post(url, JSON.stringify(params), {
                 headers: {
                     'Content-Type': 'application/json'
                 }

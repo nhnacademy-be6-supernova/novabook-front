@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin Page - NovaBook📕</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
           rel='stylesheet' type='text/css'>
@@ -230,8 +230,8 @@
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
         // 트리 토글 기능
@@ -259,24 +259,37 @@
 
     });
 
+
     function deleteCategory(id) {
-        axios.delete("http://localhost:8080/api/v1/store/categories/" + id, {
+        fetch("https://novabook.store/api/v1/front/categories/" + id, {
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
             }
         })
             .then(response => {
-                alert("삭제가 완료되었습니다!");
-                location.reload();
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // 응답 데이터 구조가 변경됨에 따라 수정
+                var deleted = data.isDeleted;
+                console.log(deleted)
+
+                if (!deleted) {
+                    alert("카테고리에 등록된 도서가 있어 삭제할 수 없습니다.");
+                } else {
+                    alert("삭제가 완료되었습니다.");
+                    location.reload()
+                }
             })
             .catch(error => {
-                if (error.response && error.response.status === 409) {
-                    alert("해당 카테고리에 등록된 도서가 있어 삭제할 수 없습니다.");
-                } else {
-                    alert("삭제 중 오류가 발생했습니다: " + error.message);
-                }
+                console.error('Error checking:', error);
             });
     }
+
 
 
 </script>

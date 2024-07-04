@@ -26,4 +26,6 @@ public interface MemberService {
 	void deleteMember(DeleteMemberRequest deleteMemberRequest);
 
 	GetNewTokenResponse newToken(GetNewTokenRequest getNewTokenRequest);
+
+	void logout();
 }

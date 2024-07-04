@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NovaBook📕 - 리뷰 관리</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
           rel='stylesheet' type='text/css'>
@@ -47,13 +47,19 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="book : ${ordersBook.data}">
-                                <td th:text="${book.ordersId}">12345</td>
-                                <td th:text="${book.bookTitle}"> 책 제목 1</td>
-                                <td th:text="${book.orderAt}">2024-06-15</td>
-                                <td><a th:value="${book.reviewId()}" th:class="${book.reviewId != null ? 'btn btn-secondary' : 'btn btn-primary'}"
-                                       th:href="@{'/mypage/reviews/' + ${book.ordersBookId} +${book.reviewId != null ? '/update' : ''}}" th:text="${book.reviewId != null ? '리뷰 수정' : '리뷰 쓰기'}">리뷰 수정</a></td>
+                            <tr>
+                                <td>12345</td>
+                                <td>책 제목 1</td>
+                                <td>2024-06-15</td>
+                                <td><a href="#" class="btn btn-secondary reviewBtn" data-review="리뷰 내용 1">리뷰 수정</a></td>
                             </tr>
+                            <tr>
+                                <td>67890</td>
+                                <td>책 제목 2</td>
+                                <td>2024-06-14</td>
+                                <td><a href="#" class="btn btn-primary reviewBtn">리뷰 쓰기</a></td>
+                            </tr>
+                            <!-- 추가적인 리뷰 항목을 여기에 추가하세요 -->
                             </tbody>
                         </table>
                         <a href="/mypage" class="btn btn-primary">돌아가기</a>
