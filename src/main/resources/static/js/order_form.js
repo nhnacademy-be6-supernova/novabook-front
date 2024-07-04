@@ -19,7 +19,7 @@ function selectAddress(button) {
     $('#myAddressModal').modal('hide'); // 모달 닫기
 }
 
-
+ㅑ
 //도로명 주소 JS
 function sample6_execDaumPostcode() {
     new daum.Postcode({
@@ -115,14 +115,35 @@ function applyPoints() {
     const currentPoints = parseInt($('#currentPoints').text().replace('포인트', '').replace(',', ''), 10);
     const pointsInput = parseInt($('#pointsInput').val(), 10);
 
+    if(!pointsInput) {
+        alert("포인트 값을 넣어주세요!")
+        return;
+    }
+
     if (pointsInput > currentPoints) {
         alert("사용할 포인트는 현재 포인트보다 많을 수 없습니다.");
         return;
     }
-    alert("포인트가 적용되었습니다!");
+
+
+    const tempFinalAmount = parseInt($('#finalAmount').text().replace('원', '').replace(',', ''), 10);
     // 실제 적용 로직 필요
     // 예: 포인트 금액 업데이트, 최종 결제 금액 업데이트
     $('#pointsUsed').text(pointsInput + "원"); // 입력된 포인트 사용
+    updateFinalAmount();
+
+    const afterFinalAmount = parseInt($('#finalAmount').text().replace('원', '').replace(',', ''), 10);
+
+    if (0 > afterFinalAmount) {
+        alert("사용할 포인트는 결제할 금액보다 클 수 없습니다.");
+        $('#finalAmount').text(tempFinalAmount.toLocaleString() + "원");
+        return;
+    }
+
+    alert("포인트가 적용되었습니다!");
+
+
+
     updateFinalAmount();
 }
 
@@ -152,6 +173,7 @@ function isValidPhoneNumber(phone) {
     return phoneRegex.test(phone);
 }
 
+// 결제 정보 업데이트
 function updateFinalAmount() {
     const totalAmount = parseInt($('#totalAmount').text().replace('원', '').replace(',', ''), 10);
     const additionalAmount = parseInt($('#additionalAmount').text().replace('원', '').replace(',', ''), 10);
@@ -177,6 +199,9 @@ function processPayment() {
         var itemQuantity = $(this).find(".item-quantity").text();
         items.push({id: itemId, quantity: parseInt(itemQuantity)});
     });
+    // 약관
+    var serviceTermsChecked = document.getElementById('agreeServiceTerms').checked;
+    var privacyPolicyChecked = document.getElementById('agreePrivacyPolicy').checked;
 
     var wrapPaperId = $('#wrap_paper').val();
     var couponId = $('#selectedCouponId').val();
@@ -197,7 +222,13 @@ function processPayment() {
             throw new Error("Insufficient points");
         }
 
-        // Convert the selected date to LocalDate format
+        // 약관동의 체크
+        if (!serviceTermsChecked || !privacyPolicyChecked) {
+            alert('모든 약관에 동의하셔야 합니다.');
+            throw new Error("Not check Service policy");
+        }
+
+        // 날짜 포멧 변경
         let formattedDate = convertToDateObject(selectedDate);
 
         var senderName = $("#sender_name").val();
@@ -227,10 +258,10 @@ function processPayment() {
             throw new Error("Invalid phone number format");
         }
 
-        // Form data preparation
+        // 폼 내용
         var formData = {
-            memberId: 1, // Example memberId, replace with actual value
-            bookIdAndQuantityDTO: items, // Multiple items
+            memberId: 1,
+            bookIdAndQuantityDTO: items,
             wrappingPaperId: wrapPaperId,
             couponId: couponId,
             usePointAmount: pointAmount,
@@ -298,9 +329,8 @@ function processPayment() {
             }
         };
 
-        // Send the form data
+        // 폼 전송
         xhr.send(JSON.stringify(formData));
-
     } catch (error) {
         console.error(error.message);
         // Ensure modal does not show if there was an error

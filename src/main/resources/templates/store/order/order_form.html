@@ -216,8 +216,6 @@
             </div>
 
 
-
-
             <!-- 배송지 정보 -->
             <div class="section">
                 <h2 class="section-header">보내는 사람 정보</h2>
@@ -275,7 +273,7 @@
 
 
                 <!-- 배송일 선택 -->
-                <div class="section delivery-date-container" style="background-color: #f5f5f5; border: 1px solid #ddd;">
+                <div class="section delivery-date-container" style="background-color: #f5f5f5; border: 1px solid #ddd; margin-top: 100px;">
                     <h4 class="delivery-date-header">배송일 선택 (도착 예상일)</h4>
                     <div class="delivery-date-row">
                         <div th:each="date : ${dates}"
@@ -320,12 +318,10 @@
                     </div>
                     <div class="form-group full-width" style="display: flex; align-items: center;">
                         <input type="text" name="points" id="pointsInput" class="form-control" style="width: 20%;"
-                               placeholder="사용할 포인트를 입력하세요"/>
+                               value="0" placeholder="사용할 포인트를 입력하세요"/>
                         <button type="button" class="btn btn-primary" style="margin-left: 10px;" onclick="applyPoints()">포인트 적용</button>
                     </div>
                 </div>
-
-
 
 
                 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -380,15 +376,17 @@
                 <div class="section terms-conditions">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="agreeServiceTerms" required> 결제 서비스 이용약관에 동의합니다.
+                            <input type="checkbox" name="agreeServiceTerms" id="agreeServiceTerms" required> 결제 서비스 이용약관에 동의합니다.
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="agreePrivacyPolicy" required> 개인정보 처리방침에 동의합니다.
+                            <input type="checkbox" name="agreePrivacyPolicy" id="agreePrivacyPolicy" required> 개인정보 처리방침에 동의합니다.
                         </label>
                     </div>
                 </div>
+
+
             </div>
         </form>
     </div>
