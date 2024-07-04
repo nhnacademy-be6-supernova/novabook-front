@@ -457,7 +457,10 @@
                  isPackaged : updatedPackaging
             }
 
-            axios.post("http://localhost:8080/admin/books/book/update", JSON.stringify(params), {
+            var url = "https://novabook.store/admin/books/book/update";
+            // var url = "http://localhost:8080/admin/books/book/update";
+
+            axios.post(url, JSON.stringify(params), {
                 headers: {
                     'Content-Type': 'application/json'
                 }

@@ -95,7 +95,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // 2. url, parameter 세팅
-        const url = 'http://localhost:8080/admin/books/book/form';
+        const url = 'https://novabook.store/admin/books/book/form';
+        // const url = 'http://localhost:8080/admin/books/book/form';
 
         const stock = document.getElementById('inputStock')
         const category = $("#categorySelect").val();
@@ -114,7 +115,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const bookLink = document.getElementById('book_link');
         const tags = $("#tagSelect").val();
         const detailDescription =  content;
-
 
 
 
@@ -146,6 +146,11 @@ document.addEventListener('DOMContentLoaded', function () {
             throw new Error('Invalid book ');
         }
 
+        if(category.length > 10){
+            alert('카테고리는 최대 10개까지 선택할 수 있습니다.');
+            throw new Error('Invalid categoty ');
+        }
+
         const formattedDate = formatToISO8601(pubdate.textContent);
 
         const params = {
@@ -172,6 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 'Content-Type': 'application/json'
             }
         })
+            console.log("실행됨")
             .then(response => {
                 console.log('응답:', response.data);
                 alert("등록이 완료되었습니다!");

@@ -48,14 +48,16 @@ public class AdminBookController {
 		return "admin/book/book_form";
 	}
 
-	@CrossOrigin(origins = "http://localhost:8080")
+	@CrossOrigin(origins = "https://novabook.store")
+	// @CrossOrigin(origins = "http://localhost:8080")
 	@PostMapping("/book/form")
 	public String createBook(@RequestBody CreateBookRequest createBookRequest) {
 		bookService.createBook(createBookRequest);
 		return "redirect:/admin/books";
 	}
 
-	@CrossOrigin(origins = "http://localhost:8080")
+	@CrossOrigin(origins = "https://novabook.store")
+	// @CrossOrigin(origins = "http://localhost:8080")
 	@PostMapping("/book/update")
 	public String updateBook(@RequestBody UpdateBookRequest updateBookRequest) {
 		bookService.updateBook(updateBookRequest);
