@@ -225,21 +225,22 @@
 
 
 <script>
+    let currentPage = {
+        issue: 0,
+        usage: 0
+    };
+
     function openTab(tabName) {
         $('.tab-content .tab-pane').removeClass('active');
         $('#' + tabName).addClass('active');
-        if (tabName === 'issue') {
-            loadCoupons('issued', 0);
-        } else {
-            loadCoupons('used', 0);
-        }
+        loadCoupons(tabName, currentPage[tabName]);
     }
 
     function loadCoupons(type, page) {
-        let url = (type === 'issued') ? '/mypage/coupons/api/issued' : '/mypage/coupons/api/used';
+        let url = (type === 'issue') ? '/mypage/coupons/api/issued' : '/mypage/coupons/api/used';
         $.get(url, { page: page, size: 5 }, function(data) {
-            let tableBody = (type === 'issued') ? '#issue-table tbody' : '#usage-table tbody';
-            let pagination = (type === 'issued') ? '#issue-pagination' : '#usage-pagination';
+            let tableBody = (type === 'issue') ? '#issue-table tbody' : '#usage-table tbody';
+            let pagination = (type === 'issue') ? '#issue-pagination' : '#usage-pagination';
             let content = data.content;
             let totalPages = data.totalPages;
             let html = '';
@@ -247,12 +248,12 @@
             content.forEach(coupon => {
                 let date = coupon.createdAt ? new Date(coupon.createdAt).toLocaleDateString('ko-KR') : new Date(coupon.usedAt).toLocaleDateString('ko-KR');
                 html += `<tr>
-                    <td>${date}</td>
-                    <td>${coupon.name}</td>
-                    <td>${coupon.type}</td>
-                    <td>${coupon.status}</td>
-                    <td>${coupon.discountType === 'PERCENT' ? coupon.discountAmount + '%' : coupon.discountAmount + '원'}</td>
-                </tr>`;
+                <td>${date}</td>
+                <td>${coupon.name}</td>
+                <td>${coupon.type}</td>
+                <td>${coupon.status}</td>
+                <td>${coupon.discountType === 'PERCENT' ? coupon.discountAmount + '%' : coupon.discountAmount + '원'}</td>
+            </tr>`;
             });
 
             $(tableBody).html(html);
@@ -264,8 +265,8 @@
         let html = '';
         for (let i = 0; i < totalPages; i++) {
             html += `<li class="${i === currentPage ? 'active' : ''}">
-                <a href="#" onclick="loadCoupons('${type}', ${i})">${i + 1}</a>
-            </li>`;
+            <a href="#" onclick="loadCoupons('${type}', ${i}); currentPage['${type}'] = ${i};">${i + 1}</a>
+        </li>`;
         }
         $(paginationId).html(html);
     }
