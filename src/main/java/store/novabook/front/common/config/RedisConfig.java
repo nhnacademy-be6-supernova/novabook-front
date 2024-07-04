@@ -47,4 +47,14 @@ public class RedisConfig {
 		return redisTemplate;
 	}
 
+	@Bean
+	public RedisTemplate<String, Object> redisCartTemplate() {
+		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+		redisTemplate.setKeySerializer(new StringRedisSerializer());
+		redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+		redisTemplate.setConnectionFactory(redisConnectionFactory());
+		redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+		return redisTemplate;
+	}
+
 }
