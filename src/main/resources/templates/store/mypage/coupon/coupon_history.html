@@ -92,6 +92,19 @@
             font-size: 14px;
             color: #777;
         }
+
+        .coupon-content{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .coupon-discount{
+            font-size: 2em; /* 할인 금액을 적당히 크게 표시 */
+            font-weight: bold;
+            margin-left: 20px;
+            color: #017DC1;
+        }
     </style>
 </head>
 
@@ -108,18 +121,27 @@
                 <div class="coupon-container">
                     <h3>내 쿠폰함</h3>
                     <ul class="coupon-list">
-                        <li class="coupon-list-item">
-                            <h4>CUPON1234</h4>
-                            <p>할인 쿠폰 | 정률 할인 | 10% 할인</p>
-                        </li>
-                        <li class="coupon-list-item">
-                            <h4>CUPON5678</h4>
-                            <p>할인 쿠폰 | 정액 할인 | 5000원 할인</p>
-                        </li>
-                        <!-- 추가적인 쿠폰 데이터 예시 -->
+                        <th:block th:each="coupon : ${myCouponList.couponResponseList}">
+                            <li class="coupon-list-item">
+                                <div class="coupon-content">
+                                    <div class="coupon-details">
+                                        <h4 th:text="${coupon.name}">CUPON1234</h4>
+                                        <p>
+                                            <span th:text="${coupon.type()}">BIRTHDAY</span> |
+                                            <span th:text="'최소 ' + ${coupon.minPurchaseAmount} + '원 구매시'">최소 10000원 구매시</span> |
+                                            <span th:text="'최대 ' + ${coupon.maxDiscountAmount} + '원 할인'">최대 5000원 할인</span> |
+                                            <span th:text="'유효기간: ' + ${coupon.createdAt} + ' ~ ' + ${coupon.expirationAt}">유효기간: 2024-01-01T00:00:00 ~ 2024-12-31T23:59:59</span>
+                                        </p>
+                                    </div>
+                                    <div class="coupon-discount" th:text="${coupon.discountAmount} + (coupon.discountType == 'PERCENT' ? '%' : '원')"></div>
+                                </div>
+                            </li>
+                        </th:block>
                     </ul>
                 </div>
             </div>
+
+
 
             <!-- 콘텐츠 섹션 -->
             <div class="col-md-9">
