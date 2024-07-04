@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NovaBook📕 - 배송지 관리</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
           rel='stylesheet' type='text/css'>
@@ -183,7 +183,7 @@
 
 <!-- jQuery and Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     var editRow;
@@ -291,7 +291,7 @@
 
     function checkMemberAddressCount() {
         // memberId를 쿼리 문자열에 추가
-        var url = new URL(`http://novabook.store:8080/api/v1/store/addresses/is-exceed`);
+        var url = new URL(`https://novabook.store/api/v1/front/addresses/is-exceed`);
         // url.searchParams.append('memberId', memberId);
         console.log("주소 갯수 체크")
 
