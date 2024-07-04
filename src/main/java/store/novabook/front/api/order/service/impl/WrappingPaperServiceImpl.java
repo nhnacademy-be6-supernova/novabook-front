@@ -22,7 +22,7 @@ public class WrappingPaperServiceImpl implements WrappingPaperService {
 	@Override
 	public List<GetWrappingPaperResponse> getWrappingPaperAllList() {
 		GetWrappingPaperAllResponse response = wrappingPaperClient.getWrappingPaperAllList().getBody();
-		return response.papers();
+		return response.getWrappingPaperResponse();
 	}
 
 	@Override
