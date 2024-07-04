@@ -261,7 +261,7 @@
 
 
     function deleteCategory(id) {
-        fetch("https://novabook.store/api/v1/store/categories/" + id, {
+        fetch("https://novabook.store/api/v1/front/categories/" + id, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -282,6 +282,7 @@
                     alert("카테고리에 등록된 도서가 있어 삭제할 수 없습니다.");
                 } else {
                     alert("삭제가 완료되었습니다.");
+                    location.reload()
                 }
             })
             .catch(error => {
