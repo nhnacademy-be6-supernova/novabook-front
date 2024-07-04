@@ -19,7 +19,6 @@ function selectAddress(button) {
     $('#myAddressModal').modal('hide'); // 모달 닫기
 }
 
-ㅑ
 //도로명 주소 JS
 function sample6_execDaumPostcode() {
     new daum.Postcode({
