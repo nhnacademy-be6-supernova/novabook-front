@@ -8,9 +8,11 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import store.novabook.front.api.order.dto.request.TossPaymentRequest;
 import store.novabook.front.api.order.service.OrderService;
 import store.novabook.front.store.book.dto.BookDTO;
 import store.novabook.front.store.book.dto.BookListDTO;
@@ -18,7 +20,6 @@ import store.novabook.front.store.book.dto.BookListDTO;
 @RequestMapping("/orders")
 @Controller
 public class OrderController {
-
 	private final OrderService orderService;
 
 	public OrderController(OrderService orderService) {
@@ -43,14 +44,10 @@ public class OrderController {
 		return "store/order/order_form";
 	}
 
-
 	@GetMapping("/order/{orderId}/success")
-	public String getOrderSuccessPage(@PathVariable Long orderId) {
-		// 넘어 올 정보 입력
-
-
-
-		// 상품 정보, 맴버 정보
+	public String getOrderSuccessPage(@PathVariable Long orderId,
+		@ModelAttribute TossPaymentRequest tossPaymentRequest) {
+		orderService.createOrder(tossPaymentRequest);
 		return "store/order/order_success";
 	}
 

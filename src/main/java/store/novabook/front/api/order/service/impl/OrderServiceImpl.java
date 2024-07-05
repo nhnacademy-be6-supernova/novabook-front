@@ -17,12 +17,13 @@ import store.novabook.front.api.coupon.dto.request.GetCouponAllRequest;
 import store.novabook.front.api.coupon.dto.response.GetCouponResponse;
 import store.novabook.front.api.delivery.client.DeliveryFeeClient;
 import store.novabook.front.api.delivery.dto.response.GetDeliveryFeeResponse;
-import store.novabook.front.api.delivery.service.DeliveryFeeService;
 import store.novabook.front.api.member.address.dto.response.GetMemberAddressResponse;
 import store.novabook.front.api.member.address.service.MemberAddressClient;
 import store.novabook.front.api.member.coupon.service.MemberCouponClient;
 import store.novabook.front.api.order.client.WrappingPaperClient;
+import store.novabook.front.api.order.dto.request.TossPaymentRequest;
 import store.novabook.front.api.order.dto.response.GetWrappingPaperResponse;
+import store.novabook.front.api.order.service.OrderClient;
 import store.novabook.front.api.order.service.OrderService;
 import store.novabook.front.api.point.dto.request.GetPointHistoryRequest;
 import store.novabook.front.api.point.dto.response.GetPointHistoryResponse;
@@ -41,6 +42,7 @@ public class OrderServiceImpl implements OrderService {
 	private final PointHistoryClient pointHistoryClient;
 	private final MemberAddressClient memberAddressClient;
 	private final DeliveryFeeClient deliveryFeeClient;
+	private final OrderClient orderClient;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -89,7 +91,6 @@ public class OrderServiceImpl implements OrderService {
 			dates.add(LocalDate.now().plusDays(i).format(DateTimeFormatter.ofPattern("M/d (E)")));
 		}
 
-
 		List<GetMemberAddressResponse> memberAddresses = memberAddressClient.getMemberAddressAll()
 			.getBody()
 			.memberAddresses();
@@ -105,5 +106,8 @@ public class OrderServiceImpl implements OrderService {
 			.build();
 	}
 
-
+	@Override
+	public void createOrder(TossPaymentRequest request) {
+		orderClient.createOrders(request);
+	}
 }
