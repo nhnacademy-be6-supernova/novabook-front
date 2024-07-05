@@ -14,8 +14,8 @@
           type="text/css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
-    <script src="https://js.tosspayments.com/v1/payment"></script>
-    <script src="https://js.tosspayments.com/v1/payment-widget"></script>
+    <script src="https://js.tosspayments.com/v2/standard"></script>
+<!--    <script src="https://js.tosspayments.com/v1/payment-widget"></script>-->
     <script src="/js/order_form.js"></script>
     <style>
         .form-inline .form-group {
@@ -198,10 +198,10 @@
                     </thead>
                     <tbody>
                     <tr th:each="item, iterStat : ${items}" class="item-row" data-item-id="${item.id()}"
-                        data-item-quantity="${item.quantity}">
+                        data-item-quantity="${item.quantity}" data-item-name="${item.name}">
                         <input type="hidden" name="itemId" th:id="${item.id()}" th:value="${item.id()}" class="item-id">
                         <td class="image-cell"><img th:src="@{${item.imageUrl()}}" alt="Product Image"></td>
-                        <td th:text="${item.name}">Product Name</td>
+                        <td name="itemName" th:text="${item.name()}" class="item-name">Product Name</td>
                         <td th:text="${item.price} + '원'">14,800원</td>
                         <td name="itemQuantity" th:text="${item.quantity}" class="item-quantity">1</td>
                         <td th:text="${item.discount()} + '원'">판매가</td>
@@ -386,8 +386,6 @@
                         </label>
                     </div>
                 </div>
-
-
             </div>
         </form>
     </div>

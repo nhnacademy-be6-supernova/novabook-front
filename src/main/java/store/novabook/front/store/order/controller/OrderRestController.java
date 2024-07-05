@@ -24,7 +24,7 @@ public class OrderRestController {
 
 	@PostMapping("/order/form")
 	public ResponseEntity<HttpStatus> getOrderForm(@Valid @RequestBody OrderTemporaryForm orderTemporaryForm) {
-		orderService.create(orderTemporaryForm);
+		orderService.createOrderForm(orderTemporaryForm);
 		return ResponseEntity.ok(HttpStatus.CREATED);
 	}
 }

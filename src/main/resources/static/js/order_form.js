@@ -191,15 +191,25 @@ function selectDeliveryDate(element) {
     $(element).addClass('selected');
 }
 
+
+let globalItemSize;
+let globalFirstItemName;
 var selectedDate;
 function processPayment() {
     var items = [];
+    var itemsNames = [];
 
     $(".item-row").each(function(){
+        var itemName = $(this).find(".item-name").text();
         var itemId = $(this).find(".item-id").val();
         var itemQuantity = $(this).find(".item-quantity").text();
         items.push({id: itemId, quantity: parseInt(itemQuantity)});
+        itemsNames.push(itemName);
     });
+
+    globalItemSize = items.length;
+    globalFirstItemName = itemsNames[0];
+
     // 약관
     var serviceTermsChecked = document.getElementById('agreeServiceTerms').checked;
     var privacyPolicyChecked = document.getElementById('agreePrivacyPolicy').checked;
@@ -286,56 +296,64 @@ function processPayment() {
         };
 
         alert("보내는 내용" + JSON.stringify(formData));
+        sendOrderData(formData);
 
-        // AJAX request to send form data
-        const xhr = new XMLHttpRequest();
-        const url = 'http://localhost:8080/orders/order/form';
-
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    // Show the payment modal
-                    $('#toss-method').modal('show');
-
-                    // Add the Toss Payments script after modal is shown
-                    const button = document.getElementById("toss_button");
-                    const amount = 1000000000;
-
-                    button.addEventListener("click", function () {
-                        var clientKey = 'test_ck_Z1aOwX7K8mzlogY57AQj3yQxzvNP';
-                        var tossPayments = TossPayments(clientKey);
-
-                        // ------ 결제창 띄우기 ------
-                        tossPayments
-                            .requestPayment('카드', {
-                                amount: amount, // 결제 금액
-                                orderId: 'uZ0gn-LPlJONEQ9g3ujHm', // 주문번호(주문번호는 상점에서 직접 만들어주세요.)
-                                orderName: '테스트 결제', // 구매상품
-                                customerName: '김토스', // 구매자 이름
-                                successUrl: 'http://localhost:8080/orders/order/1/success', // 결제 성공 시 이동할 페이지(이 주소는 예시입니다. 상점에서 직접 만들어주세요.)
-                                failUrl: 'http://localhost:8080/orders/order/1/fail', // 결제 실패 시 이동할 페이지(이 주소는 예시입니다. 상점에서 직접 만들어주세요.)
-                            })
-                            .catch(function (error) {
-                                if (error.code === 'USER_CANCEL') {
-                                    // 결제 고객이 결제창을 닫았을 때 에러 처리
-                                } else if (error.code === 'INVALID_CARD_COMPANY') {
-                                    // 유효하지 않은 카드 코드에 대한 에러 처리
-                                }
-                            });
-                    });
-                } else {
-                    console.error('주문 정보 전송 중 오류가 발생했습니다.');
-                }
-            }
-        };
-
-        // 폼 전송
-        xhr.send(JSON.stringify(formData));
     } catch (error) {
         console.error(error.message);
-        // Ensure modal does not show if there was an error
     }
+}
+
+function sendOrderData(formData) {
+    const xhr = new XMLHttpRequest();
+    const url = 'http://localhost:8080/orders/order/form';
+
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                requestPayment();
+            } else {
+                console.log(xhr.status);
+                console.error('주문 정보 전송 중 오류가 발생했습니다.');
+            }
+        }
+    };
+
+    xhr.send(JSON.stringify(formData));
+}
+
+
+const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
+const customerKey = "3z5vQX5-gKl9yu91pPpr-";
+const tossPayments = TossPayments(clientKey);
+const payment = tossPayments.payment({ customerKey });
+
+
+async function requestPayment() {
+
+    var totalPrice = parseInt($('#finalAmount').text().replace('원', '').replace(',', ''), 10);
+    var orderName = globalFirstItemName;
+    if (globalItemSize > 1) {
+        orderName += " 외 " + (globalItemSize - 1) + "건";
+    }
+
+    alert("파라미터 타입 : " + orderName);
+    alert("토탈 프라이스 파라미터 타입 : " + totalPrice);
+    alert("토탈 프라이스 파라미터 타입 : " + typeof totalPrice);
+
+    // 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
+    // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
+    await payment.requestPayment({
+        method: "CARD", // 카드 결제
+        amount: {
+            currency: "KRW",
+            value: totalPrice,
+        },
+        orderId: "9UCSlrmS0iC8n6hQTNHMq", // 고유 주문번호
+        orderName: orderName,
+        successUrl: 'http://localhost:8080/orders/order/1/success', // 결제 성공 시 이동할 페이지(이 주소는 예시입니다. 상점에서 직접 만들어주세요.)
+        failUrl: 'http://localhost:8080/orders/order/1/fail',
+    });
 }

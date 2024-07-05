@@ -7,4 +7,5 @@ import store.novabook.front.store.order.dto.OrderViewDTO;
 
 public interface OrderService {
 	OrderViewDTO getOrder(List<BookDTO> bookDTOS, Long memberId);
+
 }

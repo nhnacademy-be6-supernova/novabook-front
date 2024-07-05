@@ -16,7 +16,7 @@ public class RedisOrderServiceImpl implements RedisOrderService {
 	}
 
 	@Override
-	public void create(OrderTemporaryForm orderTemporaryForm) {
+	public void createOrderForm(OrderTemporaryForm orderTemporaryForm) {
 		repository.save(orderTemporaryForm);
 	}
 }

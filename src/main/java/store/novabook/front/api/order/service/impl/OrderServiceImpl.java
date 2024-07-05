@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.category.service.CategoryClient;
@@ -42,6 +43,7 @@ public class OrderServiceImpl implements OrderService {
 	private final DeliveryFeeClient deliveryFeeClient;
 
 	@Override
+	@Transactional(readOnly = true)
 	public OrderViewDTO getOrder(List<BookDTO> bookDTOS, Long memberId) {
 		Set<Long> bookIds = new HashSet<>();
 		boolean isPackage = false;
@@ -102,4 +104,6 @@ public class OrderServiceImpl implements OrderService {
 			.deliveryFeeInfo(deliveryFeeInfo)
 			.build();
 	}
+
+
 }
