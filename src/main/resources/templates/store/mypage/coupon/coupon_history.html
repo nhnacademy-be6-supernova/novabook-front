@@ -92,6 +92,19 @@
             font-size: 14px;
             color: #777;
         }
+
+        .coupon-content{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .coupon-discount{
+            font-size: 2em; /* 할인 금액을 적당히 크게 표시 */
+            font-weight: bold;
+            margin-left: 20px;
+            color: #017DC1;
+        }
     </style>
 </head>
 
@@ -108,20 +121,25 @@
                 <div class="coupon-container">
                     <h3>내 쿠폰함</h3>
                     <ul class="coupon-list">
-                        <li class="coupon-list-item">
-                            <h4>CUPON1234</h4>
-                            <p>할인 쿠폰 | 정률 할인 | 10% 할인</p>
-                        </li>
-                        <li class="coupon-list-item">
-                            <h4>CUPON5678</h4>
-                            <p>할인 쿠폰 | 정액 할인 | 5000원 할인</p>
-                        </li>
-                        <!-- 추가적인 쿠폰 데이터 예시 -->
+                        <th:block th:each="coupon : ${myCouponList.couponResponseList}">
+                            <li class="coupon-list-item">
+                                <div class="coupon-content">
+                                    <div class="coupon-details">
+                                        <h4 th:text="${coupon.name}">CUPON1234</h4>
+                                        <p>
+                                            <span th:text="${coupon.type()}">BIRTHDAY</span> |
+                                            <span th:text="'최소 ' + ${coupon.minPurchaseAmount} + '원 구매시'">최소 10000원 구매시</span> |
+                                            <span th:text="'최대 ' + ${coupon.maxDiscountAmount} + '원 할인'">최대 5000원 할인</span> |
+                                            <span th:text="'유효기간: ' + ${coupon.createdAt} + ' ~ ' + ${coupon.expirationAt}">유효기간: 2024-01-01T00:00:00 ~ 2024-12-31T23:59:59</span>
+                                        </p>
+                                    </div>
+                                    <div class="coupon-discount" th:text="${coupon.discountAmount} + (coupon.discountType == 'PERCENT' ? '%' : '원')"></div>
+                                </div>
+                            </li>
+                        </th:block>
                     </ul>
                 </div>
             </div>
-
-            <!-- 콘텐츠 섹션 -->
             <div class="col-md-9">
                 <!-- 책갈피 탭 네비게이션 -->
                 <div class="bookmark-tabs">
@@ -140,30 +158,25 @@
                             <div class="panel-body">
                                 <!-- 테이블 형태로 쿠폰 발급 내역을 나타내는 부분 -->
                                 <div class="table-responsive">
-                                    <table class="table table-striped">
+                                    <table class="table table-striped" id="issue-table">
                                         <thead>
                                         <tr>
                                             <th style="width: 16.67%;">발급 일자</th>
-                                            <th style="width: 16.67%;">쿠폰 이름</th>
-                                            <th style="width: 16.67%;">쿠폰 종류</th>
-                                            <th style="width: 16.67%;">할인 종류</th>
-                                            <th style="width: 16.67%;">할인 가격</th>
+                                            <th style="width: 16.67%;">쿠폰 명</th>
+                                            <th style="width: 16.67%;">쿠폰 타입</th>
                                             <th style="width: 16.67%;">쿠폰 상태</th>
+                                            <th style="width: 16.67%;">할인 금액</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <!-- 각 행에 해당하는 데이터 반복적으로 추가 -->
-                                        <tr>
-                                            <td>2024-06-25</td>
-                                            <td>CUPON5678</td>
-                                            <td>할인 쿠폰</td>
-                                            <td>정액 할인</td>
-                                            <td>5000원</td>
-                                            <td>사용 전</td>
-                                        </tr>
-                                        <!-- 데이터 추가 예시 -->
+                                        <!-- 발급 내역이 여기에 동적으로 추가됩니다 -->
                                         </tbody>
                                     </table>
+                                </div>
+                                <!-- 페이지네이션 -->
+                                <div>
+                                    <ul class="pagination" id="issue-pagination">
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -178,30 +191,25 @@
                             <div class="panel-body">
                                 <!-- 테이블 형태로 쿠폰 사용 내역을 나타내는 부분 -->
                                 <div class="table-responsive">
-                                    <table class="table table-striped">
+                                    <table class="table table-striped" id="usage-table">
                                         <thead>
                                         <tr>
                                             <th style="width: 16.67%;">사용 일자</th>
-                                            <th style="width: 16.67%;">쿠폰 이름</th>
-                                            <th style="width: 16.67%;">쿠폰 종류</th>
-                                            <th style="width: 16.67%;">할인 종류</th>
-                                            <th style="width: 16.67%;">할인 가격</th>
-                                            <th style="width: 16.67%;">사용 내용</th>
+                                            <th style="width: 16.67%;">쿠폰 명</th>
+                                            <th style="width: 16.67%;">쿠폰 타입</th>
+                                            <th style="width: 16.67%;">쿠폰 상태</th>
+                                            <th style="width: 16.67%;">할인 금액</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <!-- 각 행에 해당하는 데이터 반복적으로 추가 -->
-                                        <tr>
-                                            <td>2024-06-30</td>
-                                            <td>CUPON1234</td>
-                                            <td>할인 쿠폰</td>
-                                            <td>정률 할인</td>
-                                            <td>10%</td>
-                                            <td>상품 할인 적용</td>
-                                        </tr>
-                                        <!-- 데이터 추가 예시 -->
+                                        <!-- 사용 내역이 여기에 동적으로 추가됩니다 -->
                                         </tbody>
                                     </table>
+                                </div>
+                                <!-- 페이지네이션 -->
+                                <div>
+                                    <ul class="pagination" id="usage-pagination">
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -214,27 +222,60 @@
 
 <div th:replace="~{layout/store/footer::footer}"></div>
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
 <script>
+    let currentPage = {
+        issue: 0,
+        usage: 0
+    };
+
     function openTab(tabName) {
-        var tabs = document.querySelectorAll('.bookmark-tabs .tab');
-        var panels = document.querySelectorAll('.tab-content .tab-pane');
-
-        tabs.forEach(function(tab) {
-            tab.classList.remove('active');
-        });
-
-        panels.forEach(function(panel) {
-            panel.classList.remove('active');
-        });
-
-        document.querySelector('.tab-' + tabName).classList.add('active');
-        document.getElementById(tabName).classList.add('active');
+        $('.tab-content .tab-pane').removeClass('active');
+        $('#' + tabName).addClass('active');
+        loadCoupons(tabName, currentPage[tabName]);
     }
+
+    function loadCoupons(type, page) {
+        let url = (type === 'issue') ? '/mypage/coupons/api/issued' : '/mypage/coupons/api/used';
+        $.get(url, { page: page, size: 5 }, function(data) {
+            let tableBody = (type === 'issue') ? '#issue-table tbody' : '#usage-table tbody';
+            let pagination = (type === 'issue') ? '#issue-pagination' : '#usage-pagination';
+            let content = data.content;
+            let totalPages = data.totalPages;
+            let html = '';
+
+            content.forEach(coupon => {
+                let date = coupon.createdAt ? new Date(coupon.createdAt).toLocaleDateString('ko-KR') : new Date(coupon.usedAt).toLocaleDateString('ko-KR');
+                html += `<tr>
+                <td>${date}</td>
+                <td>${coupon.name}</td>
+                <td>${coupon.type}</td>
+                <td>${coupon.status}</td>
+                <td>${coupon.discountType === 'PERCENT' ? coupon.discountAmount + '%' : coupon.discountAmount + '원'}</td>
+            </tr>`;
+            });
+
+            $(tableBody).html(html);
+            renderPagination(pagination, totalPages, page, type);
+        });
+    }
+
+    function renderPagination(paginationId, totalPages, currentPage, type) {
+        let html = '';
+        for (let i = 0; i < totalPages; i++) {
+            html += `<li class="${i === currentPage ? 'active' : ''}">
+            <a href="#" onclick="loadCoupons('${type}', ${i}); currentPage['${type}'] = ${i};">${i + 1}</a>
+        </li>`;
+        }
+        $(paginationId).html(html);
+    }
+
+    $(document).ready(function() {
+        openTab('issue');
+    });
 </script>
+
 </body>
 
 </html>

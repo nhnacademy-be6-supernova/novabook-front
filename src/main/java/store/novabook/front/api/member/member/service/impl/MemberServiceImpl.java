@@ -53,9 +53,14 @@ public class MemberServiceImpl implements MemberService {
 
 		// 헤더 설정
 		response.setHeader("Authorization", tokenDtoApiResponse.getHeaders().getFirst("Authorization"));
-		response.setHeader("Cookie", tokenDtoApiResponse.getHeaders().getFirst("Cookie"));
+		response.setHeader("Refresh", tokenDtoApiResponse.getHeaders().getFirst("Refresh"));
 
 		return tokenDtoApiResponse.getBody();
+	}
+
+	@Override
+	public void logout() {
+		memberAuthClient.logout();
 	}
 
 
@@ -85,10 +90,4 @@ public class MemberServiceImpl implements MemberService {
 
 	}
 
-	// @Override
-	// public LoginMemberResponse getMember(LoginMemberRequest loginMemberRequest) {
-	// 	ResponseEntity<LoginMemberResponse> tokenDtoApiResponse = memberClient.login(loginMemberRequest);
-	// 	return tokenDtoApiResponse.getBody();
-	//
-	// }
 }
