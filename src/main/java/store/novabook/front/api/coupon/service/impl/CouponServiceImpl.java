@@ -64,4 +64,6 @@ public class CouponServiceImpl implements CouponService {
 		return couponClient.getCategoryCouponTemplateAllByCategoryIdAll(categoryIdList, isValid);
 	}
 
+
+
 }
