@@ -6,9 +6,6 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -22,21 +19,18 @@ public record CreateReviewRequest(
 	List<ReviewImageDTO> reviewImageDTOs
 ) {
 	public void setReviewImageDTOs(List<MultipartFile> reviewImages) {
-		reviewImages.forEach(reviewImage -> {
-			try {
-				reviewImageDTOs.add(convertToDTO(reviewImage));
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		});
-
+		reviewImages.forEach(reviewImage -> reviewImageDTOs.add(convertToDTO(reviewImage)));
 	}
 
-	private ReviewImageDTO convertToDTO(MultipartFile reviewImage) throws IOException {
-		return ReviewImageDTO.builder()
-			.fileName(reviewImage.getOriginalFilename())
-			.fileType(reviewImage.getContentType())
-			.data(Base64.getEncoder().encodeToString(reviewImage.getBytes()))
-			.build();
+	private ReviewImageDTO convertToDTO(MultipartFile reviewImage) {
+		try {
+			return ReviewImageDTO.builder()
+				.fileName(reviewImage.getOriginalFilename())
+				.fileType(reviewImage.getContentType())
+				.data(Base64.getEncoder().encodeToString(reviewImage.getBytes()))
+				.build();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }
