@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.coupon.dto.request.CreateMemberCouponRequest;
+import store.novabook.front.api.coupon.dto.request.DownloadCouponRequest;
 import store.novabook.front.api.coupon.dto.response.GetCouponAllResponse;
 import store.novabook.front.api.coupon.dto.response.GetCouponHistoryResponse;
 import store.novabook.front.api.coupon.dto.response.GetUsedCouponHistoryResponse;
@@ -23,7 +24,7 @@ public class MemberCouponServiceImpl implements MemberCouponService {
 	private final MemberCouponClient memberCouponClient;
 
 	@Override
-	public CreateMemberCouponResponse downloadCoupon(CreateMemberCouponRequest request) {
+	public CreateMemberCouponResponse downloadLimitedCoupon(CreateMemberCouponRequest request) {
 		return memberClient.createMemberCoupon(request).getBody();
 	}
 
@@ -43,6 +44,22 @@ public class MemberCouponServiceImpl implements MemberCouponService {
 	public Page<GetUsedCouponHistoryResponse> getMyUsedCouponHistory(Pageable pageable) {
 		return memberCouponClient.getMemberUsedCouponHistoryByMemberId(pageable.getPageNumber(), pageable.getPageSize())
 			.toPage();
+	}
+
+	@Override
+	public String downloadCoupon(DownloadCouponRequest request) {
+		ApiResponse<CreateMemberCouponResponse> response = memberCouponClient.downloadCoupon(request);
+		try {
+			if (response.isSuccessful()) {
+				return "쿠폰 발급에 성공했습니다 \uD83D\uDCE6";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return response.getErrorMessage();
+
+		}
+		return "쿠폰 발급에 성공했습니다 \uD83D\uDCE6";
+
 	}
 
 }
