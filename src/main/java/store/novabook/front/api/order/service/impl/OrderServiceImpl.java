@@ -1,5 +1,8 @@
 package store.novabook.front.api.order.service.impl;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,6 +14,9 @@ import store.novabook.front.api.category.service.CategoryClient;
 import store.novabook.front.api.coupon.client.CouponClient;
 import store.novabook.front.api.coupon.dto.request.GetCouponAllRequest;
 import store.novabook.front.api.coupon.dto.response.GetCouponResponse;
+import store.novabook.front.api.delivery.client.DeliveryFeeClient;
+import store.novabook.front.api.delivery.dto.response.GetDeliveryFeeResponse;
+import store.novabook.front.api.delivery.service.DeliveryFeeService;
 import store.novabook.front.api.member.address.dto.response.GetMemberAddressResponse;
 import store.novabook.front.api.member.address.service.MemberAddressClient;
 import store.novabook.front.api.member.coupon.service.MemberCouponClient;
@@ -33,6 +39,7 @@ public class OrderServiceImpl implements OrderService {
 	private final MemberCouponClient memberCouponClient;
 	private final PointHistoryClient pointHistoryClient;
 	private final MemberAddressClient memberAddressClient;
+	private final DeliveryFeeClient deliveryFeeClient;
 
 	@Override
 	public OrderViewDTO getOrder(List<BookDTO> bookDTOS, Long memberId) {
@@ -73,6 +80,14 @@ public class OrderServiceImpl implements OrderService {
 			.mapToLong(GetPointHistoryResponse::pointAmount)
 			.sum();
 
+		GetDeliveryFeeResponse deliveryFeeInfo = deliveryFeeClient.getRecentDeliveryFee().getBody();
+
+		List<String> dates = new ArrayList<>();
+		for (int i = 0; i < 6; i++) {
+			dates.add(LocalDate.now().plusDays(i).format(DateTimeFormatter.ofPattern("M/d (E)")));
+		}
+
+
 		List<GetMemberAddressResponse> memberAddresses = memberAddressClient.getMemberAddressAll()
 			.getBody()
 			.memberAddresses();
@@ -82,7 +97,9 @@ public class OrderServiceImpl implements OrderService {
 			.coupons(coupons)
 			.wrappingPapers(papers)
 			.memberAddresses(memberAddresses)
+			.dates(dates)
 			.myPoint(myPoint)
+			.deliveryFeeInfo(deliveryFeeInfo)
 			.build();
 	}
 }

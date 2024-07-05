@@ -36,19 +36,8 @@ public class OrderController {
 			.quantity(10)
 			.imageUrl("https://shopping-phinf.pstatic.net/main_3247334/32473349454.20230927071208.jpg")
 			.build();
-
-		List<String> dates = new ArrayList<>();
-		LocalDate today = LocalDate.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d (E)");
-
-		for (int i = 0; i < 6; i++) {
-			dates.add(today.plusDays(i).format(formatter));
-		}
-
-		model.addAttribute("dates", dates);
-
-
 		BookListDTO build = BookListDTO.builder().bookDTOS(List.of(임시데이터)).build();
+
 		model.addAttribute("items", build.bookDTOS());
 		model.addAttribute("orderDTO", orderService.getOrder(build.bookDTOS(), 7L));
 		return "store/order/order_form";

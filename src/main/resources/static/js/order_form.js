@@ -118,12 +118,14 @@ function applyPoints() {
         alert("포인트 값을 넣어주세요!")
         return;
     }
-
+    if(pointsInput < 0) {
+        alert("포인트는 0보다 작을 수 없습니다.")
+        return;
+    }
     if (pointsInput > currentPoints) {
         alert("사용할 포인트는 현재 포인트보다 많을 수 없습니다.");
         return;
     }
-
 
     const tempFinalAmount = parseInt($('#finalAmount').text().replace('원', '').replace(',', ''), 10);
     // 실제 적용 로직 필요
@@ -230,6 +232,7 @@ function processPayment() {
         // 날짜 포멧 변경
         let formattedDate = convertToDateObject(selectedDate);
 
+        var deliveryId = $("#deliveryFeeId").val();
         var senderName = $("#sender_name").val();
         var senderPhone = $("#sender_phone").val();
         var receiverName = $("#receiver_name").val();
@@ -240,7 +243,7 @@ function processPayment() {
         var detailAddress = $("#sample6_detailAddress").val();
 
         // Check required fields in nested objects
-        if (!senderName || !senderPhone || !receiverName || !receiverPhone || !receiverEmail || !zipCode || !streetAddress || !detailAddress) {
+        if (!senderName || !senderPhone || !receiverName || !receiverPhone || !receiverEmail || !zipCode || !streetAddress || !detailAddress || !deliveryId) {
             alert("모든 필드를 채워주세요.");
             throw new Error("Missing nested required fields");
         }
@@ -265,6 +268,7 @@ function processPayment() {
             couponId: couponId,
             usePointAmount: pointAmount,
             deliveryDate: formattedDate,
+            deliveryId: deliveryId,
             orderSenderInfo: {
                 name: senderName,
                 phone: senderPhone
