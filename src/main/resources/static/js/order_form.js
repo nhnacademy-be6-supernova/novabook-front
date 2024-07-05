@@ -263,7 +263,7 @@ function processPayment() {
         // 폼 내용
         var formData = {
             memberId: 1,
-            bookIdAndQuantityDTO: items,
+            books: items,
             wrappingPaperId: wrapPaperId,
             couponId: couponId,
             usePointAmount: pointAmount,
