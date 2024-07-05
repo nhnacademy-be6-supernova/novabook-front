@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NovaBook📕 - 리뷰 관리</title>
+    <title>NovaBook📕 - 리뷰 수정</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
@@ -54,12 +54,12 @@
                 <!-- 리뷰 관리 섹션 -->
                 <div class="row">
                     <div class="col-md-12">
-                        <h2>리뷰 쓰기/수정</h2>
-                        <form id="reviewForm" th:action="@{'/mypage/reviews/' + ${ordersBookId}}" method="post" enctype="multipart/form-data">
-                            <input type="hidden" id="ordersBookId" name="ordersBookId" th:value="${ordersBookId}">
+                        <h2>리뷰 수정</h2>
+                        <form id="reviewForm" th:action="@{'/mypage/reviews/' + ${review.reviewId} + '/update'}" method="post" >
+                            <input type="hidden" id="ordersBookId" name="ordersBookId" th:value="${review.orderBookId}">
                             <div class="form-group">
                                 <label for="reviewText">리뷰 내용</label>
-                                <textarea class="form-control" id="reviewText" name="content" rows="3"></textarea>
+                                <textarea class="form-control" id="reviewText" name="content" th:value="${review.content}" rows="3"></textarea>
                             </div>
                             <div class="form-group">
                                 <label >별점</label>
@@ -87,9 +87,11 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="reviewImages">리뷰 이미지</label>
-                                <input type="file" class="form-control" id="reviewImages" name="reviewImages" multiple>
-                                <div id="imagePreview" class="mt-2"></div>
+                                <label>리뷰 이미지</label>
+                                <div class="row text-left">
+                                    <img class="pic" th:each="image : ${review.reviewImages}"
+                                         th:src="${image}" th:onclick="'window.open(' + image + ')'">
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-primary">저장</button>
                             <a href="/mypage/reviews" class="btn btn-default">돌아가기</a>
@@ -107,28 +109,11 @@
         var reviewForm = document.getElementById("reviewForm");
         var reviewText = document.getElementById("reviewText");
         var reviewStars = document.getElementsByName("score");
-        var reviewImages = document.getElementById("reviewImages");
-        var imagePreview = document.getElementById("imagePreview");
 
-        reviewImages.addEventListener("change", function(event) {
-            imagePreview.innerHTML = ""; // Clear previous previews
-            Array.from(event.target.files).forEach(file => {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    var img = document.createElement("img");
-                    img.src = e.target.result;
-                    img.style.maxWidth = "100px";
-                    img.style.margin = "10px";
-                    imagePreview.appendChild(img);
-                }
-                reader.readAsDataURL(file);
-            });
-        });
 
         reviewForm.addEventListener("submit", function(event) {
             var reviewContent = reviewText.value.trim();
             var selectedStar = Array.from(reviewStars).find(star => star.checked);
-            var files = reviewImages.files;
 
             // Form validation logic
             if (reviewContent === "") {
@@ -140,12 +125,8 @@
             if (!selectedStar) {
                 alert("별점을 선택해주세요.");
                 event.preventDefault(); // Prevent form submission
-                return;
             }
-            if(files.size()> 5){
-                alert("파일이 너무 많습니다. (최대 5개)");
-                event.preventDefault();
-            }
+
             // Let the form submit as usual
         });
     });

@@ -7,14 +7,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.book.dto.request.CreateReviewRequest;
+import store.novabook.front.api.book.dto.request.UpdateReviewRequest;
+import store.novabook.front.api.book.dto.response.GetReviewResponse;
 import store.novabook.front.api.book.service.ReviewService;
 import store.novabook.front.api.member.grade.service.MemberGradeService;
 import store.novabook.front.api.order.dto.response.GetOrdersBookReviewIdResponse;
@@ -48,14 +47,16 @@ public class MypageReviewController {
 		return "store/mypage/review/review_write";
 	}
 
-	@GetMapping("/{ordersBookId}/update")
-	public String getUpdateReview(Model model, @PathVariable Long ordersBookId) {
-		model.addAttribute("ordersBookId", ordersBookId);
-		return "store/mypage/review/review_write";
+	@GetMapping("/{reviewId}/update")
+	public String getUpdateReview(Model model, @PathVariable Long reviewId) {
+		GetReviewResponse review = reviewService.getReviewById(reviewId);
+		model.addAttribute("review", review);
+
+		return "store/mypage/review/review_modify";
 	}
 
 	@PostMapping("/{ordersBookId}")
-	public String createReview( @PathVariable("ordersBookId") Long ordersBookId,
+	public String createReview(@PathVariable("ordersBookId") Long ordersBookId,
 		@RequestParam("content") String content,
 		@RequestParam("score") int score,
 		@RequestParam("reviewImages") List<MultipartFile> reviewImages) {
@@ -63,9 +64,14 @@ public class MypageReviewController {
 		return "redirect:/mypage/reviews";
 	}
 
-	@PostMapping("/{ordersBookId}/update")
-	public String postUpdateReview(Model model, @PathVariable Long ordersBookId) {
-		//TODO
+	@PostMapping("/{reviewId}/update")
+	public String postUpdateReview(@PathVariable Long reviewId,
+		@RequestParam("content") String content,
+		@RequestParam("score") int score
+	) {
+		UpdateReviewRequest request = new UpdateReviewRequest(reviewId, content, score);
+		reviewService.updateReview(request, reviewId);
+
 		return "redirect:/mypage/reviews";
 	}
 }

@@ -287,8 +287,13 @@
                                                     <p class="content" th:text="${review.content}">Review Content</p>
                                                 </div>
                                                 <div class="row text-left">
-                                                    <img class="pic" th:each="image : ${review.reviewImages}"
-                                                         th:src="${image}" th:onclick="'window.open(' + image + ')'">
+                                                    <div th:if="${#lists.isEmpty(review.reviewImages) or review.reviewImages[0] == null}">
+                                                        이미지 없음
+                                                    </div>
+                                                    <div th:unless="${#lists.isEmpty(review.reviewImages) or review.reviewImages[0] == null}">
+                                                        <img class="pic" th:each="image : ${review.reviewImages}"
+                                                             th:src="${image}" th:attr="data-image-url=${image}" onclick="openImage(this)">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -605,6 +610,11 @@
             },
         });
     });
+//review image
+    function openImage(element) {
+        var imageUrl = element.getAttribute('data-image-url');
+        window.open(imageUrl);
+    }
 </script>
 
 <div th:replace="~{layout/store/footer::footer}"></div>
