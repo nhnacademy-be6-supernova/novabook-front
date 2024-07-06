@@ -354,7 +354,7 @@ async function requestPayment(orderUUID) {
         },
         orderId: orderUUID, // 고유 주문번호
         orderName: orderName,
-        successUrl: 'http://localhost:8080/orders/order/1/success', // 결제 성공 시 이동할 페이지(이 주소는 예시입니다. 상점에서 직접 만들어주세요.)
-        failUrl: 'http://localhost:8080/orders/order/1/fail',
+        successUrl: 'http://localhost:8080/orders/order/toss/success', // 결제 성공 시 이동할 페이지(이 주소는 예시입니다. 상점에서 직접 만들어주세요.)
+        failUrl: 'http://localhost:8080/orders/order/toss/fail',
     });
 }

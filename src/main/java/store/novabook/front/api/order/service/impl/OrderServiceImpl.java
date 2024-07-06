@@ -22,7 +22,7 @@ import store.novabook.front.api.member.address.dto.response.GetMemberAddressResp
 import store.novabook.front.api.member.address.service.MemberAddressClient;
 import store.novabook.front.api.member.coupon.service.MemberCouponClient;
 import store.novabook.front.api.order.client.WrappingPaperClient;
-import store.novabook.front.api.order.dto.request.TossPaymentRequest;
+import store.novabook.front.api.order.dto.request.PaymentRequest;
 import store.novabook.front.api.order.dto.response.GetWrappingPaperResponse;
 import store.novabook.front.api.order.service.OrderService;
 import store.novabook.front.api.order.service.OrdersSagaClient;
@@ -110,12 +110,14 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void createOrder(TossPaymentRequest request) {
+	public void createOrder(PaymentRequest request) {
 		// TODO: 여러번 실행되는 현상을 방지해야함
 
 		// 트랜잭션을 invoke 함
 		ordersSagaClient.createOrders(request);
 	}
+
+
 
 	@Override
 	public Boolean existOrderUUID(UUID ordersUUID) {

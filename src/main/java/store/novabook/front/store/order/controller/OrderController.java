@@ -1,8 +1,5 @@
 package store.novabook.front.store.order.controller;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
+import store.novabook.front.api.order.dto.PaymentType;
+import store.novabook.front.api.order.dto.request.PaymentRequest;
 import store.novabook.front.api.order.dto.request.TossPaymentRequest;
 import store.novabook.front.api.order.service.OrderService;
 import store.novabook.front.store.book.dto.BookDTO;
@@ -46,20 +45,18 @@ public class OrderController {
 		return "store/order/order_form";
 	}
 
-	@GetMapping("/order/{orderId}/success")
-	public String getOrderSuccessPage(@PathVariable Long orderId,
-		@Valid @ModelAttribute TossPaymentRequest tossPaymentRequest) {
-		// 가주문이 이미 만들어진 유저만 생성 가능
+	@GetMapping("/order/toss/success")
+	public String getTossOrderSuccessPage(@Valid @ModelAttribute TossPaymentRequest tossPaymentRequest) {
 		if (Boolean.TRUE.equals(orderService.existOrderUUID(UUID.fromString(tossPaymentRequest.orderId())))) {
-			orderService.createOrder(tossPaymentRequest);
+			orderService.createOrder(new PaymentRequest(PaymentType.TOSS , tossPaymentRequest));
 		} else {
 			throw new IllegalArgumentException("부적절한 접근입니다.");
 		}
 		return "store/order/order_success";
 	}
 
-	@GetMapping("/order/{orderId}/fail")
-	public String getOrderFailPage(@PathVariable Long orderId) {
+	@GetMapping("/order/toss/fail")
+	public String getOrderFailPage() {
 		return "store/order/order_fail";
 	}
 
