@@ -4,29 +4,35 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.cart.CartClient;
-import store.novabook.front.api.cart.dto.response.CartIdResponse;
+import store.novabook.front.api.cart.dto.request.CreateCartBookListRequest;
+import store.novabook.front.api.cart.dto.request.CreateCartBookRequest;
+import store.novabook.front.api.cart.dto.request.DeleteCartBookListRequest;
+import store.novabook.front.api.cart.dto.response.CreateCartBookListResponse;
+import store.novabook.front.api.cart.dto.response.CreateCartBookResponse;
 import store.novabook.front.api.cart.dto.response.GetCartResponse;
-import store.novabook.front.store.cart.repository.RedisCartRepository;
 
 @Service
 @RequiredArgsConstructor
 public class CartService {
 	private final CartClient cartClient;
-	private final RedisCartRepository redisCartRepository;
 
-	public GetCartResponse getCartList(Long cartId) {
-		return cartClient.getCartListAll(cartId).getBody();
+	public CreateCartBookResponse addCartBook(CreateCartBookRequest request) {
+		return cartClient.addCartBook(request).getBody();
 	}
 
-	public GetCartResponse getCartListByMemberId() {
+	public CreateCartBookListResponse addCartBooks(CreateCartBookListRequest request) {
+		return cartClient.addCartBooks(request).getBody();
+	}
+
+	public GetCartResponse getCartList() {
 		return cartClient.getCartBookAllByMemberId().getBody();
 	}
 
-	public CartIdResponse createCartId() {
-		return cartClient.createCartIdByMemberId().getBody();
+	public void deleteCartBook(Long bookId) {
+		cartClient.deleteCartBook(bookId);
 	}
 
-	public CartIdResponse getCartId() {
-		return cartClient.getCartIdByMemberId().getBody();
+	public void deleteCartBooks(DeleteCartBookListRequest request) {
+		cartClient.deleteCartBooks(request);
 	}
 }

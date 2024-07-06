@@ -25,6 +25,7 @@ public class BookController {
 	@GetMapping("/book/{bookId}")
 	public String getBook(@PathVariable Long bookId, Model model) {
 		model.addAttribute("book", bookService.getBookClient(bookId));
+
 		return "store/book/book_detail";
 	}
 }

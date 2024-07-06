@@ -2,5 +2,5 @@ package store.novabook.front.api.cart.dto.response;
 
 import java.util.List;
 
-public record CreateCartBookResponse(List<Long> ids) {
+public record CreateCartBookListResponse(List<Long> ids) {
 }

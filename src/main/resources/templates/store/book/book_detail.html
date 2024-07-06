@@ -75,6 +75,15 @@
     </div>
 </div>
 
+<!-- 타임리프 변수 정의 -->
+<div th:if="${book}">
+    <input type="hidden" id="bookId" th:value="${book.id}">
+    <input type="hidden" id="bookTitle" th:value="${book.title}">
+    <input type="hidden" id="bookImage" th:value="${book.image}">
+    <input type="hidden" id="bookPrice" th:value="${book.price}">
+    <input type="hidden" id="bookDiscountPrice" th:value="${book.discountPrice}">
+</div>
+
 
 <div class="short-description">
 
@@ -87,8 +96,8 @@
                 <div class="product-thumbnail">
 
                     <div class="col-md-10 col-sm-10 col-xs-10">
-                        <div class="thumb-main-image"><a href="">
-                            <img th:src="${book.image}" alt=""></a>
+                        <div><a href="">
+                            <img class="thumb-main-image" th:src="${book.image}" alt=""></a>
                         </div>
 
                     </div>
@@ -119,8 +128,7 @@
                 </div>
 
                 <div class="product-info">
-                    <span class="product-id"><span class="strong-text"
-                                                   th:text="${book.author}">저자:</span> 한야 야나기하라</span>
+                    <span class="product-id strong-text" th:text="${book.author}"><span>저자:</span> 한야 야나기하라</span>
                 </div>
                 <br>
 
@@ -156,20 +164,19 @@
                 </p>
 
 
-                <form action="" class="purchase-form">
+                <form class="purchase-form">
 
                     <div class="qt-area">
 
                         <i class="fa fa-minus"></i>
 
-                        <input name="quantity" class="qt" value="1">
+                        <input id="bookQuantity" class="qt" value="1">
 
                         <i class="fa fa-plus"></i>
 
                     </div>
 
-                    <button class="btn btn-theme add-to-cart" type="submit">Add to cart</button>
-
+                    <button class="btn btn-theme" type="submit" onclick="addCart()">Add to cart</button>
 
                 </form>
 
@@ -514,6 +521,7 @@
 
 </div>
 
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
@@ -623,6 +631,42 @@
                 console.error('Error downloading coupon:', error);
             });
     }
+
+
+    function addCart() {
+        var bookId = document.getElementById('bookId').value;
+        var bookTitle = document.getElementById('bookTitle').value;
+        var bookImage = document.getElementById('bookImage').value;
+        var bookPrice = document.getElementById('bookPrice').value;
+        var bookDiscountPrice = document.getElementById('bookDiscountPrice').value;
+        var bookQuantity = document.getElementById('bookQuantity').value;
+
+
+        fetch('http://localhost:8080/api/v1/front/carts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                bookId: bookId,
+                title: bookTitle,
+                image: bookImage,
+                price: bookPrice,
+                discountPrice: bookDiscountPrice,
+                quantity: bookQuantity
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert("장바구니에 추가 되었습니다.");
+            })
+            .catch(error => {
+
+                alert("요청에 실패해였습니다. : "+ error);
+            });
+
+    }
+
 
 </script>
 

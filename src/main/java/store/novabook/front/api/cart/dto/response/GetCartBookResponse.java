@@ -4,7 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record GetCartBookResponse(
-	Long cartBookId,
+	Long bookId,
 	String image,
 	String title,
 	Long price,

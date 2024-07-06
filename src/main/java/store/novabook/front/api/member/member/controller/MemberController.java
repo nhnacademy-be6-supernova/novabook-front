@@ -1,5 +1,7 @@
 package store.novabook.front.api.member.member.controller;
 
+import static store.novabook.front.common.util.CookieUtil.*;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import store.novabook.front.api.member.member.dto.response.LoginMemberResponse;
 import store.novabook.front.api.member.member.service.MemberService;
 import store.novabook.front.common.security.exception.AlreadyLoginException;
 import store.novabook.front.common.security.exception.NotLoginException;
+import store.novabook.front.common.util.CookieUtil;
 
 @Controller
 @RequiredArgsConstructor
@@ -72,6 +75,7 @@ public class MemberController {
 		memberService.logout();
 		deleteCookie(request, response, "Authorization");
 		deleteCookie(request, response, "Refresh");
+		CookieUtil.deleteMemberCookie(response);
 		return "redirect:/";
 	}
 

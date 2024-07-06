@@ -95,8 +95,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // 2. url, parameter 세팅
-        const url = 'https://novabook.store/admin/books/book/form';
-        // const url = 'http://localhost:8080/admin/books/book/form';
+        // const url = 'https://novabook.store/admin/books/book/form';
+        const url = 'http://localhost:8080/admin/books/book/form';
 
         const stock = document.getElementById('inputStock')
         const category = $("#categorySelect").val();
@@ -177,7 +177,8 @@ document.addEventListener('DOMContentLoaded', function () {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify(params)
         })
             .then(response => response.json())
             .then(data => {
