@@ -91,6 +91,9 @@ public class PaycoOAuth2Controller {
 		if (!paycoMembersResponse.getStatusCode().is2xxSuccessful()) {
 			return "redirect:/login";
 		}
+		if(paycoMembersResponse.getBody() == null) {
+			return "redirect:/login";
+		}
 
 		String authorization = paycoMembersResponse.getBody().accessToken();
 		String refresh = paycoMembersResponse.getBody().refreshToken();
