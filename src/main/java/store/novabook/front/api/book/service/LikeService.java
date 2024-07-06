@@ -5,6 +5,4 @@ import store.novabook.front.common.response.PageResponse;
 
 public interface LikeService {
 	PageResponse<GetBookLikeResponse> getBookLikeAllPage(int page, int size);
-
-	void deleteBookLike(Long id);
 }

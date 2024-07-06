@@ -3,7 +3,6 @@ package store.novabook.front.store.mypage.likebook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -29,11 +28,5 @@ public class MypageLikeBookController {
 		model.addAttribute("LikeBooks", likeService.getBookLikeAllPage(page, size));
 
 		return "store/mypage/likebook/like_book_list";
-	}
-
-	@GetMapping("/{likesId}")
-	public String deleteLikeBook(@PathVariable Long likesId) {
-		likeService.deleteBookLike(likesId);
-		return "redirect:/mypage/likebooks";
 	}
 }
