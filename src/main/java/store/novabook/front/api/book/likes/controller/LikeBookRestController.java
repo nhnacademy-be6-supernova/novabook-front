@@ -18,7 +18,7 @@ public class LikeBookRestController {
 
 	private final LikeBookRestService likeBookRestService;
 
-	@CrossOrigin("https://nobavook.store")
+	@CrossOrigin("https://novabook.store")
 	@PostMapping("/{bookId}")
 	public ResponseEntity<LikeBookResponse> isLiked(@PathVariable Long bookId) {
 		LikeBookResponse likeBookResponse = likeBookRestService.likeButton(bookId);
