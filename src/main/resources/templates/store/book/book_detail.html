@@ -20,9 +20,22 @@
 </head>
 
 <style>
+
+    .product-info-btn .fa-heart-o {
+        color: #777; /* 기본 하트 아이콘 색상 */
+    }
+
+    .product-info-btn .fa-heart {
+        color: red; /* 좋아요 상태에서 빨간색으로 변경할 색상 */
+    }
+
     .coupon-list {
         list-style: none;
         padding: 0;
+    }
+
+    .review-size{
+        min-height: 50px;
     }
 
     .coupon-list li {
@@ -60,6 +73,14 @@
 
 <div th:replace="~{layout/store/nav::nav}"></div>
 
+<!-- 타임리프 변수 정의 -->
+<div th:if="${book}">
+    <input type="hidden" id="bookId" th:value="${book.id}">
+    <input type="hidden" id="bookTitle" th:value="${book.title}">
+    <input type="hidden" id="bookImage" th:value="${book.image}">
+    <input type="hidden" id="bookPrice" th:value="${book.price}">
+    <input type="hidden" id="bookDiscountPrice" th:value="${book.discountPrice}">
+</div>
 
 <div class="breadcumbs">
 
@@ -173,7 +194,9 @@
 
                 </form>
 
-                <button class="btn product-info-btn" type="submit"><i class="fa fa-heart-o"></i>좋아요</button>
+                <button class="btn product-info-btn" type="button" onclick="toggleLike()">
+                    <i class="fa" th:classappend="${isLiked ? 'fa-heart' : 'fa-heart-o'}" th:style="${isLiked ? 'color: red;' : ''}"></i> 좋아요
+                </button>
                 <button type="button" class="btn btn-primary" style="color: white; background-color: #0e0e0e"
                         data-toggle="modal" data-target="#couponModal"
                         th:data-book-id="${book.id}">
@@ -260,7 +283,7 @@
 
                     <div class="container-fluid px-1 py-5 mx-auto">
                         <div class="row justify-content-center">
-                            <div class="col-xl-7 col-lg-8 col-md-10 col-12 text-center mb-5" id="review-content">
+                            <div class="col-xl-7 col-lg-8 col-md-10 col-12 text-center mb-5 review-size" id="review-content">
                                 <!-- Swiper Container -->
                                 <div class="swiper-container">
                                     <!-- Swiper Wrapper -->
@@ -621,6 +644,45 @@
             })
             .catch(function (error) {
                 console.error('Error downloading coupon:', error);
+            });
+    }
+
+
+    function toggleLike() {
+        var bookId = document.getElementById('bookId').value;
+        var icon = document.querySelector('.product-info-btn i.fa'); // 아이콘을 가져옵니다.
+
+
+        if (!bookId) {
+            alert("책의 식별자를 가져올 수 없습니다.");
+            return;
+        }
+
+        fetch('http://localhost:8080/api/v1/front/books/likes/' + bookId, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("실행됨")
+                if (data.isLiked) {
+                    console.log("좋아요")
+                    icon.classList.remove("fa-heart-o");
+                    icon.classList.add("fa-heart");
+                    icon.style.color = "red";
+                }
+                if (!data.isLiked){
+                    console.log("좋아요 취소")
+                    icon.classList.remove("fa-heart");
+                    icon.classList.add("fa-heart-o");
+                    icon.style.color = "";
+                }
+            })
+            .catch(error => {
+                console.error('Error toggling like:', error);
+                alert("좋아요 상태 변경 중 오류가 발생했습니다." + error);
             });
     }
 
