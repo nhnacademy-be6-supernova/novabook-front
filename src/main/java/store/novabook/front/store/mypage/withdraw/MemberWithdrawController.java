@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.dto.request.DeleteMemberRequest;
 import store.novabook.front.api.member.member.service.MemberService;
@@ -24,8 +27,25 @@ public class MemberWithdrawController {
 	}
 
 	@PostMapping("/withdraw")
-	public String memberUpdateToWithdraw(DeleteMemberRequest deleteMemberRequest) {
+	public String memberUpdateToWithdraw(DeleteMemberRequest deleteMemberRequest, HttpServletRequest request, HttpServletResponse response) {
 		memberService.deleteMember(deleteMemberRequest);
+		memberService.logout();
+		deleteCookie(request, response, "Authorization");
+		deleteCookie(request, response, "Refresh");
 		return "redirect:/";
+	}
+
+	public void deleteCookie(HttpServletRequest request, HttpServletResponse response, String cookieName) {
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals(cookieName)) {
+					cookie.setValue("");
+					cookie.setPath("/");
+					cookie.setMaxAge(0);
+					response.addCookie(cookie);
+				}
+			}
+		}
 	}
 }
