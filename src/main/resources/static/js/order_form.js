@@ -313,7 +313,8 @@ function sendOrderData(formData) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
-                requestPayment();
+                const responseUUID = JSON.parse(xhr.responseText);
+                requestPayment(responseUUID);
             } else {
                 console.log(xhr.status);
                 console.error('주문 정보 전송 중 오류가 발생했습니다.');
@@ -331,7 +332,7 @@ const tossPayments = TossPayments(clientKey);
 const payment = tossPayments.payment({ customerKey });
 
 
-async function requestPayment() {
+async function requestPayment(orderUUID) {
 
     var totalPrice = parseInt($('#finalAmount').text().replace('원', '').replace(',', ''), 10);
     var orderName = globalFirstItemName;
@@ -351,7 +352,7 @@ async function requestPayment() {
             currency: "KRW",
             value: totalPrice,
         },
-        orderId: "9UCSlrmS0iC8n6hQTNHMq", // 고유 주문번호
+        orderId: orderUUID, // 고유 주문번호
         orderName: orderName,
         successUrl: 'http://localhost:8080/orders/order/1/success', // 결제 성공 시 이동할 페이지(이 주소는 예시입니다. 상점에서 직접 만들어주세요.)
         failUrl: 'http://localhost:8080/orders/order/1/fail',

@@ -1,4 +1,14 @@
 package store.novabook.front.api.order.dto.request;
 
-public record TossPaymentRequest(String orderId, long amount, String paymentKey) {
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
+public record TossPaymentRequest(
+	@NotNull
+	String orderId,
+	@Positive
+	long amount,
+	@NotNull
+	String paymentKey
+) {
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,7 @@ import store.novabook.front.api.point.dto.response.GetPointHistoryResponse;
 import store.novabook.front.api.point.service.PointHistoryClient;
 import store.novabook.front.store.book.dto.BookDTO;
 import store.novabook.front.store.order.dto.OrderViewDTO;
+import store.novabook.front.store.order.repository.RedisOrderRepository;
 
 @RequiredArgsConstructor
 @Service
@@ -43,6 +45,7 @@ public class OrderServiceImpl implements OrderService {
 	private final MemberAddressClient memberAddressClient;
 	private final DeliveryFeeClient deliveryFeeClient;
 	private final OrderClient orderClient;
+	private final RedisOrderRepository redisOrderRepository;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -108,6 +111,14 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public void createOrder(TossPaymentRequest request) {
+		// TODO: 여러번 실행되는 현상을 방지해야함
+
+		// 트랜잭션을 invoke 함
 		orderClient.createOrders(request);
+	}
+
+	@Override
+	public Boolean existOrderUUID(UUID ordersUUID) {
+		return redisOrderRepository.existsByOrderUUID(ordersUUID);
 	}
 }

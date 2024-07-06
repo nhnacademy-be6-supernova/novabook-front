@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.validation.Valid;
 import store.novabook.front.api.order.dto.request.TossPaymentRequest;
 import store.novabook.front.api.order.service.OrderService;
 import store.novabook.front.store.book.dto.BookDTO;
@@ -46,8 +48,14 @@ public class OrderController {
 
 	@GetMapping("/order/{orderId}/success")
 	public String getOrderSuccessPage(@PathVariable Long orderId,
-		@ModelAttribute TossPaymentRequest tossPaymentRequest) {
-		orderService.createOrder(tossPaymentRequest);
+		@Valid @ModelAttribute TossPaymentRequest tossPaymentRequest) {
+
+		// 가주문이 이미 만들어진 유저만 생성 가능
+		if (orderService.existOrderUUID(UUID.fromString(tossPaymentRequest.orderId()))) {
+			orderService.createOrder(tossPaymentRequest);
+		} else {
+			throw new IllegalArgumentException("부적절한 접근입니다.");
+		}
 		return "store/order/order_success";
 	}
 
