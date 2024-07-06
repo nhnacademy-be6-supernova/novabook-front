@@ -19,8 +19,4 @@ public class BookLikeServiceImpl implements LikeService {
 		return bookLikeClient.getBookLikeAllPage(page, size);
 	}
 
-	@Override
-	public void deleteBookLike(Long id) {
-		bookLikeClient.deleteBookLike(id);
-	}
 }

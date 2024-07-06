@@ -3,9 +3,9 @@ package store.novabook.front.api.coupon.dto.response;
 import java.time.LocalDateTime;
 
 import lombok.Builder;
+import store.novabook.front.api.coupon.domain.CouponStatus;
 import store.novabook.front.api.coupon.domain.CouponType;
 import store.novabook.front.api.coupon.domain.DiscountType;
-import store.novabook.front.api.order.dto.CouponStatus;
 
 /**
  * {@code GetCouponResponse} 레코드는 쿠폰 조회 응답을 나타냅니다.
@@ -20,6 +20,7 @@ import store.novabook.front.api.order.dto.CouponStatus;
  * @param minPurchaseAmount 최소 구매 금액
  * @param createdAt         쿠폰 생성 날짜
  * @param expirationAt      쿠폰 만료 날짜
+ * @param usedAt            쿠폰 사용 날짜
  */
 @Builder
 public record GetCouponResponse(
@@ -32,5 +33,6 @@ public record GetCouponResponse(
 	long maxDiscountAmount,
 	long minPurchaseAmount,
 	LocalDateTime createdAt,
-	LocalDateTime expirationAt) {
+	LocalDateTime expirationAt,
+	LocalDateTime usedAt) {
 }

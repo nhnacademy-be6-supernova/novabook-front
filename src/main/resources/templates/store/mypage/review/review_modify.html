@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕 - 리뷰 수정</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <style>
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: #fff;
+        }
+        .star-rating {
+            direction: rtl;
+            display: inline-block;
+            padding: 20px;
+        }
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+        .star-rating label {
+            color: #bbb;
+            font-size: 18px;
+            padding: 0;
+            cursor: pointer;
+            -webkit-transition: all 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
+        }
+        .star-rating input[type="radio"]:checked ~ label,
+        .star-rating input[type="radio"]:hover ~ label {
+            color: #f2b600;
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="layout/store/nav :: nav"></div>
+
+<div class="layout">
+    <div class="container">
+        <div class="row">
+            <!-- 콘텐츠 섹션 -->
+            <div class="col-md-9">
+                <!-- 리뷰 관리 섹션 -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>리뷰 수정</h2>
+                        <form id="reviewForm" th:action="@{'/mypage/reviews/' + ${review.reviewId} + '/update'}" method="post" >
+                            <input type="hidden" id="ordersBookId" name="ordersBookId" th:value="${review.orderBookId}">
+                            <div class="form-group">
+                                <label for="reviewText">리뷰 내용</label>
+                                <textarea class="form-control" id="reviewText" name="content" th:value="${review.content}" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label >별점</label>
+                                <div class="star-rating">
+                                    <input id="star-5" type="radio" name="score" value="5" />
+                                    <label for="star-5" title="5 stars">
+                                        <i class="fa fa-star"></i>
+                                    </label>
+                                    <input id="star-4" type="radio" name="score" value="4" />
+                                    <label for="star-4" title="4 stars">
+                                        <i class="fa fa-star"></i>
+                                    </label>
+                                    <input id="star-3" type="radio" name="score" value="3" />
+                                    <label for="star-3" title="3 stars">
+                                        <i class="fa fa-star"></i>
+                                    </label>
+                                    <input id="star-2" type="radio" name="score" value="2" />
+                                    <label for="star-2" title="2 stars">
+                                        <i class="fa fa-star"></i>
+                                    </label>
+                                    <input id="star-1" type="radio" name="score" value="1" />
+                                    <label for="star-1" title="1 star">
+                                        <i class="fa fa-star"></i>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>리뷰 이미지</label>
+                                <div class="row text-left">
+                                    <img class="pic" th:each="image : ${review.reviewImages}"
+                                         th:src="${image}" th:onclick="'window.open(' + image + ')'">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">저장</button>
+                            <a href="/mypage/reviews" class="btn btn-default">돌아가기</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="layout/store/footer :: footer"></div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var reviewForm = document.getElementById("reviewForm");
+        var reviewText = document.getElementById("reviewText");
+        var reviewStars = document.getElementsByName("score");
+
+
+        reviewForm.addEventListener("submit", function(event) {
+            var reviewContent = reviewText.value.trim();
+            var selectedStar = Array.from(reviewStars).find(star => star.checked);
+
+            // Form validation logic
+            if (reviewContent === "") {
+                alert("리뷰 내용을 입력해주세요.");
+                event.preventDefault(); // Prevent form submission
+                return;
+            }
+
+            if (!selectedStar) {
+                alert("별점을 선택해주세요.");
+                event.preventDefault(); // Prevent form submission
+            }
+
+            // Let the form submit as usual
+        });
+    });
+</script>
+
+</body>
+</html>
