@@ -12,7 +12,7 @@ import store.novabook.front.api.book.service.LikeService;
 import store.novabook.front.api.member.grade.service.MemberGradeService;
 
 @RequiredArgsConstructor
-@RequestMapping("/mypage/likebooks")
+@RequestMapping("/mypage/like")
 @Controller
 public class MypageLikeBookController {
 
