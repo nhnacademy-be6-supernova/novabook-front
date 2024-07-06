@@ -190,7 +190,9 @@
 
                 </form>
 
-                <button class="btn product-info-btn" type="button" data-book-id="" onclick="toggleLike()"><i class="fa fa-heart-o"></i>좋아요</button>
+                <button class="btn product-info-btn" type="button" onclick="toggleLike()">
+                    <i class="fa" th:classappend="${isLiked ? 'fa-heart' : 'fa-heart-o'}" th:style="${isLiked ? 'color: red;' : ''}"></i> 좋아요
+                </button>
                 <button type="button" class="btn btn-primary" style="color: white; background-color: #0e0e0e"
                         data-toggle="modal" data-target="#couponModal"
                         th:data-book-id="${book.id}">
@@ -642,30 +644,33 @@
     }
 
 
-
     function toggleLike() {
         var bookId = document.getElementById('bookId').value;
+        var icon = document.querySelector('.product-info-btn i.fa'); // 아이콘을 가져옵니다.
+
 
         if (!bookId) {
             alert("책의 식별자를 가져올 수 없습니다.");
             return;
         }
 
-        fetch('http://localhost:8080/api/v1/front/books/likes', {
+        fetch('http://localhost:8080/api/v1/front/books/likes/' + bookId, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ bookId: bookId })
+            }
         })
             .then(response => response.json())
             .then(data => {
-                var icon = document.querySelector('.product-info-btn i.fa');
+                console.log("실행됨")
                 if (data.isLiked) {
+                    console.log("좋아요")
                     icon.classList.remove("fa-heart-o");
                     icon.classList.add("fa-heart");
                     icon.style.color = "red";
-                } else {
+                }
+                if (!data.isLiked){
+                    console.log("좋아요 취소")
                     icon.classList.remove("fa-heart");
                     icon.classList.add("fa-heart-o");
                     icon.style.color = "";

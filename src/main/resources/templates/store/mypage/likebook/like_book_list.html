@@ -50,7 +50,6 @@
                                 <th class="tc">저자</th>
                                 <th class="tc">출판사</th>
                                 <th class="tc">자세히 보기</th>
-                                <th class="tc">삭제</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -63,11 +62,6 @@
                                         <button class="btn btn-primary" data-book-id="1">자세히보기</button>
                                     </a>
                                 </td>
-                                <td>
-                                    <a th:href="@{'/mypage/likebooks/'+${likesBook.id}}">
-                                        <button class="btn btn-danger remove-favorite-btn" data-book-id="1">좋아요 취소</button>
-                                    </a>
-                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -76,13 +70,13 @@
                             <a href="/mypage" class="btn btn-primary">돌아가기</a>
                             <!-- Previous button -->
                             <li class="page-item" th:classappend="${LikeBooks.getPageNum() == 0} ? 'disabled'">
-                                <a th:if="${LikeBooks.getPageNum() > 0}" th:href="@{/mypage/likebooks(page=${LikeBooks.getPageNum() - 1})}">Previous</a>
+                                <a th:if="${LikeBooks.getPageNum() > 0}" th:href="@{/mypage/like(page=${LikeBooks.getPageNum() - 1})}">Previous</a>
                                 <span th:if="${LikeBooks.getPageNum() == 0}">Previous</span>
                             </li>
 
                             <!-- Page numbers -->
                             <li class="page-item" th:each="i : ${#numbers.sequence(0, LikeBooks.getTotalPageCount() - 1)}">
-                                <a th:href="@{/mypage/likebooks(page=${i})}" th:text="${i + 1}+'&nbsp;'"
+                                <a th:href="@{/mypage/like(page=${i})}" th:text="${i + 1}+'&nbsp;'"
                                    th:classappend="${i == LikeBooks.getPageNum()} ? 'active' : ''"></a>
                             </li>
 
@@ -90,7 +84,7 @@
                             <li class="page-item"
                                 th:classappend="${LikeBooks.getPageNum() >= LikeBooks.getTotalPageCount() - 1} ? 'disabled'">
                                 <a th:if="${LikeBooks.getPageNum() < LikeBooks.getTotalPageCount() - 1}"
-                                   th:href="@{/mypage/likebooks(page=${LikeBooks.getPageNum() + 1})}">Next</a>
+                                   th:href="@{/mypage/like(page=${LikeBooks.getPageNum() + 1})}">Next</a>
                                 <span th:if="${LikeBooks.getPageNum() >= LikeBooks.getTotalPageCount() - 1}">Next</span>
                             </li>
                         </div>
@@ -101,19 +95,6 @@
     </div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $('.remove-favorite-btn').click(function () {
-            var bookId = $(this).data('book-id');
-            // 여기서 좋아요 취소 후 처리를 구현하세요
-            console.log('책 ID: ' + bookId + ' 좋아요 취소');
-            // 테이블 행 제거
-            $(this).closest('tr').remove();
-        });
-    });
-</script>
 <div th:replace="~{layout/store/footer::footer}"></div>
 </body>
 </html>

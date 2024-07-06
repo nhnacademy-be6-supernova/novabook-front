@@ -1,14 +1,12 @@
 package store.novabook.front.api.book.likes.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.book.likes.dto.LikeBookRequest;
 import store.novabook.front.api.book.likes.dto.LikeBookResponse;
 import store.novabook.front.api.book.likes.service.LikeBookRestService;
 
@@ -19,9 +17,9 @@ public class LikeBookRestController {
 
 	private final LikeBookRestService likeBookRestService;
 
-	@PostMapping
-	public ResponseEntity<LikeBookResponse> isLiked(@Valid @RequestBody LikeBookRequest request) {
-		LikeBookResponse isPressedLiked = likeBookRestService.createLikes(request);
-		return ResponseEntity.ok().body(isPressedLiked);
+	@PostMapping("/{bookId}")
+	public ResponseEntity<LikeBookResponse> isLiked(@PathVariable Long bookId) {
+		LikeBookResponse likeBookResponse = likeBookRestService.likeButton(bookId);
+		return ResponseEntity.ok().body(likeBookResponse);
 	}
 }
