@@ -278,68 +278,43 @@
 
                 <div class="tab-pane" id="reviews">
                     <!--                -->
-
                     <div class="container-fluid px-1 py-5 mx-auto">
                         <div class="row justify-content-center">
-                            <div class="col-xl-7 col-lg-8 col-md-10 col-12 text-center mb-5 review-size" id="review-content">
+                            <div class="col-xl-7 col-lg-8 col-md-10 col-12 text-center mb-5" id="review-content">
                                 <!-- Swiper Container -->
                                 <div class="swiper-container">
                                     <!-- Swiper Wrapper -->
                                     <div class="swiper-wrapper">
-                                        <!-- Slide 1 -->
-                                        <div class="swiper-slide">
+                                        <!-- Thymeleaf 반복문으로 슬라이드 생성 -->
+                                        <div class="swiper-slide" th:each="review : ${reviews.getReviewResponses()}">
                                             <div class="card" style="background-color: #E8E8E8FF">
                                                 <div class="row d-flex">
                                                     <div class="d-flex flex-column">
-                                                        <h3 class="mt-2 mb-0">sayyo33</h3>
+                                                        <h3 class="mt-2 mb-0" th:text="${review.nickName}">Username</h3>
                                                         <div>
-                                                            <p class="text-left"><span class="text-muted">4.0</span>
-                                                                <span class="fa fa-star star-active ml-3"></span> <span
-                                                                        class="fa fa-star star-active"></span> <span
-                                                                        class="fa fa-star star-active"></span> <span
-                                                                        class="fa fa-star star-active"></span> <span
-                                                                        class="fa fa-star star-inactive"></span></p>
+                                                            <p class="text-left">
+                                                                <span class="text-muted" th:text="${review.score} + '.0'">4.0</span>
+                                                                <span th:each="star, iterStat : ${#numbers.sequence(1, 5)}"
+                                                                      class="fa fa-star"
+                                                                      th:classappend="${iterStat.count <= review.score} ? 'star-active' : 'star-inactive'"></span>
+                                                            </p>
                                                         </div>
                                                     </div>
                                                     <div class="ml-auto">
-                                                        <p class="text-muted pt-5 pt-sm-3">2024년 9월 13일 </p>
+                                                        <p class="text-muted pt-5 pt-sm-3" th:text="${review.createdAt}">Date</p>
                                                     </div>
                                                 </div>
                                                 <div class="row text-left">
-                                                    <p class="content"> 휴가를 '물 위에서' 보내는 것을 정말 즐기거나 새롭고 흥미로운 것을 처음으로 시도하고
-                                                        싶다면 </p>
-                                                </div>
-                                                <div class="row text-left"><img class="pic"
-                                                                                src="https://i.imgur.com/kjcZcfv.jpg"
-                                                                                onclick="window.open(this.src)"> <img
-                                                        class="pic" src="https://i.imgur.com/IgHpsBh.jpg"
-                                                        onclick="window.open(this.src)"></div>
-                                            </div>
-                                        </div>
-                                        <!-- Add more slides as needed -->
-                                        <div class="swiper-slide">
-                                            <div class="card" style="background-color: #E8E8E8FF">
-                                                <div class="row d-flex">
-                                                    <div class="d-flex flex-column">
-                                                        <h3 class="mt-2 mb-0">seheeking12</h3>
-                                                        <div>
-                                                            <p class="text-left"><span class="text-muted">5.0</span>
-                                                                <span class="fa fa-star star-active ml-3"></span> <span
-                                                                        class="fa fa-star star-active"></span> <span
-                                                                        class="fa fa-star star-active"></span> <span
-                                                                        class="fa fa-star star-active"></span> <span
-                                                                        class="fa fa-star star-active"></span></p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="ml-auto">
-                                                        <p class="text-muted pt-5 pt-sm-3">12 Oct</p>
-                                                    </div>
+                                                    <p class="content" th:text="${review.content}">Review Content</p>
                                                 </div>
                                                 <div class="row text-left">
-                                                    <p class="content">이건 정말 어마어마한 책입니다! 놀라운 결과</p>
-                                                </div>
-                                                <div class="row text-left">
-                                                    <!--                                                    <img class="pic" src="https://i.imgur.com/abc.jpg">-->
+                                                    <div th:if="${#lists.isEmpty(review.reviewImages) or review.reviewImages[0] == null}">
+                                                        이미지 없음
+                                                    </div>
+                                                    <div th:unless="${#lists.isEmpty(review.reviewImages) or review.reviewImages[0] == null}">
+                                                        <img class="pic" th:each="image : ${review.reviewImages}"
+                                                             th:src="${image}" th:attr="data-image-url=${image}" onclick="openImage(this)">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -353,9 +328,7 @@
                             </div>
                         </div>
                     </div>
-
                     <!--                    -->
-
                 </div>
             </div>
 
@@ -656,7 +629,7 @@
             return;
         }
 
-        fetch('http://localhost:8080/api/v1/front/books/likes/' + bookId, {
+        fetch('https://novabooks.store/api/v1/front/books/likes/' + bookId, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -682,6 +655,25 @@
                 console.error('Error toggling like:', error);
                 alert("좋아요 상태 변경 중 오류가 발생했습니다." + error);
             });
+    }
+
+    // review
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize Swiper
+        new Swiper('.swiper-container', {
+            pagination: {
+                el: '.swiper-pagination',
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    });
+    //review image
+    function openImage(element) {
+        var imageUrl = element.getAttribute('data-image-url');
+        window.open(imageUrl);
     }
 
 
