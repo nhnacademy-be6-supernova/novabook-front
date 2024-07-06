@@ -15,6 +15,7 @@ import store.novabook.front.api.coupon.domain.CouponType;
 import store.novabook.front.api.coupon.dto.request.CreateBookCouponTemPlateRequest;
 import store.novabook.front.api.coupon.dto.request.CreateCategoryCouponTemplateRequest;
 import store.novabook.front.api.coupon.dto.request.CreateCouponTemplateRequest;
+import store.novabook.front.api.coupon.dto.request.CreateLimitedCouponTemplateRequest;
 import store.novabook.front.api.coupon.service.CouponService;
 
 @RequestMapping("/admin/coupons")
@@ -28,9 +29,9 @@ public class AdminCouponController {
 
 	@GetMapping
 	public String getCoupons(Model model, @RequestParam(defaultValue = PAGE) int birthdayPage,
-		@RequestParam(defaultValue = PAGE) int welcomePage, @RequestParam(defaultValue = PAGE) int generalPage,
-		@RequestParam(defaultValue = PAGE) int bookPage, @RequestParam(defaultValue = PAGE) int categoryPage,
-		@RequestParam(defaultValue = PAGE_SIZE) int size) {
+		@RequestParam(defaultValue = PAGE) int limitedPage, @RequestParam(defaultValue = PAGE) int welcomePage,
+		@RequestParam(defaultValue = PAGE) int generalPage, @RequestParam(defaultValue = PAGE) int bookPage,
+		@RequestParam(defaultValue = PAGE) int categoryPage, @RequestParam(defaultValue = PAGE_SIZE) int size) {
 
 		model.addAttribute("birthdayCoupons",
 			couponService.getCouponTemplateAll(CouponType.BIRTHDAY, false, birthdayPage, size));
@@ -40,6 +41,7 @@ public class AdminCouponController {
 			couponService.getCouponTemplateAll(CouponType.GENERAL, false, generalPage, size));
 		model.addAttribute("bookCoupons", couponService.getBookCouponTemplateAll(bookPage, size));
 		model.addAttribute("categoryCoupons", couponService.getCategoryCouponTemplateAll(false, categoryPage, size));
+		model.addAttribute("limitedCoupons", couponService.getLimitedCouponTemplateAll(false, limitedPage, size));
 
 		return "admin/coupon/coupon_list";
 	}
@@ -61,6 +63,11 @@ public class AdminCouponController {
 		return "admin/coupon/coupon_category_form";
 	}
 
+	@GetMapping("/limited/form")
+	public String getCouponLimitedForm() {
+		return "admin/coupon/coupon_limited_form";
+	}
+
 	@PostMapping("/common/create")
 	public String createCouponTemplateCommon(@Valid @ModelAttribute CreateCouponTemplateRequest couponRequest) {
 		couponService.createGeneralTemplateCoupon(couponRequest);
@@ -76,6 +83,12 @@ public class AdminCouponController {
 	@PostMapping("/category/create")
 	public String createCouponTemplateCategory(@Valid @ModelAttribute CreateCategoryCouponTemplateRequest request) {
 		couponService.createCategoryTemplateCoupon(request);
+		return "redirect:/admin/coupons";
+	}
+
+	@PostMapping("/limited/create")
+	public String createCouponTemplateLimited(@Valid @ModelAttribute CreateLimitedCouponTemplateRequest request) {
+		couponService.createLimitedTemplateCoupon(request);
 		return "redirect:/admin/coupons";
 	}
 

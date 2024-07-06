@@ -10,6 +10,7 @@ import store.novabook.front.api.coupon.domain.CouponType;
 import store.novabook.front.api.coupon.dto.request.CreateBookCouponTemPlateRequest;
 import store.novabook.front.api.coupon.dto.request.CreateCategoryCouponTemplateRequest;
 import store.novabook.front.api.coupon.dto.request.CreateCouponTemplateRequest;
+import store.novabook.front.api.coupon.dto.request.CreateLimitedCouponTemplateRequest;
 import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateAllResponse;
 import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateResponse;
 import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateAllResponse;
@@ -40,6 +41,11 @@ public class CouponServiceImpl implements CouponService {
 	}
 
 	@Override
+	public PageResponse<GetCouponTemplateResponse> getLimitedCouponTemplateAll(boolean isValid, int page, int size) {
+		return couponClient.getLimitedCouponTemplateAll(isValid, page, size);
+	}
+
+	@Override
 	public void createGeneralTemplateCoupon(CreateCouponTemplateRequest request) {
 		couponClient.createCouponTemplate(request);
 	}
@@ -52,6 +58,11 @@ public class CouponServiceImpl implements CouponService {
 	@Override
 	public void createCategoryTemplateCoupon(CreateCategoryCouponTemplateRequest request) {
 		couponClient.createCategoryCouponTemplate(request);
+	}
+
+	@Override
+	public void createLimitedTemplateCoupon(CreateLimitedCouponTemplateRequest request) {
+		couponClient.createLimitedCouponTemplate(request);
 	}
 
 	@Override

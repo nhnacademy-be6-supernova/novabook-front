@@ -14,6 +14,7 @@ import store.novabook.front.api.coupon.domain.CouponType;
 import store.novabook.front.api.coupon.dto.request.CreateBookCouponTemPlateRequest;
 import store.novabook.front.api.coupon.dto.request.CreateCategoryCouponTemplateRequest;
 import store.novabook.front.api.coupon.dto.request.CreateCouponTemplateRequest;
+import store.novabook.front.api.coupon.dto.request.CreateLimitedCouponTemplateRequest;
 import store.novabook.front.api.coupon.dto.request.GetCouponAllRequest;
 import store.novabook.front.api.coupon.dto.response.CreateCouponResponse;
 import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateAllResponse;
@@ -55,6 +56,10 @@ public interface CouponClient {
 	PageResponse<GetBookCouponTemplateResponse> getBookCouponTemplateAll(@RequestParam int page,
 		@RequestParam int size);
 
+	@GetMapping("/templates/limited")
+	PageResponse<GetCouponTemplateResponse> getLimitedCouponTemplateAll(@RequestParam boolean isValid,
+		@RequestParam int page, @RequestParam int size);
+
 	/**
 	 * 모든 카테고리 쿠폰 템플릿을 조회합니다.
 	 *
@@ -74,6 +79,10 @@ public interface CouponClient {
 	 */
 	@PostMapping("/templates")
 	ApiResponse<CreateCouponResponse> createCouponTemplate(@RequestBody CreateCouponTemplateRequest request);
+
+	@PostMapping("/templates/limited")
+	ApiResponse<CreateCouponResponse> createLimitedCouponTemplate(
+		@RequestBody CreateLimitedCouponTemplateRequest request);
 
 	/**
 	 * 책 쿠폰 템플릿을 생성합니다.
@@ -111,4 +120,5 @@ public interface CouponClient {
 
 	@PostMapping("/coupons/sufficient")
 	ApiResponse<GetCouponAllResponse> getSufficientCouponAll(@Valid @RequestBody GetCouponAllRequest request);
+
 }
