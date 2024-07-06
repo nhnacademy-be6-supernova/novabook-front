@@ -14,6 +14,7 @@ import store.novabook.front.api.member.coupon.service.MemberCouponClient;
 import store.novabook.front.api.member.member.dto.response.CreateMemberCouponResponse;
 import store.novabook.front.api.member.member.service.MemberClient;
 import store.novabook.front.api.member.member.service.MemberCouponService;
+import store.novabook.front.common.exception.FeignClientException;
 import store.novabook.front.common.response.ApiResponse;
 
 @Service
@@ -48,18 +49,12 @@ public class MemberCouponServiceImpl implements MemberCouponService {
 
 	@Override
 	public String downloadCoupon(DownloadCouponRequest request) {
-		ApiResponse<CreateMemberCouponResponse> response = memberCouponClient.downloadCoupon(request);
 		try {
-			if (response.isSuccessful()) {
-				return "쿠폰 발급에 성공했습니다 \uD83D\uDCE6";
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return response.getErrorMessage();
-
+			memberCouponClient.downloadCoupon(request);
+			return "쿠폰 발급에 성공했습니다 \uD83D\uDCE6";
+		} catch (FeignClientException exception) {
+			return exception.getMessage();
 		}
-		return "쿠폰 발급에 성공했습니다 \uD83D\uDCE6";
-
 	}
 
 }

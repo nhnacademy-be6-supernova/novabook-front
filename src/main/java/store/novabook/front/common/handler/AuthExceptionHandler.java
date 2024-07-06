@@ -1,8 +1,7 @@
-package store.novabook.front.common.config;
+package store.novabook.front.common.handler;
 
 import java.util.Objects;
 
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -18,11 +17,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.common.security.RefreshTokenContext;
 import store.novabook.front.common.security.exception.InternalServerErrorException;
-import store.novabook.front.common.security.exception.NotFoundException;
 
 @ControllerAdvice
 @RequiredArgsConstructor
-public class GlobalExceptionHandler {
+public class AuthExceptionHandler {
 
 	private final RefreshTokenContext refreshTokenContext;
 
@@ -54,10 +52,7 @@ public class GlobalExceptionHandler {
 			}
 		}
 
-		if (!hasAuthorization || !hasRefresh) {
-			return false;
-		}
-		return true;
+		return hasAuthorization && hasRefresh;
 	}
 
 	@ExceptionHandler({NullPointerException.class, InternalServerErrorException.class})
