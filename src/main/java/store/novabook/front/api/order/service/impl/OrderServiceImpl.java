@@ -24,8 +24,8 @@ import store.novabook.front.api.member.coupon.service.MemberCouponClient;
 import store.novabook.front.api.order.client.WrappingPaperClient;
 import store.novabook.front.api.order.dto.request.TossPaymentRequest;
 import store.novabook.front.api.order.dto.response.GetWrappingPaperResponse;
-import store.novabook.front.api.order.service.OrderClient;
 import store.novabook.front.api.order.service.OrderService;
+import store.novabook.front.api.order.service.OrdersSagaClient;
 import store.novabook.front.api.point.dto.request.GetPointHistoryRequest;
 import store.novabook.front.api.point.dto.response.GetPointHistoryResponse;
 import store.novabook.front.api.point.service.PointHistoryClient;
@@ -44,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
 	private final PointHistoryClient pointHistoryClient;
 	private final MemberAddressClient memberAddressClient;
 	private final DeliveryFeeClient deliveryFeeClient;
-	private final OrderClient orderClient;
+	private final OrdersSagaClient ordersSagaClient;
 	private final RedisOrderRepository redisOrderRepository;
 
 	@Override
@@ -114,7 +114,7 @@ public class OrderServiceImpl implements OrderService {
 		// TODO: 여러번 실행되는 현상을 방지해야함
 
 		// 트랜잭션을 invoke 함
-		orderClient.createOrders(request);
+		ordersSagaClient.createOrders(request);
 	}
 
 	@Override

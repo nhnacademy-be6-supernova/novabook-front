@@ -49,9 +49,8 @@ public class OrderController {
 	@GetMapping("/order/{orderId}/success")
 	public String getOrderSuccessPage(@PathVariable Long orderId,
 		@Valid @ModelAttribute TossPaymentRequest tossPaymentRequest) {
-
 		// 가주문이 이미 만들어진 유저만 생성 가능
-		if (orderService.existOrderUUID(UUID.fromString(tossPaymentRequest.orderId()))) {
+		if (Boolean.TRUE.equals(orderService.existOrderUUID(UUID.fromString(tossPaymentRequest.orderId())))) {
 			orderService.createOrder(tossPaymentRequest);
 		} else {
 			throw new IllegalArgumentException("부적절한 접근입니다.");
