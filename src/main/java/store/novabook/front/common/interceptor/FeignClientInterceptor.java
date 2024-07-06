@@ -27,6 +27,9 @@ public class FeignClientInterceptor implements RequestInterceptor {
 
 	@Override
 	public void apply(RequestTemplate template) {
+		if (template.feignTarget().name().contains("payco")) {
+			return;
+		}
 
 		Cookie[] cookies = request.getCookies();
 		String access = response.getHeader("access");
