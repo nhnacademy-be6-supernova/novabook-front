@@ -27,6 +27,17 @@
 
             <!-- 콘텐츠 섹션 -->
             <div class="col-md-9">
+                <!-- 보유 포인트 섹션 -->
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="card border-primary">
+                            <div class="card-body text-center">
+                                <h2 class="card-title">보유 포인트</h2>
+                                <p class="card-text font-weight-bold text-primary" style="font-size: 3rem;" th:text="${point}">1500</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- 포인트 내역 섹션 -->
                 <div class="row">
                     <div class="col-md-12">
@@ -40,23 +51,46 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>2024-06-15</td>
-                                <td>구매 포인트 적립</td>
-                                <td>+100</td>
+                            <tr th:each=" pointHistory : ${pointHistories.data}">
+                                <td th:text="${pointHistory.createdAt}">2024-06-15</td>
+                                <td th:text="${pointHistory.pointContent}">구매 포인트 적립</td>
+                                <td>
+                                    <span th:if="${pointHistory.pointAmount > 0}" th:text="'+' + ${pointHistory.pointAmount}" style="color: blue;"></span>
+                                    <span th:unless="${pointHistory.pointAmount > 0}" th:text="${pointHistory.pointAmount}" style="color: gray;"></span>
+                                </td>
                             </tr>
-                            <tr>
-                                <td>2024-06-14</td>
-                                <td>쿠폰 사용</td>
-                                <td>-50</td>
-                            </tr>
-                            <!-- 추가적인 포인트 내역을 여기에 추가하세요 -->
                             </tbody>
                         </table>
                         <a href="/mypage" class="btn btn-primary">돌아가기</a>
+<!--                      /mypage/points  -->
+                        <div class="pagination">
+                            <!-- Previous button -->
+                            <li class="page-item" th:classappend="${pointHistories.getPageNum() == 0} ? 'disabled'">
+                                <a th:if="${pointHistories.getPageNum() > 0}" th:href="@{/mypage/points(page=${pointHistories.getPageNum() - 1})}">Previous</a>
+                                <span th:if="${pointHistories.getPageNum() == 0}">Previous</span>
+                            </li>
+
+                            <!-- Page numbers -->
+                            <li class="page-item" th:each="i : ${#numbers.sequence(0, pointHistories.getTotalPageCount() - 1)}">
+                                <a th:href="@{/mypage/points(page=${i})}" th:text="${i + 1}+'&nbsp;'"
+                                   th:classappend="${i == pointHistories.getPageNum()} ? 'active' : ''"></a>
+                            </li>
+
+                            <!-- Next button -->
+                            <li class="page-item"
+                                th:classappend="${pointHistories.getPageNum() >= pointHistories.getTotalPageCount() - 1} ? 'disabled'">
+                                <a th:if="${pointHistories.getPageNum() < pointHistories.getTotalPageCount() - 1}"
+                                   th:href="@{/mypage/points(page=${pointHistories.getPageNum() + 1})}">Next</a>
+                                <span th:if="${pointHistories.getPageNum() >= pointHistories.getTotalPageCount() - 1}">Next</span>
+                            </li>
+                        </div>
                     </div>
                 </div>
             </div>
+
+
+
+
         </div>
     </div>
 </div>
