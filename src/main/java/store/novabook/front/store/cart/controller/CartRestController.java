@@ -68,10 +68,10 @@ public class CartRestController {
 			if (!redisCartService.existsCart(memberId)) {
 				redisCartService.creatCart(memberId);
 			}
-			if (Objects.nonNull(redisCartHash.cartBookList())) {
-				redisCartHash.cartBookList().add(request);
-				cartService.addCartBooks(new CreateCartBookListRequest(redisCartHash.cartBookList()));
-				redisCartService.addCartBooks(memberId, new CreateCartBookListRequest(redisCartHash.cartBookList()));
+			if (Objects.nonNull(redisCartHash.getCartBookList())) {
+				redisCartHash.getCartBookList().add(request);
+				cartService.addCartBooks(new CreateCartBookListRequest(redisCartHash.getCartBookList()));
+				redisCartService.addCartBooks(memberId, new CreateCartBookListRequest(redisCartHash.getCartBookList()));
 			}
 
 			CookieUtil.deleteGuestCookie(response);
@@ -84,7 +84,6 @@ public class CartRestController {
 	public ResponseEntity<Void> deleteCartBooks(
 		@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie,
 		@CurrentMembers Long memberId,
-		HttpServletResponse response,
 		@RequestBody DeleteCartBookListRequest request) {
 
 		if (Objects.nonNull(memberId)) {

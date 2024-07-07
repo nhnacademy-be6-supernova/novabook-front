@@ -7,11 +7,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import store.novabook.front.api.cart.dto.request.CreateCartBookListRequest;
 import store.novabook.front.api.cart.dto.request.CreateCartBookRequest;
 import store.novabook.front.api.cart.dto.request.DeleteCartBookListRequest;
+import store.novabook.front.api.cart.dto.request.UpdateCartBookQuantityRequest;
 import store.novabook.front.api.cart.dto.response.CartIdResponse;
 import store.novabook.front.api.cart.dto.response.CreateCartBookListResponse;
 import store.novabook.front.api.cart.dto.response.CreateCartBookResponse;
@@ -32,6 +34,9 @@ public interface CartClient {
 
 	@PostMapping("/adds")
 	ApiResponse<CreateCartBookListResponse> addCartBooks(@RequestBody CreateCartBookListRequest request);
+
+	@PutMapping("/update")
+	ApiResponse<Void> updateCartBook(@RequestBody UpdateCartBookQuantityRequest request);
 
 	@DeleteMapping("/{bookId}")
 	ApiResponse<Void> deleteCartBook(@PathVariable Long bookId);

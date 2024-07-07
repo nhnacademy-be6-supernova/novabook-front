@@ -7,6 +7,7 @@ import store.novabook.front.api.cart.CartClient;
 import store.novabook.front.api.cart.dto.request.CreateCartBookListRequest;
 import store.novabook.front.api.cart.dto.request.CreateCartBookRequest;
 import store.novabook.front.api.cart.dto.request.DeleteCartBookListRequest;
+import store.novabook.front.api.cart.dto.request.UpdateCartBookQuantityRequest;
 import store.novabook.front.api.cart.dto.response.CreateCartBookListResponse;
 import store.novabook.front.api.cart.dto.response.CreateCartBookResponse;
 import store.novabook.front.api.cart.dto.response.GetCartResponse;
@@ -34,5 +35,9 @@ public class CartService {
 
 	public void deleteCartBooks(DeleteCartBookListRequest request) {
 		cartClient.deleteCartBooks(request);
+	}
+
+	public void updateCartBookQuantity(UpdateCartBookQuantityRequest request) {
+		cartClient.updateCartBook(request);
 	}
 }

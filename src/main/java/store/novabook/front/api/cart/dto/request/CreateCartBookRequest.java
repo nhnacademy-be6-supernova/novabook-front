@@ -22,7 +22,12 @@ public record CreateCartBookRequest(
 	Integer discountPrice,
 
 	@Positive
-	Integer quantity
+	Integer quantity,
+
+	boolean isPackaged,
+
+	Long bookStatusId
+
 ) {
 	public static CreateCartBookRequest update(Long bookId, Integer quantity, CreateCartBookRequest request) {
 		return CreateCartBookRequest.builder()
@@ -32,6 +37,8 @@ public record CreateCartBookRequest(
 			.price(request.price())
 			.discountPrice(request.discountPrice())
 			.quantity(quantity)
+			.bookStatusId(request.bookStatusId())
+			.isPackaged(request.isPackaged())
 			.build();
 	}
 }

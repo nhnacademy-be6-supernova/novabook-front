@@ -20,7 +20,10 @@
 </head>
 
 <style>
-
+    .disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
     .product-info-btn .fa-heart-o {
         color: #777; /* 기본 하트 아이콘 색상 */
     }
@@ -80,6 +83,8 @@
     <input type="hidden" id="bookImage" th:value="${book.image}">
     <input type="hidden" id="bookPrice" th:value="${book.price}">
     <input type="hidden" id="bookDiscountPrice" th:value="${book.discountPrice}">
+    <input type="hidden" id="bookIsPackaged" th:value="${book.isPackaged}">
+    <input type="hidden" id="bookStatusId" th:value="${book.bookStatusId}">
 </div>
 
 <div class="breadcumbs">
@@ -175,21 +180,19 @@
                     <span style="margin-left: 16px; font-size: 16px;" class="strong-text" th:if="${!book.isPackaged}">포장 불가</span>
                 </p>
 
-
                 <form class="purchase-form">
-
                     <div class="qt-area">
-
                         <i class="fa fa-minus"></i>
-
-                        <input id="bookQuantity" class="qt" value="1">
-
+                        <input id="bookQuantity" class="qt" value="1"
+                               th:disabled="${book.bookStatusId == 2 or book.bookStatusId == 3}">
                         <i class="fa fa-plus"></i>
-
                     </div>
-
-                    <button class="btn btn-theme" type="submit" onclick="addCart()">Add to cart</button>
-
+                    <button id="addCartButton" class="btn btn-theme" type="submit"
+                            th:text="${book.bookStatusId == 2 ? '일시품절' : (book.bookStatusId == 3 ? '품절' : 'Add to cart')}"
+                            th:classappend="${book.bookStatusId == 2 or book.bookStatusId == 3} ? ' disabled' : ''"
+                            th:onclick="${book.bookStatusId == 2 or book.bookStatusId == 3} ? '' : 'addCart()'">
+                        Add to cart
+                    </button>
                 </form>
 
                 <button class="btn product-info-btn" type="button" onclick="toggleLike()">
@@ -684,7 +687,8 @@
         var bookPrice = document.getElementById('bookPrice').value;
         var bookDiscountPrice = document.getElementById('bookDiscountPrice').value;
         var bookQuantity = document.getElementById('bookQuantity').value;
-
+        var bookIsPackaged = document.getElementById('bookIsPackaged').value;
+        var bookStatusId = document.getElementById('bookStatusId').value;
 
         fetch('http://localhost:8080/api/v1/front/carts', {
             method: 'POST',
@@ -697,7 +701,9 @@
                 image: bookImage,
                 price: bookPrice,
                 discountPrice: bookDiscountPrice,
-                quantity: bookQuantity
+                quantity: bookQuantity,
+                isPackaged: bookIsPackaged,
+                bookStatusId: bookStatusId
             })
         })
             .then(response => response.json())
@@ -706,7 +712,7 @@
             })
             .catch(error => {
 
-                alert("요청에 실패해였습니다. : "+ error);
+                alert("요청에 실패해였습니다. : " + error);
             });
 
     }

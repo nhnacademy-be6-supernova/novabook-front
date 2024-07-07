@@ -7,17 +7,25 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 import lombok.Builder;
+import lombok.Getter;
 import store.novabook.front.api.cart.dto.request.CreateCartBookListRequest;
 import store.novabook.front.api.cart.dto.request.CreateCartBookRequest;
 
 @RedisHash("cart")
-@Builder
-public record RedisCartHash(
-	@Id
-	Object cartId,
-	List<CreateCartBookRequest> cartBookList
-) {
+@Getter
+public class RedisCartHash{
 
+	@Id
+	Object cartId;
+
+	List<CreateCartBookRequest> cartBookList;
+
+
+	@Builder
+	public RedisCartHash(Object cartId, List<CreateCartBookRequest> cartBookList) {
+		this.cartId = cartId;
+		this.cartBookList = cartBookList;
+	}
 	public static RedisCartHash of(Object cartId) {
 		return RedisCartHash.builder()
 			.cartId(cartId)
@@ -39,4 +47,9 @@ public record RedisCartHash(
 			.build();
 
 	}
+
+	public void update(List<CreateCartBookRequest> newCartBookList){
+		this.cartBookList = newCartBookList;
+	}
+
 }

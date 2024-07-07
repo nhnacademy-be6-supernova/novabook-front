@@ -9,6 +9,8 @@ public record GetCartBookResponse(
 	String title,
 	Long price,
 	Long discountPrice,
-	Integer quantity
+	Integer quantity,
+	Long bookStatusId,
+	boolean isPackaged
 ) {
 }
