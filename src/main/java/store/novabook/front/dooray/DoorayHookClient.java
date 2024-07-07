@@ -13,5 +13,9 @@ import store.novabook.front.common.response.ApiResponse;
 public interface DoorayHookClient {
 
 	@PostMapping("/sendAuthCode")
-	ApiResponse<String> sendMessage(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> message);
+	ApiResponse<String> sendMessage(@RequestHeader("Authorization") String memberId, @RequestBody Map<String, Object> message);
+
+	@PostMapping("/dooray/confirm")
+	ApiResponse<String> confirmDormantMember(@RequestHeader("Authorization") String memberId, @RequestBody Map<String, String> request);
+
 }

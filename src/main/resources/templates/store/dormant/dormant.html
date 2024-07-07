@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+
+    <style>
+        body {
+            background-color: #f9f9f9;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .panel-heading {
+            background-color: #337ab7;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px 5px 0 0;
+        }
+        .panel-body {
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            background-color: #337ab7;
+            border-color: #2e6da4;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .btn-primary:hover,
+        .btn-primary:focus {
+            background-color: #286090;
+            border-color: #204d74;
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{layout/store/nav::nav}"></div>
+
+<div class="layout">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">휴면 계정 해지</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form th:action="@{/api/v1/store/dooray/confirm}" method="post">
+                            <div class="form-group">
+                                <label for="authCode">인증 코드</label>
+                                <input type="text" id="authCode" name="authCode" class="form-control" required>
+                                <!-- 백엔드에서 전달받은 memberId를 hidden 필드로 추가 -->
+                                <input type="hidden" th:name="memberId" th:value="${memberId}">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">확인</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/store/footer::footer}"></div>
+</body>
+
+</html>
