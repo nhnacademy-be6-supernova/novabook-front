@@ -32,6 +32,7 @@ public class CurrentMembersArgumentResolver implements HandlerMethodArgumentReso
 		if (request != null) {
 			Long membersId;
 			Cookie[] cookies = request.getCookies();
+			if(cookies == null) return null;
 			for (Cookie cookie : cookies) {
 				if ("Authorization".equals(cookie.getName())) {
 					try {
