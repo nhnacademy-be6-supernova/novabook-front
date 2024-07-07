@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,25 +27,32 @@ import store.novabook.front.api.member.member.dto.response.GetPaycoMembersRespon
 import store.novabook.front.api.member.member.service.MemberAuthClient;
 import store.novabook.front.api.member.member.service.PaycoApiClient;
 import store.novabook.front.api.member.member.service.PaycoLoginClient;
+import store.novabook.front.common.util.KeyManagerUtil;
+import store.novabook.front.common.util.dto.Oauth2Dto;
 
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/oauth2/payco")
 public class PaycoOAuth2Controller {
-
-	@Value("${oauth2.client-id}")
-	private String clientId;
-
-	@Value("${oauth2.client-secret}")
-	private String clientSecret;
-
-	@Value("${oauth2.redirect-uri}")
-	private String redirectUri;
+	private final String clientId;
+	private final String clientSecret;
+	private final String redirectUri;
 
 	private final PaycoLoginClient paycoLoginClient;
 	private final PaycoApiClient paycoApiClient;
 	private final PaycoResponseValidator paycoResponseValidator;
 	private final MemberAuthClient memberAuthClient;
+
+	public PaycoOAuth2Controller(PaycoLoginClient paycoLoginClient, PaycoApiClient paycoApiClient,
+		PaycoResponseValidator paycoResponseValidator, MemberAuthClient memberAuthClient, Environment environment) {
+		this.paycoLoginClient = paycoLoginClient;
+		this.paycoApiClient = paycoApiClient;
+		this.paycoResponseValidator = paycoResponseValidator;
+		this.memberAuthClient = memberAuthClient;
+		Oauth2Dto oauth2Dto = KeyManagerUtil.getOauth2Config(environment);
+		this.clientId = oauth2Dto.clientId();
+		this.clientSecret = oauth2Dto.clientSecret();
+		this.redirectUri = oauth2Dto.redirectUri();
+	}
 
 	@GetMapping
 	public void payco(HttpServletResponse response) {
@@ -86,12 +94,13 @@ public class PaycoOAuth2Controller {
 		GetPaycoMembersRequest getPaycoMembersRequest = GetPaycoMembersRequest.builder()
 			.paycoId(paycoId)
 			.build();
-		ResponseEntity<GetPaycoMembersResponse> paycoMembersResponse = memberAuthClient.paycoLogin(getPaycoMembersRequest);
+		ResponseEntity<GetPaycoMembersResponse> paycoMembersResponse = memberAuthClient.paycoLogin(
+			getPaycoMembersRequest);
 
 		if (!paycoMembersResponse.getStatusCode().is2xxSuccessful()) {
 			return "redirect:/login";
 		}
-		if(paycoMembersResponse.getBody() == null) {
+		if (paycoMembersResponse.getBody() == null) {
 			return "redirect:/login";
 		}
 
