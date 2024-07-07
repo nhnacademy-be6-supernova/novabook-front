@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import store.novabook.front.api.coupon.dto.request.CreateMemberCouponRequest;
 import store.novabook.front.api.coupon.dto.request.DownloadCouponRequest;
 import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateAllResponse;
 import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateAllResponse;
 import store.novabook.front.api.coupon.service.CouponService;
 import store.novabook.front.api.member.member.service.MemberCouponService;
+import store.novabook.front.messaging.dto.DownloadCouponMessageRequest;
 
 @Slf4j
 @RestController
@@ -35,7 +35,7 @@ public class MemberCouponController {
 
 	// 컨트롤러 메소드
 	@PostMapping("/download/limited")
-	public ResponseEntity<Void> downloadLimited(@Valid @RequestBody CreateMemberCouponRequest request) {
+	public ResponseEntity<Void> downloadLimited(@RequestBody @Valid DownloadCouponMessageRequest request) {
 		memberCouponService.downloadLimitedCoupon(request);
 		return ResponseEntity.ok().build();
 	}

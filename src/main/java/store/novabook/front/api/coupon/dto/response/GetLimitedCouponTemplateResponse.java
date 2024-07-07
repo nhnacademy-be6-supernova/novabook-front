@@ -9,7 +9,7 @@ import store.novabook.front.api.coupon.domain.DiscountType;
 /**
  * {@code GetLimitedCouponTemplateResponse} 레코드는 카테고리 쿠폰 템플릿 조회 응답을 나타냅니다.
  *
- * @param quantity          카테고리 ID
+ * @param quantity          수량
  * @param id                쿠폰 템플릿 ID
  * @param type              쿠폰 타입
  * @param name              쿠폰 이름

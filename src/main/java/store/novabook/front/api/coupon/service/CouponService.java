@@ -12,6 +12,7 @@ import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateRespons
 import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateAllResponse;
 import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateResponse;
 import store.novabook.front.api.coupon.dto.response.GetCouponTemplateResponse;
+import store.novabook.front.api.coupon.dto.response.GetLimitedCouponTemplateResponse;
 import store.novabook.front.common.response.PageResponse;
 
 public interface CouponService {
@@ -21,7 +22,7 @@ public interface CouponService {
 
 	PageResponse<GetCouponTemplateResponse> getCouponTemplateAll(CouponType type, Boolean isValid, int page, int size);
 
-	PageResponse<GetCouponTemplateResponse> getLimitedCouponTemplateAll(boolean isValid, int page, int size);
+	PageResponse<GetLimitedCouponTemplateResponse> getLimitedCouponTemplateAll(boolean isValid, int page, int size);
 
 	void createGeneralTemplateCoupon(CreateCouponTemplateRequest request);
 

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.messaging.dto.CreateCouponMessage;
+import store.novabook.front.messaging.dto.DownloadCouponMessageRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -16,10 +16,10 @@ public class CouponSender {
 	@Value("${rabbitmq.exchange.couponOperation}")
 	private String couponOperationExchange;
 
-	@Value("${rabbitmq.routing.couponCreateNormal}")
-	private String couponCreateNormalRoutingKey;
+	@Value("${rabbitmq.routing.couponCreateHighTraffic}")
+	private String couponCreateHighTrafficExchange;
 
-	public void sendToNormalCouponCreateQueue(CreateCouponMessage message) {
-		rabbitTemplate.convertAndSend(couponOperationExchange, couponCreateNormalRoutingKey, message);
+	public void sendToHighTrafficCouponCreateQueue(DownloadCouponMessageRequest message) {
+		rabbitTemplate.convertAndSend(couponOperationExchange, couponCreateHighTrafficExchange, message);
 	}
 }

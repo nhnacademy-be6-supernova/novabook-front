@@ -28,4 +28,12 @@ public class CouponController {
 		model.addAttribute("categoryCouponList", couponService.getCategoryCouponTemplateAll(true, categoryPage, size));
 		return "store/coupon/coupon_book";
 	}
+
+	@GetMapping("/limited")
+	public String getLimitedCouponAll(@RequestParam(defaultValue = DEFAULT_PAGE) int page,
+		@RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int size, Model model) {
+		model.addAttribute("limitedCouponList", couponService.getLimitedCouponTemplateAll(true, page, size));
+		return "store/coupon/limited_coupon_list";
+	}
+
 }

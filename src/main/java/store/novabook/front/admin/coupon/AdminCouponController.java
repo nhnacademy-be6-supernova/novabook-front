@@ -16,7 +16,9 @@ import store.novabook.front.api.coupon.dto.request.CreateBookCouponTemPlateReque
 import store.novabook.front.api.coupon.dto.request.CreateCategoryCouponTemplateRequest;
 import store.novabook.front.api.coupon.dto.request.CreateCouponTemplateRequest;
 import store.novabook.front.api.coupon.dto.request.CreateLimitedCouponTemplateRequest;
+import store.novabook.front.api.coupon.dto.response.GetLimitedCouponTemplateResponse;
 import store.novabook.front.api.coupon.service.CouponService;
+import store.novabook.front.common.response.PageResponse;
 
 @RequestMapping("/admin/coupons")
 @Controller
@@ -41,7 +43,9 @@ public class AdminCouponController {
 			couponService.getCouponTemplateAll(CouponType.GENERAL, false, generalPage, size));
 		model.addAttribute("bookCoupons", couponService.getBookCouponTemplateAll(bookPage, size));
 		model.addAttribute("categoryCoupons", couponService.getCategoryCouponTemplateAll(false, categoryPage, size));
-		model.addAttribute("limitedCoupons", couponService.getLimitedCouponTemplateAll(false, limitedPage, size));
+		PageResponse<GetLimitedCouponTemplateResponse> limitedCouponTemplateAll = couponService.getLimitedCouponTemplateAll(
+			false, limitedPage, size);
+		model.addAttribute("limitedCoupons", limitedCouponTemplateAll);
 
 		return "admin/coupon/coupon_list";
 	}

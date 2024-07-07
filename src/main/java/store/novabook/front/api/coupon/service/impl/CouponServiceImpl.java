@@ -16,6 +16,7 @@ import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateRespons
 import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateAllResponse;
 import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateResponse;
 import store.novabook.front.api.coupon.dto.response.GetCouponTemplateResponse;
+import store.novabook.front.api.coupon.dto.response.GetLimitedCouponTemplateResponse;
 import store.novabook.front.api.coupon.service.CouponService;
 import store.novabook.front.common.response.PageResponse;
 
@@ -41,7 +42,7 @@ public class CouponServiceImpl implements CouponService {
 	}
 
 	@Override
-	public PageResponse<GetCouponTemplateResponse> getLimitedCouponTemplateAll(boolean isValid, int page, int size) {
+	public PageResponse<GetLimitedCouponTemplateResponse> getLimitedCouponTemplateAll(boolean isValid, int page, int size) {
 		return couponClient.getLimitedCouponTemplateAll(isValid, page, size);
 	}
 
