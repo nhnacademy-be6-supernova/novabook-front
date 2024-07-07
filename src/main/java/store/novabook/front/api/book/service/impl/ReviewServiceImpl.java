@@ -13,6 +13,8 @@ import store.novabook.front.api.book.dto.response.GetReviewListResponse;
 import store.novabook.front.api.book.dto.response.GetReviewResponse;
 import store.novabook.front.api.book.service.ReviewClient;
 import store.novabook.front.api.book.service.ReviewService;
+import store.novabook.front.common.exception.ErrorCode;
+import store.novabook.front.common.exception.FeignClientException;
 
 @Service
 @RequiredArgsConstructor
@@ -26,11 +28,7 @@ public class ReviewServiceImpl implements ReviewService {
 			.score(score)
 			.reviewImageDTOs(new ArrayList<>())
 			.build();
-
 		request.setReviewImageDTOs(reviewImages);
-
-
-
 		reviewClient.createReview(request, ordersBookId);
 	}
 

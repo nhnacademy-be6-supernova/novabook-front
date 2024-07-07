@@ -34,7 +34,7 @@ public class FeignClientInterceptor implements RequestInterceptor {
 		Cookie[] cookies = request.getCookies();
 		String access = response.getHeader("access");
 		String refresh = response.getHeader("refresh");
-		if (Objects.nonNull(access)) {
+		if (Objects.nonNull(access) && Objects.nonNull(refresh)) {
 			template.header(AUTHORIZATION, BEARER + " " + access);
 			template.header(REFRESH, BEARER + " " + refresh);
 			refreshTokenContext.setTokenData(null);

@@ -7,6 +7,7 @@ import store.novabook.front.api.book.dto.request.CreateBookRequest;
 import store.novabook.front.api.book.dto.request.UpdateBookRequest;
 import store.novabook.front.api.book.dto.response.GetBookAllResponse;
 import store.novabook.front.api.book.dto.response.GetBookResponse;
+import store.novabook.front.api.book.dto.response.GetBookSearchResponse;
 import store.novabook.front.api.book.service.BookClient;
 import store.novabook.front.api.book.service.BookService;
 import store.novabook.front.common.response.ApiResponse;
@@ -36,5 +37,10 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public void updateBook(UpdateBookRequest updateBookRequest) {
 		bookClient.updateBook(updateBookRequest);
+	}
+
+	@Override
+	public PageResponse<GetBookSearchResponse> getBookSearchAllPage(int page, int size, String sort) {
+		return null;
 	}
 }
