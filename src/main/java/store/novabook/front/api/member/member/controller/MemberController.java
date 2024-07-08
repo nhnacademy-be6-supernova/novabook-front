@@ -32,8 +32,11 @@ public class MemberController {
 	@PostMapping("/login")
 	public String login(@Valid @ModelAttribute LoginMembersRequest loginMembersRequest,
 		HttpServletResponse response) {
-		memberService.login(loginMembersRequest, response);
-		return "redirect:/";
+		// try {
+		//
+		// }catch (Exception e) {
+		// }
+		return memberService.login(loginMembersRequest, response);
 	}
 
 	@PostMapping("/payco/link/login")

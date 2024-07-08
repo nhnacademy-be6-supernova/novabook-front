@@ -21,9 +21,9 @@ public class FeignClientInterceptor implements RequestInterceptor {
 	private final HttpServletResponse response;
 	private final RefreshTokenContext refreshTokenContext;
 
-	private final String AUTHORIZATION = "Authorization";
-	private final String REFRESH = "Refresh";
-	private final String BEARER = "Bearer";
+	private static final String AUTHORIZATION = "Authorization";
+	private static final String REFRESH = "Refresh";
+	private static final String BEARER = "Bearer";
 
 	@Override
 	public void apply(RequestTemplate template) {
