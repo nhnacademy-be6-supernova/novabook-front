@@ -14,6 +14,7 @@ import store.novabook.front.api.coupon.domain.CouponType;
 import store.novabook.front.api.coupon.dto.request.CreateBookCouponTemPlateRequest;
 import store.novabook.front.api.coupon.dto.request.CreateCategoryCouponTemplateRequest;
 import store.novabook.front.api.coupon.dto.request.CreateCouponTemplateRequest;
+import store.novabook.front.api.coupon.dto.request.CreateLimitedCouponTemplateRequest;
 import store.novabook.front.api.coupon.dto.request.GetCouponAllRequest;
 import store.novabook.front.api.coupon.dto.response.CreateCouponResponse;
 import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateAllResponse;
@@ -22,6 +23,7 @@ import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateAll
 import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateResponse;
 import store.novabook.front.api.coupon.dto.response.GetCouponAllResponse;
 import store.novabook.front.api.coupon.dto.response.GetCouponTemplateResponse;
+import store.novabook.front.api.coupon.dto.response.GetLimitedCouponTemplateResponse;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
 
@@ -55,6 +57,10 @@ public interface CouponClient {
 	PageResponse<GetBookCouponTemplateResponse> getBookCouponTemplateAll(@RequestParam int page,
 		@RequestParam int size);
 
+	@GetMapping("/templates/limited")
+	PageResponse<GetLimitedCouponTemplateResponse> getLimitedCouponTemplateAll(@RequestParam boolean isValid,
+		@RequestParam int page, @RequestParam int size);
+
 	/**
 	 * 모든 카테고리 쿠폰 템플릿을 조회합니다.
 	 *
@@ -74,6 +80,10 @@ public interface CouponClient {
 	 */
 	@PostMapping("/templates")
 	ApiResponse<CreateCouponResponse> createCouponTemplate(@RequestBody CreateCouponTemplateRequest request);
+
+	@PostMapping("/templates/limited")
+	ApiResponse<CreateCouponResponse> createLimitedCouponTemplate(
+		@RequestBody CreateLimitedCouponTemplateRequest request);
 
 	/**
 	 * 책 쿠폰 템플릿을 생성합니다.
@@ -101,7 +111,7 @@ public interface CouponClient {
 	 * @param isValid        유효성 여부
 	 * @return 조회된 카테고리 쿠폰 템플릿의 응답
 	 */
-	@GetMapping(value = "/api/v1/coupon/templates/category/categories", params = "categoryIdList")
+	@GetMapping(value = "/templates/category/categories", params = "categoryIdList")
 	GetCategoryCouponTemplateAllResponse getCategoryCouponTemplateAllByCategoryIdAll(
 		@RequestParam("categoryIdList") List<Long> categoryIdList, @RequestParam("isValid") boolean isValid);
 
@@ -111,4 +121,5 @@ public interface CouponClient {
 
 	@PostMapping("/coupons/sufficient")
 	ApiResponse<GetCouponAllResponse> getSufficientCouponAll(@Valid @RequestBody GetCouponAllRequest request);
+
 }

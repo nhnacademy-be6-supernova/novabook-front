@@ -28,18 +28,19 @@
         .bookmark-tabs > .tab {
             cursor: pointer;
             padding: 10px 15px; /* 조정된 너비 */
-            background-color: #f5f5f5;
+            background-color: #fff;
             border: 1px solid #ccc;
             border-bottom: none;
             border-radius: 4px 4px 0 0;
             transition: background-color 0.3s;
             flex: 1; /* 동일한 너비를 가지도록 설정 */
             text-align: center; /* 가운데 정렬 */
+            border-bottom: 2px solid #017DC1;
         }
 
         .bookmark-tabs > .tab.active {
-            background-color: #fff;
-            border-bottom: 2px solid #017DC1;
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
         }
 
         .tab-content {
@@ -231,8 +232,14 @@
     };
 
     function openTab(tabName) {
+        // 탭 버튼의 활성화 상태를 업데이트
+        $('.bookmark-tabs .tab').removeClass('active');
+        $('.tab-' + tabName).addClass('active');
+
+        // 탭 콘텐츠의 활성화 상태를 업데이트
         $('.tab-content .tab-pane').removeClass('active');
         $('#' + tabName).addClass('active');
+
         loadCoupons(tabName, currentPage[tabName]);
     }
 

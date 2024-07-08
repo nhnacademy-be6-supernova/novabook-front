@@ -7,6 +7,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import store.novabook.front.api.member.member.domain.Member;
 import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
 import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
 import store.novabook.front.api.member.member.dto.request.CreateMemberRequest;
@@ -46,7 +47,7 @@ public class MemberServiceImpl implements MemberService {
 			.birthDay(createMemberRequest.birthDay())
 			.address(createMemberRequest.address())
 			.build();
-		ApiResponse<CreateMemberResponse> createMemberResponse = memberClient.createMember(newMemberRequest);
+  		ApiResponse<CreateMemberResponse> createMemberResponse = memberClient.createMember(newMemberRequest);
 		return createMemberResponse.getBody();
 	}
 

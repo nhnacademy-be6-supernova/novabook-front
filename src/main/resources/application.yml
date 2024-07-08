@@ -1,0 +1,81 @@
+spring:
+  application:
+    name: novabook_front
+  thymeleaf:
+    prefix: classpath:/templates/
+
+# Feign client url
+  cloud:
+    openfeign:
+      client:
+        config:
+          couponClient:
+            url: http://localhost:9777/api/v1/coupon
+          categoryClient:
+            url: http://localhost:9777/api/v1/store/categories
+          storeBookClient:
+            url: http://localhost:9777/api/v1/store/books
+          bookLikeClient:
+            url: http://localhost:9777/api/v1/store/books/likes
+          reviewClient:
+            url: http://localhost:9777/api/v1/store/reviews
+          searchBookClient:
+            url: http://localhost:9777/api/v1/store/search
+          orderClient:
+            url: http://localhost:9777/api/v1/store/order
+          deliveryClient:
+            url: http://localhost:9777/api/v1/store/orders/delivery-fee
+          wrappingPaperClient:
+            url: http://localhost:9777/api/v1/store/orders/wrapping-papers
+          ordersBookClient:
+            url: http://localhost:9777/api/v1/store/orders/book
+          memberClient:
+            url: http://localhost:9777/api/v1/store/members
+          memberAddressClient:
+            url: http://localhost:9777/api/v1/store/addresses
+          memberGradeClient:
+            url: http://localhost:9777/api/v1/store/members/grade
+          memberAuthClient:
+            url: http://localhost:9777/auth
+          memberCouponClient:
+            url: http://localhost:9777/api/v1/store/members/coupons
+          tagClient:
+            url: http://localhost:9777/api/v1/store/tags
+          pointPolicyClient:
+            url: http://localhost:9777/api/v1/store/point/policies
+          doorayHookClient:
+            url:http://localhost:9777/api/v1/store/dooray
+          pointHistoryClient:
+            url: http://localhost:9777/api/v1/store/point/histories
+          pointClient:
+            url: http://localhost:9777/api/v1/store/point/histories
+          cartClient:
+            url: http://localhost:9777/api/v1/store/carts
+
+# RabbitMQ config
+  rabbitmq:
+    listener:
+      simple:
+        acknowledge-mode: auto
+        retry:
+          enabled: true
+          initial-interval: 3000
+          max-interval: 10000
+          max-attempts: 3
+          multiplier: 2.0
+
+rabbitmq:
+  queue:
+    couponCreateNormal: nova.coupon.create.normal.queue
+    couponCreateHighTraffic: nova.coupon.create.hightraffic.queue
+    couponRegisterNormal: nova.coupon.register.normal.queue
+    couponRegisterHighTraffic: nova.coupon.register.hightraffic.queue
+    deadLetter: nova.coupon.deadletter.queue
+  exchange:
+    couponOperation: nova.coupon.operation.exchange
+    deadLetter: nova.coupon.deadletter.exchange
+  routing:
+    couponCreateNormal: coupon.create.normal
+    couponCreateHighTraffic: coupon.create.hightraffic
+    couponRegisterNormal: coupon.register.normal
+    couponRegisterHighTraffic: coupon.register.hightraffic
