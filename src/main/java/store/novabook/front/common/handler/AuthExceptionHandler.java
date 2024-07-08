@@ -15,6 +15,7 @@ import feign.FeignException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import store.novabook.front.common.exception.SeeOtherException;
 import store.novabook.front.common.security.RefreshTokenContext;
 import store.novabook.front.common.security.exception.InternalServerErrorException;
 
@@ -55,7 +56,7 @@ public class AuthExceptionHandler {
 		return hasAuthorization && hasRefresh;
 	}
 
-	@ExceptionHandler({NullPointerException.class, InternalServerErrorException.class})
+	@ExceptionHandler({NullPointerException.class, InternalServerErrorException.class, SeeOtherException.class, FeignException.InternalServerError.class})
 	public void handleNullPointerException(NullPointerException ex, WebRequest request) {
 		if (Objects.nonNull(refreshTokenContext.getUri()) && Objects.nonNull(refreshTokenContext.getTokenData())) {
 			return;
