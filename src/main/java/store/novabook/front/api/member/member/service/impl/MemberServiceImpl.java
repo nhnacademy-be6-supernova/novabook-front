@@ -57,19 +57,19 @@ public class MemberServiceImpl implements MemberService {
 			return "";
 		}
 
-		// GetMembersStatusRequest getMembersStatusRequest = new GetMembersStatusRequest(
-		// 	loginMembersResponse.getBody().accessToken());
-		// ResponseEntity<GetMembersStatusResponse> status = memberAuthClient.status(getMembersStatusRequest);
-		// if (!status.getStatusCode().is2xxSuccessful() || status.getBody() == null) {
-		// 	return "";
-		// }
-		// if(status.getBody().memberStatusId() == 2) {
-		// 	Cookie uuidCookie = new Cookie("UUID", status.getBody().uuid());
-		// 	uuidCookie.setMaxAge(60 * 60 * 24 * 7);
-		// 	uuidCookie.setPath("novabook");
-		// 	response.addCookie(uuidCookie);
-		// 	return "redirect:/login";
-		// }
+		GetMembersStatusRequest getMembersStatusRequest = new GetMembersStatusRequest(
+			loginMembersResponse.getBody().accessToken());
+		ResponseEntity<GetMembersStatusResponse> status = memberAuthClient.status(getMembersStatusRequest);
+		if (!status.getStatusCode().is2xxSuccessful() || status.getBody() == null) {
+			return "";
+		}
+		if(status.getBody().memberStatusId() == 2) {
+			Cookie uuidCookie = new Cookie("UUID", status.getBody().uuid());
+			uuidCookie.setMaxAge(60 * 60 * 24 * 7);
+			uuidCookie.setPath("/");
+			response.addCookie(uuidCookie);
+			return "redirect:/login";
+		}
 
 		String authorization = loginMembersResponse.getBody().accessToken();
 		String refresh = loginMembersResponse.getBody().refreshToken();
