@@ -44,7 +44,7 @@ spring:
           pointPolicyClient:
             url: http://localhost:9777/api/v1/store/point/policies
           doorayHookClient:
-            url:http://localhost:9777/api/v1/store/dooray
+            url: http://localhost:9777/api/v1/store/dooray
           pointHistoryClient:
             url: http://localhost:9777/api/v1/store/point/histories
           pointClient:
