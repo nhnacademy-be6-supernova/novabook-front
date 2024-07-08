@@ -20,6 +20,7 @@ package store.novabook.front.common.exception;
  */
 public enum ErrorCode {
 
+	SEE_OTHER("SEE OTHER"),
 	// 400
 	INVALID_REQUEST_ARGUMENT("잘못된 요청입니다."),
 	INVALID_ARGUMENT_TYPE("유효하지 않은 타입입니다."),
@@ -80,15 +81,13 @@ public enum ErrorCode {
 	ALREADY_USED_COUPON("이미 사용된 쿠폰입니다."),
 	COUPON_ALREADY_EXIST("이미 다운받은 쿠폰입니다."),
 
+
 	// 404
 	COUPON_NOT_FOUND("해당 쿠폰이 존재하지 않습니다."),
 	BOOK_COUPON_NOT_FOUND("해당 도서에 대한 쿠폰이 존재하지 않습니다."),
 	CATEGORY_COUPON_NOT_FOUND("해당 카테고리에 대한 쿠폰이 존재하지 않습니다."),
-	COUPON_TEMPLATE_NOT_FOUND("해당 쿠폰 템플릿이 존재하지 않습니다."),
+	COUPON_TEMPLATE_NOT_FOUND("해당 쿠폰 템플릿이 존재하지 않습니다.");
 
-
-
-	;
 
 	private final String message;
 
