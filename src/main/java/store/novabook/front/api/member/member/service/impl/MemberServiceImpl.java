@@ -68,7 +68,7 @@ public class MemberServiceImpl implements MemberService {
 			uuidCookie.setMaxAge(60 * 60 * 24 * 7);
 			uuidCookie.setPath("/");
 			response.addCookie(uuidCookie);
-			return "redirect:/login";
+			return "redirect:/dormant";
 		}
 
 		String authorization = loginMembersResponse.getBody().accessToken();
