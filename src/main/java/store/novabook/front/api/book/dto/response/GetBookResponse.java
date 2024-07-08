@@ -23,6 +23,7 @@ public record GetBookResponse(
 	List<String> categories,
 	int likes,
 	int score,
-	String image
+	String image,
+	Long bookStatusId
 ) {
 }
