@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕 - 쿠폰 다운로드</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <!-- Custom Stylesheet for Coupon Page -->
+
+    <style>
+        /* coupon.css */
+
+        .coupon-wrapper {
+            margin: 50px auto;
+            max-width: 800px;
+            padding: 30px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .coupon-wrapper:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .coupon-wrapper h2 {
+            font-size: 26px;
+            color: #017DC1;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .coupon-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .coupon-list li {
+            border: 1px solid #ddd;
+            border-radius: 12px; /* 크기를 키우기 위해 더 큰 border-radius 설정 */
+            padding: 25px; /* 내부 여백을 더 넓게 설정 */
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 적용 */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+
+        .coupon-list li:hover {
+            transform: scale(1.02);
+        }
+
+        .coupon-name {
+            font-size: 22px; /* 쿠폰 코드의 크기를 조정 */
+            font-weight: bold;
+            color: #017DC1;
+        }
+
+        .coupon-discount {
+            font-size: 22px;
+            font-weight: bold;
+            color: #8f8f8f;
+        }
+
+        .coupon-meta {
+            font-size: 16px; /* 유효기간 텍스트 크기 조정 */
+            color: #666;
+        }
+
+        .coupon-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .coupon-actions button {
+            display: inline-block;
+            background-color: #017DC1;
+            color: #fff;
+            text-decoration: none;
+            padding: 14px 24px; /* 버튼의 패딩을 크게 설정 */
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .coupon-actions button i {
+            margin-right: 5px;
+        }
+
+        .coupon-actions button:hover {
+            background-color: #015B87;
+        }
+    </style>
+
+</head>
+
+<body>
+<div th:replace="~{layout/store/nav::nav}"></div>
+
+
+<div class="layout">
+    <div class="container">
+        <div class="coupon-wrapper">
+            <h2>쿠폰 다운로드</h2>
+            <ul class="coupon-list">
+                <th:block th:each="coupon : ${generalCouponList.getData()}">
+                    <li>
+                        <div class="coupon-details">
+                            <div class="coupon-name" th:text="${coupon.name()}">쿠폰 이름</div>
+                            <div class="coupon-meta">
+                                <span th:text="'최소구매금액: ' + ${coupon.minPurchaseAmount} + '원'">최소구매금액: 10000원</span> |
+                                <span th:text="'최대할인금액: ' + ${coupon.maxDiscountAmount} + '원'">최대할인금액: 5000원</span> <br>
+                                <span th:text="'유효기간: ' + ${coupon.startedAt} + ' ~ ' + ${coupon.expirationAt}">유효기간: 2024년 1월 1일 ~ 2024년 12월 31일</span>
+                            </div>
+                        </div>
+
+                        <div class="coupon-actions">
+                            <div class="coupon-discount"
+                                 th:text="${coupon.discountAmount} + (coupon.discountType == 'PERCENT' ? '%' : '원')"></div>
+                            <button type="button"
+                                    th:attr="data-coupon-type=${coupon.type}, data-coupon-id=${coupon.id}"
+                                    onclick="subscribeSse(this)">
+                                <i class="fa fa-download"></i> 다운로드
+                            </button>
+                        </div>
+
+                    </li>
+                </th:block>
+            </ul>
+            <!-- 페이져블 JS 추가 -->
+            <div class="pagination">
+                <!-- Previous button -->
+                <li class="page-item" th:classappend="${generalCouponList.getPageNum() == 0} ? 'disabled'">
+                    <a th:if="${generalCouponList.getPageNum() > 0}"
+                       th:href="@{/coupons(generalPage=${generalCouponList.getPageNum() - 1},categoryPage=${categoryCouponList.getPageNum()} )}">Previous</a>
+                    <span th:if="${generalCouponList.getPageNum() == 0}">Previous</span>
+                </li>
+
+                <!-- Page numbers -->
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, generalCouponList.getTotalPageCount() - 1)}">
+                    <a th:href="@{/coupons(generalPage=${i}, categoryPage=${categoryCouponList.getPageNum()})}"
+                       th:text="${i + 1}+'&nbsp;'"
+                       th:classappend="${i == generalCouponList.getPageNum()} ? 'active' : ''"></a>
+                </li>
+
+                <!-- Next button -->
+                <li class="page-item"
+                    th:classappend="${generalCouponList.getPageNum() >= generalCouponList.getTotalPageCount() - 1} ? 'disabled'">
+                    <a th:if="${generalCouponList.getPageNum() < generalCouponList.getTotalPageCount() - 1}"
+                       th:href="@{/couons(generalPage=${generalCouponList.getPageNum() + 1}, categoryPage=${categoryCouponList.getPageNum()})}">Next</a>
+                    <span th:if="${generalCouponList.getPageNum() >= generalCouponList.getTotalPageCount() - 1}">Next</span>
+                </li>
+            </div>
+        </div>
+
+        <div class="coupon-wrapper">
+            <h2>카테고리 쿠폰 다운로드</h2>
+            <ul class="coupon-list">
+                <th:block th:each="coupon : ${categoryCouponList.getData()}">
+                    <li>
+                        <div class="coupon-details">
+                            <div class="coupon-name" th:text="${coupon.name()}">쿠폰 이름</div>
+                            <div class="coupon-meta">
+                                <span th:text="'최소구매금액: ' + ${coupon.minPurchaseAmount} + '원'">최소구매금액: 10000원</span> |
+                                <span th:text="'최대할인금액: ' + ${coupon.maxDiscountAmount} + '원'">최대할인금액: 5000원</span> <br>
+                                <span th:text="'유효기간: ' + ${coupon.startedAt} + ' ~ ' + ${coupon.expirationAt}">유효기간: 2024년 1월 1일 ~ 2024년 12월 31일</span>
+                            </div>
+                        </div>
+
+                        <div class="coupon-actions">
+                            <div class="coupon-discount"
+                                 th:text="${coupon.discountAmount} + (coupon.discountType == 'PERCENT' ? '%' : '원')"></div>
+                            <button type="button"
+                                    th:attr="data-coupon-type=${coupon.type}, data-coupon-id=${coupon.id}"
+                                    onclick="subscribeSse(this)">
+                                <i class="fa fa-download"></i> 다운로드
+                            </button>
+                        </div>
+                    </li>
+                </th:block>
+            </ul>
+            <!-- 페이져블 JS 추가 -->
+            <div class="pagination">
+                <!-- Previous button -->
+                <li class="page-item" th:classappend="${categoryCouponList.getPageNum() == 0} ? 'disabled'">
+                    <a th:if="${categoryCouponList.getPageNum() > 0}"
+                       th:href="@{/coupons(categoryPage=${categoryCouponList.getPageNum() - 1},generalPage=${generalCouponList.getPageNum()} )}">Previous</a>
+                    <span th:if="${categoryCouponList.getPageNum() == 0}">Previous</span>
+                </li>
+
+                <!-- Page numbers -->
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, categoryCouponList.getTotalPageCount() - 1)}">
+                    <a th:href="@{/coupons(categoryPage=${i},generalPage=${generalCouponList.getPageNum()})}"
+                       th:text="${i + 1}+'&nbsp;'"
+                       th:classappend="${i == categoryCouponList.getPageNum()} ? 'active' : ''"></a>
+                </li>
+
+                <!-- Next button -->
+                <li class="page-item"
+                    th:classappend="${categoryCouponList.getPageNum() >= categoryCouponList.getTotalPageCount() - 1} ? 'disabled'">
+                    <a th:if="${categoryCouponList.getPageNum() < categoryCouponList.getTotalPageCount() - 1}"
+                       th:href="@{/coupons(categoryPage=${categoryCouponList.getPageNum() + 1},generalPage=${generalCouponList.getPageNum()})}">Next</a>
+                    <span th:if="${categoryCouponList.getPageNum() >= categoryCouponList.getTotalPageCount() - 1}">Next</span>
+                </li>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="~{layout/store/footer::footer}"></div>
+
+<script>
+    async function subscribeSse(button) {
+        // 이벤트 전파를 막기 위해 기본 동작을 방지
+        const couponType = button.getAttribute('data-coupon-type');
+        const couponTemplateId = button.getAttribute('data-coupon-id');
+        button.disabled = true;
+
+        try {
+            // 특정한 값을 가져오는 요청
+            const response = await fetch(`/api/v1/front/members/login-id/current`, {
+                method: 'GET',
+            });
+
+            const memberId = await response.json();
+            console.log("{}", memberId);
+            // SSE 구독
+            const eventSource = new EventSource(`/notifications/subscribe?clientId=${memberId}`);
+
+            eventSource.addEventListener('message', function (event) {
+                alert(event.data);
+                eventSource.close();
+            });
+
+            eventSource.addEventListener('error', function (event) {
+                console.error('EventSource failed:', event);
+                eventSource.close();
+            });
+
+            const message = {
+                memberId: memberId,
+                couponType: couponType,
+                couponTemplateId: couponTemplateId
+            };
+
+            // 쿠폰 다운로드 요청 전송
+            await fetch(`/coupons/message/download/limited`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(message)
+            });
+        } catch (error) {
+            alert('로그인이 필요합니다.');
+            console.error('Failed to fetch memberId or process request:', error);
+            button.disabled = false;
+        }
+
+        return false; // 기본 동작을 막기 위해 false 반환
+    }
+</script>
+
+
+</body>
+
+</html>

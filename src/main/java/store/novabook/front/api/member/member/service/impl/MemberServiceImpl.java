@@ -3,6 +3,7 @@ package store.novabook.front.api.member.member.service.impl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,12 +11,14 @@ import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
 import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
 import store.novabook.front.api.member.member.dto.request.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.request.DeleteMemberRequest;
-import store.novabook.front.api.member.member.dto.request.LoginMemberRequest;
+import store.novabook.front.api.member.member.dto.request.GetMembersStatusResponse;
+import store.novabook.front.api.member.member.dto.request.LoginMembersRequest;
 import store.novabook.front.api.member.member.dto.request.UpdateMemberPasswordRequest;
 import store.novabook.front.api.member.member.dto.request.UpdateMemberRequest;
 import store.novabook.front.api.member.member.dto.response.CreateMemberResponse;
 import store.novabook.front.api.member.member.dto.response.GetMemberResponse;
-import store.novabook.front.api.member.member.dto.response.LoginMemberResponse;
+import store.novabook.front.api.member.member.dto.response.GetMembersStatusRequest;
+import store.novabook.front.api.member.member.dto.response.LoginMembersResponse;
 import store.novabook.front.api.member.member.service.MemberAuthClient;
 import store.novabook.front.api.member.member.service.MemberClient;
 import store.novabook.front.api.member.member.service.MemberService;
@@ -48,21 +51,57 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public LoginMemberResponse getMember(@Valid LoginMemberRequest loginMemberRequest, HttpServletResponse response) {
-		ResponseEntity<LoginMemberResponse> tokenDtoApiResponse = memberAuthClient.login(loginMemberRequest);
+	public String login(@Valid LoginMembersRequest loginMembersRequest, HttpServletResponse response) {
+		ResponseEntity<LoginMembersResponse> loginMembersResponse = memberAuthClient.login(loginMembersRequest);
+		if (!loginMembersResponse.getStatusCode().is2xxSuccessful() || loginMembersResponse.getBody() == null) {
+			return "";
+		}
 
-		// 헤더 설정
-		response.setHeader("Authorization", tokenDtoApiResponse.getHeaders().getFirst("Authorization"));
-		response.setHeader("Refresh", tokenDtoApiResponse.getHeaders().getFirst("Refresh"));
+		GetMembersStatusRequest getMembersStatusRequest = new GetMembersStatusRequest(
+			loginMembersResponse.getBody().accessToken());
+		ResponseEntity<GetMembersStatusResponse> status = memberAuthClient.status(getMembersStatusRequest);
+		if (!status.getStatusCode().is2xxSuccessful() || status.getBody() == null) {
+			return "";
+		}
+		if(status.getBody().memberStatusId() == 2) {
+			Cookie uuidCookie = new Cookie("UUID", status.getBody().uuid());
+			uuidCookie.setMaxAge(60 * 60 * 24 * 7);
+			uuidCookie.setPath("/");
+			response.addCookie(uuidCookie);
+			return "redirect:/dormant";
+		}
 
-		return tokenDtoApiResponse.getBody();
+		String authorization = loginMembersResponse.getBody().accessToken();
+		String refresh = loginMembersResponse.getBody().refreshToken();
+
+		if (authorization != null && !authorization.isEmpty()) {
+			String accessToken = authorization.replace("Bearer ", "");
+			String refreshToken = refresh.replace("Bearer ", "");
+
+			Cookie accessCookie = new Cookie("Authorization", accessToken);
+			accessCookie.setMaxAge(60 * 60 * 24 * 7);
+			accessCookie.setPath("/");
+			// accessCookie.setDomain("novabook");
+
+			response.addCookie(accessCookie);
+
+			Cookie refreshCookie = new Cookie("Refresh", refreshToken);
+			refreshCookie.setMaxAge(60 * 60 * 24 * 7);
+			refreshCookie.setPath("/");
+			// refreshCookie.setDomain("novabook");
+			response.addCookie(refreshCookie);
+
+		} else {
+			throw new RuntimeException("로그인 실패");
+		}
+
+		return "redirect:/";
 	}
 
 	@Override
 	public void logout() {
 		memberAuthClient.logout();
 	}
-
 
 	@Override
 	public GetMemberResponse getMemberById() {
@@ -86,7 +125,9 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public GetNewTokenResponse newToken(GetNewTokenRequest getNewTokenRequest) {
-		return memberAuthClient.newToken(getNewTokenRequest).getBody();
+		ResponseEntity<GetNewTokenResponse> getNewTokenResponseResponseEntity = memberAuthClient.newToken(
+			getNewTokenRequest);
+		return getNewTokenResponseResponseEntity.getBody();
 
 	}
 

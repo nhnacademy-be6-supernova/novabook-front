@@ -49,14 +49,14 @@ public class NewTokenController {
 	private final MemberService memberService;
 
 	@GetMapping("/new-token")
-	public String getNewToken(HttpServletResponse response, HttpServletRequest request) {
+	public void getNewToken(HttpServletRequest request) {
 		String refresh = request.getHeader("Refresh");
 		GetNewTokenRequest getNewTokenRequest = new GetNewTokenRequest(refresh);
 		GetNewTokenResponse getNewTokenResponse = memberService.newToken(getNewTokenRequest);
 
 		refreshTokenContext.setTokenData(getNewTokenResponse.accessToken());
+		refreshTokenContext.setRefreshToken(refresh);
 
-		return null;
 	}
 
 	private Map<String, String> parseRequestInfo(String originalRequestInfo) {

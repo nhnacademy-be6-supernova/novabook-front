@@ -1,11 +1,11 @@
 package store.novabook.front.api.member.member.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 
-public record LoginMemberRequest(
+@Builder
+public record GetPaycoMembersRequest(
 	@NotBlank
-	String loginId,
-	@NotBlank
-	String loginPassword) {
+	String paycoId
+) {
 }
-

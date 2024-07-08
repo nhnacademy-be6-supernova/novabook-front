@@ -136,7 +136,7 @@
                             <div class="coupon-discount"
                                  th:text="${coupon.discountAmount} + (coupon.discountType == 'PERCENT' ? '%' : '원')"></div>
                             <button type="button"
-                                    th:attr="data-coupon-type=${coupon.type}, data-coupon-id=${coupon.id}"
+                                    th:attr="data-coupon-id=${coupon.id}"
                                     onclick="subscribeSse(this)">
                                 <i class="fa fa-download"></i> 다운로드
                             </button>
@@ -189,7 +189,7 @@
                             <div class="coupon-discount"
                                  th:text="${coupon.discountAmount} + (coupon.discountType == 'PERCENT' ? '%' : '원')"></div>
                             <button type="button"
-                                    th:attr="data-coupon-type=${coupon.type}, data-coupon-id=${coupon.id}"
+                                    th:attr="data-coupon-id=${coupon.id}"
                                     onclick="subscribeSse(this)">
                                 <i class="fa fa-download"></i> 다운로드
                             </button>
@@ -224,63 +224,24 @@
         </div>
     </div>
 </div>
-
-
 <div th:replace="~{layout/store/footer::footer}"></div>
-
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    async function subscribeSse(button) {
-        // 이벤트 전파를 막기 위해 기본 동작을 방지
-        const couponType = button.getAttribute('data-coupon-type');
-        const couponTemplateId = button.getAttribute('data-coupon-id');
-        button.disabled = true;
+    function subscribeSse(button) {
+        const couponId = button.getAttribute('data-coupon-id');
 
-        try {
-            // 특정한 값을 가져오는 요청
-            const response = await fetch(`/api/v1/front/members/login-id/current`, {
-                method: 'GET',
+        axios.post('/coupons/download', {
+            couponTemplateId: couponId
+        })
+            .then(response => {
+                const message = response.data.message;
+                alert(message);
+            })
+            .catch(error => {
+                console.error('There was an error downloading the coupon!', error);
+                alert('쿠폰 다운로드 실패: 서버 오류가 발생했습니다.');
             });
-
-            const memberId = await response.json();
-            console.log("{}", memberId);
-            // SSE 구독
-            const eventSource = new EventSource(`/notifications/subscribe?clientId=${memberId}`);
-
-            eventSource.addEventListener('message', function (event) {
-                alert(event.data);
-                eventSource.close();
-            });
-
-            eventSource.addEventListener('error', function (event) {
-                console.error('EventSource failed:', event);
-                eventSource.close();
-            });
-
-            const message = {
-                memberId: memberId,
-                couponType: couponType,
-                couponTemplateId: couponTemplateId
-            };
-
-            // 쿠폰 다운로드 요청 전송
-            await fetch(`/coupons/message/download`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(message)
-            });
-        } catch (error) {
-            alert('로그인이 필요합니다.');
-            console.error('Failed to fetch memberId or process request:', error);
-            button.disabled = false;
-        }
-
-        return false; // 기본 동작을 막기 위해 false 반환
     }
 </script>
-
-
-</body>
-
 </html>

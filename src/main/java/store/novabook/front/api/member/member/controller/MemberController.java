@@ -1,8 +1,6 @@
 package store.novabook.front.api.member.member.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,11 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.dto.request.CreateMemberRequest;
-import store.novabook.front.api.member.member.dto.request.LoginMemberRequest;
-import store.novabook.front.api.member.member.dto.response.LoginMemberResponse;
+import store.novabook.front.api.member.member.dto.request.LoginMembersRequest;
 import store.novabook.front.api.member.member.service.MemberService;
-import store.novabook.front.common.security.exception.AlreadyLoginException;
-import store.novabook.front.common.security.exception.NotLoginException;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,36 +30,20 @@ public class MemberController {
 	}
 
 	@PostMapping("/login")
-	public String login(@ModelAttribute LoginMemberRequest loginMemberRequest,
-		Model model,
-		HttpServletRequest request,
+	public String login(@Valid @ModelAttribute LoginMembersRequest loginMembersRequest,
 		HttpServletResponse response) {
+		// try {
+		//
+		// }catch (Exception e) {
+		// }
+		return memberService.login(loginMembersRequest, response);
+	}
 
-		LoginMemberResponse loginMemberResponse = memberService.getMember(loginMemberRequest, response);
-		String authorization = response.getHeader("Authorization");
-		String refresh = response.getHeader("Refresh");
-
-		if (authorization != null && !authorization.isEmpty()) {
-			String accessToken = authorization.replace("Bearer ", "");
-			String refreshToken = refresh.replace("Bearer ", "");
-
-			Cookie accessCookie = new Cookie("Authorization", accessToken);
-			accessCookie.setMaxAge(60 * 60 * 24 * 7);
-			accessCookie.setPath("/");
-			response.addCookie(accessCookie);
-
-			Cookie refreshCookie = new Cookie("Refresh", refreshToken);
-			refreshCookie.setMaxAge(60 * 60 * 24 * 7);
-			refreshCookie.setPath("/");
-			response.addCookie(refreshCookie);
-
-			if (loginMemberResponse.token().isEmpty()) {
-				return "redirect:/login";
-			} else {
-				return "redirect:/";
-			}
-		}
-		return authorization;
+	@PostMapping("/payco/link/login")
+	public String paycoLinkLogin(@ModelAttribute LoginMembersRequest loginMembersRequest,
+		HttpServletResponse response) {
+		memberService.login(loginMembersRequest, response);
+		return "redirect:/";
 	}
 
 	@PostMapping("/logout")

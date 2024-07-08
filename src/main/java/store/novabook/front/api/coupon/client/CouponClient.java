@@ -63,8 +63,8 @@ public interface CouponClient {
 	 * @return 페이지 응답 객체
 	 */
 	@GetMapping("/templates/category")
-	PageResponse<GetCategoryCouponTemplateResponse> getCategoryCouponTemplateAll(@RequestParam boolean isValid,
-		@RequestParam int page, @RequestParam int size);
+	PageResponse<GetCategoryCouponTemplateResponse> getCategoryCouponTemplateAll(
+		@RequestParam(defaultValue = "true") boolean isValid, @RequestParam int page, @RequestParam int size);
 
 	/**
 	 * 일반 쿠폰 템플릿을 생성합니다.
@@ -110,6 +110,5 @@ public interface CouponClient {
 		@RequestParam(defaultValue = "true") boolean isValid);
 
 	@PostMapping("/coupons/sufficient")
-	ApiResponse<GetCouponAllResponse> getSufficientCouponAll(
-		@Valid @RequestBody GetCouponAllRequest request);
+	ApiResponse<GetCouponAllResponse> getSufficientCouponAll(@Valid @RequestBody GetCouponAllRequest request);
 }

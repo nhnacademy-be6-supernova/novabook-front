@@ -5,17 +5,16 @@ import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
 import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
 import store.novabook.front.api.member.member.dto.request.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.request.DeleteMemberRequest;
-import store.novabook.front.api.member.member.dto.request.LoginMemberRequest;
+import store.novabook.front.api.member.member.dto.request.LoginMembersRequest;
 import store.novabook.front.api.member.member.dto.request.UpdateMemberPasswordRequest;
 import store.novabook.front.api.member.member.dto.request.UpdateMemberRequest;
 import store.novabook.front.api.member.member.dto.response.CreateMemberResponse;
 import store.novabook.front.api.member.member.dto.response.GetMemberResponse;
-import store.novabook.front.api.member.member.dto.response.LoginMemberResponse;
 
 public interface MemberService {
 	CreateMemberResponse createMember(CreateMemberRequest createMemberRequest);
 
-	LoginMemberResponse getMember(LoginMemberRequest loginMemberRequest, HttpServletResponse response);
+	String login(LoginMembersRequest loginMembersRequest, HttpServletResponse response);
 
 	GetMemberResponse getMemberById();
 

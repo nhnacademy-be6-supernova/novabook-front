@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.common.interceptor.FeignClientInterceptor;
+import store.novabook.front.common.response.decorder.NovaErrorDecoder;
 import store.novabook.front.common.security.RefreshTokenContext;
 
 @Configuration
@@ -26,9 +27,10 @@ public class FeignConfig {
 		return new FeignClientInterceptor(request, response, refreshTokenContext);
 	}
 
-	// @Bean
-	// public ErrorDecoder errorDecoder() {
-	// 	return new CustomErrorDecoder();
-	// }
+
+	@Bean
+	public ErrorDecoder errorDecoder() {
+		return new NovaErrorDecoder();
+	}
 
 }
