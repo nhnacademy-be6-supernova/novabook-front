@@ -161,7 +161,7 @@
         sendCodeBtn.classList.add('btn-disabled');
 
         axios.request({
-            url: '/dooray/sendAuthCode',
+            url: '/dooray/send-auth-code',
             method: 'POST',
             data: {uuid: uuid}
         })

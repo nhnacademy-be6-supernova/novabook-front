@@ -11,7 +11,7 @@ import store.novabook.front.api.member.dooray.dto.DoorayAuthRequest;
 @FeignClient(name = "doorayHookClient")
 public interface DoorayHookClient {
 
-	@PostMapping("/sendAuthCode")
+	@PostMapping("/send-auth-code")
 	ApiResponse<Void> sendMessage(@RequestBody DoorayAuthRequest request);
 
 	@PostMapping("/confirm")

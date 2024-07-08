@@ -20,7 +20,7 @@ public class DoorayController {
 
 	private final DoorayService doorayService;
 
-	@PostMapping("/sendAuthCode")
+	@PostMapping("/send-auth-code")
 	public ResponseEntity<SendAuthResponse> sendAuthCode(@RequestBody DoorayAuthRequest request) {
 		doorayService.sendAuthCode(request);
 		return ResponseEntity.ok().body(new SendAuthResponse("인증코드가 발송되었습니다."));
