@@ -32,6 +32,10 @@ public class MemberController {
 	@PostMapping("/login")
 	public String login(@Valid @ModelAttribute LoginMembersRequest loginMembersRequest,
 		HttpServletResponse response) {
+		// try {
+		//
+		// }catch (Exception e) {
+		// }
 		return memberService.login(loginMembersRequest, response);
 	}
 
