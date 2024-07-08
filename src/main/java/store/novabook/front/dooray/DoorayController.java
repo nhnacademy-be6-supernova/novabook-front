@@ -2,6 +2,7 @@ package store.novabook.front.dooray;
 
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,10 +19,18 @@ public class DoorayController {
 	private final DoorayService doorayService;
 
 	@PostMapping("/sendAuthCode")
-	public ResponseEntity<String> sendAuthCode(@RequestBody Map<String, Object> body) {
-		Long memberId = (Long) body.get("memberId");
-		String authCode = (String) body.get("authCode");
-		doorayService.sendAuthCode(memberId.toString(), authCode);
+	public ResponseEntity<String> sendAuthCode(@RequestBody DoorayAuthRequest request) {
+		doorayService.sendAuthCode(request);
 		return ResponseEntity.ok("인증번호가 발송되었습니다");
+	}
+
+	@PostMapping("/confirm")
+	public ResponseEntity<String> confirm(@RequestBody DoorayAuthCodeRequest request) {
+		boolean result = doorayService.confirmAuthCode(request);
+		if (result) {
+			return ResponseEntity.ok("해지가 성공적으로 완료되었습니다.");
+		} else {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유효하지 않은 인증코드입니다.");
+		}
 	}
 }
