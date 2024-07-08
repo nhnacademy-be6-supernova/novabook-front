@@ -11,11 +11,13 @@ import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
 import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
 import store.novabook.front.api.member.member.dto.request.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.request.DeleteMemberRequest;
+import store.novabook.front.api.member.member.dto.request.GetMembersStatusResponse;
 import store.novabook.front.api.member.member.dto.request.LoginMembersRequest;
 import store.novabook.front.api.member.member.dto.request.UpdateMemberPasswordRequest;
 import store.novabook.front.api.member.member.dto.request.UpdateMemberRequest;
 import store.novabook.front.api.member.member.dto.response.CreateMemberResponse;
 import store.novabook.front.api.member.member.dto.response.GetMemberResponse;
+import store.novabook.front.api.member.member.dto.response.GetMembersStatusRequest;
 import store.novabook.front.api.member.member.dto.response.LoginMembersResponse;
 import store.novabook.front.api.member.member.service.MemberAuthClient;
 import store.novabook.front.api.member.member.service.MemberClient;
@@ -49,11 +51,25 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void login(@Valid LoginMembersRequest loginMembersRequest, HttpServletResponse response) {
+	public String login(@Valid LoginMembersRequest loginMembersRequest, HttpServletResponse response) {
 		ResponseEntity<LoginMembersResponse> loginMembersResponse = memberAuthClient.login(loginMembersRequest);
-		if (!loginMembersResponse.getStatusCode().is2xxSuccessful()) {
-			return;
+		if (!loginMembersResponse.getStatusCode().is2xxSuccessful() || loginMembersResponse.getBody() == null) {
+			return "";
 		}
+
+		// GetMembersStatusRequest getMembersStatusRequest = new GetMembersStatusRequest(
+		// 	loginMembersResponse.getBody().accessToken());
+		// ResponseEntity<GetMembersStatusResponse> status = memberAuthClient.status(getMembersStatusRequest);
+		// if (!status.getStatusCode().is2xxSuccessful() || status.getBody() == null) {
+		// 	return "";
+		// }
+		// if(status.getBody().memberStatusId() == 2) {
+		// 	Cookie uuidCookie = new Cookie("UUID", status.getBody().uuid());
+		// 	uuidCookie.setMaxAge(60 * 60 * 24 * 7);
+		// 	uuidCookie.setPath("novabook");
+		// 	response.addCookie(uuidCookie);
+		// 	return "redirect:/login";
+		// }
 
 		String authorization = loginMembersResponse.getBody().accessToken();
 		String refresh = loginMembersResponse.getBody().refreshToken();
@@ -65,16 +81,21 @@ public class MemberServiceImpl implements MemberService {
 			Cookie accessCookie = new Cookie("Authorization", accessToken);
 			accessCookie.setMaxAge(60 * 60 * 24 * 7);
 			accessCookie.setPath("/");
+			// accessCookie.setDomain("novabook");
+
 			response.addCookie(accessCookie);
 
 			Cookie refreshCookie = new Cookie("Refresh", refreshToken);
 			refreshCookie.setMaxAge(60 * 60 * 24 * 7);
 			refreshCookie.setPath("/");
+			// refreshCookie.setDomain("novabook");
 			response.addCookie(refreshCookie);
 
 		} else {
 			throw new RuntimeException("로그인 실패");
 		}
+
+		return "redirect:/";
 	}
 
 	@Override

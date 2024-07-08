@@ -32,7 +32,7 @@ public class MemberController {
 	@PostMapping("/login")
 	public String login(@Valid @ModelAttribute LoginMembersRequest loginMembersRequest,
 		HttpServletResponse response) {
-		memberService.login(loginMembersRequest, response);
+		String login = memberService.login(loginMembersRequest, response);
 		return "redirect:/";
 	}
 
