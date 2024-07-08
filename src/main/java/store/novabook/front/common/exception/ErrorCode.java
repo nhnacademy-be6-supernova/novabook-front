@@ -29,6 +29,8 @@ public enum ErrorCode {
 	ORDER_BOOK_ALREADY_EXISTS("주문건에 대한 해당 도서가 이미 존재합니다."),
 	DUPLICATED_LOGIN_ID("중복된 아이디입니다."),
 	NOT_DELETABLE_CATEGORY("해당 카테고리 등록된 도서가 있어 삭제할 수 없습니다."),
+	NOT_UPDATE_CART_QUANTITY("요청된 수량이 재고를 초과하거나 도서 상태가 유효하지 않습니다."),
+
 
 	// 401 로그인 안됨
 	UNAUTHORIZED("인증되지 않은 사용자입니다."),
@@ -81,13 +83,15 @@ public enum ErrorCode {
 	ALREADY_USED_COUPON("이미 사용된 쿠폰입니다."),
 	COUPON_ALREADY_EXIST("이미 다운받은 쿠폰입니다."),
 
-
 	// 404
 	COUPON_NOT_FOUND("해당 쿠폰이 존재하지 않습니다."),
 	BOOK_COUPON_NOT_FOUND("해당 도서에 대한 쿠폰이 존재하지 않습니다."),
 	CATEGORY_COUPON_NOT_FOUND("해당 카테고리에 대한 쿠폰이 존재하지 않습니다."),
-	COUPON_TEMPLATE_NOT_FOUND("해당 쿠폰 템플릿이 존재하지 않습니다.");
+	COUPON_TEMPLATE_NOT_FOUND("해당 쿠폰 템플릿이 존재하지 않습니다."),
 
+
+
+	;
 
 	private final String message;
 
