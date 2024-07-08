@@ -26,7 +26,7 @@ public class KeyManagerUtil {
 	private static String getDataSource(Environment environment, String keyid) {
 
 		String appkey = environment.getProperty("nhn.cloud.keyManager.appkey");
-		String userId = environment.getProperty("nhn.cloud.keyManager.userAccessKeyId");
+		String userId = environment.getProperty("nhn.cloud.keyManager.userAccessKey");
 		String secretKey = environment.getProperty("nhn.cloud.keyManager.secretAccessKey");
 
 		RestTemplate restTemplate = new RestTemplate();
