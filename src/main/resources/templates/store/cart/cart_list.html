@@ -506,10 +506,14 @@
             quantity: quantity
         };
 
-        axios.post('/api/v1/front/carts/update', {
-            bookId: bookId,
-            quantity: quantity
-        })
+        axios.request({
+            url: '/api/v1/front/carts/update',
+            method: 'PUT',
+            data: data,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+            })
             .then(response => {
                 location.reload();
             })

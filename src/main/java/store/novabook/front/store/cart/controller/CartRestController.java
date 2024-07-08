@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +41,7 @@ public class CartRestController {
 	private final RedisCartService redisCartService;
 
 	@PostMapping
-	public ResponseEntity<Object> addCartBook( //스토어 에러 처리완
+	public ResponseEntity<Object> addCartBook(
 		@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie,
 		@CurrentMembers Long memberId,
 		HttpServletResponse response,
@@ -49,7 +50,7 @@ public class CartRestController {
 		//로그인되어 있을때
 		if (Objects.nonNull(memberId) && Objects.isNull(guestCookie)) {
 			if (redisCartService.notExistCart(memberId)) {
-				redisCartService.creatCart(memberId);
+				redisCartService.createCart(memberId);
 			}
 			try {
 				cartService.addCartBook(request);
@@ -65,7 +66,7 @@ public class CartRestController {
 		if (Objects.isNull(guestCookie)) {
 			String uuid = String.valueOf(UUID.randomUUID());
 			CookieUtil.createGuestCookie(response, uuid);
-			redisCartService.creatCart(uuid);
+			redisCartService.createCart(uuid);
 			redisCartService.addCartBook(uuid, request);
 		} else {
 			String uuid = guestCookie.getValue();
@@ -76,14 +77,14 @@ public class CartRestController {
 		if (Objects.nonNull(memberId) && Objects.nonNull(guestCookie.getValue())) {
 			RedisCartHash redisCartHash = redisCartService.getCartList(guestCookie.getValue());
 			if (redisCartService.notExistCart(memberId)) {
-				redisCartService.creatCart(memberId);
+				redisCartService.createCart(memberId);
 			}
 			if (Objects.nonNull(redisCartHash.getCartBookList())) {
 				redisCartHash.getCartBookList().add(request);
 				try {
 					cartService.addCartBooks(new CartBookListDTO(redisCartHash.getCartBookList()));
 				} catch (FeignClientException e) {
-					return ResponseEntity.status(e.getStatus()).body(e.getMessage()); // 상태코드도 정해야함 200말고
+					return ResponseEntity.status(e.getStatus()).body(e.getMessage());
 				}
 
 				redisCartService.addCartBooks(memberId, new CartBookListDTO(redisCartHash.getCartBookList()));
@@ -126,7 +127,7 @@ public class CartRestController {
 		//비회원 장바구니 최신정보로 업데이트
 		if (Objects.nonNull(guestCookie) && !cartBookIdDTO.bookIdsAndQuantity().isEmpty()) {
 			redisCartService.deleteCart(guestCookie.getValue());
-			redisCartService.creatCart(guestCookie.getValue());
+			redisCartService.createCart(guestCookie.getValue());
 			try {
 				redisCartService.addCartBooks(guestCookie.getValue(), cartService.getCartListByGuest(cartBookIdDTO));
 			} catch (FeignClientException e) {
@@ -139,7 +140,7 @@ public class CartRestController {
 			try {
 				CartBookListDTO getCartResponse = cartService.getCartList();
 				redisCartService.deleteCart(memberId);
-				redisCartService.creatCart(memberId);
+				redisCartService.createCart(memberId);
 				if (!getCartResponse.getCartBookList().isEmpty()) {
 					redisCartService.addCartBooks(memberId, new CartBookListDTO(getCartResponse.getCartBookList()));
 				}
@@ -150,7 +151,7 @@ public class CartRestController {
 		return ResponseEntity.ok().build();
 	}
 
-	@PostMapping("/update")
+	@PutMapping("/update")
 	public ResponseEntity<Object> updateCart(
 		@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie,
 		@CurrentMembers Long memberId,
@@ -161,7 +162,7 @@ public class CartRestController {
 				cartService.updateCartBookQuantity(request);
 				redisCartService.updateCartBookQuantity(memberId, request);
 			} catch (FeignClientException e) {
-				return ResponseEntity.status(e.getStatus()).body(e.getMessage()); // 상태코드도 정해야함 200말고
+				return ResponseEntity.status(e.getStatus()).body(e.getMessage());
 			}
 
 		} else if (Objects.nonNull(guestCookie)) {

@@ -21,7 +21,7 @@ public class RedisCartService {
 
 	private final RedisCartRepository redisCartRepository;
 
-	public void creatCart(Object cartId) {
+	public void createCart(Object cartId) {
 		RedisCartHash newCart = RedisCartHash.of(cartId);
 		redisCartRepository.save(newCart);
 	}

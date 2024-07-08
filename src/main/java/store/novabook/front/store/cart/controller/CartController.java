@@ -43,7 +43,7 @@ public class CartController {
 		//로그인되어 있을때
 		if (Objects.nonNull(memberId) && Objects.isNull(guestCookie)) {
 			if (redisCartService.notExistCart(memberId)) {
-				redisCartService.creatCart(memberId);
+				redisCartService.createCart(memberId);
 			}
 			model.addAttribute("cart", redisCartService.getCartList(memberId));
 			return "store/cart/cart_list";
@@ -53,7 +53,7 @@ public class CartController {
 		if (Objects.nonNull(memberId) && Objects.nonNull(guestCookie.getValue())) {
 			RedisCartHash redisCartHash = redisCartService.getCartList(guestCookie.getValue());
 			if (redisCartService.notExistCart(memberId)) {
-				redisCartService.creatCart(memberId);
+				redisCartService.createCart(memberId);
 			}
 			if (Objects.nonNull(redisCartHash)) {
 				try {
@@ -92,7 +92,7 @@ public class CartController {
 		if (Objects.nonNull(memberId)) {
 			CartBookListDTO getCartResponse = cartService.getCartList();
 			redisCartService.deleteCart(memberId);
-			redisCartService.creatCart(memberId);
+			redisCartService.createCart(memberId);
 			if (!getCartResponse.getCartBookList().isEmpty()) {
 				redisCartService.addCartBooks(memberId, new CartBookListDTO(getCartResponse.getCartBookList()));
 			}
