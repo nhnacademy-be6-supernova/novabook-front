@@ -10,30 +10,31 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import store.novabook.front.api.cart.dto.request.CreateCartBookListRequest;
-import store.novabook.front.api.cart.dto.request.CreateCartBookRequest;
+import jakarta.validation.Valid;
+import store.novabook.front.api.cart.dto.CartBookDTO;
+import store.novabook.front.api.cart.dto.CartBookIdDTO;
 import store.novabook.front.api.cart.dto.request.DeleteCartBookListRequest;
 import store.novabook.front.api.cart.dto.request.UpdateCartBookQuantityRequest;
-import store.novabook.front.api.cart.dto.response.CartIdResponse;
 import store.novabook.front.api.cart.dto.response.CreateCartBookListResponse;
 import store.novabook.front.api.cart.dto.response.CreateCartBookResponse;
-import store.novabook.front.api.cart.dto.response.GetCartResponse;
+import store.novabook.front.api.cart.dto.CartBookListDTO;
 import store.novabook.front.common.response.ApiResponse;
 
 @FeignClient(name = "cartClient")
 public interface CartClient {
 
 	@GetMapping("/member")
-	ApiResponse<GetCartResponse> getCartBookAllByMemberId();
+	ApiResponse<CartBookListDTO> getCartBookAllByMemberId();
 
-	@PostMapping("/create")
-	ApiResponse<CartIdResponse> createCartIdByMemberId();
+
+	@PostMapping("/guest")
+	ApiResponse<CartBookListDTO> getCartBookAllByGuest(@RequestBody CartBookIdDTO request);
 
 	@PostMapping("/add")
-	ApiResponse<CreateCartBookResponse> addCartBook(@RequestBody CreateCartBookRequest request);
+	ApiResponse<CreateCartBookResponse> addCartBook(@RequestBody CartBookDTO request);
 
 	@PostMapping("/adds")
-	ApiResponse<CreateCartBookListResponse> addCartBooks(@RequestBody CreateCartBookListRequest request);
+	ApiResponse<CreateCartBookListResponse> addCartBooks(@RequestBody CartBookListDTO request);
 
 	@PutMapping("/update")
 	ApiResponse<Void> updateCartBook(@RequestBody UpdateCartBookQuantityRequest request);

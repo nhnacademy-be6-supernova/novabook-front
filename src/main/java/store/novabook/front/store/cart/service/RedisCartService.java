@@ -9,10 +9,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.cart.dto.request.CreateCartBookListRequest;
-import store.novabook.front.api.cart.dto.request.CreateCartBookRequest;
+import store.novabook.front.api.cart.dto.CartBookListDTO;
+import store.novabook.front.api.cart.dto.CartBookDTO;
 import store.novabook.front.api.cart.dto.request.UpdateCartBookQuantityRequest;
-import store.novabook.front.store.cart.dto.RedisCartResponse;
 import store.novabook.front.store.cart.hash.RedisCartHash;
 import store.novabook.front.store.cart.repository.RedisCartRepository;
 
@@ -29,23 +28,26 @@ public class RedisCartService {
 
 	public RedisCartHash getCartList(Object cartId) {
 		Optional<RedisCartHash> redisCartHash = redisCartRepository.findById(cartId);
-		return redisCartHash.orElse(null);
+		if(redisCartHash.isPresent() && Objects.nonNull(redisCartHash.get().getCartBookList())) {
+			return redisCartHash.get();
+		}
+		return RedisCartHash.of(cartId);
 	}
 
-	public RedisCartResponse addCartBook(Object cartId, CreateCartBookRequest request) {
+	public void addCartBook(Object cartId, CartBookDTO request) {
 		Optional<RedisCartHash> redisCartHashOpt = redisCartRepository.findById(cartId);
 		if (redisCartHashOpt.isPresent() && Objects.nonNull(redisCartHashOpt.get().getCartBookList())) {
 			RedisCartHash redisCartHash = redisCartHashOpt.get();
-			List<CreateCartBookRequest> updatedCartBookList = redisCartHash.getCartBookList();
+			List<CartBookDTO> updatedCartBookList = redisCartHash.getCartBookList();
 
 			boolean bookExists = false;
-			for (CreateCartBookRequest cartBook : updatedCartBookList) {
+			for (CartBookDTO cartBook : updatedCartBookList) {
 				if (cartBook.bookId().equals(request.bookId())) {
 					// 동일한 도서가 이미 존재하면 수량 증가
 					int newQuantity = cartBook.quantity() + request.quantity();
 					updatedCartBookList.remove(cartBook); // 기존 도서 항목 삭제
 					updatedCartBookList.add(
-						CreateCartBookRequest.update(cartBook.bookId(), newQuantity, request)); // 새로운 도서 항목 추가
+						CartBookDTO.update(cartBook.bookId(), newQuantity, request)); // 새로운 도서 항목 추가
 					bookExists = true;
 					break;
 				}
@@ -62,15 +64,14 @@ public class RedisCartService {
 			RedisCartHash newCart = RedisCartHash.of(cartId, request);
 			redisCartRepository.save(newCart);
 		}
-		return new RedisCartResponse(true, "도서가 장바구니에 성공적으로 추가되었습니다.");
 	}
 
-	public RedisCartResponse addCartBooks(Object cartId, CreateCartBookListRequest request) {
+	public void addCartBooks(Object cartId, CartBookListDTO request) {
 		Optional<RedisCartHash> redisCartHashOpt = redisCartRepository.findById(cartId);
-		if (redisCartHashOpt.isPresent()) {
+		if (redisCartHashOpt.isPresent() && Objects.nonNull(redisCartHashOpt.get().getCartBookList())) {
 			RedisCartHash redisCartHash = redisCartHashOpt.get();
-			List<CreateCartBookRequest> updatedCartBookList = new ArrayList<>(redisCartHash.getCartBookList());
-			updatedCartBookList.addAll(request.cartBookList());
+			List<CartBookDTO> updatedCartBookList = new ArrayList<>(redisCartHash.getCartBookList());
+			updatedCartBookList.addAll(request.getCartBookList());
 			RedisCartHash updatedRedisCartHash = RedisCartHash.builder()
 				.cartId(cartId)
 				.cartBookList(updatedCartBookList)
@@ -80,14 +81,13 @@ public class RedisCartService {
 			RedisCartHash newCart = RedisCartHash.of(cartId, request);
 			redisCartRepository.save(newCart);
 		}
-		return new RedisCartResponse(true, "도서가 장바구니에 성공적으로 추가되었습니다.");
 	}
 
 	public void deleteCartBook(Object cartId, Long bookId) {
 		Optional<RedisCartHash> redisCartHashOpt = redisCartRepository.findById(cartId);
 		if (redisCartHashOpt.isPresent()  && Objects.nonNull(redisCartHashOpt.get().getCartBookList())) {
 			RedisCartHash redisCartHash = redisCartHashOpt.get();
-			List<CreateCartBookRequest> updatedCartBookList = redisCartHash.getCartBookList().stream()
+			List<CartBookDTO> updatedCartBookList = redisCartHash.getCartBookList().stream()
 				.filter(cartBook -> !cartBook.bookId().equals(bookId))
 				.collect(Collectors.toList());
 			RedisCartHash updatedRedisCartHash = RedisCartHash.builder()
@@ -100,9 +100,9 @@ public class RedisCartService {
 
 	public void deleteCartBooks(Object cartId, List<Long> bookIds) {
 		Optional<RedisCartHash> redisCartHashOpt = redisCartRepository.findById(cartId);
-		if (redisCartHashOpt.isPresent()) {
+		if (redisCartHashOpt.isPresent() && Objects.nonNull(redisCartHashOpt.get().getCartBookList())) {
 			RedisCartHash redisCartHash = redisCartHashOpt.get();
-			List<CreateCartBookRequest> updatedCartBookList = redisCartHash.getCartBookList().stream()
+			List<CartBookDTO> updatedCartBookList = redisCartHash.getCartBookList().stream()
 				.filter(cartBook -> !bookIds.contains(cartBook.bookId()))
 				.collect(Collectors.toList());
 			RedisCartHash updatedRedisCartHash = RedisCartHash.builder()
@@ -117,20 +117,20 @@ public class RedisCartService {
 		redisCartRepository.deleteById(cartId);
 	}
 
-	public boolean existsCart(Object cartId) {
+	public boolean notExistCart(Object cartId) {
 		Optional<RedisCartHash> redisCartHashOpt = redisCartRepository.findById(cartId);
-		return redisCartHashOpt.isPresent();
+		return redisCartHashOpt.isEmpty();
 	}
 
 	public void updateCartBookQuantity(Object cartId, UpdateCartBookQuantityRequest request) {
 		Optional<RedisCartHash> redisCartHashOpt = redisCartRepository.findById(cartId);
-		if (redisCartHashOpt.isPresent()) {
+		if (redisCartHashOpt.isPresent() && Objects.nonNull(redisCartHashOpt.get().getCartBookList())) {
 			RedisCartHash redisCartHash = redisCartHashOpt.get();
-			List<CreateCartBookRequest> updatedCartBookList = redisCartHash.getCartBookList();
-			for (CreateCartBookRequest cartBook : updatedCartBookList) {
+			List<CartBookDTO> updatedCartBookList = redisCartHash.getCartBookList();
+			for (CartBookDTO cartBook : updatedCartBookList) {
 				if (cartBook.bookId().equals(request.bookId())) {
 					// Create a new cartBook request with updated quantity
-					CreateCartBookRequest updatedCartBook = CreateCartBookRequest.update(request.bookId(), request.quantity(), cartBook);
+					CartBookDTO updatedCartBook = CartBookDTO.update(request.bookId(), request.quantity(), cartBook);
 					// Replace the old cartBook with the updated one
 					int index = updatedCartBookList.indexOf(cartBook);
 					updatedCartBookList.set(index, updatedCartBook);

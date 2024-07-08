@@ -8,8 +8,8 @@ import org.springframework.data.redis.core.RedisHash;
 
 import lombok.Builder;
 import lombok.Getter;
-import store.novabook.front.api.cart.dto.request.CreateCartBookListRequest;
-import store.novabook.front.api.cart.dto.request.CreateCartBookRequest;
+import store.novabook.front.api.cart.dto.CartBookDTO;
+import store.novabook.front.api.cart.dto.CartBookListDTO;
 
 @RedisHash("cart")
 @Getter
@@ -18,11 +18,11 @@ public class RedisCartHash{
 	@Id
 	Object cartId;
 
-	List<CreateCartBookRequest> cartBookList;
+	List<CartBookDTO> cartBookList;
 
 
 	@Builder
-	public RedisCartHash(Object cartId, List<CreateCartBookRequest> cartBookList) {
+	public RedisCartHash(Object cartId, List<CartBookDTO> cartBookList) {
 		this.cartId = cartId;
 		this.cartBookList = cartBookList;
 	}
@@ -33,22 +33,22 @@ public class RedisCartHash{
 			.build();
 	}
 
-	public static RedisCartHash of(Object cartId, CreateCartBookRequest request) {
+	public static RedisCartHash of(Object cartId, CartBookDTO request) {
 		return RedisCartHash.builder()
 			.cartId(cartId)
 			.cartBookList(List.of(request))
 			.build();
 	}
 
-	public static RedisCartHash of(Object cartId, CreateCartBookListRequest request) {
+	public static RedisCartHash of(Object cartId, CartBookListDTO request) {
 		return RedisCartHash.builder()
 			.cartId(cartId)
-			.cartBookList(request.cartBookList())
+			.cartBookList(request.getCartBookList())
 			.build();
 
 	}
 
-	public void update(List<CreateCartBookRequest> newCartBookList){
+	public void update(List<CartBookDTO> newCartBookList){
 		this.cartBookList = newCartBookList;
 	}
 

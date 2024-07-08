@@ -68,6 +68,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 		response.setHeader("access", refreshTokenContext.getTokenData());
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher(refreshTokenContext.getUri());
+		refreshTokenContext.setUri(null);
 		dispatcher.forward(request, response);
 
 	}

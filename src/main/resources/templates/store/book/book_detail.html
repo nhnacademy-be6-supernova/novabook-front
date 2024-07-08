@@ -690,12 +690,11 @@
         var bookIsPackaged = document.getElementById('bookIsPackaged').value;
         var bookStatusId = document.getElementById('bookStatusId').value;
 
-        fetch('http://localhost:8080/api/v1/front/carts', {
+
+        axios.request({
+            url: '/api/v1/front/carts',
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
+            data: JSON.stringify({
                 bookId: bookId,
                 title: bookTitle,
                 image: bookImage,
@@ -704,17 +703,17 @@
                 quantity: bookQuantity,
                 isPackaged: bookIsPackaged,
                 bookStatusId: bookStatusId
-            })
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            alert('장바구니에 추가되었습니다.');
         })
-            .then(response => response.json())
-            .then(data => {
-                alert("장바구니에 추가 되었습니다.");
-            })
             .catch(error => {
-
-                alert("요청에 실패해였습니다. : " + error);
+                alert(error.response.data);
+                console.error('Error cart add:', error.response.data);
             });
-
     }
 
 

@@ -10,14 +10,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.cart.dto.request.CreateCartBookListRequest;
-import store.novabook.front.api.cart.dto.request.UpdateCartBookQuantityRequest;
+import lombok.extern.slf4j.Slf4j;
+import store.novabook.front.api.cart.dto.CartBookListDTO;
+import store.novabook.front.common.exception.FeignClientException;
 import store.novabook.front.common.security.aop.CurrentMembers;
 import store.novabook.front.common.util.CookieUtil;
 import store.novabook.front.store.cart.hash.RedisCartHash;
@@ -27,6 +27,7 @@ import store.novabook.front.store.cart.service.RedisCartService;
 @RequestMapping("/carts")
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class CartController {
 	private final CartService cartService;
 	private final RedisCartService redisCartService;
@@ -39,10 +40,9 @@ public class CartController {
 		HttpServletResponse response,
 		Model model) {
 
-
 		//로그인되어 있을때
 		if (Objects.nonNull(memberId) && Objects.isNull(guestCookie)) {
-			if (!redisCartService.existsCart(memberId)) {
+			if (redisCartService.notExistCart(memberId)) {
 				redisCartService.creatCart(memberId);
 			}
 			model.addAttribute("cart", redisCartService.getCartList(memberId));
@@ -52,12 +52,18 @@ public class CartController {
 		// 로그인 되어있는데 비회원 쿠키가 존재할 경우
 		if (Objects.nonNull(memberId) && Objects.nonNull(guestCookie.getValue())) {
 			RedisCartHash redisCartHash = redisCartService.getCartList(guestCookie.getValue());
-			if (!redisCartService.existsCart(memberId)) {
+			if (redisCartService.notExistCart(memberId)) {
 				redisCartService.creatCart(memberId);
 			}
 			if (Objects.nonNull(redisCartHash)) {
-				cartService.addCartBooks(new CreateCartBookListRequest(redisCartHash.getCartBookList()));
-				redisCartService.addCartBooks(memberId, new CreateCartBookListRequest(redisCartHash.getCartBookList()));
+				try {
+					cartService.addCartBooks(new CartBookListDTO(redisCartHash.getCartBookList()));
+				} catch (FeignClientException e) {
+					log.error(e.getMessage(), e);
+					model.addAttribute("cart", redisCartService.getCartList(memberId));
+				}
+
+				redisCartService.addCartBooks(memberId, new CartBookListDTO(redisCartHash.getCartBookList()));
 			}
 			redisCartService.deleteCart(guestCookie.getValue());
 			CookieUtil.deleteGuestCookie(response);
@@ -77,6 +83,27 @@ public class CartController {
 		return "store/cart/cart_list";
 	}
 
+	@GetMapping("/refresh")
+	public String refresh(
+		@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie,
+		@CurrentMembers Long memberId,
+		Model model) {
+		//로그인되어 있을때
+		if (Objects.nonNull(memberId)) {
+			CartBookListDTO getCartResponse = cartService.getCartList();
+			redisCartService.deleteCart(memberId);
+			redisCartService.creatCart(memberId);
+			if (!getCartResponse.getCartBookList().isEmpty()) {
+				redisCartService.addCartBooks(memberId, new CartBookListDTO(getCartResponse.getCartBookList()));
+			}
+		} else if (Objects.nonNull(guestCookie)) {
+			String uuid = guestCookie.getValue();
+			model.addAttribute("cart", redisCartService.getCartList(uuid));
+		}
+
+		return "redirect:/carts";
+	}
+
 	@GetMapping("/delete/{bookId}")
 	public String deleteCart(
 		@PathVariable Long bookId,
@@ -84,7 +111,11 @@ public class CartController {
 		@CurrentMembers Long memberId) {
 		if (Objects.nonNull(memberId)) {
 			redisCartService.deleteCartBook(memberId, bookId);
-			cartService.deleteCartBook(bookId);
+			try {
+				cartService.deleteCartBook(bookId);
+			} catch (FeignClientException e) {
+				log.error(e.getMessage(), e);
+			}
 
 		} else if (Objects.nonNull(guestCookie)) {
 			redisCartService.deleteCartBook(guestCookie.getValue(), bookId);
@@ -94,21 +125,5 @@ public class CartController {
 		return "redirect:/carts";
 	}
 
-	@PostMapping("/update")
-	public String updateCart(
-		@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie,
-		@CurrentMembers Long memberId,
-		UpdateCartBookQuantityRequest request
-	) {
-		if (Objects.nonNull(memberId)) {
-			redisCartService.updateCartBookQuantity(memberId, request);
-			cartService.updateCartBookQuantity(request);
-
-		} else if (Objects.nonNull(guestCookie)) {
-			redisCartService.updateCartBookQuantity(guestCookie.getValue(), request);
-
-		}
-		return "redirect:/carts";
-	}
 
 }

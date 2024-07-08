@@ -87,6 +87,24 @@
         .total-value.final {
             color: #d9534f;
         }
+        .delete-btn {
+            width: 60%;
+            height: 40%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        @media (max-width: 600px) {
+            .delete-btn {
+                width: 100%;
+                height: auto;
+            }
+        }
 
         .checkout-btn,
         .continue-shopping-btn {
@@ -169,7 +187,9 @@
     <div style="display: flex; align-items: center; margin-bottom: 10px;">
         <input type="checkbox" id="selectAllItems" style="margin-right: 10px;">
         <label for="selectAllItems" style="margin-right: auto; margin-top: auto">전체 선택/해제</label>
+        <button id="refreshCarts" onclick="refresh()" class="btn btn-primary">새로고침</button>
         <button id="deleteSelectedItems" class="btn btn-danger">선택 상품 삭제</button>
+
     </div>
 
     <table class="cart-table">
@@ -223,10 +243,10 @@
             </td>
             <td>포장 가능</td>
             <td style="text-align: center; vertical-align: middle;">
-                <form method="post" action="/carts/update" style="display: flex; flex-direction: column; align-items: center;">
+                <form style="display: flex; flex-direction: column; align-items: center;">
                     <input type="number" name="quantity" th:value="${item.quantity}" min="1" class="form-control input-sm item-quantity" style="width: 60px; height: 30px; text-align: center; margin-bottom: 5px;">
                     <input type="hidden" name="bookId" th:value="${item.bookId}">
-                    <button type="submit" class="btn btn-default btn-sm" style="width: 60px; height: 30px;">변경</button>
+                    <button type="submit" class="btn btn-default btn-sm" onclick="update()" style="width: 60px; height: 30px;">변경</button>
                 </form>
             </td>
             <td style="text-align: center; vertical-align: middle;">
@@ -236,10 +256,10 @@
                           th:text="${item.bookStatusId == 2 || item.bookStatusId == 3 ? '품절' : '판매종료'}">
                         판매할 수 없습니다
                     </span>
-                    <button class="btn btn-info" style="width: 120px; height: 40px; margin-bottom: 5px;">
-                        <i class="fa fa-heart"></i>
-                    </button>
-                    <a type="submit" th:href="@{/carts/delete/{bookId}(bookId=${item.bookId})}" class="btn btn-danger" style="width: 120px; height: 40px;">
+<!--                    <a type="submit" th:href="@{/carts/delete/{bookId}(bookId=${item.bookId})}" class="btn btn-danger" style="width: 60%; height: 40%;">-->
+<!--                        삭제-->
+<!--                    </a>-->
+                    <a type="submit" th:href="@{/carts/delete/{bookId}(bookId=${item.bookId})}" class="btn btn-danger delete-btn">
                         삭제
                     </a>
                 </div>
@@ -323,11 +343,12 @@
 <div th:replace="~{layout/store/footer::footer}"></div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 
     $(document).ready(function() {
 
-// 전체 선택, 해제 기능
+        // 전체 선택, 해제 기능
         $('#selectAllItems').change(function() {
             var isChecked = $(this).prop('checked');
 
@@ -404,40 +425,39 @@
 
         // 선택 상품 삭제
         $('#deleteSelectedItems').click(function() {
-            var selectedItems = $('.item-checkbox:checked').closest('tr');
+            var selectedItems = [];
+
+            $('input[name="selectedItems"]:checked').each(function() {
+                var row = $(this).closest('tr');
+                selectedItems.push(row.find('.item-id').val());
+            });
 
             if (selectedItems.length === 0) {
                 alert('삭제할 상품을 선택해주세요.');
                 return;
             }
 
-            var selectedIds = [];
-            selectedItems.each(function() {
-                var itemId = $(this).closest('tr').find('input[name="itemId"]').val();
-                selectedIds.push(parseInt(itemId));
-            });
-
             let requestBody = JSON.stringify({
-                bookIds: selectedIds
+                bookIds: selectedItems
             });
 
-            // AJAX 요청을 사용하여 선택된 항목을 서버로 전송
-            fetch('http://localhost:8080/api/v1/front/carts', {
+            axios.request({
+                url: '/api/v1/front/carts',
                 method: 'DELETE',
+                data: requestBody,
                 headers: {
                     'Content-Type': 'application/json'
-                },
-                body: requestBody
+                }
+            }).then(response => {
+                location.reload();
             })
-                .then(
-                    response => response.json(),
-                )
-                .then(data => {
-                    alert("요청에 성공했습니다.");
-                })
-                .catch(error => {
-                    alert("요청에 실패해였습니다. : "+ error);
-                });
+            .catch(error => {
+                console.error('실패 : ', error.response.data);
+                alert(error.response.data);
+                // location.reload();
+            });
+
+
         });
 
     });
@@ -466,6 +486,113 @@
 
         //TODO ajax 연결
     }
+
+
+    function update() {
+        // 기본 폼 제출 동작 방지
+        event.preventDefault();
+
+        // 변경 버튼이 속한 폼 요소 선택
+        var form = event.target.closest('form');
+        var quantity = form.querySelector('.item-quantity').value;
+        var bookId = form.querySelector('[name="bookId"]').value;
+        console.log(quantity)
+        console.log(bookId)
+
+        // 데이터 구성
+        var data = {
+            bookId: bookId,
+            quantity: quantity
+        };
+
+        axios.post('/api/v1/front/carts/update', {
+            bookId: bookId,
+            quantity: quantity
+        })
+            .then(response => {
+                location.reload();
+            })
+            .catch(error => {
+                console.error('There was an error downloading the coupon!', error.response.data);
+                alert(error.response.data);
+                location.reload();
+            });
+    }
+
+    function refresh(){
+        var cartItems = [];
+        var itemsExist = false;
+
+        $('table.cart-table tbody tr').each(function() {
+            var row = $(this);
+            if (row.find(".item-quantity").val() === undefined) {
+                return;
+            }
+            itemsExist = true;
+            var bookId = parseInt(row.find('.item-id').val());
+            var quantity = parseInt(row.find('.item-quantity').val());
+
+            // parseInt()의 NaN 체크
+            if (!isNaN(bookId) && !isNaN(quantity)) {
+                cartItems.push({ bookId: bookId, quantity: quantity });
+            }
+        });
+
+        if (!itemsExist) {
+            alert("장바구니에 상품이 없습니다.");
+            return;
+        }
+
+        var cartBookIdDTO = {
+            bookIdsAndQuantity: {}
+        };
+
+        cartItems.forEach(function(item) {
+            cartBookIdDTO.bookIdsAndQuantity[item.bookId] = item.quantity;
+        });
+
+        var requestBody = JSON.stringify(cartBookIdDTO);
+
+        axios.request({
+            url: '/api/v1/front/carts/refresh',
+            method: 'POST',
+            data: requestBody,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            location.reload();
+        })
+            .catch(error => {
+                alert('Error cart refresh:', error);
+                console.error('Error cart refresh:', error);
+            });
+
+
+        // // AJAX 요청
+        // fetch('http://localhost:8080/api/v1/front/carts/refresh', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: requestBody
+        // })
+        //     .then(response => {
+        //         if (!response.ok) {
+        //             throw new Error('Network response was not ok');
+        //         }
+        //         return response.json();
+        //     })
+        //     .then(data => {
+        //         alert("요청에 성공했습니다.");
+        //         location.reload();
+        //     })
+        //     .catch(error => {
+        //         alert("요청에 실패했습니다. : " + error.message);
+        //         location.reload();
+        //     });
+    }
+
 
 </script>
 

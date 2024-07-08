@@ -27,7 +27,7 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addInterceptor(new TokenInterceptor(refreshTokenContext))
 			.excludePathPatterns(
 				"/books",
-				"/carts",
+				// "/carts",
 				"/login",
 				"/users/user/form/**",
 				// "/auth/**",
