@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import store.novabook.front.common.util.dto.NaverSearchDto;
 import store.novabook.front.common.util.dto.Oauth2Dto;
+import store.novabook.front.common.util.dto.RabbitMQConfigDto;
 import store.novabook.front.common.util.dto.RedisConfigDto;
 
 public class KeyManagerUtil {
@@ -71,6 +72,16 @@ public class KeyManagerUtil {
 		try {
 			String keyid = environment.getProperty("nhn.cloud.keyManager.oauth2Key");
 			return objectMapper.readValue(getDataSource(environment, keyid), Oauth2Dto.class);
+		} catch (JsonProcessingException e) {
+			//오류처리
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static RabbitMQConfigDto getRabbitMQConfig(Environment environment) {
+		try {
+			String keyid = environment.getProperty("nhn.cloud.keyManager.rabbitMQKey");
+			return objectMapper.readValue(getDataSource(environment, keyid), RabbitMQConfigDto.class);
 		} catch (JsonProcessingException e) {
 			//오류처리
 			throw new RuntimeException(e);

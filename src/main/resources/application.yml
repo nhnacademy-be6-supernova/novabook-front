@@ -52,10 +52,6 @@ spring:
 
 # RabbitMQ config
   rabbitmq:
-    host: 133.186.241.167
-    port: 5672
-    username: admin
-    password: nhnacademy123!
     listener:
       simple:
         acknowledge-mode: auto
@@ -97,5 +93,6 @@ nhn:
       redisKey: 60427297022b4bdb9650789537e4b945
       oauth2Key: 86844e05ca8540648193ae8935acd787
       naverBookKey: ca76216877d545a198162092ca6bf726
+      rabbitMQKey: 5070b197613e4db6a73e9db96c54789f
       userAccessKey: J9VxQFQEsmerR1n7FeJ6
       secretAccessKey: zZEVopUHt6dxgRMt
