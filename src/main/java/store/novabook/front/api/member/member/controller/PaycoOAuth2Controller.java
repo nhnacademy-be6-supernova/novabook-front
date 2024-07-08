@@ -61,7 +61,7 @@ public class PaycoOAuth2Controller {
 				+ "response_type=code"
 				+ "&client_id=3RD6nxfHUTIZ1sl7133gUN6"
 				+ "&serviceProviderCode=FRIENDS"
-				+ "&redirect_uri=http%3a%2f%2ftest.com%3a8080%2foauth2%2fpayco%2fcallback"
+				+ "&redirect_uri=https%3a%2f%2fnovabook.store%2foauth2%2fpayco%2fcallback"
 				+ "&state=gh86qj"
 				+ "&userLocale=ko_KR";
 			response.sendRedirect(redirectUrl);

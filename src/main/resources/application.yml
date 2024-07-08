@@ -80,10 +80,6 @@ rabbitmq:
 
 
 # Naver search api
-naver:
-  book:
-    clientkey: aY3htNCRURon01pEVu8z
-    secretkey: DWSGBOBel9
 
 #? ???
 nhn:
