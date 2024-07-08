@@ -54,7 +54,7 @@ public class MemberCouponServiceImpl implements MemberCouponService {
 
 	@Override
 	public void downloadLimitedCoupon(@Valid DownloadCouponMessageRequest request) {
-		memberCouponClient.createMemberCouponByMessage(request);
+		memberCouponClient.downloadLimitedCoupon(request);
 	}
 
 }

@@ -35,6 +35,6 @@ public interface MemberCouponClient {
 	@PostMapping("/download")
 	ApiResponse<CreateMemberCouponResponse> downloadCoupon(@RequestBody DownloadCouponRequest request);
 
-	@PostMapping("/by-message")
-	ApiResponse<Void> createMemberCouponByMessage(@RequestBody DownloadCouponMessageRequest request);
+	@PostMapping("/download/limited")
+	ApiResponse<Void> downloadLimitedCoupon(@RequestBody DownloadCouponMessageRequest request);
 }

@@ -18,11 +18,11 @@ public class NotificationController {
 	private final Map<String, SseEmitter> clients = new ConcurrentHashMap<>();
 
 	@GetMapping("/notifications/subscribe")
-	public SseEmitter subscribe(@RequestParam Long clientId) {
+	public SseEmitter subscribe(@RequestParam String clientId) {
 		SseEmitter emitter = new SseEmitter(60000L);
-		clients.put(clientId.toString(), emitter);
-		emitter.onCompletion(() -> clients.remove(clientId.toString()));
-		emitter.onTimeout(() -> clients.remove(clientId.toString()));
+		clients.put(clientId, emitter);
+		emitter.onCompletion(() -> clients.remove(clientId));
+		emitter.onTimeout(() -> clients.remove(clientId));
 		return emitter;
 	}
 

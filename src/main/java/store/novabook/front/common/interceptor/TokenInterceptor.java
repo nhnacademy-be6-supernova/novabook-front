@@ -89,7 +89,6 @@ public class TokenInterceptor implements HandlerInterceptor {
 			cookie.setMaxAge(60 * 60 * 24 * 7);
 			response.addCookie(cookie);
 			response.setHeader("access", refreshTokenContext.getTokenData());
-			response.setHeader("refresh", refreshTokenContext.getRefreshToken());
 			RequestDispatcher dispatcher = request.getRequestDispatcher(refreshTokenContext.getUri());
 			refreshTokenContext.setUri(null);
 			dispatcher.forward(request, response);

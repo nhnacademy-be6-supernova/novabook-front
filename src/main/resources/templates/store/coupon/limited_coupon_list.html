@@ -177,7 +177,6 @@
 <div th:replace="~{layout/store/footer::footer}"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
 <script>
-
     async function subscribeSse(button) {
         // 이벤트 전파를 막기 위해 기본 동작을 방지
         const couponType = button.getAttribute('data-coupon-type');
@@ -185,10 +184,10 @@
         button.disabled = true;
 
         try {
-            const uuid = uuid.v4();
+            const uuidValue = uuid.v4(); // uuid를 생성
 
             // SSE 구독
-            const eventSource = new EventSource(`/notifications/subscribe?clientId=${uuid}`);
+            const eventSource = new EventSource(`/notifications/subscribe?clientId=${uuidValue}`);
 
             eventSource.addEventListener('message', function (event) {
                 alert(event.data);
@@ -201,19 +200,25 @@
             });
 
             const message = {
-                uuid: uuid,
+                uuid: uuidValue,
                 couponType: couponType,
                 couponTemplateId: couponTemplateId
             };
+            console.log(message);
 
             // 쿠폰 다운로드 요청 전송
-            await fetch(`/coupons/download/limited`, {
+            const response = await fetch(`/coupons/download/limited`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(message)
             });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
         } catch (error) {
             alert('로그인이 필요합니다.');
             console.error('Failed to fetch memberId or process request:', error);
@@ -222,6 +227,7 @@
 
         return false; // 기본 동작을 막기 위해 false 반환
     }
+
 </script>
 
 

@@ -15,10 +15,10 @@ public class CouponMessageController {
 
 	private final CouponSender couponSender;
 	private final MemberCouponController memberCouponController;
-
-	@PostMapping("/coupons/message/download/notify")
-	public void downloadCoupon(@Valid @RequestBody DownloadCouponMessageRequest message) {
-		memberCouponController.downloadLimited(message);
-		couponSender.sendToHighTrafficCouponCreateQueue(message);
-	}
+	//
+	// @PostMapping("/coupons/message/download/notify")
+	// public void downloadCoupon(@Valid @RequestBody DownloadCouponMessageRequest message) {
+	// 	memberCouponController.downloadLimited(message);
+	// 	couponSender.sendToHighTrafficCouponCreateQueue(message);
+	// }
 }
