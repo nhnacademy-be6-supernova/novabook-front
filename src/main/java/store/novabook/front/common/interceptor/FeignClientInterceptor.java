@@ -21,9 +21,9 @@ public class FeignClientInterceptor implements RequestInterceptor {
 	private final HttpServletResponse response;
 	private final RefreshTokenContext refreshTokenContext;
 
-	private final String AUTHORIZATION = "Authorization";
-	private final String REFRESH = "Refresh";
-	private final String BEARER = "Bearer";
+	private static final String AUTHORIZATION = "Authorization";
+	private static final String REFRESH = "Refresh";
+	private static final String BEARER = "Bearer";
 
 	@Override
 	public void apply(RequestTemplate template) {
@@ -34,7 +34,7 @@ public class FeignClientInterceptor implements RequestInterceptor {
 		Cookie[] cookies = request.getCookies();
 		String access = response.getHeader("access");
 		String refresh = response.getHeader("refresh");
-		if (Objects.nonNull(access)) {
+		if (Objects.nonNull(access) && Objects.nonNull(refresh)) {
 			template.header(AUTHORIZATION, BEARER + " " + access);
 			template.header(REFRESH, BEARER + " " + refresh);
 			refreshTokenContext.setTokenData(null);
