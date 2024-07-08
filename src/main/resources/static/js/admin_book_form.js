@@ -95,8 +95,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // 2. url, parameter 세팅
-        const url = 'https://novabook.store/admin/books/book/form';
-        // const url = 'http://localhost:8080/admin/books/book/form';
+        // const url = 'https://novabook.store/admin/books/book/form';
+        const url = 'http://localhost:8080/admin/books/book/form';
 
         const stock = document.getElementById('inputStock')
         const category = $("#categorySelect").val();
@@ -172,14 +172,16 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
 
-        axios.post(url, JSON.stringify(params), {
+
+        fetch(url, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify(params)
         })
-            console.log("실행됨")
-            .then(response => {
-                console.log('응답:', response.data);
+            .then(response => response.json())
+            .then(data => {
                 alert("등록이 완료되었습니다!");
                 location.reload();
             })
