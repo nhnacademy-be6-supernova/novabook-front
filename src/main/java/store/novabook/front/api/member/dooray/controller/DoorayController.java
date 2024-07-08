@@ -1,4 +1,4 @@
-package store.novabook.front.dooray;
+package store.novabook.front.api.member.dooray.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.common.exception.FeignClientException;
+import store.novabook.front.api.member.dooray.service.DoorayService;
+import store.novabook.front.api.member.dooray.dto.DoorayAuthCodeRequest;
+import store.novabook.front.api.member.dooray.dto.DoorayAuthRequest;
+import store.novabook.front.api.member.dooray.dto.SendAuthResponse;
 
 @RestController
 @RequestMapping("/dooray")
@@ -27,7 +31,7 @@ public class DoorayController {
 		try {
 			doorayService.confirmAuthCode(request);
 		} catch (FeignClientException e) {
-			return ResponseEntity.status(e.getStatus()).body(e.getMessage());
+			return ResponseEntity.status(e.getStatus()).body("유효하지 않은 코드입니다.");
 		}
 
 		return ResponseEntity.ok().body(new SendAuthResponse("해지가 성공적으로 완료되었습니다."));

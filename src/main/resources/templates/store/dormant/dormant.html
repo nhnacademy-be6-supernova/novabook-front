@@ -24,6 +24,13 @@
             padding: 0; /* body의 기본 여백 제거 */
         }
 
+        .btn-disabled {
+            background-color: #cccccc;
+            border-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+
         .panel-heading {
             background-color: #337ab7;
             color: #fff;
@@ -148,6 +155,11 @@
             alert('UUID를 찾을 수 없습니다.');
             return;
         }
+        // 버튼 비활성화
+        var sendCodeBtn = document.getElementById('sendCodeBtn');
+        sendCodeBtn.disabled = true;
+        sendCodeBtn.classList.add('btn-disabled');
+
         axios.request({
             url: '/dooray/sendAuthCode',
             method: 'POST',
@@ -180,7 +192,7 @@
                 window.location.href = '/login';
             })
             .catch(error => {
-                alert(error.response.data);
+                alert('유효하지 않은 코드입니다.');
             });
     }
 
@@ -188,6 +200,7 @@
     function startTimer(duration) {
         var timer = duration, minutes, seconds;
         var timerElement = document.getElementById('timer');
+        var sendCodeBtn = document.getElementById('sendCodeBtn');
         var interval = setInterval(function () {
             minutes = parseInt(timer / 60, 10);
             seconds = parseInt(timer % 60, 10);
@@ -200,6 +213,10 @@
             if (--timer < 0) {
                 clearInterval(interval);
                 timerElement.textContent = "인증번호 시간이 만료되었습니다.";
+
+                // 버튼 다시 활성화
+                sendCodeBtn.disabled = false;
+                sendCodeBtn.classList.remove('btn-disabled');
             }
         }, 1000);
     }

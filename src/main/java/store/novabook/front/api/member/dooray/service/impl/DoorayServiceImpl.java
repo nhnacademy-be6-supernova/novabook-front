@@ -1,8 +1,12 @@
-package store.novabook.front.dooray;
+package store.novabook.front.api.member.dooray.service.impl;
 
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import store.novabook.front.api.member.dooray.dto.DoorayAuthCodeRequest;
+import store.novabook.front.api.member.dooray.dto.DoorayAuthRequest;
+import store.novabook.front.api.member.dooray.service.DoorayHookClient;
+import store.novabook.front.api.member.dooray.service.DoorayService;
 
 @Service
 @RequiredArgsConstructor
