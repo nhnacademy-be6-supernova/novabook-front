@@ -23,6 +23,7 @@
             margin: 0; /* body의 기본 여백 제거 */
             padding: 0; /* body의 기본 여백 제거 */
         }
+
         .panel-heading {
             background-color: #337ab7;
             color: #fff;
@@ -30,34 +31,41 @@
             padding: 10px;
             border-radius: 5px 5px 0 0;
         }
+
         .panel-body {
             padding: 20px;
         }
+
         .form-group {
             margin-bottom: 20px;
             position: relative;
         }
+
         .btn-primary {
             background-color: #337ab7;
             border-color: #2e6da4;
             padding: 6px 12px;
             font-size: 14px;
         }
+
         .btn-primary:hover,
         .btn-primary:focus {
             background-color: #286090;
             border-color: #204d74;
         }
+
         .btn-send-code {
             padding: 6px 12px;
             font-size: 14px;
         }
+
         .timer {
             text-align: center;
             margin-top: 10px;
             font-size: 14px;
             color: red;
         }
+
         .layout {
             display: flex;
             justify-content: center;
@@ -65,6 +73,7 @@
             min-height: 40vh; /* 최소 높이 설정 */
             padding-top: 50px; /* 패딩을 통해 헤더에 가깝게 배치 */
         }
+
         .panel {
             width: 100%;
             max-width: 800px;
@@ -85,7 +94,7 @@
                         <h3 class="panel-title">휴면 계정 해지</h3>
                     </div>
                     <div class="panel-body">
-                        <form th:action="@{/api/v1/store/dooray/confirm}" method="post">
+                        <form th:action="@{/dooray/sendAuthCode}" method="post">
                             <div class="form-group">
                                 <label for="authCode">인증 코드</label>
                                 <div class="input-group">
@@ -95,8 +104,10 @@
                                     </span>
                                 </div>
                                 <!-- 백엔드에서 전달받은 memberId를 hidden 필드로 추가 -->
-                                <input type="hidden" th:name="memberId" th:value="${memberId}">
+                                <input type="hidden" name="uuid" th:value="${uuid}">
                             </div>
+                        </form>
+                        <form th:action="@{/dooray/confirm}" method="post">
                             <button type="submit" class="btn btn-primary btn-block">확인</button>
                         </form>
                         <div id="timer" class="timer"></div>
@@ -110,7 +121,7 @@
 <div th:replace="~{layout/store/footer::footer}"></div>
 
 <script>
-    document.getElementById('sendCodeBtn').addEventListener('click', function() {
+    document.getElementById('sendCodeBtn').addEventListener('click', function () {
         alert('인증번호가 전송되었습니다.');
         startTimer(3 * 60);
     });

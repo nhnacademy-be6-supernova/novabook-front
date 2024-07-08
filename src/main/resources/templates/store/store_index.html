@@ -12,6 +12,7 @@
           rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
           type="text/css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <!-- Theme Stylesheet -->
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
@@ -44,23 +45,57 @@
 
                         <!-- Wrapper for slides -->
 
-                        <div class="carousel-inner" role="listbox">
+                        <!-- Swiper Container -->
+                        <div class="swiper-container">
+                            <div class="carousel-inner swiper-wrapper" role="listbox">
 
-                            <div class="item active" style="background-image:url('/images/slider-1.png')">
-
-                                <div class="carousel-caption">
-
-                                    <h4>Save up to 30%</h4>
-
-                                    <h2 class="raleway">새로운 신상 도서 <span>2024</span></h2>
-
-                                    <a href="" class="btn btn-theme">보러 가기</a>
-
+                                <div class="item active swiper-slide" style="background-image:url('/images/slider-1.png')">
+                                    <div class="carousel-caption">
+                                        <h4>Save up to 30%</h4>
+                                        <h2 class="raleway">새로운 신상 도서 <span>2024</span></h2>
+                                        <a href="#" class="btn btn-theme">보러 가기</a>
+                                    </div>
                                 </div>
+
+                                <!-- 추가 슬라이드들 -->
+                                <div class="item swiper-slide" style="background-image:url('/images/slider-2.png')">
+                                    <div class="carousel-caption">
+                                        <h4></h4>
+                                        <h2 class="raleway"><span>2024</span></h2>
+                                        <a href="#" class="btn btn-theme">보러 가기</a>
+                                    </div>
+                                </div>
+
+                                <!-- 필요한 만큼 슬라이드 추가 -->
 
                             </div>
 
+                            <!-- 이전/다음 버튼 -->
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+
+                            <!-- 페이지 네이션 -->
+                            <div class="swiper-pagination"></div>
                         </div>
+
+
+                        <!--                        <div class="carousel-inner" role="listbox">-->
+
+<!--                            <div class="item active" style="background-image:url('/images/slider-1.png')">-->
+
+<!--                                <div class="carousel-caption">-->
+
+<!--                                    <h4>Save up to 30%</h4>-->
+
+<!--                                    <h2 class="raleway">새로운 신상 도서 <span>2024</span></h2>-->
+
+<!--                                    <a href="" class="btn btn-theme">보러 가기</a>-->
+
+<!--                                </div>-->
+
+<!--                            </div>-->
+
+<!--                        </div>-->
 
                     </div>
 
@@ -1567,5 +1602,27 @@
 
 
 <div th:replace="~{layout/store/footer::footer}"></div>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+                renderBullet: function (index, className) {
+                    return '<span class="' + className + '">' + (index + 1) + '</span>';
+                },
+            },
+        });
+    });
+</script>
+
 </body>
 </html>

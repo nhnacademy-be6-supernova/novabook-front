@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,8 @@ public class DoorayController {
 	}
 
 	@PostMapping("/confirm")
-	public ResponseEntity<String> confirm(@RequestBody DoorayAuthCodeRequest request) {
+	public ResponseEntity<String> confirm(@RequestParam("authCode") String authCode, @RequestParam("uuid") String uuid) {
+		DoorayAuthCodeRequest request = new DoorayAuthCodeRequest(authCode, uuid);
 		boolean result = doorayService.confirmAuthCode(request);
 		if (result) {
 			return ResponseEntity.ok("해지가 성공적으로 완료되었습니다.");
