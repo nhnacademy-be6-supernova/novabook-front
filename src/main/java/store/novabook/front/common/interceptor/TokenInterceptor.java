@@ -52,7 +52,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 		ModelAndView modelAndView) throws Exception {
 
-		if (refreshTokenContext.getTokenData() == null) {
+		if (refreshTokenContext.getTokenData() == null || request.getRequestURI().equals("/error")) {
 			return;
 		}
 		if (refreshTokenContext.getTokenData().equals("expired")) {
@@ -94,7 +94,9 @@ public class TokenInterceptor implements HandlerInterceptor {
 			response.setHeader("access", refreshTokenContext.getTokenData());
 			response.setHeader("refresh", refreshTokenContext.getRefreshToken());
 			RequestDispatcher dispatcher = request.getRequestDispatcher(refreshTokenContext.getUri());
-			refreshTokenContext.setUri(null);
+			if(!request.getRequestURI().equals("/error")) {
+				refreshTokenContext.setUri(null);
+			}
 			dispatcher.forward(request, response);
 		}
 
