@@ -12,9 +12,40 @@
           rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
           type="text/css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <!-- Theme Stylesheet -->
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
+    <style>
+        /* 화살표 스타일링 */
+        .swiper-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            transition: background-color 0.3s ease;
+        }
+
+        .swiper-button-next {
+            right: 10px;
+        }
+
+        .swiper-button-prev {
+            left: 10px;
+        }
+
+        .swiper-button-next:hover,
+        .swiper-button-prev:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+    </style>
 </head>
 
 <body>
@@ -30,37 +61,66 @@
 
                 <div class="slider big-slider">
 
+                    <!-- Swiper Container -->
                     <div id="featured" class="carousel slide" data-ride="carousel">
 
                         <!-- Indicators -->
-
                         <ol class="carousel-indicators">
-
                             <li data-target="#featured" data-slide-to="0" class="active"></li>
-
+                            <li data-target="#featured" data-slide-to="1"></li> <!-- 두 번째 슬라이드 -->
                         </ol>
 
-
-
                         <!-- Wrapper for slides -->
+                        <div class="swiper-container">
+                            <div class="carousel-inner swiper-wrapper" role="listbox">
 
-                        <div class="carousel-inner" role="listbox">
-
-                            <div class="item active" style="background-image:url('/images/slider-1.png')">
-
-                                <div class="carousel-caption">
-
-                                    <h4>Save up to 30%</h4>
-
-                                    <h2 class="raleway">새로운 신상 도서 <span>2024</span></h2>
-
-                                    <a href="" class="btn btn-theme">보러 가기</a>
-
+                                <div class="item active swiper-slide" style="background-image:url('/images/slider-1.png')">
+                                    <div class="carousel-caption">
+                                        <h4>이달의 작가와 함께하는</h4>
+                                        <h2 class="raleway">새로운 신상 도서 <span>2024</span></h2>
+                                        <a href="#" class="btn btn-theme">보러 가기</a>
+                                    </div>
                                 </div>
+
+                                <!-- 추가 슬라이드들 -->
+                                <div class="item swiper-slide" style="background-image:url('/images/slider-2.png')">
+                                    <div class="carousel-caption">
+                                        <h4></h4>
+                                        <h2 class="raleway"><span></span></h2>
+                                        <a href="#" class="btn btn-theme">보러 가기</a>
+                                    </div>
+                                </div>
+
+                                <!-- 필요한 만큼 슬라이드 추가 -->
 
                             </div>
 
+                            <!-- 이전/다음 버튼 -->
+                            <div class="swiper-button-next swiper-button"></div>
+                            <div class="swiper-button-prev swiper-button"></div>
+
+                            <!-- 페이지 네이션 -->
+                            <div class="swiper-pagination"></div>
                         </div>
+
+
+                    <!--                        <div class="carousel-inner" role="listbox">-->
+
+<!--                            <div class="item active" style="background-image:url('/images/slider-1.png')">-->
+
+<!--                                <div class="carousel-caption">-->
+
+<!--                                    <h4>Save up to 30%</h4>-->
+
+<!--                                    <h2 class="raleway">새로운 신상 도서 <span>2024</span></h2>-->
+
+<!--                                    <a href="" class="btn btn-theme">보러 가기</a>-->
+
+<!--                                </div>-->
+
+<!--                            </div>-->
+
+<!--                        </div>-->
 
                     </div>
 
@@ -1567,5 +1627,28 @@
 
 
 <div th:replace="~{layout/store/footer::footer}"></div>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            allowTouchMove: true, // 사용자 입력 허용
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+                renderBullet: function (index, className) {
+                    return '<span class="' + className + '">' + (index + 1) + '</span>';
+                },
+            },
+        });
+    });
+</script>
+
 </body>
 </html>

@@ -43,6 +43,8 @@ spring:
             url: http://localhost:9777/api/v1/store/tags
           pointPolicyClient:
             url: http://localhost:9777/api/v1/store/point/policies
+          doorayHookClient:
+            url:http://localhost:9777/api/v1/store/dooray
           pointHistoryClient:
             url: http://localhost:9777/api/v1/store/point/histories
           pointClient:

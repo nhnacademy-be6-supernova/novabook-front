@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+
+    <style>
+        body {
+            background-color: #f9f9f9;
+            font-family: 'Open Sans', sans-serif;
+            margin: 0; /* body의 기본 여백 제거 */
+            padding: 0; /* body의 기본 여백 제거 */
+        }
+
+        .btn-disabled {
+            background-color: #cccccc;
+            border-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+
+        .panel-heading {
+            background-color: #337ab7;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .panel-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .btn-primary {
+            background-color: #337ab7;
+            border-color: #2e6da4;
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+
+        .btn-primary:hover,
+        .btn-primary:focus {
+            background-color: #286090;
+            border-color: #204d74;
+        }
+
+        .btn-send-code {
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+
+        .timer {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: red;
+        }
+
+        .layout {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 40vh; /* 최소 높이 설정 */
+            padding-top: 50px; /* 패딩을 통해 헤더에 가깝게 배치 */
+        }
+
+        .panel {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 50px; /* 하단 여백 추가 */
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{layout/store/nav::nav}"></div>
+
+<div class="layout">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">휴면 계정 해지</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="authCode">인증 코드</label>
+                            <div class="input-group">
+                                <input type="text" id="authCode" name="authCode" class="form-control" required>
+                                <span class="input-group-btn">
+                                    <button id="sendCodeBtn" type="button"
+                                            class="btn btn-primary btn-send-code">인증번호 전송</button>
+                                </span>
+                            </div>
+                            <!-- 백엔드에서 전달받은 memberId를 hidden 필드로 추가 -->
+                            <input type="hidden" name="uuid" id="uuid" th:value="${uuid}">
+                        </div>
+                        <button id="confirmBtn" type="button" class="btn btn-primary btn-block">확인</button>
+                        <div id="timer" class="timer"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/store/footer::footer}"></div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    document.getElementById('sendCodeBtn').addEventListener('click', function () {
+        sendAuthCode();
+    });
+
+    document.getElementById('confirmBtn').addEventListener('click', function () {
+        confirmAuthCode();
+    });
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+
+    function sendAuthCode() {
+        var uuid = getCookie('UUID');
+        if (!uuid) {
+            alert('UUID를 찾을 수 없습니다.');
+            return;
+        }
+        // 버튼 비활성화
+        var sendCodeBtn = document.getElementById('sendCodeBtn');
+        sendCodeBtn.disabled = true;
+        sendCodeBtn.classList.add('btn-disabled');
+
+        axios.request({
+            url: '/dooray/send-auth-code',
+            method: 'POST',
+            data: {uuid: uuid}
+        })
+            .then(response => {
+                alert(response.data.message);
+                startTimer(3 * 60);
+            })
+            .catch(error => {
+                console.error('There was an error !', error);
+                alert('서버 오류가 발생했습니다.');
+            });
+    }
+
+    function confirmAuthCode() {
+        var authCode = document.getElementById('authCode').value;
+        var uuid = getCookie('UUID');
+        if (!uuid) {
+            alert('UUID를 찾을 수 없습니다.');
+            return;
+        }
+        axios.request({
+            url: '/dooray/confirm',
+            method: 'POST',
+            data: {authCode: authCode, uuid: uuid}
+        })
+            .then(response => {
+                alert(response.data.message);
+                window.location.href = '/login';
+            })
+            .catch(error => {
+                alert('유효하지 않은 코드입니다.');
+            });
+    }
+
+
+    function startTimer(duration) {
+        var timer = duration, minutes, seconds;
+        var timerElement = document.getElementById('timer');
+        var sendCodeBtn = document.getElementById('sendCodeBtn');
+        var interval = setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            timerElement.textContent = minutes + ":" + seconds;
+
+            if (--timer < 0) {
+                clearInterval(interval);
+                timerElement.textContent = "인증번호 시간이 만료되었습니다.";
+
+                // 버튼 다시 활성화
+                sendCodeBtn.disabled = false;
+                sendCodeBtn.classList.remove('btn-disabled');
+            }
+        }, 1000);
+    }
+</script>
+</body>
+
+</html>
