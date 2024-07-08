@@ -3,8 +3,10 @@ spring:
     name: novabook_front
   thymeleaf:
     prefix: classpath:/templates/
+  profiles:
+    active: dev
 
-# Feign client url
+  # Feign client url
   cloud:
     openfeign:
       client:
