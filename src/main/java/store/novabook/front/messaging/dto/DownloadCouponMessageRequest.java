@@ -6,5 +6,5 @@ import store.novabook.front.api.coupon.domain.CouponType;
 
 @Builder
 public record DownloadCouponMessageRequest(@NotNull String uuid, @NotNull CouponType couponType,
-										   @NotNull Long couponTemplateId) {
+										   Long couponTemplateId) {
 }

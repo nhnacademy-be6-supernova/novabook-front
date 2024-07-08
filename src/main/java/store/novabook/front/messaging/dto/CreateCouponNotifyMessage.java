@@ -8,5 +8,5 @@ import store.novabook.front.api.coupon.domain.CouponType;
 
 @Builder
 public record CreateCouponNotifyMessage(@NotNull Long uuid, @NotNull List<Long> memberIdList,
-										@NotNull CouponType couponType, @NotNull Long couponTemplateId) {
+										@NotNull CouponType couponType, Long couponTemplateId) {
 }

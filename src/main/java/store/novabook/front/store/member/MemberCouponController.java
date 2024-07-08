@@ -40,7 +40,7 @@ public class MemberCouponController {
 		return ResponseEntity.ok().build();
 	}
 
-	// 컨트롤러 메소드
+	// 쿠폰 다운로드 (일반, 도서, 카테고리)
 	@PostMapping("/download")
 	public ResponseEntity<Map<String, String>> downloadCoupon(@Valid @RequestBody DownloadCouponRequest request) {
 		String message = memberCouponService.downloadCoupon(request);
