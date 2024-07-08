@@ -14,7 +14,7 @@ import store.novabook.front.api.member.member.dto.response.GetMemberResponse;
 public interface MemberService {
 	CreateMemberResponse createMember(CreateMemberRequest createMemberRequest);
 
-	void login(LoginMembersRequest loginMembersRequest, HttpServletResponse response);
+	String login(LoginMembersRequest loginMembersRequest, HttpServletResponse response);
 
 	GetMemberResponse getMemberById();
 
