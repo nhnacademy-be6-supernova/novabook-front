@@ -3,11 +3,10 @@ spring:
     name: novabook_front
   thymeleaf:
     prefix: classpath:/templates/
- #기본으로 실행할 프로필
+  #기본으로 실행할 프로필
   profiles:
     active: dev
-
-  # Feign client url
+# Feign client url
   cloud:
     openfeign:
       client:
@@ -55,7 +54,7 @@ spring:
           cartClient:
             url: http://localhost:9777/api/v1/store/carts
 
-  # RabbitMQ config
+# RabbitMQ config
   rabbitmq:
     listener:
       simple:
