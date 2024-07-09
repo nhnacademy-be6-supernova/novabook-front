@@ -4,7 +4,7 @@ spring:
   thymeleaf:
     prefix: classpath:/templates/
   profiles:
-    active: dev
+    include: prod
 
   # Feign client url
   cloud:
@@ -81,3 +81,9 @@ rabbitmq:
     couponCreateHighTraffic: coupon.create.hightraffic
     couponRegisterNormal: coupon.register.normal
     couponRegisterHighTraffic: coupon.register.hightraffic
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

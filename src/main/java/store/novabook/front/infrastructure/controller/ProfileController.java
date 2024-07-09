@@ -12,17 +12,18 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/profiles")
+@RequestMapping("/profile")
 public class ProfileController {
 	private final Environment environment;
 
 	@GetMapping
 	public String profile() {
 		final List<String> profiles = Arrays.asList(environment.getActiveProfiles());
-		final List<String> prodProfiles = Arrays.asList("prod1", "prod2");
-		final String defaultProfile = profiles.get(0);
+		final List<String> prodProfiles = Arrays.asList("set1", "set2", "set3", "set4");
 
-		return Arrays.stream(environment.getActiveProfiles())
+		final String defaultProfile = profiles.isEmpty() ? "default" : profiles.getFirst();
+
+		return profiles.stream()
 			.filter(prodProfiles::contains)
 			.findAny()
 			.orElse(defaultProfile);
