@@ -22,7 +22,7 @@ import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateAllResp
 import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateAllResponse;
 import store.novabook.front.api.coupon.service.CouponService;
 import store.novabook.front.api.member.member.service.MemberCouponService;
-import store.novabook.front.messaging.dto.DownloadCouponMessageRequest;
+import store.novabook.front.api.member.coupon.dto.DownloadCouponMessageRequest;
 
 @Slf4j
 @RestController

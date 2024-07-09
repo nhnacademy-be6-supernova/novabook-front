@@ -15,7 +15,7 @@ import store.novabook.front.api.member.member.service.MemberClient;
 import store.novabook.front.api.member.member.service.MemberCouponService;
 import store.novabook.front.common.exception.FeignClientException;
 import store.novabook.front.common.response.ApiResponse;
-import store.novabook.front.messaging.dto.DownloadCouponMessageRequest;
+import store.novabook.front.api.member.coupon.dto.DownloadCouponMessageRequest;
 
 @Service
 @RequiredArgsConstructor
