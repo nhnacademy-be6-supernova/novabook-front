@@ -224,7 +224,7 @@ function processPayment() {
             alert("상품을 선택해주세요.");
             throw new Error("No items selected");
         }
-        if (!couponId || !pointAmount || !selectedDate) {
+        if (!pointAmount || !selectedDate) {
             alert("모든 필드를 채워주세요.");
             throw new Error("Missing required fields");
         }
@@ -332,7 +332,7 @@ function sendOrderData(formData) {
 }
 
 
-const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
+const clientKey = "test_ck_Z1aOwX7K8mzlogY57AQj3yQxzvNP";
 const customerKey = "3z5vQX5-gKl9yu91pPpr-";
 const tossPayments = TossPayments(clientKey);
 const payment = tossPayments.payment({ customerKey });

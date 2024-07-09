@@ -20,6 +20,7 @@ package store.novabook.front.common.exception;
  */
 public enum ErrorCode {
 
+	SEE_OTHER("SEE OTHER"),
 	// 400
 	INVALID_REQUEST_ARGUMENT("잘못된 요청입니다."),
 	INVALID_ARGUMENT_TYPE("유효하지 않은 타입입니다."),

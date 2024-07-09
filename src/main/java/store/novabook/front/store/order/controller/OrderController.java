@@ -61,11 +61,12 @@ public class OrderController {
 	 */
 	@GetMapping("/order/toss/success")
 	public String getTossOrderSuccessPage(
+		@CurrentMembers(required = false) Long memberId,
 		@Valid @ModelAttribute TossPaymentRequest tossPaymentRequest,
 		@RequestParam("memberId") Long orderMemberId,
 		@RequestParam("orderId") UUID orderUUID) {
 
-		if (orderService.isInvalidAccess(7L, orderUUID, orderMemberId)) {
+		if (orderService.isInvalidAccess(memberId, orderUUID, orderMemberId)) {
 			throw new IllegalArgumentException("부적절한 접근입니다.");
 		}
 
