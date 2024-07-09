@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NovaBook📕</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!--  ajax mix content  -->
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
@@ -308,7 +309,7 @@
         }
 
         // AJAX request to check for duplicate ID
-        fetch('https://novabook.store/api/v1/front/members/login-id/is-duplicate', {
+        fetch('/api/v1/front/members/login-id/is-duplicate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -376,7 +377,7 @@
             return;
         }
 
-        fetch('https://novabook.store/api/v1/front/members/email/is-duplicate', {
+        fetch('/api/v1/front/members/email/is-duplicate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

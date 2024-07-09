@@ -31,7 +31,7 @@ import store.novabook.front.common.util.dto.RabbitMQConfigDto;
 @Configuration
 @RequiredArgsConstructor
 public class RabbitMQConfig {
-	private final Environment environment;
+
 
 	@Value("${rabbitmq.queue.couponCreateNormal}")
 	private String couponCreateNormalQueue;
@@ -65,6 +65,8 @@ public class RabbitMQConfig {
 
 	@Value("${rabbitmq.routing.couponRegisterHighTraffic}")
 	private String couponRegisterHighTrafficRoutingKey;
+
+	private final Environment environment;
 
 	@Bean
 	public ConnectionFactory connectionFactory() {

@@ -20,7 +20,10 @@
 </head>
 
 <style>
-
+    .disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
     .product-info-btn .fa-heart-o {
         color: #777; /* 기본 하트 아이콘 색상 */
     }
@@ -80,6 +83,8 @@
     <input type="hidden" id="bookImage" th:value="${book.image}">
     <input type="hidden" id="bookPrice" th:value="${book.price}">
     <input type="hidden" id="bookDiscountPrice" th:value="${book.discountPrice}">
+    <input type="hidden" id="bookIsPackaged" th:value="${book.isPackaged}">
+    <input type="hidden" id="bookStatusId" th:value="${book.bookStatusId}">
 </div>
 
 <div class="breadcumbs">
@@ -108,8 +113,8 @@
                 <div class="product-thumbnail">
 
                     <div class="col-md-10 col-sm-10 col-xs-10">
-                        <div class="thumb-main-image"><a href="">
-                            <img th:src="${book.image}" alt=""></a>
+                        <div><a href="">
+                            <img class="thumb-main-image" th:src="${book.image}" alt=""></a>
                         </div>
 
                     </div>
@@ -140,8 +145,7 @@
                 </div>
 
                 <div class="product-info">
-                    <span class="product-id"><span class="strong-text"
-                                                   th:text="${book.author}">저자:</span> 한야 야나기하라</span>
+                    <span class="product-id strong-text" th:text="${book.author}"><span>저자:</span> 한야 야나기하라</span>
                 </div>
                 <br>
 
@@ -176,22 +180,19 @@
                     <span style="margin-left: 16px; font-size: 16px;" class="strong-text" th:if="${!book.isPackaged}">포장 불가</span>
                 </p>
 
-
-                <form action="" class="purchase-form">
-
+                <form class="purchase-form">
                     <div class="qt-area">
-
                         <i class="fa fa-minus"></i>
-
-                        <input name="quantity" class="qt" value="1">
-
+                        <input id="bookQuantity" class="qt" value="1"
+                               th:disabled="${book.bookStatusId == 2 or book.bookStatusId == 3}">
                         <i class="fa fa-plus"></i>
-
                     </div>
-
-                    <button class="btn btn-theme add-to-cart" type="submit">Add to cart</button>
-
-
+                    <button id="addCartButton" class="btn btn-theme" type="submit"
+                            th:text="${book.bookStatusId == 2 ? '일시품절' : (book.bookStatusId == 3 ? '품절' : 'Add to cart')}"
+                            th:classappend="${book.bookStatusId == 2 or book.bookStatusId == 3} ? ' disabled' : ''"
+                            th:onclick="${book.bookStatusId == 2 or book.bookStatusId == 3} ? '' : 'addCart()'">
+                        Add to cart
+                    </button>
                 </form>
 
                 <button class="btn product-info-btn" type="button" onclick="toggleLike()">
@@ -607,7 +608,7 @@
     });
 
     function downloadCoupon(couponTemplateId, buttonElement) {
-        axios.post('https://novabooks.store/coupons/download', {couponTemplateId: couponTemplateId})
+        axios.post('/coupons/download', {couponTemplateId: couponTemplateId})
             .then(function (response) {
                 alert('쿠폰이 성공적으로 다운로드되었습니다.');
                 buttonElement.classList.add('disabled');
@@ -677,6 +678,44 @@
         var imageUrl = element.getAttribute('data-image-url');
         window.open(imageUrl);
     }
+
+
+    function addCart() {
+        var bookId = document.getElementById('bookId').value;
+        var bookTitle = document.getElementById('bookTitle').value;
+        var bookImage = document.getElementById('bookImage').value;
+        var bookPrice = document.getElementById('bookPrice').value;
+        var bookDiscountPrice = document.getElementById('bookDiscountPrice').value;
+        var bookQuantity = document.getElementById('bookQuantity').value;
+        var bookIsPackaged = document.getElementById('bookIsPackaged').value;
+        var bookStatusId = document.getElementById('bookStatusId').value;
+
+
+        axios.request({
+            url: '/api/v1/front/carts',
+            method: 'POST',
+            data: JSON.stringify({
+                bookId: bookId,
+                title: bookTitle,
+                image: bookImage,
+                price: bookPrice,
+                discountPrice: bookDiscountPrice,
+                quantity: bookQuantity,
+                isPackaged: bookIsPackaged,
+                bookStatusId: bookStatusId
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            alert('장바구니에 추가되었습니다.');
+        })
+            .catch(error => {
+                alert(error.response.data);
+                console.error('Error cart add:', error.response.data);
+            });
+    }
+
 
 </script>
 

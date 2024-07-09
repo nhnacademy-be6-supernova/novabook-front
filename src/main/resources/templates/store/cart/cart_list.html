@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>NovaBook📕 - 장바구니</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
@@ -86,6 +87,24 @@
 
         .total-value.final {
             color: #d9534f;
+        }
+        .delete-btn {
+            width: 60%;
+            height: 40%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        @media (max-width: 600px) {
+            .delete-btn {
+                width: 100%;
+                height: auto;
+            }
         }
 
         .checkout-btn,
@@ -169,7 +188,9 @@
     <div style="display: flex; align-items: center; margin-bottom: 10px;">
         <input type="checkbox" id="selectAllItems" style="margin-right: 10px;">
         <label for="selectAllItems" style="margin-right: auto; margin-top: auto">전체 선택/해제</label>
+        <button id="refreshCarts" onclick="refresh()" class="btn btn-primary">새로고침</button>
         <button id="deleteSelectedItems" class="btn btn-danger">선택 상품 삭제</button>
+
     </div>
 
     <table class="cart-table">
@@ -177,99 +198,118 @@
         <tr>
             <th>선택</th>
             <th>상품 정보</th>
-            <th>수량</th>
             <th>상품금액</th>
-            <th>배송정보</th>
+            <th>포장 여부</th>
+
+            <th>수량</th>
             <th>설정</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:if="${cart.cartBookList.empty}">
+        <tr th:if="${cart == null or cart.cartBookList == null or #lists.isEmpty(cart.cartBookList)}">
             <td colspan="6" style="text-align: center; padding: 20px;">
                 장바구니가 비었습니다
             </td>
         </tr>
-        <tr th:each="item : ${cart.cartBookList}">
+        <th:block th:if="${cart != null}">
+        <tr th:each="item : ${cart.getCartBookList}">
             <td style="text-align: center; vertical-align: middle;">
-                <input type="checkbox" name="selectedItems" class="item-checkbox">
+                <input type="checkbox" name="selectedItems" class="item-checkbox" th:disabled="${item.bookStatusId != 1}">
             </td>
-
             <td style="padding: 10px; border-bottom: 1px solid #ddd;">
                 <div style="display: flex; align-items: center;">
+                    <input type="hidden" class="item-id" th:value="${item.bookId}">
+                    <input type="hidden" class="item-image" th:value="${item.image}">
+                    <input type="hidden" class="item-title" th:value="${item.title}">
+                    <input type="hidden" class="item-price" th:value="${item.price}">
+                    <input type="hidden" class="item-quantity" th:value="${item.quantity}">
+                    <input type="hidden" class="item-discount" th:value="${item.discountPrice}">
+                    <input type="hidden" class="item-isPackage" th:value="${item.isPackaged}">
                     <img th:src="${item.image}" alt="책 이미지" class="img-responsive" style="width: 80px; height: 120px; object-fit: cover; margin-right: 15px; border: 1px solid #ccc; padding: 5px;">
                     <div style="padding-left: 50px;">
-                        <h4 style="margin: 0;" th:text="${item.title}">더미 책 제목</h4>
-                        <div style="margin-top: 5px;">
-                            <p style="margin: 0;">
-                                <del style="color: #999;" th:text="'₩' + ${item.price}">₩15,000</del>
-                                <span style="font-weight: bold; color: #333;" th:text="'₩' + ${item.discountPrice}"> ₩13,500</span>
-                                <span style="color: #999;" th:text="'(' + (100 - (item.discountPrice / item.price * 100)) + '% 할인)'"> (10% 할인)</span>
-                            </p>
-                            <p style="margin: 0; color: #999;" th:text="'할인액: ₩' + (${item.price - item.discountPrice})">할인액: ₩1,500</p>
-                        </div>
+                        <a style="margin: 0;" th:text="${item.title}" th:href="@{/books/book/{id}(id=${item.bookId})}">더미 책 제목</a>
                     </div>
                 </div>
             </td>
 
-            <td style="text-align: center; vertical-align: middle;">
-                <form method="post" action="/cart/update" style="display: flex; flex-direction: column; align-items: center;">
-                    <input type="number" name="quantity" th:value="${item.quantity}" min="1" class="form-control input-sm item-quantity" style="width: 60px; height: 30px; text-align: center; margin-bottom: 5px;">
-                    <input type="hidden" name="itemId" th:value="${item.bookId}">
-                    <button type="submit" class="btn btn-default btn-sm" style="width: 60px; height: 30px;">변경</button>
-                </form>
-            </td>
-
-            <td class="item-price" th:text="'₩' + ${item.discountPrice}">₩13,500</td>
-            <td>내일 (6/15, 토) 도착예정</td>
-            <td style="text-align: center; vertical-align: middle;">
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    <button class="btn btn-info" style="width: 120px; height: 40px;  margin-bottom: 5px;"><i class="fa fa-heart"></i></button>
-                    <button type="submit" formaction="/cart/delete" class="btn btn-danger" style="width: 120px; height: 40px;">삭제</button>
+            <td class="item-price">
+                <div style="margin-top: 5px;">
+                    <p style="margin: 0;">
+                        <del style="color: #999;" th:text="'₩' + ${item.price}">₩15,000</del><br>
+                        <span style="font-weight: bold; color: #333;" th:text="'₩' + ${item.discountPrice}"> ₩13,500</span><br>
+<!--                        <span style="color: #999;" th:text="'(' + (100 - (item.discountPrice * 100 / item.price)) + '% 할인)'"> (10% 할인)</span>-->
+                    </p>
+<!--                    <p style="margin: 0; color: #999;" th:text="'할인액: ₩' + (${item.price - item.discountPrice})">할인액: ₩1,500</p>-->
                 </div>
             </td>
-        </tr>
+            <td>포장 가능</td>
+            <td style="text-align: center; vertical-align: middle;">
+                <form style="display: flex; flex-direction: column; align-items: center;">
+                    <input type="number" name="quantity" th:value="${item.quantity}" min="1" class="form-control input-sm item-quantity" style="width: 60px; height: 30px; text-align: center; margin-bottom: 5px;">
+                    <input type="hidden" name="bookId" th:value="${item.bookId}">
+                    <button type="submit" class="btn btn-default btn-sm" onclick="update()" style="width: 60px; height: 30px;">변경</button>
+                </form>
+            </td>
+            <td style="text-align: center; vertical-align: middle;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <span class="out-of-stock"
+                          th:if="${item.bookStatusId != 1}"
+                          th:text="${item.bookStatusId == 2 || item.bookStatusId == 3 ? '품절' : '판매종료'}">
+                        판매할 수 없습니다
+                    </span>
+<!--                    <a type="submit" th:href="@{/carts/delete/{bookId}(bookId=${item.bookId})}" class="btn btn-danger" style="width: 60%; height: 40%;">-->
+<!--                        삭제-->
+<!--                    </a>-->
+                    <a type="submit" th:href="@{/carts/delete/{bookId}(bookId=${item.bookId})}" class="btn btn-danger delete-btn">
+                        삭제
+                    </a>
+                </div>
+            </td>
+
+<!--        </tr>-->
+<!--            &lt;!&ndash;더미 2 - 품절 상품&ndash;&gt;-->
+<!--            <tr class="out-of-stock-item">-->
+<!--                <td style="text-align: center; vertical-align: middle;">-->
+<!--                    <input type="checkbox" name="selectedItems" class="item-checkbox" disabled>-->
+<!--                </td>-->
+<!--                <td style="padding: 10px; border-bottom: 1px solid #ddd;">-->
+<!--                    <div style="display: flex; align-items: center;">-->
+<!--                        <img src="https://dummyimage.com/100x150/000/fff&text=책+이미지2" alt="책 이미지2" class="img-responsive" style="width: 80px; height: 120px; object-fit: cover; margin-right: 15px; border: 1px solid #ccc; padding: 5px;">-->
+<!--                        <div style="padding-left: 50px;">-->
+<!--                            <h4 style="margin: 0;">더미 책 제목 2</h4>-->
+<!--                            <div style="margin-top: 5px;">-->
+<!--                                <p style="margin: 0;">-->
+<!--                                    <del style="color: #999;">₩20,000</del>-->
+<!--                                    <span style="font-weight: bold; color: #333;"> ₩18,000</span>-->
+<!--                                    <span style="color: #999;"> (10% 할인)</span>-->
+<!--                                </p>-->
+<!--                                <p style="margin: 0; color: #999;">할인액: ₩2,000</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--                <td style="text-align: center; vertical-align: middle;">-->
+<!--                    <form method="post" action="/cart/update" style="display: flex; flex-direction: column; align-items: center;">-->
+<!--                        <input type="number" name="quantity" th:value="${quantity != null ? quantity : '1'}" min="1" class="form-control input-sm item-quantity" style="width: 60px; height: 30px; text-align: center; margin-bottom: 5px;" disabled>-->
+<!--                        <input type="hidden" name="itemId" value="2">-->
+<!--                        <button type="submit" class="btn btn-default btn-sm" style="width: 60px; height: 30px;" disabled>변경</button>-->
+<!--                    </form>-->
+<!--                </td>-->
+<!--                <td class="item-price">₩18,000</td>-->
+<!--                <td>포장 가능</td>-->
+<!--                <td style="text-align: center; vertical-align: middle;">-->
+<!--                    <div style="display: flex; flex-direction: column; align-items: center;">-->
+<!--                        <span class="out-of-stock">판매할 수 없습니다</span>-->
+<!--                        <button class="btn btn-info" style="width: 120px; height: 40px; margin-bottom: 5px;" disabled><i class="fa fa-heart"></i></button>-->
+<!--                        <button type="submit" formaction="/cart/delete" class="btn btn-danger" style="width: 120px; height: 40px;">삭제</button>-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </tr>-->
+        </th:block>
         </tbody>
     </table>
 
 
-    <!--더미 2 - 품절 상품-->
-<!--        <tr class="out-of-stock-item">-->
-<!--            <td style="text-align: center; vertical-align: middle;">-->
-<!--                <input type="checkbox" name="selectedItems" class="item-checkbox" disabled>-->
-<!--            </td>-->
-<!--            <td style="padding: 10px; border-bottom: 1px solid #ddd;">-->
-<!--                <div style="display: flex; align-items: center;">-->
-<!--                    <img src="https://dummyimage.com/100x150/000/fff&text=책+이미지2" alt="책 이미지2" class="img-responsive" style="width: 80px; height: 120px; object-fit: cover; margin-right: 15px; border: 1px solid #ccc; padding: 5px;">-->
-<!--                    <div style="padding-left: 50px;">-->
-<!--                        <h4 style="margin: 0;">더미 책 제목 2</h4>-->
-<!--                        <div style="margin-top: 5px;">-->
-<!--                            <p style="margin: 0;">-->
-<!--                                <del style="color: #999;">₩20,000</del>-->
-<!--                                <span style="font-weight: bold; color: #333;"> ₩18,000</span>-->
-<!--                                <span style="color: #999;"> (10% 할인)</span>-->
-<!--                            </p>-->
-<!--                            <p style="margin: 0; color: #999;">할인액: ₩2,000</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </td>-->
-<!--            <td style="text-align: center; vertical-align: middle;">-->
-<!--                <form method="post" action="/cart/update" style="display: flex; flex-direction: column; align-items: center;">-->
-<!--                    <input type="number" name="quantity" th:value="${quantity != null ? quantity : '1'}" min="1" class="form-control input-sm item-quantity" style="width: 60px; height: 30px; text-align: center; margin-bottom: 5px;" disabled>-->
-<!--                    <input type="hidden" name="itemId" value="2">-->
-<!--                    <button type="submit" class="btn btn-default btn-sm" style="width: 60px; height: 30px;" disabled>변경</button>-->
-<!--                </form>-->
-<!--            </td>-->
-<!--            <td class="item-price">₩18,000</td>-->
-<!--            <td>내일 (6/15, 토) 도착예정</td>-->
-<!--            <td style="text-align: center; vertical-align: middle;">-->
-<!--                <div style="display: flex; flex-direction: column; align-items: center;">-->
-<!--                    <span class="out-of-stock">판매할 수 없습니다</span>-->
-<!--                    <button class="btn btn-info" style="width: 120px; height: 40px; margin-bottom: 5px;" disabled><i class="fa fa-heart"></i></button>-->
-<!--                    <button type="submit" formaction="/cart/delete" class="btn btn-danger" style="width: 120px; height: 40px;">삭제</button>-->
-<!--                </div>-->
-<!--            </td>-->
-<!--        </tr>-->
 
     <div class="total-container" style="border: 1px solid #ddd; border-radius: 5px; padding: 10px; margin-top: 20px;">
         <table style="width: 100%; border-collapse: collapse;">
@@ -295,7 +335,7 @@
     </div>
 
     <div style="margin-top: 10px; display: flex; justify-content: space-between;">
-        <a href="/order/" class="checkout-btn btn btn-primary">주문하기</a>
+        <a onclick="checkOut()" class="checkout-btn btn btn-primary">주문하기</a>
         <a href="#" class="continue-shopping-btn btn btn-default">쇼핑 계속하기</a>
     </div>
 
@@ -304,6 +344,7 @@
 <div th:replace="~{layout/store/footer::footer}"></div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 
     $(document).ready(function() {
@@ -312,7 +353,12 @@
         $('#selectAllItems').change(function() {
             var isChecked = $(this).prop('checked');
 
-            $('input[name="selectedItems"]').prop('checked', isChecked);
+            $('input[name="selectedItems"]').each(function() {
+                if (!$(this).prop('disabled')) {
+                    $(this).prop('checked', isChecked);
+                }
+            });
+
             calculateSelectedItemsTotal();
         });
 
@@ -323,12 +369,6 @@
             calculateSelectedItemsTotal();
         });
 
-        // 선택 상품 삭제
-        $('#deleteSelectedItems').click(function() {
-            var selectedItems = $('.item-checkbox:checked').closest('tr');
-            selectedItems.remove();
-            calculateSelectedItemsTotal();
-        });
 
         // 선택 상품 총 금액 계산 UI 업데이트
         function calculateSelectedItemsTotal() {
@@ -384,7 +424,181 @@
             alert('좋아요 리스트에 추가되었습니다!');
         });
 
+        // 선택 상품 삭제
+        $('#deleteSelectedItems').click(function() {
+            var selectedItems = [];
+
+            $('input[name="selectedItems"]:checked').each(function() {
+                var row = $(this).closest('tr');
+                selectedItems.push(row.find('.item-id').val());
+            });
+
+            if (selectedItems.length === 0) {
+                alert('삭제할 상품을 선택해주세요.');
+                return;
+            }
+
+            let requestBody = JSON.stringify({
+                bookIds: selectedItems
+            });
+
+            axios.request({
+                url: '/api/v1/front/carts',
+                method: 'DELETE',
+                data: requestBody,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                location.reload();
+            })
+            .catch(error => {
+                console.error('실패 : ', error.response.data);
+                alert(error.response.data);
+                // location.reload();
+            });
+
+
+        });
+
     });
+
+    function checkOut() {
+        var selectedItems = [];
+        $('input[name="selectedItems"]:checked').each(function() {
+            var row = $(this).closest('tr');
+            var item = {
+                bookId: row.find('.item-id').val(),
+                image: row.find('.item-image').val(),
+                title: row.find('.item-title').val(),
+                price: row.find('.item-price').val(),
+                discountPrice: row.find('.item-discount').val(),
+                quantity: row.find('.item-quantity').val(),
+                isPackage: row.find('.item-isPackage').val()
+            };
+            selectedItems.push(item);
+        });
+
+        var order = {
+            bookDTOS: selectedItems
+        };
+
+        alert(order)
+
+        //TODO ajax 연결
+    }
+
+
+    function update() {
+        // 기본 폼 제출 동작 방지
+        event.preventDefault();
+
+        // 변경 버튼이 속한 폼 요소 선택
+        var form = event.target.closest('form');
+        var quantity = form.querySelector('.item-quantity').value;
+        var bookId = form.querySelector('[name="bookId"]').value;
+        console.log(quantity)
+        console.log(bookId)
+
+        // 데이터 구성
+        var data = {
+            bookId: bookId,
+            quantity: quantity
+        };
+
+        axios.request({
+            url: '/api/v1/front/carts/update',
+            method: 'PUT',
+            data: data,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+            })
+            .then(response => {
+                location.reload();
+            })
+            .catch(error => {
+                console.error('There was an error downloading the coupon!', error.response.data);
+                alert(error.response.data);
+                location.reload();
+            });
+    }
+
+    function refresh(){
+        var cartItems = [];
+        var itemsExist = false;
+
+        $('table.cart-table tbody tr').each(function() {
+            var row = $(this);
+            if (row.find(".item-quantity").val() === undefined) {
+                return;
+            }
+            itemsExist = true;
+            var bookId = parseInt(row.find('.item-id').val());
+            var quantity = parseInt(row.find('.item-quantity').val());
+
+            // parseInt()의 NaN 체크
+            if (!isNaN(bookId) && !isNaN(quantity)) {
+                cartItems.push({ bookId: bookId, quantity: quantity });
+            }
+        });
+
+        if (!itemsExist) {
+            alert("장바구니에 상품이 없습니다.");
+            return;
+        }
+
+        var cartBookIdDTO = {
+            bookIdsAndQuantity: {}
+        };
+
+        cartItems.forEach(function(item) {
+            cartBookIdDTO.bookIdsAndQuantity[item.bookId] = item.quantity;
+        });
+
+        var requestBody = JSON.stringify(cartBookIdDTO);
+
+        axios.request({
+            url: '/api/v1/front/carts/refresh',
+            method: 'POST',
+            data: requestBody,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            location.reload();
+        })
+            .catch(error => {
+                alert('Error cart refresh:', error);
+                console.error('Error cart refresh:', error);
+            });
+
+
+        // // AJAX 요청
+        // fetch('http://localhost:8080/api/v1/front/carts/refresh', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: requestBody
+        // })
+        //     .then(response => {
+        //         if (!response.ok) {
+        //             throw new Error('Network response was not ok');
+        //         }
+        //         return response.json();
+        //     })
+        //     .then(data => {
+        //         alert("요청에 성공했습니다.");
+        //         location.reload();
+        //     })
+        //     .catch(error => {
+        //         alert("요청에 실패했습니다. : " + error.message);
+        //         location.reload();
+        //     });
+    }
+
+
 </script>
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>

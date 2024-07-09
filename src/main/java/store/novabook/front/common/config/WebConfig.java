@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -26,6 +28,8 @@ public class WebConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new TokenInterceptor(refreshTokenContext))
 			.excludePathPatterns(
+				"/books",
+				// "/carts",
 				"/login",
 				"/users/user/form/**",
 				// "/auth/**",
@@ -41,6 +45,18 @@ public class WebConfig implements WebMvcConfigurer {
 			);
 		registry.addInterceptor(new LoginStatusInterceptor())
 			.addPathPatterns("/users/user/form", "/login");
+	}
+
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping(("/**"))
+			.allowedOrigins("*")
+			.allowedMethods(
+				HttpMethod.HEAD.name(),
+				HttpMethod.GET.name(),
+				HttpMethod.POST.name(),
+				HttpMethod.PUT.name(),
+				HttpMethod.DELETE.name());
 	}
 
 	@Override

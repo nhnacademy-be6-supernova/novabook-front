@@ -28,6 +28,7 @@ package store.novabook.front.common.security;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,7 +41,7 @@ import store.novabook.front.api.member.member.service.MemberService;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("/api/v1/front")
 @RequiredArgsConstructor
 public class NewTokenController {
@@ -55,7 +56,6 @@ public class NewTokenController {
 		GetNewTokenResponse getNewTokenResponse = memberService.newToken(getNewTokenRequest);
 
 		refreshTokenContext.setTokenData(getNewTokenResponse.accessToken());
-		refreshTokenContext.setRefreshToken(refresh);
 
 	}
 
