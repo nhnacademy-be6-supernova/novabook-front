@@ -3,10 +3,10 @@ spring:
     name: novabook_front
   thymeleaf:
     prefix: classpath:/templates/
+  #기본으로 실행할 프로필
   profiles:
-    include: prod
-
-  # Feign client url
+    active: dev
+# Feign client url
   cloud:
     openfeign:
       client:
