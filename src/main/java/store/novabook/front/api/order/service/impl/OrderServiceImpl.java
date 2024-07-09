@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -31,6 +32,7 @@ import store.novabook.front.api.point.dto.response.GetPointHistoryResponse;
 import store.novabook.front.api.point.service.PointHistoryClient;
 import store.novabook.front.store.book.dto.BookDTO;
 import store.novabook.front.store.order.dto.OrderViewDTO;
+import store.novabook.front.store.order.repository.RedisOrderNonMemberRepository;
 import store.novabook.front.store.order.repository.RedisOrderRepository;
 
 @RequiredArgsConstructor
@@ -44,7 +46,9 @@ public class OrderServiceImpl implements OrderService {
 	private final PointHistoryClient pointHistoryClient;
 	private final MemberAddressClient memberAddressClient;
 	private final DeliveryFeeClient deliveryFeeClient;
-	// private final OrdersSagaClient ordersSagaClient;
+
+
+	private final RedisOrderNonMemberRepository redisOrderNonMemberRepository;
 	private final RedisOrderRepository redisOrderRepository;
 
 	@Override
@@ -117,8 +121,22 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 
+	/**
+	 * 부적절한 접근 <검증>
+	 * 1. 현재 결제 완료 페이지에 로그인된 유저와 주문 완료한 유저가 일치하는가?
+	 * @param memberId
+	 * @param orderUUID
+	 * @param orderMemberId
+	 * @return
+	 */
 	@Override
-	public Boolean existOrderUUID(UUID ordersUUID) {
-		return redisOrderRepository.existsByOrderUUID(ordersUUID);
+	public boolean isInvalidAccess(Long memberId, UUID orderUUID, Long orderMemberId) {
+		if (memberId == null) {
+			return !redisOrderNonMemberRepository.existsById(orderUUID);
+		} else {
+			return !Objects.equals(memberId, orderMemberId);
+		}
 	}
+
+
 }

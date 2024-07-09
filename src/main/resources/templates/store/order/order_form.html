@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
     <script src="https://js.tosspayments.com/v2/standard"></script>
-<!--    <script src="https://js.tosspayments.com/v1/payment-widget"></script>-->
     <script src="/js/order_form.js"></script>
     <style>
         .form-inline .form-group {
@@ -515,6 +514,8 @@
         </div>
     </div>
 </div>
+
+<input type="hidden" id="login_member_id" th:value="${memberId}">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>

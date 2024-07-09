@@ -11,5 +11,5 @@ import store.novabook.front.store.order.dto.OrderViewDTO;
 public interface OrderService {
 	OrderViewDTO getOrder(List<BookDTO> bookDTOS, Long memberId);
 	void createOrder(PaymentRequest request);
-	Boolean existOrderUUID(UUID ordersUUID);
+	boolean isInvalidAccess(Long memberId, UUID orderUUID, Long orderMemberId);
 }

@@ -270,9 +270,15 @@ function processPayment() {
             throw new Error("Invalid phone number format");
         }
 
+        var memberID = $('#login_member_id').val();
+        if(!memberID) {
+            alert("맴버 정보가 존재하지 않습니다!");
+            throw new Error("로그인 정보가 일치하지 않습니다");
+        }
+
         // 폼 내용
         var formData = {
-            memberId: 1,
+            memberId: memberID,
             books: items,
             wrappingPaperId: wrapPaperId,
             couponId: couponId,
@@ -332,17 +338,13 @@ const tossPayments = TossPayments(clientKey);
 const payment = tossPayments.payment({ customerKey });
 
 
-async function requestPayment(orderUUID) {
-
+async function requestPayment(orderUUID, memberId) {
     var totalPrice = parseInt($('#finalAmount').text().replace('원', '').replace(',', ''), 10);
     var orderName = globalFirstItemName;
+    var memberID = $('#login_member_id').val();
     if (globalItemSize > 1) {
         orderName += " 외 " + (globalItemSize - 1) + "건";
     }
-
-    alert("파라미터 타입 : " + orderName);
-    alert("토탈 프라이스 파라미터 타입 : " + totalPrice);
-    alert("토탈 프라이스 파라미터 타입 : " + typeof totalPrice);
 
     // 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
     // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
@@ -354,6 +356,7 @@ async function requestPayment(orderUUID) {
         },
         orderId: orderUUID, // 고유 주문번호
         orderName: orderName,
+        memberId: memberID,
         successUrl: 'http://localhost:8080/orders/order/toss/success', // 결제 성공 시 이동할 페이지(이 주소는 예시입니다. 상점에서 직접 만들어주세요.)
         failUrl: 'http://localhost:8080/orders/order/toss/fail',
     });

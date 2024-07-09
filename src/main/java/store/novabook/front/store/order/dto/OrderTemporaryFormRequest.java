@@ -10,7 +10,6 @@ import jakarta.validation.constraints.PositiveOrZero;
 import store.novabook.front.store.book.dto.BookIdAndQuantityDTO;
 
 public record OrderTemporaryFormRequest(
-	@NotNull
 	Long memberId,
 	@NotNull
 	@Valid

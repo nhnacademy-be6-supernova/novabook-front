@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
-import org.springframework.data.redis.core.index.Indexed;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Future;
@@ -17,10 +16,8 @@ import store.novabook.front.store.book.dto.BookIdAndQuantityDTO;
 
 @Builder
 @RedisHash("OrderForm")
-public record OrderTemporaryForm(
+public record OrderTemporaryNonMemberForm(
 	@Id
-	@NotNull
-	Long memberId,
 	@NotNull
 	UUID orderUUID,
 	@NotNull
