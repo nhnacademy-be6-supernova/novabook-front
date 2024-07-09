@@ -318,7 +318,7 @@ function sendOrderData(formData) {
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
+            if (xhr.status === 201 || xhr.status === 200) {
                 const responseUUID = JSON.parse(xhr.responseText);
                 requestPayment(responseUUID);
             } else {
@@ -338,7 +338,7 @@ const tossPayments = TossPayments(clientKey);
 const payment = tossPayments.payment({ customerKey });
 
 
-async function requestPayment(orderUUID, memberId) {
+async function requestPayment(orderUUID) {
     var totalPrice = parseInt($('#finalAmount').text().replace('원', '').replace(',', ''), 10);
     var orderName = globalFirstItemName;
     var memberID = $('#login_member_id').val();
@@ -356,8 +356,7 @@ async function requestPayment(orderUUID, memberId) {
         },
         orderId: orderUUID, // 고유 주문번호
         orderName: orderName,
-        memberId: memberID,
-        successUrl: 'http://localhost:8080/orders/order/toss/success', // 결제 성공 시 이동할 페이지(이 주소는 예시입니다. 상점에서 직접 만들어주세요.)
+        successUrl: 'http://localhost:8080/orders/order/toss/success?memberId='+memberID , // 결제 성공 시 이동할 페이지(이 주소는 예시입니다. 상점에서 직접 만들어주세요.)
         failUrl: 'http://localhost:8080/orders/order/toss/fail',
     });
 }

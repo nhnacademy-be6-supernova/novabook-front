@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -26,11 +27,12 @@ import store.novabook.front.api.order.client.WrappingPaperClient;
 import store.novabook.front.api.order.dto.request.PaymentRequest;
 import store.novabook.front.api.order.dto.response.GetWrappingPaperResponse;
 import store.novabook.front.api.order.service.OrderService;
-// import store.novabook.front.api.order.service.OrdersSagaClient;
+import store.novabook.front.api.order.service.OrdersSagaClient;
 import store.novabook.front.api.point.dto.request.GetPointHistoryRequest;
 import store.novabook.front.api.point.dto.response.GetPointHistoryResponse;
 import store.novabook.front.api.point.service.PointHistoryClient;
 import store.novabook.front.store.book.dto.BookDTO;
+import store.novabook.front.store.order.dto.OrderTemporaryForm;
 import store.novabook.front.store.order.dto.OrderViewDTO;
 import store.novabook.front.store.order.repository.RedisOrderNonMemberRepository;
 import store.novabook.front.store.order.repository.RedisOrderRepository;
@@ -47,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
 	private final MemberAddressClient memberAddressClient;
 	private final DeliveryFeeClient deliveryFeeClient;
 
-
+	private final OrdersSagaClient ordersSagaClient;
 	private final RedisOrderNonMemberRepository redisOrderNonMemberRepository;
 	private final RedisOrderRepository redisOrderRepository;
 
@@ -66,6 +68,9 @@ public class OrderServiceImpl implements OrderService {
 
 		Set<Long> categoryIdList = new HashSet<>();
 		bookIds.forEach(bookId -> {
+			if (categoryClient.getCategoryByBId(bookId).getBody() == null) {
+				throw new NullPointerException("CategoryResponse body is null for bookId: " + bookId);
+			}
 			List<Long> categoryIds = categoryClient.getCategoryByBId(bookId).getBody().categoryIds();
 			categoryIdList.addAll(categoryIds);
 		});
@@ -117,7 +122,7 @@ public class OrderServiceImpl implements OrderService {
 	public void createOrder(PaymentRequest request) {
 		// TODO: 여러번 실행되는 현상을 방지해야함
 		// 트랜잭션을 invoke 함
-		// ordersSagaClient.createOrders(request);
+		ordersSagaClient.createOrders(request);
 	}
 
 
@@ -134,7 +139,11 @@ public class OrderServiceImpl implements OrderService {
 		if (memberId == null) {
 			return !redisOrderNonMemberRepository.existsById(orderUUID);
 		} else {
-			return !Objects.equals(memberId, orderMemberId);
+			Optional<OrderTemporaryForm> temporaryForm = redisOrderRepository.findById(memberId);
+			if(temporaryForm.isEmpty()) {
+				throw new IllegalArgumentException("조회되는 주문서가 없습니다.");
+			}
+			return !Objects.equals(memberId, orderMemberId)  && temporaryForm.get().orderUUID().equals(orderUUID);
 		}
 	}
 

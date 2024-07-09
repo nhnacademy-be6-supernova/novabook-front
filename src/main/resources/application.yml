@@ -4,6 +4,8 @@ spring:
   thymeleaf:
     prefix: classpath:/templates/
 
+
+
 # Feign client url
   cloud:
     openfeign:
@@ -23,6 +25,8 @@ spring:
             url: http://localhost:9777/api/v1/store/search
           orderClient:
             url: http://localhost:9777/api/v1/store/order
+          orderSagaClient:
+            url: http://localhost:9777/api/v1/store/orders/saga
           deliveryClient:
             url: http://localhost:9777/api/v1/store/orders/delivery-fee
           wrappingPaperClient:
@@ -63,6 +67,9 @@ spring:
           max-interval: 10000
           max-attempts: 3
           multiplier: 2.0
+
+  profiles:
+    active: dev
 
 rabbitmq:
   queue:

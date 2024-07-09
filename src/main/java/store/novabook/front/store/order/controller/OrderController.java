@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -52,19 +53,19 @@ public class OrderController {
 
 	/**
 	 * 실제 트랜잭션을 시작하기 위한 로직
-	 * @param memberId
+	 * @param
 	 * @param tossPaymentRequest
 	 * @param orderMemberId
 	 * @param orderUUID
 	 * @return
 	 */
 	@GetMapping("/order/toss/success")
-	public String getTossOrderSuccessPage(@CurrentMembers Long memberId,
+	public String getTossOrderSuccessPage(
 		@Valid @ModelAttribute TossPaymentRequest tossPaymentRequest,
-		@ModelAttribute("memberId") Long orderMemberId,
-		@ModelAttribute("orderUUID") UUID orderUUID) {
+		@RequestParam("memberId") Long orderMemberId,
+		@RequestParam("orderId") UUID orderUUID) {
 
-		if (orderService.isInvalidAccess(memberId, orderUUID, orderMemberId)) {
+		if (orderService.isInvalidAccess(7L, orderUUID, orderMemberId)) {
 			throw new IllegalArgumentException("부적절한 접근입니다.");
 		}
 
