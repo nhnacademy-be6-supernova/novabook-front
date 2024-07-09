@@ -156,7 +156,7 @@
                                 <ul class="dropdown-menu">
                                     <!-- Iterate over subcategories of current category -->
                                     <li th:each="subCategory : ${category.sub}">
-                                        <a th:text="${subCategory.name}"></a>
+                                        <a th:text="${subCategory.name}">하위카테고리이름</a>
                                     </li>
                                 </ul>
                             </li>
