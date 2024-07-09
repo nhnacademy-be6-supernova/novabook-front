@@ -121,7 +121,7 @@
                     <h3>쿠폰 추가</h3>
                     <div class="container">
                         <div class="centered-form">
-                            <form id="couponForm" action="/admin/coupons/common/create" method="post">
+                            <form id="couponForm" action="/admin/coupons/limited/create" method="post">
                                 <div class="form-group">
                                     <label for="name">쿠폰 이름:</label>
                                     <input type="text" class="form-control" id="name" name="name" required>
@@ -170,7 +170,13 @@
                                     <input type="text" class="form-control" id="usePeriod"
                                            name="usePeriod" required>
                                 </div>
-                                <input type="hidden" name="type" th:value="${couponType}">
+
+
+                                <div class="form-group full-width">
+                                    <label for="quantity">수량 제한:</label>
+                                    <input type="number" class="form-control" id="quantity"
+                                           name="quantity" required>
+                                </div>
 
                                 <button style="width: 100px; height: 50px; margin-top: 20px" type="submit"
                                         class="btn btn-primary">제출

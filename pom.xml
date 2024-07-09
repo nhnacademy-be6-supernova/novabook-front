@@ -81,6 +81,14 @@
             <artifactId>spring-rabbit-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- 무중단 배포 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+
 <!--logback 관련 종속성-->
         <dependency>
             <groupId>org.json</groupId>

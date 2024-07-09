@@ -4,18 +4,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.coupon.dto.request.CreateMemberCouponRequest;
 import store.novabook.front.api.coupon.dto.request.DownloadCouponRequest;
 import store.novabook.front.api.coupon.dto.response.GetCouponAllResponse;
 import store.novabook.front.api.coupon.dto.response.GetCouponHistoryResponse;
 import store.novabook.front.api.coupon.dto.response.GetUsedCouponHistoryResponse;
 import store.novabook.front.api.member.coupon.service.MemberCouponClient;
-import store.novabook.front.api.member.member.dto.response.CreateMemberCouponResponse;
 import store.novabook.front.api.member.member.service.MemberClient;
 import store.novabook.front.api.member.member.service.MemberCouponService;
 import store.novabook.front.common.exception.FeignClientException;
 import store.novabook.front.common.response.ApiResponse;
+import store.novabook.front.api.member.coupon.dto.DownloadCouponMessageRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -23,11 +23,6 @@ public class MemberCouponServiceImpl implements MemberCouponService {
 
 	private final MemberClient memberClient;
 	private final MemberCouponClient memberCouponClient;
-
-	@Override
-	public CreateMemberCouponResponse downloadLimitedCoupon(CreateMemberCouponRequest request) {
-		return memberClient.createMemberCoupon(request).getBody();
-	}
 
 	@Override
 	public GetCouponAllResponse getMyCouponAllWithValid() {
@@ -55,6 +50,11 @@ public class MemberCouponServiceImpl implements MemberCouponService {
 		} catch (FeignClientException exception) {
 			return exception.getMessage();
 		}
+	}
+
+	@Override
+	public void downloadLimitedCoupon(@Valid DownloadCouponMessageRequest request) {
+		memberCouponClient.downloadLimitedCoupon(request);
 	}
 
 }

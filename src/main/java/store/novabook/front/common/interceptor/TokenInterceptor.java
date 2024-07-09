@@ -63,13 +63,11 @@ public class TokenInterceptor implements HandlerInterceptor {
 
 		Cookie cookie = new Cookie("Authorization", refreshTokenContext.getTokenData());
 		cookie.setPath("/");
-		// cookie.setDomain("novabook");
 		cookie.setMaxAge(60 * 60 * 24 * 7);
 		response.addCookie(cookie);
 		response.setHeader("access", refreshTokenContext.getTokenData());
-		response.setHeader("refresh", refreshTokenContext.getRefreshToken());
+
 		RequestDispatcher dispatcher = request.getRequestDispatcher(refreshTokenContext.getUri());
-		refreshTokenContext.setUri(null);
 		dispatcher.forward(request, response);
 
 	}
@@ -88,11 +86,9 @@ public class TokenInterceptor implements HandlerInterceptor {
 		if (Objects.nonNull(refreshTokenContext.getTokenData()) && refreshTokenContext.getUri() != null) {
 			Cookie cookie = new Cookie("Authorization", refreshTokenContext.getTokenData());
 			cookie.setPath("/");
-			// cookie.setDomain("novabook");
 			cookie.setMaxAge(60 * 60 * 24 * 7);
 			response.addCookie(cookie);
 			response.setHeader("access", refreshTokenContext.getTokenData());
-			response.setHeader("refresh", refreshTokenContext.getRefreshToken());
 			RequestDispatcher dispatcher = request.getRequestDispatcher(refreshTokenContext.getUri());
 			if(!request.getRequestURI().equals("/error")) {
 				refreshTokenContext.setUri(null);
