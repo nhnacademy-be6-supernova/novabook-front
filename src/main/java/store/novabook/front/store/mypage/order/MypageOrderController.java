@@ -21,6 +21,12 @@ public class MypageOrderController {
 		return "store/mypage/order/order_list";
 	}
 
+	@GetMapping("/detail")
+	public String getOrderDetail(Model model) {
+		model.addAttribute("grade", memberGradeService.getMemberGrade());
+		return "store/mypage/order/order_list_detail";
+	}
+
 	@GetMapping("/cancel")
 	public String getOrderCancelAll(Model model) {
 		model.addAttribute("grade", memberGradeService.getMemberGrade());
