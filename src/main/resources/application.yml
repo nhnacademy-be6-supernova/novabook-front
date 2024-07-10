@@ -4,7 +4,7 @@ spring:
   thymeleaf:
     prefix: classpath:/templates/
   profiles:
-    active: dev
+    include: prod
 
   # Feign client url
   cloud:
