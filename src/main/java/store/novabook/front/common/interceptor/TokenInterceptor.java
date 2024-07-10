@@ -97,9 +97,9 @@ public class TokenInterceptor implements HandlerInterceptor {
 		// 예외가 터지면 afterCompletion이 실행됨
 
 		// if (ex == null || !ex.getMessage().contains("303 See Other")) {
-		// 	RequestDispatcher dispatcher2 = request.getRequestDispatcher(refreshTokenContext.getUri());
-		// 	dispatcher2.forward(request, response);
-		// 	refreshTokenContext.setUri(null);
+		// 	// RequestDispatcher dispatcher2 = request.getRequestDispatcher(refreshTokenContext.getUri());
+		// 	// dispatcher2.forward(request, response);
+		// 	// refreshTokenContext.setUri(null);
 		// 	return;
 		// }
 		//

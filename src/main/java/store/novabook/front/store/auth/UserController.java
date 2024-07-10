@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class UserController {
 
-    @GetMapping("/user/form")
-    public String getUserForm() {
-        return "store/auth/user_form";
-    }
+	@GetMapping("/user/form")
+	public String getUserForm() {
+		return "store/auth/user_form";
+	}
 }
