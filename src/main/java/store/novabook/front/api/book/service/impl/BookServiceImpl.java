@@ -9,6 +9,7 @@ import store.novabook.front.api.book.dto.response.GetBookAllResponse;
 import store.novabook.front.api.book.dto.response.GetBookResponse;
 import store.novabook.front.api.book.dto.response.GetBookSearchResponse;
 import store.novabook.front.api.book.service.BookClient;
+import store.novabook.front.api.book.service.BookSearchClient;
 import store.novabook.front.api.book.service.BookService;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
@@ -18,6 +19,8 @@ import store.novabook.front.common.response.PageResponse;
 public class BookServiceImpl implements BookService {
 
 	private final BookClient bookClient;
+	private final BookSearchClient bookSearchClient;
+
 	@Override
 	public GetBookResponse getBookClient(Long id) {
 		ApiResponse<GetBookResponse> book = bookClient.getBook(id);
@@ -40,7 +43,13 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public PageResponse<GetBookSearchResponse> getBookSearchAllPage(int page, int size, String sort) {
-		return null;
+	public PageResponse<GetBookSearchResponse> getBookSearchAllPage(String keyword, int page, int size, String sort) {
+
+		return bookSearchClient.searchByKeyword(keyword, page, size, sort);
+	}
+
+	@Override
+	public PageResponse<GetBookSearchResponse> getBookSearchCategory(String category, int page, int size, String sort) {
+		return bookSearchClient.searchByCategory(category, page, size, sort);
 	}
 }
