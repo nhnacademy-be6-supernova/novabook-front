@@ -454,7 +454,7 @@
             })
             .catch(error => {
                 console.error('실패 : ', error.response.data);
-                alert(error.response.data);
+                // alert(error.response.data);
                 // location.reload();
             });
 
@@ -483,7 +483,7 @@
             bookDTOS: selectedItems
         };
 
-        alert(order)
+        // alert(order)
 
         //TODO ajax 연결
     }
@@ -569,7 +569,7 @@
             location.reload();
         })
             .catch(error => {
-                alert('Error cart refresh:', error);
+                // alert('Error cart refresh:', error);
                 console.error('Error cart refresh:', error);
             });
 

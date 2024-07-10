@@ -12,5 +12,7 @@ public class RefreshTokenContext {
 
 	private String tokenData;
 
+	private String refreshToken;
+
 	private String uri;
 }
