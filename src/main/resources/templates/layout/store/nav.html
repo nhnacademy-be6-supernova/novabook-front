@@ -151,12 +151,12 @@
                         <ul class="dropdown-menu">
                             <!-- Iterate over categories -->
                             <li class="dropdown-submenu" th:each="category : ${categories.categories}">
-                                <a th:text="${category.name}" class="dropdown-toggle" data-toggle="dropdown"
-                                   href="#">상위카테고리이름<span class="caret"></span></a>
+                                <a th:href="@{/search/category(category=${category.name})}" th:text="${category.name}" class="dropdown-toggle" data-toggle="dropdown">상위카테고리이름<span class="caret"></span></a>
+
                                 <ul class="dropdown-menu">
                                     <!-- Iterate over subcategories of current category -->
                                     <li th:each="subCategory : ${category.sub}">
-                                        <a th:text="${subCategory.name}">하위카테고리이름</a>
+                                        <a th:text="${subCategory.name}" th:href="@{/search/category(category=${subCategory.name})}">하위카테고리이름</a>
                                     </li>
                                 </ul>
                             </li>
