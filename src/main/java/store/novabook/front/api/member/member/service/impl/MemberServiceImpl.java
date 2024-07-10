@@ -24,6 +24,7 @@ import store.novabook.front.api.member.member.service.MemberAuthClient;
 import store.novabook.front.api.member.member.service.MemberClient;
 import store.novabook.front.api.member.member.service.MemberService;
 import store.novabook.front.common.response.ApiResponse;
+import store.novabook.front.common.util.CookieUtil;
 
 @Service
 @RequiredArgsConstructor
@@ -100,8 +101,10 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void logout() {
+	public void logout(HttpServletResponse response) {
 		memberAuthClient.logout();
+
+		CookieUtil.deleteAuthorizationCookie(response);
 	}
 
 	@Override

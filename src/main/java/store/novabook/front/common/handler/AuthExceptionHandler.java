@@ -74,7 +74,7 @@ public class AuthExceptionHandler {
 
 	@ExceptionHandler(FeignException.Unauthorized.class)
 	public ResponseEntity<String> handleNullPointerException(FeignException.Unauthorized ex, WebRequest request) {
-		return new ResponseEntity<>("리프레쉬토큰 끝남", HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>("권한이 없습니다", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	// @ExceptionHandler(NullPointerException.class)

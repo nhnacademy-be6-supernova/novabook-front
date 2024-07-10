@@ -139,63 +139,65 @@ public class TokenInterceptor implements HandlerInterceptor {
 		// 	throw new RuntimeException(e);
 		// }
 
-		if (ex instanceof feign.RetryableException) {
+		//////////////
 
-			Cookie[] cookies = request.getCookies();
-			String refreshToken = "";
-			for (Cookie cookie : cookies) {
-				if ("Refresh".equals(cookie.getName())) {
-					refreshToken = cookie.getValue();
-					break;
-				}
-			}
-
-			RequestDispatcher dispatcher = request.getRequestDispatcher(refreshTokenContext.getUri());
-			GetNewTokenRequest getNewTokenRequest = new GetNewTokenRequest(refreshToken);
-			GetNewTokenResponse getNewTokenResponse = memberService.newToken(getNewTokenRequest);
-			response.setHeader("access", getNewTokenResponse.accessToken());
-			response.setHeader("refresh", refreshToken);
-			Cookie cookie = new Cookie("Authorization", refreshTokenContext.getTokenData());
-			cookie.setPath("/");
-			cookie.setMaxAge(60 * 60 * 24 * 7);
-			response.addCookie(cookie);
-			if (!request.getRequestURI().equals("/error")) {
-				String uri = refreshTokenContext.getUri();
-				refreshTokenContext.setUri(null);
-			}
-			dispatcher.forward(request, response);
-			return;
-		}
-
-		if(refreshTokenContext.getUri() != null) {
-
-			RequestDispatcher dispatcher2 = request.getRequestDispatcher(refreshTokenContext.getUri());
-			dispatcher2.forward(request, response);
-			refreshTokenContext.setUri(null);
-			return;
-		}
-
-		if (Objects.nonNull(refreshTokenContext.getTokenData()) && refreshTokenContext.getTokenData()
-			.equals("expired")) {
-			refreshTokenContext.setTokenData(null);
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token expired");
-			return;
-		}
-
-		if (Objects.nonNull(refreshTokenContext.getTokenData()) && refreshTokenContext.getUri() != null) {
-			Cookie cookie = new Cookie("Authorization", refreshTokenContext.getTokenData());
-			cookie.setPath("/");
-			cookie.setMaxAge(60 * 60 * 24 * 7);
-			response.addCookie(cookie);
-			response.setHeader("access", refreshTokenContext.getTokenData());
-			response.setHeader("refresh", refreshTokenContext.getRefreshToken());
-			RequestDispatcher dispatcher = request.getRequestDispatcher(refreshTokenContext.getUri());
-			if (!request.getRequestURI().equals("/error")) {
-				String uri = refreshTokenContext.getUri();
-				refreshTokenContext.setUri(null);
-			}
-			dispatcher.forward(request, response);
-		}
+		// if (ex instanceof feign.RetryableException) {
+		//
+		// 	Cookie[] cookies = request.getCookies();
+		// 	String refreshToken = "";
+		// 	for (Cookie cookie : cookies) {
+		// 		if ("Refresh".equals(cookie.getName())) {
+		// 			refreshToken = cookie.getValue();
+		// 			break;
+		// 		}
+		// 	}
+		//
+		// 	RequestDispatcher dispatcher = request.getRequestDispatcher(refreshTokenContext.getUri());
+		// 	GetNewTokenRequest getNewTokenRequest = new GetNewTokenRequest(refreshToken);
+		// 	GetNewTokenResponse getNewTokenResponse = memberService.newToken(getNewTokenRequest);
+		// 	response.setHeader("access", getNewTokenResponse.accessToken());
+		// 	response.setHeader("refresh", refreshToken);
+		// 	Cookie cookie = new Cookie("Authorization", refreshTokenContext.getTokenData());
+		// 	cookie.setPath("/");
+		// 	cookie.setMaxAge(60 * 60 * 24 * 7);
+		// 	response.addCookie(cookie);
+		// 	if (!request.getRequestURI().equals("/error")) {
+		// 		String uri = refreshTokenContext.getUri();
+		// 		refreshTokenContext.setUri(null);
+		// 	}
+		// 	dispatcher.forward(request, response);
+		// 	return;
+		// }
+		//
+		// if(refreshTokenContext.getUri() != null) {
+		//
+		// 	RequestDispatcher dispatcher2 = request.getRequestDispatcher(refreshTokenContext.getUri());
+		// 	dispatcher2.forward(request, response);
+		// 	refreshTokenContext.setUri(null);
+		// 	return;
+		// }
+		//
+		// if (Objects.nonNull(refreshTokenContext.getTokenData()) && refreshTokenContext.getTokenData()
+		// 	.equals("expired")) {
+		// 	refreshTokenContext.setTokenData(null);
+		// 	response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token expired");
+		// 	return;
+		// }
+		//
+		// if (Objects.nonNull(refreshTokenContext.getTokenData()) && refreshTokenContext.getUri() != null) {
+		// 	Cookie cookie = new Cookie("Authorization", refreshTokenContext.getTokenData());
+		// 	cookie.setPath("/");
+		// 	cookie.setMaxAge(60 * 60 * 24 * 7);
+		// 	response.addCookie(cookie);
+		// 	response.setHeader("access", refreshTokenContext.getTokenData());
+		// 	response.setHeader("refresh", refreshTokenContext.getRefreshToken());
+		// 	RequestDispatcher dispatcher = request.getRequestDispatcher(refreshTokenContext.getUri());
+		// 	if (!request.getRequestURI().equals("/error")) {
+		// 		String uri = refreshTokenContext.getUri();
+		// 		refreshTokenContext.setUri(null);
+		// 	}
+		// 	dispatcher.forward(request, response);
+		// }
 
 	}
 }

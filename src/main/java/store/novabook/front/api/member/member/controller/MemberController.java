@@ -49,23 +49,7 @@ public class MemberController {
 
 	@PostMapping("/logout")
 	public String logout(HttpServletRequest request, HttpServletResponse response) {
-		memberService.logout();
-		deleteCookie(request, response, "Authorization");
-		deleteCookie(request, response, "Refresh");
+		memberService.logout(response);
 		return "redirect:/";
-	}
-
-	public void deleteCookie(HttpServletRequest request, HttpServletResponse response, String cookieName) {
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals(cookieName)) {
-					cookie.setValue("");
-					cookie.setPath("/");
-					cookie.setMaxAge(0);
-					response.addCookie(cookie);
-				}
-			}
-		}
 	}
 }

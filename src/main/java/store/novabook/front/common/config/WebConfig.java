@@ -33,13 +33,14 @@ public class WebConfig implements WebMvcConfigurer {
 
 		MemberService memberService = memberServices.getIfAvailable(); // 변경된 부분
 
-
 		registry.addInterceptor(new TokenInterceptor(refreshTokenContext, memberService))
 			.excludePathPatterns(
 				"/books",
 				// "/carts",
 				"/login",
 				"/users/user/form/**",
+				"**/favicon.ico",
+				"**/categories",
 				// "/auth/**",
 				"/",
 				"/api/v1/front/new-token/**",
