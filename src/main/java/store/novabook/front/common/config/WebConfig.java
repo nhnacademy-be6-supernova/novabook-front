@@ -72,8 +72,8 @@ public class WebConfig implements WebMvcConfigurer {
 			.allowCredentials(true);  // 자격 증명을 허용
 	}
 
-	// @Override
-	// public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-	// 	resolvers.add(new CurrentMembersArgumentResolver(memberAuthClientProvider.getIfAvailable()));
-	// }
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+		resolvers.add(new CurrentMembersArgumentResolver(memberAuthClientProvider.getIfAvailable()));
+	}
 }
