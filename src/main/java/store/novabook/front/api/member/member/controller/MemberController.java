@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.dto.request.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.request.LoginMembersRequest;
 import store.novabook.front.api.member.member.service.MemberService;
+import store.novabook.front.api.member.member.service.TestService;
 
 @Controller
 @RequiredArgsConstructor

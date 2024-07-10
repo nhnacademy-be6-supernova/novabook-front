@@ -1,36 +1,14 @@
 package store.novabook.front.common.security;
-//
-// import org.springframework.stereotype.Controller;
-// import org.springframework.ui.Model;
-// import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.RequestMapping;
-// import org.springframework.web.bind.annotation.RequestParam;
-//
-// import jakarta.servlet.http.HttpServletRequest;
-// import jakarta.servlet.http.HttpServletResponse;
-// import lombok.RequiredArgsConstructor;
-// import store.novabook.front.api.point.dto.response.GetPointPolicyResponse;
-// import store.novabook.front.common.response.PageResponse;
-//
-// @RequestMapping("/api/v1/front/new-token")
-// @Controller
-// @RequiredArgsConstructor
-// public class NewTokenController {
-//
-// 	@GetMapping
-// 	public String getPointForm(HttpServletResponse response, HttpServletRequest request) {
-//
-// 		String originalRequestInfo = request.getHeader("Original-Request-Info");
-// 		return "/login";
-// 	}
-// }
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +16,7 @@ import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
 import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
 import store.novabook.front.api.member.member.service.MemberService;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,9 +28,28 @@ public class NewTokenController {
 	private final RefreshTokenContext refreshTokenContext;
 	private final MemberService memberService;
 
-	@GetMapping("/new-token")
-	public void getNewToken(HttpServletRequest request) {
+	@GetMapping("/new-token/{id}")
+	public void getNewToken(@PathVariable(value = "id", required = false) String id, HttpServletRequest request, HttpServletResponse response) {
+		String decodedJwt = java.net.URLDecoder.decode(id, StandardCharsets.UTF_8);
 		String refresh = request.getHeader("Refresh");
+		if (refresh == null || refresh.isEmpty()) {
+			refresh = decodedJwt;
+		}
+		GetNewTokenRequest getNewTokenRequest = new GetNewTokenRequest(refresh);
+		GetNewTokenResponse getNewTokenResponse = memberService.newToken(getNewTokenRequest);
+
+		refreshTokenContext.setTokenData(getNewTokenResponse.accessToken());
+		refreshTokenContext.setRefreshToken(refresh);
+
+	}
+
+	@PostMapping("/new-token/{id}")
+	public void getNewToken1(@PathVariable(value = "id", required = false) String id, HttpServletRequest request, HttpServletResponse response) {
+		String decodedJwt = java.net.URLDecoder.decode(id, StandardCharsets.UTF_8);
+		String refresh = request.getHeader("Refresh");
+		if (refresh == null || refresh.isEmpty()) {
+			refresh = decodedJwt;
+		}
 		GetNewTokenRequest getNewTokenRequest = new GetNewTokenRequest(refresh);
 		GetNewTokenResponse getNewTokenResponse = memberService.newToken(getNewTokenRequest);
 

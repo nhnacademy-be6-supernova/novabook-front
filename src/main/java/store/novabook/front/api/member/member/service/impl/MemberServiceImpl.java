@@ -64,7 +64,7 @@ public class MemberServiceImpl implements MemberService {
 		if (!status.getStatusCode().is2xxSuccessful() || status.getBody() == null) {
 			return "";
 		}
-		if(status.getBody().memberStatusId() == 2) {
+		if (status.getBody().memberStatusId() == 2) {
 			Cookie uuidCookie = new Cookie("UUID", status.getBody().uuid());
 			uuidCookie.setMaxAge(60 * 60 * 24 * 7);
 			uuidCookie.setPath("/");
@@ -129,7 +129,6 @@ public class MemberServiceImpl implements MemberService {
 		ResponseEntity<GetNewTokenResponse> getNewTokenResponseResponseEntity = memberAuthClient.newToken(
 			getNewTokenRequest);
 		return getNewTokenResponseResponseEntity.getBody();
-
 	}
 
 }

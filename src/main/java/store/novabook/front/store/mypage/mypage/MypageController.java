@@ -14,7 +14,7 @@ import store.novabook.front.api.member.grade.service.MemberGradeService;
 @RequiredArgsConstructor
 public class MypageController {
 	private final MemberGradeService memberGradeService;
-	@PutMapping
+	@GetMapping
 	public String getMypage(Model model) {
 		model.addAttribute("grade", memberGradeService.getMemberGrade());
 		return "store/mypage/mypage_index";

@@ -30,7 +30,6 @@ public class AuthExceptionHandler {
 	// 	return new ResponseEntity<>("서버에서 오류가 발생했습니다. 나중에 다시 시도해주세요.", HttpStatus.SEE_OTHER);
 	// }
 
-
 	//nav.html login, logout
 	@ModelAttribute
 	public void addAttributes(Model model, HttpServletRequest request) {
@@ -56,7 +55,8 @@ public class AuthExceptionHandler {
 		return hasAuthorization && hasRefresh;
 	}
 
-	@ExceptionHandler({NullPointerException.class, InternalServerErrorException.class, SeeOtherException.class, FeignException.InternalServerError.class})
+	@ExceptionHandler({NullPointerException.class, InternalServerErrorException.class, SeeOtherException.class,
+		FeignException.InternalServerError.class, feign.RetryableException.class, feign.FeignException.class})
 	public void handleNullPointerException(NullPointerException ex, WebRequest request) {
 		if (Objects.nonNull(refreshTokenContext.getUri()) && Objects.nonNull(refreshTokenContext.getTokenData())) {
 			return;

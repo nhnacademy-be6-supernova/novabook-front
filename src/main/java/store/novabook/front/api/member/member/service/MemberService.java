@@ -27,4 +27,5 @@ public interface MemberService {
 	GetNewTokenResponse newToken(GetNewTokenRequest getNewTokenRequest);
 
 	void logout();
+
 }

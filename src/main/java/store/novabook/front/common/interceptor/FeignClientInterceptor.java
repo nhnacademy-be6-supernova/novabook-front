@@ -38,7 +38,8 @@ public class FeignClientInterceptor implements RequestInterceptor {
 			template.header(AUTHORIZATION, BEARER + " " + access);
 			template.header(REFRESH, BEARER + " " + refresh);
 			refreshTokenContext.setTokenData(null);
-			refreshTokenContext.setUri(null);
+			refreshTokenContext.setRefreshToken(null);
+			// refreshTokenContext.setUri(null);
 			return;
 		}
 		if (Objects.isNull(cookies)) {
