@@ -19,7 +19,7 @@ public class ProfileController {
 	@GetMapping
 	public String profile() {
 		final List<String> profiles = Arrays.asList(environment.getActiveProfiles());
-		final List<String> prodProfiles = Arrays.asList("set1", "set2", "set3", "set4");
+		final List<String> prodProfiles = Arrays.asList("set1", "set2");
 
 		final String defaultProfile = profiles.isEmpty() ? "default" : profiles.getFirst();
 
