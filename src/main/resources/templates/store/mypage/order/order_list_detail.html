@@ -82,27 +82,36 @@
                     <table>
                         <tr>
                             <th style="width: 30%;">주문 번호</th>
-                            <td style="width: 70%;"><strong>#123456789</strong></td>
+                            <td style="width: 70%;"><strong th:text="${ordersDetail.ordersId}"></strong></td>
                         </tr>
                         <tr>
                             <th>상품 이름</th>
-                            <td><strong>책 제목 1</strong></td>
+                            <td>
+                                <ul>
+                                    <li th:each="title : ${ordersDetail.bookTitle}" th:text="${title}"></li>
+                                </ul>
+                            </td>
                         </tr>
-                        <tr>
-                            <th>가격</th>
-                            <td><strong>10,000원</strong></td>
-                        </tr>
+<!--                        <tr>-->
+<!--                            <th>가격</th>-->
+<!--                            <td><strong th:text="${ordersDetail.price}"></strong></td>-->
+<!--                        </tr>-->
                         <tr>
                             <th>수량</th>
-                            <td><strong>1</strong></td>
+                            <td><strong th:text="${ordersDetail.quantity}"></strong></td>
                         </tr>
                         <tr>
                             <th>배송비</th>
-                            <td><strong>무료</strong></td>
+                            <td><strong th:text="${ordersDetail.deliveryFee}"></strong></td>
+                        </tr>
+                        <tr>
+                            <th>포장비</th>
+                            <td><strong th:text="${ordersDetail.wrappingFee}"></strong></td>
                         </tr>
                     </table>
                 </div>
             </div>
+
 
             <!-- 배송 정보 테이블 -->
             <div class="panel panel-default">
@@ -113,19 +122,19 @@
                     <table>
                         <tr>
                             <th style="width: 30%;">받는 사람</th>
-                            <td style="width: 70%;"><strong>홍길동</strong></td>
+                            <td style="width: 70%;"><strong th:text="${ordersDetail.receiverName}"></strong></td>
                         </tr>
                         <tr>
                             <th>휴대폰 번호</th>
-                            <td><strong>010-1234-5678</strong></td>
+                            <td><strong th:text="${ordersDetail.receiverNumber}"></strong></td>
                         </tr>
                         <tr>
                             <th>주소</th>
-                            <td><strong>서울특별시 강남구 삼성동 123번지</strong></td>
+                            <td><strong th:text="${ordersDetail.receiverAddress}"></strong></td>
                         </tr>
                         <tr>
                             <th>도착예정일</th>
-                            <td><strong>내일(7/10)</strong></td>
+                            <td><strong th:text="${ordersDetail.expectedDeliveryDate}"></strong></td>
                         </tr>
                     </table>
                 </div>
@@ -139,25 +148,21 @@
                 <div class="panel-body payment-info">
                     <table>
                         <tr>
-                            <th style="width: 30%;">상품 금액</th>
-                            <td style="width: 70%;"><strong>10,000원</strong></td>
+                            <th style="width: 30%;">상품 총 금액</th>
+                            <td style="width: 70%;"><strong th:text="${ordersDetail.totalPrice}"></strong></td>
                         </tr>
-                        <tr>
-                            <th>쿠폰 할인 금액</th>
-                            <td><strong>-1,000원</strong></td>
-                        </tr>
-                        <tr>
-                            <th>최종 결제 금액</th>
-                            <td><strong style="color: red;">9,000원</strong></td>
-                        </tr>
-                        <tr>
-                            <th>결제 방법</th>
-                            <td><strong>신용카드</strong></td>
-                        </tr>
-                        <tr>
-                            <th>포인트 적립</th>
-                            <td><strong>1,000원</strong></td>
-                        </tr>
+<!--                        <tr>-->
+<!--                            <th>쿠폰 할인 금액</th>-->
+<!--                            <td><strong th:text="${ordersDetail.couponDiscountPrice}"></strong></td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <th>최종 결제 금액</th>-->
+<!--                            <td><strong th:text="${ordersDetail.finalPrice}"></strong></td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <th>포인트 적립</th>-->
+<!--                            <td><strong th:text="${ordersDetail.pointsSave}"></strong></td>-->
+<!--                        </tr>-->
                     </table>
                 </div>
             </div>

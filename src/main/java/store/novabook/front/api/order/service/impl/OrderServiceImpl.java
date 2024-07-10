@@ -16,6 +16,7 @@ import store.novabook.front.api.member.address.service.MemberAddressClient;
 import store.novabook.front.api.member.coupon.service.MemberCouponClient;
 import store.novabook.front.api.order.client.WrappingPaperClient;
 import store.novabook.front.api.order.dto.response.GetWrappingPaperResponse;
+import store.novabook.front.api.order.service.OrderClient;
 import store.novabook.front.api.order.service.OrderService;
 import store.novabook.front.api.point.dto.request.GetPointHistoryRequest;
 import store.novabook.front.api.point.dto.response.GetPointHistoryResponse;
@@ -27,6 +28,7 @@ import store.novabook.front.store.order.dto.OrderViewDTO;
 @Service
 public class OrderServiceImpl implements OrderService {
 
+	private final OrderClient orderClient;
 	private final WrappingPaperClient wrappingPaperClient;
 	private final CouponClient couponClient;
 	private final CategoryClient categoryClient;
