@@ -29,14 +29,12 @@ public class FeignClientInterceptor implements RequestInterceptor {
 
 	@Override
 	public void apply(RequestTemplate template) {
-		if(template.feignTarget().url().equals("http://localhost:9777/api/v1/store/categories") && template.method().equals("GET")){
-			log.error("http://localhost:9777/api/v1/store/categories return");
+		log.error("out :   {}, {}", template.feignTarget().url(), template.method());
+		if (template.feignTarget().url().equals("http://localhost:9777/api/v1/store/categories") && template.method()
+			.equals("GET")) {
+			log.error("in :   {}, {}", template.feignTarget().url(), template.method());
 			return;
 		}
-		// if(template.feignTarget().url().equals("http://localhost:9777/api/v1/store/categories") && template.method().equals("GET")){
-		// 	log.error("http://localhost:9777/api/v1/store/categories return");
-		// 	return;
-		// }
 		if (template.feignTarget().name().contains("payco")) {
 			return;
 		}
