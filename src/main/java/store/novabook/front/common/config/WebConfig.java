@@ -61,7 +61,8 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addMapping("/**")
 			.allowedOrigins("https://www.novabook.store")  // 특정 도메인을 명시적으로 설정
 			.allowedOrigins("https://novabook.store")  // 특정 도메인을 명시적으로 설정
-			.allowedOrigins("http://localhost:8080")  // 특정 도메인을 명시적으로 설정
+			.allowedOrigins("http://localhost:8080")
+			.allowedOrigins("http://localhost:8081")
 			.allowedMethods(
 				HttpMethod.HEAD.name(),
 				HttpMethod.GET.name(),
