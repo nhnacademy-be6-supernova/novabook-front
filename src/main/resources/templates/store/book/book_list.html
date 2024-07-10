@@ -206,7 +206,7 @@
                     </li>
 
                     <!-- 페이지 번호 -->
-                    <li class="page-item" th:each="i : ${#numbers.sequence(0, bookSearches.getTotalPageCount() - 1)}">
+                    <li class="page-item" th:if="${bookSearches.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, bookSearches.getTotalPageCount() - 1)}">
                         <a th:href="@{${currentPageUrl}}" th:text="${i + 1}"
                            th:classappend="${i == bookSearches.pageNum} ? 'active' : ''"></a>
                     </li>
