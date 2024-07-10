@@ -5,9 +5,9 @@ spring:
     prefix: classpath:/templates/
   #기본으로 실행할 프로필
   profiles:
-    active: dev
+    include: dev
 
-# Feign client url
+  # Feign client url
   cloud:
     openfeign:
       client:
