@@ -27,10 +27,14 @@ public class FeignClientInterceptor implements RequestInterceptor {
 
 	@Override
 	public void apply(RequestTemplate template) {
+		if(template.feignTarget().url().equals("http://localhost:9777/api/v1/store/categories") && template.method().equals("GET")){
+			return;
+		}
 		if (template.feignTarget().name().contains("payco")) {
 			return;
 		}
-
+		//eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiNDdiM2NjMWItOWI1Mi00ODJkLThjY2UtOWY5Mzk5OWE5ODZjIiwiYXV0aG9yaXRpZXMiOiJST0xFX01FTUJFUlMiLCJjYXRlZ29yeSI6InJlZnJlc2giLCJpYXQiOjE3MjA1MTA0OTUsImV4cCI6MTcyMDUxNjQ5NX0.z-vAh-mC5T2X3HaLtYzSp7XwiJWi3fPOqJ_GeXgoFK8
+		//eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiNTE3NDAzNDQtMzg0Yi00ZDg3LTkwYWMtOTM1YjcyYmNkY2JlIiwiYXV0aG9yaXRpZXMiOiJST0xFX01FTUJFUlMiLCJjYXRlZ29yeSI6InJlZnJlc2giLCJpYXQiOjE3MjA1OTUyNDMsImV4cCI6MTcyMDYwMTI0M30.0K4Zrnux9rFB_rTmchT2d0fyPDSjl64vqOQKpHRKRCk
 		Cookie[] cookies = request.getCookies();
 		String access = response.getHeader("access");
 		String refresh = response.getHeader("refresh");
@@ -38,7 +42,8 @@ public class FeignClientInterceptor implements RequestInterceptor {
 			template.header(AUTHORIZATION, BEARER + " " + access);
 			template.header(REFRESH, BEARER + " " + refresh);
 			refreshTokenContext.setTokenData(null);
-			refreshTokenContext.setUri(null);
+			refreshTokenContext.setRefreshToken(null);
+			// refreshTokenContext.setUri(null);
 			return;
 		}
 		if (Objects.isNull(cookies)) {

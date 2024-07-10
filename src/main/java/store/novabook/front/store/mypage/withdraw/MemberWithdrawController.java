@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.dto.request.DeleteMemberRequest;
 import store.novabook.front.api.member.member.service.MemberService;
+import store.novabook.front.common.util.CookieUtil;
 
 @Controller
 @RequestMapping("/mypage/withdraw")
@@ -29,23 +30,9 @@ public class MemberWithdrawController {
 	@PostMapping("/withdraw")
 	public String memberUpdateToWithdraw(DeleteMemberRequest deleteMemberRequest, HttpServletRequest request, HttpServletResponse response) {
 		memberService.deleteMember(deleteMemberRequest);
-		memberService.logout();
-		deleteCookie(request, response, "Authorization");
-		deleteCookie(request, response, "Refresh");
+		memberService.logout(response);
 		return "redirect:/";
 	}
 
-	public void deleteCookie(HttpServletRequest request, HttpServletResponse response, String cookieName) {
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals(cookieName)) {
-					cookie.setValue("");
-					cookie.setPath("/");
-					cookie.setMaxAge(0);
-					response.addCookie(cookie);
-				}
-			}
-		}
-	}
+
 }
