@@ -79,9 +79,9 @@
                 <div class="col-md-7 col-sm-5">
 
                     <div class="search-form">
-                        <form class="navbar-form" role="search" method="get" action="search/title">
+                        <form class="navbar-form" role="search" method="get" th:action="@{/search/keyword}">
                             <div class="form-group">
-                                <input type="text" class="form-control" name="title" placeholder="도서를 검색하세요">
+                                <input type="text" class="form-control" name="keyword" placeholder="도서를 검색하세요">
                             </div>
                             <button type="submit" class="search-btn"><i class="fa fa-search"></i></button>
                         </form>
@@ -151,12 +151,12 @@
                         <ul class="dropdown-menu">
                             <!-- Iterate over categories -->
                             <li class="dropdown-submenu" th:each="category : ${categories.categories}">
-                                <a th:text="${category.name}" class="dropdown-toggle" data-toggle="dropdown"
-                                   href="#">상위카테고리이름<span class="caret"></span></a>
+                                <a th:href="@{/search/category(category=${category.name})}" th:text="${category.name}" class="dropdown-toggle" data-toggle="dropdown">상위카테고리이름<span class="caret"></span></a>
+
                                 <ul class="dropdown-menu">
                                     <!-- Iterate over subcategories of current category -->
                                     <li th:each="subCategory : ${category.sub}">
-                                        <a th:text="${subCategory.name}">하위카테고리이름</a>
+                                        <a th:text="${subCategory.name}" th:href="@{/search/category(category=${subCategory.name})}">하위카테고리이름</a>
                                     </li>
                                 </ul>
                             </li>
