@@ -54,7 +54,6 @@ public class NewTokenController {
 		GetNewTokenResponse getNewTokenResponse = memberService.newToken(getNewTokenRequest);
 
 		refreshTokenContext.setTokenData(getNewTokenResponse.accessToken());
-		refreshTokenContext.setRefreshToken(refresh);
 
 	}
 

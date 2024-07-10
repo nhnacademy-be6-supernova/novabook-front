@@ -7,16 +7,12 @@ public enum CouponType {
 	BIRTHDAY,
 	WELCOME,
 	BOOK,
-	CATEGORY;
+	CATEGORY,
+	LIMITED;
 
 	@JsonCreator
 	public static CouponType forValue(String value) {
 		return CouponType.valueOf(value.toUpperCase());
 	}
-
-
-
-
-
 
 }

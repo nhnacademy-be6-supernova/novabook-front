@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Page - NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .navbar-header {
+            float: left;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 51px;
+            left: 0;
+            background-color: #343a40;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #d1d1d1;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            color: #f1f1f1;
+            background-color: #575757;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            padding-top: 60px;
+        }
+
+        .header {
+            background-color: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .card h3 {
+            font-weight: 600;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+        }
+
+        .dashboard {
+            font-weight: bold;
+        }
+
+        .container {
+            margin-left: 0;
+            padding: 20px;
+            /*padding-top: 60px;*/
+        }
+    </style>
+</head>
+
+<body>
+<!--헤더 nav-->
+<div th:replace="~{layout/admin/admin_header::admin_header}"></div>
+<!--사이드바 nav-->
+<div th:replace="~{layout/admin/admin_nav::admin_sidebar}"></div>
+
+<!--컨텐츠 영역-->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="dashboard" style="padding-top: 0.3%">Coupon Management</h1>
+                <div class="card">
+                    <h3>쿠폰 추가</h3>
+                    <div class="container">
+                        <div class="centered-form">
+                            <form id="couponForm" action="/admin/coupons/limited/create" method="post">
+                                <div class="form-group">
+                                    <label for="name">쿠폰 이름:</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="discount-type">할인 종류:</label>
+                                    <select class="form-control" id="discount-type" name="discountType" required>
+                                        <option value="">선택하세요</option>
+                                        <option value="PERCENT">퍼센트</option>
+                                        <option value="AMOUNT">금액</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label for="discountAmount">할인 금액:</label>
+                                    <input type="number" class="form-control" id="discountAmount" name="discountAmount"
+                                           required>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label for="maxDiscountAmount">최대 할인 금액(없으면 0):</label>
+                                    <input type="number" class="form-control" id="maxDiscountAmount"
+                                           name="maxDiscountAmount">
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label for="minPurchaseAmount">최소 구매 금액:</label>
+                                    <input type="number" class="form-control" id="minPurchaseAmount"
+                                           name="minPurchaseAmount" required>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label for="startedAt">시작 날짜:</label>
+                                    <input type="datetime-local" class="form-control" id="startedAt" name="startedAt"
+                                           required>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label for="expirationAt">종료 날짜:</label>
+                                    <input type="datetime-local" class="form-control" id="expirationAt"
+                                           name="expirationAt" required>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="usePeriod">사용 가능 기간(시간):</label>
+                                    <input type="text" class="form-control" id="usePeriod"
+                                           name="usePeriod" required>
+                                </div>
+
+
+                                <div class="form-group full-width">
+                                    <label for="quantity">수량 제한:</label>
+                                    <input type="number" class="form-control" id="quantity"
+                                           name="quantity" required>
+                                </div>
+
+                                <button style="width: 100px; height: 50px; margin-top: 20px" type="submit"
+                                        class="btn btn-primary">제출
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<div class="footer">-->
+<!--    <p>&copy; 2024 NovaBook Admin. All rights reserved.</p>-->
+<!--</div>-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

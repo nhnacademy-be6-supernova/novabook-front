@@ -47,7 +47,7 @@ public class MemberServiceImpl implements MemberService {
 			.birthDay(createMemberRequest.birthDay())
 			.address(createMemberRequest.address())
 			.build();
-		ApiResponse<CreateMemberResponse> createMemberResponse = memberClient.createMember(newMemberRequest);
+  		ApiResponse<CreateMemberResponse> createMemberResponse = memberClient.createMember(newMemberRequest);
 		return createMemberResponse.getBody();
 	}
 
