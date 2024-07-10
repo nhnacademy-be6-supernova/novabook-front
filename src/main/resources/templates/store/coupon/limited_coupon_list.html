@@ -155,7 +155,7 @@
                 </li>
 
                 <!-- Page numbers -->
-                <li class="page-item" th:each="i : ${#numbers.sequence(0, limitedCouponList.getTotalPageCount() - 1)}">
+                <li class="page-item" th:if="${limitedCouponList.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, limitedCouponList.getTotalPageCount() - 1)}">
                     <a th:href="@{/coupons(page=${i})}"
                        th:text="${i + 1}+'&nbsp;'"
                        th:classappend="${i == limitedCouponList.getPageNum()} ? 'active' : ''"></a>
