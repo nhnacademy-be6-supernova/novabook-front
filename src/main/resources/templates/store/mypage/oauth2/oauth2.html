@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+
+    <style>
+        body {
+            background-color: #f9f9f9;
+            font-family: 'Open Sans', sans-serif;
+            margin: 0; /* body의 기본 여백 제거 */
+            padding: 0; /* body의 기본 여백 제거 */
+        }
+
+        .btn-disabled {
+            background-color: #cccccc;
+            border-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+
+        .panel-heading {
+            background-color: #337ab7;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .panel-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .btn-primary {
+            background-color: #337ab7;
+            border-color: #2e6da4;
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+
+        .btn-primary:hover,
+        .btn-primary:focus {
+            background-color: #286090;
+            border-color: #204d74;
+        }
+
+        .btn-send-code {
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+
+        .timer {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: red;
+        }
+
+        .layout {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 40vh; /* 최소 높이 설정 */
+            padding-top: 50px; /* 패딩을 통해 헤더에 가깝게 배치 */
+        }
+
+        .panel {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 50px; /* 하단 여백 추가 */
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{layout/store/nav::nav}"></div>
+
+<div class="layout">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">페이코 연동 하기</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form method="get" action="/oauth2/payco/link">
+                            <button class="btn btn-primary btn-block" type="submit">PAYCO 연동</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/store/footer::footer}"></div>
+</body>
+
+</html>
