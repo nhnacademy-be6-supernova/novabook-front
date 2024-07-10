@@ -1,5 +1,6 @@
 package store.novabook.front.api.order.service.impl;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,9 @@ import store.novabook.front.api.delivery.dto.response.GetDeliveryFeeResponse;
 import store.novabook.front.api.member.address.dto.response.GetMemberAddressResponse;
 import store.novabook.front.api.member.address.service.MemberAddressClient;
 import store.novabook.front.api.member.coupon.service.MemberCouponClient;
+import store.novabook.front.api.member.member.dto.response.GetMemberResponse;
+import store.novabook.front.api.member.member.dto.response.MemberOrderNameReponse;
+import store.novabook.front.api.member.member.service.MemberClient;
 import store.novabook.front.api.order.client.WrappingPaperClient;
 import store.novabook.front.api.order.dto.request.PaymentRequest;
 import store.novabook.front.api.order.dto.response.GetWrappingPaperResponse;
@@ -41,6 +46,7 @@ import store.novabook.front.store.order.repository.RedisOrderRepository;
 @Service
 public class OrderServiceImpl implements OrderService {
 
+	public static final String ORDER_LOCK = "orderLock";
 	private final WrappingPaperClient wrappingPaperClient;
 	private final CouponClient couponClient;
 	private final CategoryClient categoryClient;
@@ -48,11 +54,19 @@ public class OrderServiceImpl implements OrderService {
 	private final PointHistoryClient pointHistoryClient;
 	private final MemberAddressClient memberAddressClient;
 	private final DeliveryFeeClient deliveryFeeClient;
+	private final MemberClient memberClient;
 
 	private final OrdersSagaClient ordersSagaClient;
 	private final RedisOrderNonMemberRepository redisOrderNonMemberRepository;
 	private final RedisOrderRepository redisOrderRepository;
+	private final RedisTemplate<String, String> redisTemplate;
 
+	/**
+	 * 주문 페이지 정보를 가져오는 로직
+	 * @param bookDTOS
+	 * @param memberId
+	 * @return
+	 */
 	@Override
 	@Transactional(readOnly = true)
 	public OrderViewDTO getOrder(List<BookDTO> bookDTOS, Long memberId) {
@@ -77,7 +91,9 @@ public class OrderServiceImpl implements OrderService {
 
 		List<Long> couponIdList = memberCouponClient.getMemberCoupon().getBody().couponIds();
 
-		List<GetWrappingPaperResponse> papers = wrappingPaperClient.getWrappingPaperAllList().getBody().getWrappingPaperResponse();
+		List<GetWrappingPaperResponse> papers = wrappingPaperClient.getWrappingPaperAllList()
+			.getBody()
+			.getWrappingPaperResponse();
 
 		GetCouponAllRequest couponRequest = GetCouponAllRequest.builder()
 			.couponIdList(couponIdList)
@@ -118,18 +134,25 @@ public class OrderServiceImpl implements OrderService {
 			.build();
 	}
 
+	/**
+	 * 분산락 매커니즘 사용
+	 * 여러번 주문 트랜잭션이 실행되는 것을 방지함
+	 * @param request
+	 */
 	@Override
 	public void createOrder(PaymentRequest request) {
-		// TODO: 여러번 실행되는 현상을 방지해야함
-		// 트랜잭션을 invoke 함
-		ordersSagaClient.createOrders(request);
+		String lockKey = ORDER_LOCK + ":" + request.orderId();
+
+		boolean lockAcquired = Boolean.TRUE.equals(
+			redisTemplate.opsForValue().setIfAbsent(lockKey, "lock", Duration.ofMinutes(60)));
+
+		if (lockAcquired) {
+			ordersSagaClient.createOrders(request);
+		}
 	}
 
-
 	/**
-	 * 부적절한 접근 <검증>
-	 * 1. 현재 결제 완료 페이지에 로그인된 유저와 주문 완료한 유저가 일치하는가?
-	 * @param memberId
+	 * 주문서가 존재하는지 체크
 	 * @param orderUUID
 	 * @param orderMemberId
 	 * @return
@@ -140,12 +163,34 @@ public class OrderServiceImpl implements OrderService {
 			return !redisOrderNonMemberRepository.existsById(orderUUID);
 		} else {
 			Optional<OrderTemporaryForm> temporaryForm = redisOrderRepository.findById(memberId);
-			if(temporaryForm.isEmpty()) {
+			if (temporaryForm.isEmpty()) {
 				throw new IllegalArgumentException("조회되는 주문서가 없습니다.");
 			}
-			return !Objects.equals(memberId, orderMemberId)  && temporaryForm.get().orderUUID().equals(orderUUID);
+			return !Objects.equals(memberId, orderMemberId) && temporaryForm.get().orderUUID().equals(orderUUID);
 		}
 	}
 
+	/**
+	 * @param orderUUID
+	 * @return 주문이 완료된 회원이름을 반환
+	 */
+	@Override
+	public MemberOrderNameReponse getSuccessView(UUID orderUUID) {
+		// 비회원일때
+		MemberOrderNameReponse memberResponse;
+		if (memberClient.getMember() == null) {
+			memberResponse = MemberOrderNameReponse.builder()
+				.name("비회원")
+				.orderNumber(orderUUID.toString())
+				.build();
+		} else {
+			GetMemberResponse memberInfo = memberClient.getMember().getBody();
+			memberResponse = MemberOrderNameReponse.builder()
+				.orderNumber(orderUUID.toString())
+				.name(memberInfo.name()).build();
+
+		}
+		return memberResponse;
+	}
 
 }
