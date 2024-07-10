@@ -146,13 +146,13 @@
                             <button class="btn btn-primary">쿠폰 추가</button>
                         </a>
                         <!-- Previous button -->
-                        <li class="page-item" th:classappend="${generalCoupons.getPageNum() == 0} ? 'disabled'">
+                        <li class="page-item"  th:classappend="${generalCoupons.getPageNum() == 0} ? 'disabled'">
                             <a th:if="${generalCoupons.getPageNum() > 0}" th:href="@{/admin/coupons(generalPage=${generalCoupons.getPageNum() - 1})}">Previous</a>
                             <span th:if="${generalCoupons.getPageNum() == 0}">Previous</span>
                         </li>
 
                         <!-- Page numbers -->
-                        <li class="page-item" th:each="i : ${#numbers.sequence(0, generalCoupons.getTotalPageCount() - 1)}">
+                        <li class="page-item" th:if="${generalCoupons.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, generalCoupons.getTotalPageCount() - 1)}">
                             <a th:href="@{/admin/coupons(generalPage=${i})}" th:text="${i + 1}+'&nbsp;'" th:classappend="${i == generalCoupons.getPageNum()} ? 'active' : ''"></a>
                         </li>
 
@@ -210,7 +210,7 @@
                         </li>
 
                         <!-- Page numbers -->
-                        <li class="page-item" th:each="i : ${#numbers.sequence(0, bookCoupons.getTotalPageCount() - 1)}">
+                        <li class="page-item" th:if="${bookCoupons.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, bookCoupons.getTotalPageCount() - 1)}">
                             <a th:href="@{/admin/coupons(bookPage=${i})}" th:text="${i + 1}+'&nbsp;'" th:classappend="${i == bookCoupons.getPageNum()} ? 'active' : ''"></a>
                         </li>
 
@@ -266,7 +266,7 @@
                         </li>
 
                         <!-- Page numbers -->
-                        <li class="page-item" th:each="i : ${#numbers.sequence(0, categoryCoupons.getTotalPageCount() - 1)}">
+                        <li class="page-item" th:if="${categoryCoupons.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, categoryCoupons.getTotalPageCount() - 1)}">
                             <a th:href="@{/admin/coupons(categoryPage=${i})}" th:text="${i + 1}+'&nbsp;'" th:classappend="${i == categoryCoupons.getPageNum()} ? 'active' : ''"></a>
                         </li>
 
@@ -322,7 +322,7 @@
                         </li>
 
                         <!-- Page numbers -->
-                        <li class="page-item" th:each="i : ${#numbers.sequence(0, limitedCoupons.getTotalPageCount() - 1)}">
+                        <li class="page-item" th:if="${limitedCoupons.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, limitedCoupons.getTotalPageCount() - 1)}">
                             <a th:href="@{/admin/coupons(limitedCoupons=${i})}" th:text="${i + 1}+'&nbsp;'" th:classappend="${i == limitedCoupons.getPageNum()} ? 'active' : ''"></a>
                         </li>
 
@@ -378,7 +378,7 @@
                         </li>
 
                         <!-- Page numbers -->
-                        <li class="page-item" th:each="i : ${#numbers.sequence(0, birthdayCoupons.getTotalPageCount() - 1)}">
+                        <li class="page-item" th:if="${birthdayCoupons.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, birthdayCoupons.getTotalPageCount() - 1)}">
                             <a th:href="@{/admin/coupons(birthdayPage=${i})}" th:text="${i + 1}+'&nbsp;'" th:classappend="${i == birthdayCoupons.getPageNum()} ? 'active' : ''"></a>
                         </li>
 
@@ -428,13 +428,13 @@
                             <button class="btn btn-primary">쿠폰 추가</button>
                         </a>
                         <!-- Previous button -->
-                        <li class="page-item" th:classappend="${welcomeCoupons.getPageNum() == 0} ? 'disabled'">
+                        <li class="page-item"  th:classappend="${welcomeCoupons.getPageNum() == 0} ? 'disabled'">
                             <a th:if="${welcomeCoupons.getPageNum() > 0}" th:href="@{/admin/coupons(welcomePage=${welcomeCoupons.getPageNum() - 1})}">Previous</a>
                             <span th:if="${welcomeCoupons.getPageNum() == 0}">Previous</span>
                         </li>
 
                         <!-- Page numbers -->
-                        <li class="page-item" th:each="i : ${#numbers.sequence(0, welcomeCoupons.getTotalPageCount() - 1)}">
+                        <li class="page-item" th:if="${welcomeCoupons.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, welcomeCoupons.getTotalPageCount() - 1)}">
                             <a th:href="@{/admin/coupons(welcomePage=${i})}" th:text="${i + 1}+'&nbsp;'" th:classappend="${i == welcomeCoupons.getPageNum()} ? 'active' : ''"></a>
                         </li>
 

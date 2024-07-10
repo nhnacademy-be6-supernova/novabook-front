@@ -75,7 +75,7 @@
                             </li>
 
                             <!-- Page numbers -->
-                            <li class="page-item" th:each="i : ${#numbers.sequence(0, LikeBooks.getTotalPageCount() )}">
+                            <li class="page-item" th:if="${LikeBooks.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, LikeBooks.getTotalPageCount() )}">
                                 <a th:href="@{/mypage/like(page=${i})}" th:text="${i + 1}+'&nbsp;'"
                                    th:classappend="${i == LikeBooks.getPageNum()} ? 'active' : ''"></a>
                             </li>

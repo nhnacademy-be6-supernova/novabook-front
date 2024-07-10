@@ -243,7 +243,7 @@
             </li>
 
             <!-- Page numbers -->
-            <li class="page-item" th:each="i : ${#numbers.sequence(0, books.getTotalPageCount() - 1)}">
+            <li class="page-item" th:if="${books.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, books.getTotalPageCount() - 1)}">
                 <a th:href="@{/admin/books(page=${i})}" th:text="${i + 1}+'&nbsp;'"
                    th:classappend="${i == books.getPageNum()} ? 'active' : ''"></a>
             </li>
