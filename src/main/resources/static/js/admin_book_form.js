@@ -171,23 +171,24 @@ document.addEventListener('DOMContentLoaded', function () {
             categories: category,
         }
 
-
-
-        fetch(url, {
+        axios.request({
+            url: '/api/v1/front/admin/books/book/form',
             method: 'POST',
+            data: params,
             headers: {
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(params)
-        })
-            .then(response => response.json())
-            .then(data => {
+            }
+        }).then(response => {
+            if (response.status === 200) {
                 alert("등록이 완료되었습니다!");
                 location.reload();
-            })
-            .catch(error => {
-                console.error('저장 실패 : ', error);
-            });
+            } else {
+                alert("등록이 실패하였습니다. 다시 시도해 주세요.");
+            }
+        }).catch(error => {
+            console.error('실패 : ', error.response ? error.response.data : error.message);
+            alert("오류가 발생하였습니다: " + (error.response ? error.response.data : error.message));
+        });
     }
 
     // 제출 버튼에 클릭 이벤트 리스너 추가

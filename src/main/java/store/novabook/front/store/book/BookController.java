@@ -12,7 +12,9 @@ import store.novabook.front.api.book.likes.dto.LikeBookResponse;
 import store.novabook.front.api.book.likes.service.LikeBookRestService;
 import store.novabook.front.api.book.service.BookService;
 import store.novabook.front.api.book.service.ReviewService;
+import store.novabook.front.common.exception.FeignClientException;
 import store.novabook.front.common.security.aop.CurrentMembers;
+
 
 @RequestMapping("/books")
 
@@ -30,16 +32,20 @@ public class BookController {
 
 	@GetMapping("/book/{bookId}")
 	public String getBook(@PathVariable Long bookId, @CurrentMembers Long memberId, Model model) {
-		model.addAttribute("book", bookService.getBookClient(bookId));
-		GetReviewListResponse response = reviewService.getReviewsByBookId(bookId);
-		model.addAttribute("reviews", response);
+		try {
+			model.addAttribute("book", bookService.getBookClient(bookId));
+			GetReviewListResponse response = reviewService.getReviewsByBookId(bookId);
+			model.addAttribute("reviews", response);
 
-		if (memberId != null) {
-			LikeBookResponse likeBookResponse = likeBookRestService.getBookLikes(bookId);
-			model.addAttribute("isLiked", likeBookResponse.isLiked());
-			return "store/book/book_detail";
+			if (memberId != null) {
+				LikeBookResponse likeBookResponse = likeBookRestService.getBookLikes(bookId);
+				model.addAttribute("isLiked", likeBookResponse.isLiked());
+				return "store/book/book_detail";
+			}
+			model.addAttribute("isLiked", false);
+		} catch (FeignClientException e) {
+			return "error/404";
 		}
-		model.addAttribute("isLiked", false);
 		return "store/book/book_detail";
 	}
 }
