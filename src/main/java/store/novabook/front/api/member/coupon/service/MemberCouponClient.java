@@ -14,7 +14,7 @@ import store.novabook.front.api.member.coupon.dto.GetCouponIdsResponse;
 import store.novabook.front.api.member.member.dto.response.CreateMemberCouponResponse;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
-import store.novabook.front.messaging.dto.DownloadCouponMessageRequest;
+import store.novabook.front.api.member.coupon.dto.DownloadCouponMessageRequest;
 
 @FeignClient(name = "memberCouponClient")
 public interface MemberCouponClient {

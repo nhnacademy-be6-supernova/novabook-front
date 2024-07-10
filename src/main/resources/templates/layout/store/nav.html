@@ -79,9 +79,9 @@
                 <div class="col-md-7 col-sm-5">
 
                     <div class="search-form">
-                        <form class="navbar-form" role="search" method="get" action="search/title">
+                        <form class="navbar-form" role="search" method="get" th:action="@{/search/keyword}">
                             <div class="form-group">
-                                <input type="text" class="form-control" name="title" placeholder="도서를 검색하세요">
+                                <input type="text" class="form-control" name="keyword" placeholder="도서를 검색하세요">
                             </div>
                             <button type="submit" class="search-btn"><i class="fa fa-search"></i></button>
                         </form>
@@ -143,41 +143,21 @@
                 </div>
 
                 <div class="shop-category nav navbar-nav navbar-left">
-
                     <!-- Single button -->
-
                     <div class="btn-group">
-
                         <button type="button" class="btn btn-shop-category dropdown-toggle" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-
-                            카테고리 <span class="caret"></span>
-
+                                aria-haspopup="true" aria-expanded="false">카테고리 <span class="caret"></span>
                         </button>
-
                         <ul class="dropdown-menu">
-                            <li role="separator" class="divider"></li>
-
-                            <li class="dropdown-submenu"> 국내 도서
-
-
+                            <!-- Iterate over categories -->
+                            <li class="dropdown-submenu" th:each="category : ${categories.categories}">
+                                <a th:href="@{/search/category(category=${category.name})}" th:text="${category.name}" class="dropdown-toggle" data-toggle="dropdown">상위카테고리이름<span class="caret"></span></a>
 
                                 <ul class="dropdown-menu">
-                                    <li><a href="">전공서적</a></li>
-                                    <li><a href="">전공서적</a></li>
-                                    <li><a href="">소설</a></li>
-                                    <li><a href="">자기개발</a></li>
-                                </ul>
-                            </li>
-
-                            <li role="separator" class="divider"></li>
-
-                            <li class="dropdown-submenu"> 해외 도서
-                                <ul class="dropdown-menu">
-                                    <li><a href="">전공서적</a></li>
-                                    <li><a href="">전공서적</a></li>
-                                    <li><a href="">소설</a></li>
-                                    <li><a href="">자기개발</a></li>
+                                    <!-- Iterate over subcategories of current category -->
+                                    <li th:each="subCategory : ${category.sub}">
+                                        <a th:text="${subCategory.name}" th:href="@{/search/category(category=${subCategory.name})}">하위카테고리이름</a>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>

@@ -24,6 +24,7 @@ import store.novabook.front.api.member.member.service.MemberAuthClient;
 import store.novabook.front.api.member.member.service.MemberClient;
 import store.novabook.front.api.member.member.service.MemberService;
 import store.novabook.front.common.response.ApiResponse;
+import store.novabook.front.common.util.CookieUtil;
 
 @Service
 @RequiredArgsConstructor
@@ -64,7 +65,7 @@ public class MemberServiceImpl implements MemberService {
 		if (!status.getStatusCode().is2xxSuccessful() || status.getBody() == null) {
 			return "";
 		}
-		if(status.getBody().memberStatusId() == 2) {
+		if (status.getBody().memberStatusId() == 2) {
 			Cookie uuidCookie = new Cookie("UUID", status.getBody().uuid());
 			uuidCookie.setMaxAge(60 * 60 * 24 * 7);
 			uuidCookie.setPath("/");
@@ -100,8 +101,10 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void logout() {
+	public void logout(HttpServletResponse response) {
 		memberAuthClient.logout();
+
+		CookieUtil.deleteAuthorizationCookie(response);
 	}
 
 	@Override
@@ -129,7 +132,6 @@ public class MemberServiceImpl implements MemberService {
 		ResponseEntity<GetNewTokenResponse> getNewTokenResponseResponseEntity = memberAuthClient.newToken(
 			getNewTokenRequest);
 		return getNewTokenResponseResponseEntity.getBody();
-
 	}
 
 }

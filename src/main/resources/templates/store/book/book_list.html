@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NovaBook📕</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
           rel='stylesheet' type='text/css'>
@@ -23,7 +22,10 @@
             vertical-align: middle;
             text-align: center;
         }
-
+        .table-striped thead th {
+            text-align: center;
+            vertical-align: middle;
+        }
         .table-striped tbody tr td:last-child,
         .table-striped tbody tr th:last-child {
             border-right: none;
@@ -40,14 +42,9 @@
             margin: 0 auto;
         }
 
-        .pull-left {
-            margin-top: 10px;
-            float: left;
-        }
-
         .table-striped tbody tr td .star-rating,
         .table-striped tbody tr td .packaging-status {
-            font-size: 14px; /* 별점과 포장 가능 여부 폰트 사이즈 조정 */
+            font-size: 14px;
             line-height: 1.2;
         }
 
@@ -57,17 +54,18 @@
         }
 
         .book-title {
-            font-size: 1.8rem; /* 제목의 기본 폰트 크기 */
+            font-size: 1.8rem;
             font-weight: bold;
         }
 
         .book-author-publisher {
-            font-size: 0.875rem; /* 저자와 출판사의 기본 폰트 크기 */
-            color: #555; /* 색상 변경 (선택사항) */
+            font-size: 0.875rem;
+            color: #555;
         }
 
-        .book-author, .book-publisher {
-            font-size: 1rem; /* 저자와 출판사의 폰트 크기를 더 줄이기 */
+        .book-author,
+        .book-publisher {
+            font-size: 1rem;
         }
 
         .price-info {
@@ -83,13 +81,13 @@
 
         .discounted-price {
             font-size: 1.25rem;
-            color: #d9534f; /* 빨간색으로 강조 */
+            color: #d9534f;
             font-weight: bold;
         }
 
         .category-tag {
-            font-size: 1rem; /* 카테고리/태그의 기본 폰트 크기 */
-            color: #555; /* 색상 변경 (선택사항) */
+            font-size: 1rem;
+            color: #555;
         }
     </style>
 </head>
@@ -98,98 +96,226 @@
 <div th:replace="~{layout/store/nav::nav}"></div>
 
 <div class="layout">
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
-            <div th:replace="~{layout/store/book_search_sidebar::sidebar}" class="col-md-3 col-sm-4"></div>
-            <!-- 콘텐츠 섹션 -->
-            <div class="col-md-9 col-sm-8">
-                <!-- 정렬 및 페이지당 항목 수 블록 -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="sort-options well">
-                            <div class="pull-left">
-                                <label>정렬 기준:</label>
-                                <a href="?sort=popularity">인기도</a> |
-                                <a href="?sort=lowest_price">최저가</a> |
-                                <a href="?sort=highest_price">최고가</a> |
-                                <a href="?sort=rating">평점</a> |
-                                <a href="?sort=reviews">리뷰 순</a>
-                            </div>
-                            <div class="pull-right">
-                                <label for="itemsPerPage" class="control-label">페이지당 항목 수:</label>
-                                <select id="itemsPerPage" class="form-control"
-                                        style="display:inline-block; width:auto;">
-                                    <option value="10">10개</option>
-                                    <option value="20">20개</option>
-                                    <option value="50">50개</option>
-                                </select>
-                            </div>
-                            <div class="clearfix"></div>
+<!--            &lt;!&ndash; 사이드바 섹션 &ndash;&gt;-->
+<!--            <div class="col-md-2">-->
+<!--                <div class="panel panel-default">-->
+<!--                    <div class="panel-heading">-->
+<!--                        <h3 class="panel-title">검색 옵션</h3>-->
+<!--                    </div>-->
+<!--                    <div class="panel-body">-->
+<!--                        <ul class="nav nav-pills nav-stacked">-->
+<!--                            <h4>검색 조건</h4>-->
+<!--                            <li><div class="checkbox"><label><input type="checkbox" name="scales" checked> 저자/ 역자</label></div></li>-->
+<!--                            <li><div class="checkbox"><label><input type="checkbox" name="scales" checked> 출판사</label></div></li>-->
+<!--                            <hr>-->
+<!--                            <h4>가격 설정</h4>-->
+<!--                            <li><div class="radio"><label><input type="radio" name="chk_info" value="all" checked> 전체</label></div></li>-->
+<!--                            <li><div class="radio"><label><input type="radio" name="chk_info" value="below5"> 5천원 이하</label></div></li>-->
+<!--                            <li><div class="radio"><label><input type="radio" name="chk_info" value="5to10"> 5천원 ~ 1만원</label></div></li>-->
+<!--                            <li><div class="radio"><label><input type="radio" name="chk_info" value="10to30"> 1만원 ~ 3만원</label></div></li>-->
+<!--                            <li><div class="radio"><label><input type="radio" name="chk_info" value="above30"> 3만원 이상</label></div></li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+                <div class="col-md-12">
+                    <div class="sort-options well">
+                        <div class="pull-left">
+                            <label>정렬 기준:</label>
+<!--                            <a href="?sort=popularity">인기도</a> |-->
+                            <a id="lowest_price" href="#">최저가</a> |
+<!--                            <a id="highest_price" href="#">최고가</a> |-->
+<!--                            <a id="title" href="#">이름 순</a> |-->
+                            <a id="rating" href="#">평점</a> |
+                            <a id="review" href="#">리뷰 순</a>
                         </div>
-                    </div>
-                </div>
-                <!-- 책 검색 결과 섹션 -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <form id="searchResultsForm">
-                            <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>책 표지</th>
-                                    <th>책 정보</th>
-                                    <th>카테고리 / 태그</th>
-                                    <th>별점</th>
-                                    <th>가격</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="book : ${bookSearches.data}">
-                                    <td><img th:src="@{${book.image}}" alt="책 사진" style="width:100px;"></td>
-                                    <td>
-                                        <div class="book-info">
-                                            <div class="book-title" th:text="${book.title}">책 제목</div>
-                                            <div class="book-author-publisher">
-                                                <span class="book-author" th:text="${book.author}">저자</span><br>
-                                                <span class="book-publisher" th:text="${book.publisher}">출판사</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="category-tag" th:text="${book.categories + ' / ' + book.tags}">카테고리 / 태그</div>
-                                    </td>
-                                    <td class="star-rating">
-                                        <span th:text="${book.score}">별점</span>
-                                        <span class="fa fa-star" style="color:#ffd11a;"></span>
-                                    </td>
-                                    <td>
-                                        <div class="price-info">
-                                            <span class="original-price" th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA')} + ' 원'">판매 가격</span>
-                                            <span class="discounted-price" th:text="${#numbers.formatDecimal(book.discountPrice, 0, 'COMMA')} + ' 원'">할인 가격</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group-vertical">
-                                            <a href="#" class="btn btn-primary">장바구니에 넣기</a>
-                                            <a href="#" class="btn btn-success">바로 구매</a>
-                                            <a href="#" class="btn btn-info">상품 보기</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </form>
+                        <div class="pull-right">
+                            <label for="itemsPerPage" class="control-label">페이지당 항목 수:</label>
+                            <select id="itemsPerPage" class="form-control"
+                                    style="display:inline-block; width:auto;">
+                                <option value="10">10개</option>
+                                <option value="20">20개</option>
+                                <option value="50">50개</option>
+                            </select>
+                        </div>
+                        <div class="clearfix"></div>
                     </div>
                 </div>
 
+            <!-- 책 검색 결과 섹션 -->
+            <div class="col-md-12">
+                <form id="searchResultsForm">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>책 표지</th>
+                            <th>책 정보</th>
+                            <th>별점</th>
+                            <th>가격</th>
+                            <th>포장 여부</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="book : ${bookSearches.data}">
+                            <td><img th:src="@{${book.image}}" alt="책 사진" style="width:100px;"></td>
+                            <td>
+                                <div class="book-info">
+                                    <a class="book-title" th:href="@{/books/book/{id}(id=${book.id})}" th:text="${book.title}">책 제목</a>
+                                    <div class="book-author-publisher">
+                                        <span class="book-author" th:text="${book.author}">저자</span><br>
+                                        <span class="book-publisher" th:text="${book.publisher}">출판사</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="star-rating">
+                                <span th:text="${book.score}">별점</span>
+                                <span class="fa fa-star" style="color:#ffd11a;"></span>
+                            </td>
+                            <td>
+                                <div class="price-info">
+                                    <span class="original-price" th:text="${book.price} + ' 원'">판매 가격</span>
+                                    <span class="discounted-price" th:text="${book.discountPrice} + ' 원'">할인 가격</span>
+                                </div>
+                            </td>
+                            <td>
+                                <span style="font-size: 16px;" class="strong-text" th:if="${book.isPackaged}">포장 가능</span>
+                                <span style="font-size: 16px;" class="strong-text" th:if="${!book.isPackaged}">포장 불가</span>
+                            </td>
+                            <td>
+                                <div class="btn-group-vertical">
+                                    <a href="#" class="btn btn-primary">장바구니에 넣기</a>
+                                    <a href="#" class="btn btn-success">바로 구매</a>
+                                    <a th:href="@{/books/book/{id}(id=${book.id})}" class="btn btn-info">상품 보기</a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+
+                <!-- 페이지네이션 -->
+                <div class="pagination">
+                    <!-- 이전 버튼 -->
+                    <li class="page-item" th:classappend="${bookSearches.pageNum == 0} ? 'disabled'">
+                        <a th:if="${bookSearches.pageNum > 0}" th:href="@{${prevPageUrl}}" onclick="return false;">Previous</a>
+                        <span th:if="${bookSearches.pageNum == 0}">Previous</span>
+                    </li>
+
+                    <!-- 페이지 번호 -->
+                    <li class="page-item" th:each="i : ${#numbers.sequence(0, bookSearches.getTotalPageCount() - 1)}">
+                        <a th:href="@{${currentPageUrl}}" th:text="${i + 1}"
+                           th:classappend="${i == bookSearches.pageNum} ? 'active' : ''"></a>
+                    </li>
+
+                    <!-- 다음 버튼 -->
+                    <li class="page-item" th:classappend="${bookSearches.pageNum >= bookSearches.getTotalPageCount() - 1} ? 'disabled'">
+                        <a th:if="${bookSearches.pageNum < bookSearches.getTotalPageCount() - 1}" th:href="@{${nextPageUrl}}" onclick="return false;">Next</a>
+                        <span th:if="${bookSearches.pageNum >= bookSearches.getTotalPageCount() - 1}">Next</span>
+                    </li>
+                </div>
             </div>
+
         </div>
     </div>
 </div>
 
-
-
 <div th:replace="~{layout/store/footer::footer}"></div>
-</body>
 
+<!-- Hidden Inputs -->
+<input type="hidden" id="searchType" th:value="${searchType}">
+<input type="hidden" id="keyword" th:value="${keyword}">
+<input type="hidden" id="pageNum" th:value="${bookSearches.pageNum}">
+<!-- jQuery and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var searchType = $('#searchType').val();
+        var keyword = $('#keyword').val();
+        var pageNum = $('#pageNum').val();
+
+        var prevPageUrl = createPaginationLink(searchType, keyword, parseInt(pageNum) - 1);
+        var nextPageUrl = createPaginationLink(searchType, keyword, parseInt(pageNum) + 1);
+        var currentPageUrl = createPaginationLink(searchType, keyword, pageNum);
+
+
+        // 이전 페이지 링크 설정
+        $('.pagination .page-item:first-child a').attr('href', prevPageUrl);
+
+        // 다음 페이지 링크 설정
+        $('.pagination .page-item:last-child a').attr('href', nextPageUrl);
+
+        // 각 페이지 번호 링크 설정
+        $('.pagination .page-item:not(:first-child):not(:last-child) a').each(function(index) {
+            $(this).attr('href', createPaginationLink(searchType, keyword, index));
+
+        });
+
+        // 정렬 기준 클릭 이벤트 처리
+        // $('#lowest_price').on('click', function() {
+        //     var sortLink = createSortLink(searchType, keyword, 'discountPrice');
+        //     window.location.href = sortLink;
+        // });
+        //
+        // $('#highest_price').on('click', function() {
+        //     var sortLink = createSortLink(searchType, keyword, 'discountPrice');
+        //     window.location.href = sortLink;
+        // });
+
+        $('#lowest_price').on('click', function() {
+            var sortLink = createSortLink(searchType, keyword, 'discountPrice');
+            window.location.href = sortLink;
+        });
+
+        $('#rating').on('click', function() {
+            var sortLink = createSortLink(searchType, keyword, 'score');
+            window.location.href = sortLink;
+        });
+
+        $('#review').on('click', function() {
+            var sortLink = createSortLink(searchType, keyword, 'review');
+            window.location.href = sortLink;
+        });
+
+
+
+        // 선택된 모든 책 체크박스
+        $('#selectAll').on('click', function () {
+            $('.bookCheckbox').prop('checked', this.checked);
+        });
+
+        // 선택된 항목 장바구니에 넣기 및 바로 구매
+        $('#searchResultsForm').on('submit', function (e) {
+            e.preventDefault();
+            // 선택된 책 아이템들에 대한 처리 로직을 여기에 추가하세요.
+            alert('선택된 항목이 처리되었습니다.');
+        });
+    });
+
+
+    function createSortLink(searchType, keyword, sortType) {
+        if (searchType === 'category') {
+            return '/search/category?category=' + keyword + '&sort=' + sortType;
+        } else if (searchType === 'keyword') {
+            return '/search/keyword?keyword=' + keyword + '&sort=' + sortType;
+        } else {
+            return '#';
+        }
+    }
+    function createPaginationLink(searchType, keyword, pageNum) {
+        if (searchType === 'category') {
+            return '/search/category?category=' + keyword + '&page=' + pageNum;
+        } else if (searchType === 'keyword') {
+            return '/search/keyword?keyword=' + keyword + '&page=' + pageNum;
+        } else {
+            return '#';
+        }
+    }
+
+</script>
+</body>
 </html>
