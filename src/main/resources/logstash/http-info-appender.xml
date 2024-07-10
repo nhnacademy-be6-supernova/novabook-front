@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <included>
-    <appender name="HTTP-INFO" class="store.novabook.store.common.logging.HttpAppender">
+    <appender name="HTTP-INFO" class="store.novabook.front.common.logging.HttpAppender">
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>INFO</level>
             <onMatch>ACCEPT</onMatch>

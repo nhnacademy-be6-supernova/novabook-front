@@ -9,7 +9,6 @@
     <springProperty scope="context" name="logSource" source="logging.logstash.logSource"/>
     <springProperty scope="context" name="logType" source="logging.logstash.logType"/>
     <springProperty scope="context" name="logHost" source="logging.logstash.host"/>
-    <springProperty scope="context" name="logLevel" source="logging.logstash.logLevel"/>
     <springProperty scope="context" name="platform" source="logging.logstash.platform"/>
     <springProperty scope="context" name="secretKey" source="logging.logstash.secretKey"/>
     <property name="APP_NAME" value="${springAppName:-authority-server}"/>

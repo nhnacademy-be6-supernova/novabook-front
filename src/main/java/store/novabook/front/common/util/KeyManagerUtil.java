@@ -2,6 +2,8 @@ package store.novabook.front.common.util;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
@@ -20,6 +22,7 @@ import store.novabook.front.common.util.dto.RedisConfigDto;
 
 public class KeyManagerUtil {
 	private static final ObjectMapper objectMapper = new ObjectMapper();
+	private static final Logger log = LoggerFactory.getLogger(KeyManagerUtil.class);
 
 	private KeyManagerUtil() {
 	}
@@ -51,6 +54,7 @@ public class KeyManagerUtil {
 	public static RedisConfigDto getRedisConfig(Environment environment) {
 		try {
 			String keyid = environment.getProperty("nhn.cloud.keyManager.redisKey");
+			log.info("getRedisConfig, keyid: {}", keyid);
 			return objectMapper.readValue(getDataSource(environment, keyid), RedisConfigDto.class);
 		} catch (JsonProcessingException e) {
 			//오류처리
