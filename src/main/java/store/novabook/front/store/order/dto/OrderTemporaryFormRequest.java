@@ -7,8 +7,10 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
+import lombok.Builder;
 import store.novabook.front.store.book.dto.BookIdAndQuantityDTO;
 
+@Builder
 public record OrderTemporaryFormRequest(
 	Long memberId,
 	@NotNull

@@ -203,8 +203,8 @@
                         <td name="itemName" th:text="${item.name()}" class="item-name">Product Name</td>
                         <td th:text="${item.price} + '원'">14,800원</td>
                         <td name="itemQuantity" th:text="${item.quantity}" class="item-quantity">1</td>
-                        <td th:text="${item.discount()} + '원'">판매가</td>
-                        <td class="total-price align-center" name="totalPrice" th:text="${item.discount() * item.quantity()} + '원'" >총가격
+                        <td th:text="${item.price - item.discount()} + '원'">할인가</td>
+                        <td class="total-price align-center" name="totalPrice" th:text="${(item.price - item.discount()) * item.quantity()} + '원'" >총가격
                         </td>
                     </tr>
                     <tr th:if="${items == null || #lists.isEmpty(items)}">
@@ -288,9 +288,9 @@
                 <div class="section">
                     <h2 class="section-header">포장 옵션</h2>
                     <select name="packaging" id="wrap_paper" class="form-control" onchange="updatePackagingPrice(this)">
-                        <option th:value="0" selected>포장 안함</option>
+                        <option th:value="4" selected>포장 안함</option>
                         <option th:each="wrap : ${orderDTO.wrappingPapers()}" th:value="${wrap.id()}"
-                                th:text="${wrap.name()}" data-price="1000">일반 포장
+                                th:text="${wrap.name()}" th:attr="data-price=${wrap.price()}">일반 포장
                         </option>
                     </select>
                 </div>

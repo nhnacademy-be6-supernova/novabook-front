@@ -151,13 +151,8 @@ function applyPoints() {
 // 포장지 가격 업데이트
 function updatePackagingPrice(selectElement) {
     const price = parseInt($(selectElement).find('option:selected').data('price'), 10);
-    if(price == 1000) {
-        $('#additionalAmount').text(1000 + "원");
+        $('#additionalAmount').text(price + "원");
         updateFinalAmount();
-    } else {
-        $('#additionalAmount').text(0 + "원");
-        updateFinalAmount();
-    }
 }
 
 
