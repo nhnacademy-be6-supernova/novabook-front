@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.category.service.CategoryService;
 
-@ControllerAdvice
+// @ControllerAdvice
 @RequiredArgsConstructor
 public class CategoryHeaderAdvice {
 
