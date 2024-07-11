@@ -1,7 +1,6 @@
 package store.novabook.front.api.delivery.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,8 +12,8 @@ import store.novabook.front.api.delivery.dto.response.GetDeliveryFeeResponse;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
 
-@FeignClient(name = "gateway-service", path = "/api/v1/store/delivery-fee", contextId = "deliveryClient")
-public interface DeliveryClient {
+@FeignClient(name = "gateway-service", path = "/api/v1/store/orders/delivery-fee", contextId = "deliveryFeeClient")
+public interface DeliveryFeeClient {
 	@GetMapping
 	PageResponse<GetDeliveryFeeResponse> getDeliveryAllPage(@RequestParam int page, @RequestParam int size);
 

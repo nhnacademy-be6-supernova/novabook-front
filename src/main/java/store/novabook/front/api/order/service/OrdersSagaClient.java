@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import store.novabook.front.api.order.dto.request.PaymentRequest;
 import store.novabook.front.common.response.ApiResponse;
 
-@FeignClient(name="orderSagaClient")
+@FeignClient(name="gateway-service" , path = "/api/v1/store/orders/saga", contextId = "ordersSagaClient")
 public interface OrdersSagaClient {
 	@PostMapping
 	ApiResponse<Void> createOrders(@RequestBody PaymentRequest request);

@@ -10,7 +10,7 @@ searchButton.addEventListener('click', function (event) {
     const query = document.querySelector('input[name="query"]').value;
 
     // AJAX request to fetch book data
-    fetch(`https://novabook.store/admin/books/book/search?query=${encodeURIComponent(query)}`, {
+    fetch(`/admin/books/book/search?query=${encodeURIComponent(query)}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
