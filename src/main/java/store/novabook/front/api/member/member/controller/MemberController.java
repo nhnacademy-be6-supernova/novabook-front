@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -13,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.dto.request.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.request.LoginMembersRequest;
 import store.novabook.front.api.member.member.service.MemberService;
-import store.novabook.front.api.member.member.service.TestService;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,10 +31,6 @@ public class MemberController {
 	@PostMapping("/login")
 	public String login(@Valid @ModelAttribute LoginMembersRequest loginMembersRequest,
 		HttpServletResponse response) {
-		// try {
-		//
-		// }catch (Exception e) {
-		// }
 		return memberService.login(loginMembersRequest, response);
 	}
 

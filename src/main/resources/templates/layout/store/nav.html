@@ -2,7 +2,9 @@
 
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="nav">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/category.js"></script>
     <div class="top-bar">
 
         <div class="container">
@@ -154,28 +156,37 @@
 
                 </div>
 
+<!--                <div class="shop-category nav navbar-nav navbar-left">-->
+<!--                    &lt;!&ndash; Single button &ndash;&gt;-->
+<!--                    <div class="btn-group">-->
+<!--                        <button type="button" class="btn btn-shop-category dropdown-toggle" data-toggle="dropdown"-->
+<!--                                aria-haspopup="true" aria-expanded="false">카테고리 <span class="caret"></span>-->
+<!--                        </button>-->
+<!--                        <ul class="dropdown-menu">-->
+<!--                            &lt;!&ndash; Iterate over categories &ndash;&gt;-->
+<!--                            <li class="dropdown-submenu" th:each="category : ${categories.categories}">-->
+<!--                                <a th:href="@{/search/category(category=${category.name})}" th:text="${category.name}" class="dropdown-toggle" data-toggle="dropdown">상위카테고리이름<span class="caret"></span></a>-->
+
+<!--                                <ul class="dropdown-menu">-->
+<!--                                    &lt;!&ndash; Iterate over subcategories of current category &ndash;&gt;-->
+<!--                                    <li th:each="subCategory : ${category.sub}">-->
+<!--                                        <a th:text="${subCategory.name}" th:href="@{/search/category(category=${subCategory.name})}">하위카테고리이름</a>-->
+<!--                                    </li>-->
+<!--                                </ul>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div class="shop-category nav navbar-nav navbar-left">
-                    <!-- Single button -->
                     <div class="btn-group">
                         <button type="button" class="btn btn-shop-category dropdown-toggle" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">카테고리 <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu">
-                            <!-- Iterate over categories -->
-                            <li class="dropdown-submenu" th:each="category : ${categories.categories}">
-                                <a th:href="@{/search/category(category=${category.name})}" th:text="${category.name}" class="dropdown-toggle" data-toggle="dropdown">상위카테고리이름<span class="caret"></span></a>
-
-                                <ul class="dropdown-menu">
-                                    <!-- Iterate over subcategories of current category -->
-                                    <li th:each="subCategory : ${category.sub}">
-                                        <a th:text="${subCategory.name}" th:href="@{/search/category(category=${subCategory.name})}">하위카테고리이름</a>
-                                    </li>
-                                </ul>
-                            </li>
+                        <ul class="dropdown-menu" id="category-dropdown">
+                            <!-- Categories will be injected here -->
                         </ul>
                     </div>
                 </div>
-
                 <!-- Collect the nav links, forms, and other content for toggling -->
 
                 <div class="collapse navbar-collapse" id="navbar">
@@ -205,5 +216,7 @@
         </nav>
 
     </div>
+
 </div>
+
 </html>

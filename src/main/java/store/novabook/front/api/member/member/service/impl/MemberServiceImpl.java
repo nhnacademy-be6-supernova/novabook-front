@@ -83,14 +83,12 @@ public class MemberServiceImpl implements MemberService {
 			Cookie accessCookie = new Cookie("Authorization", accessToken);
 			accessCookie.setMaxAge(60 * 60 * 24 * 7);
 			accessCookie.setPath("/");
-			// accessCookie.setDomain("novabook");
 
 			response.addCookie(accessCookie);
 
 			Cookie refreshCookie = new Cookie("Refresh", refreshToken);
 			refreshCookie.setMaxAge(60 * 60 * 24 * 7);
 			refreshCookie.setPath("/");
-			// refreshCookie.setDomain("novabook");
 			response.addCookie(refreshCookie);
 
 		} else {

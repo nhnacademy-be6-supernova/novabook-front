@@ -13,7 +13,7 @@ import store.novabook.front.api.book.dto.response.GetReviewListResponse;
 import store.novabook.front.api.book.dto.response.GetReviewResponse;
 import store.novabook.front.common.response.ApiResponse;
 
-@FeignClient(name = "reviewClient")
+@FeignClient(name = "gateway-service", path = "/api/v1/store/reviews", contextId = "reviewClient")
 public interface ReviewClient {
 
 	@PostMapping("/{ordersBookId}")

@@ -27,10 +27,8 @@ public class FeignConfig {
 		return new FeignClientInterceptor(request, response, refreshTokenContext);
 	}
 
-
-	// @Bean
-	// public ErrorDecoder errorDecoder() {
-	// 	return new NovaErrorDecoder();
-	// }
-
+	@Bean
+	public ErrorDecoder errorDecoder() {
+		return new NovaErrorDecoder();
+	}
 }

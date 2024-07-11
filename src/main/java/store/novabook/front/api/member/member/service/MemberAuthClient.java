@@ -17,7 +17,7 @@ import store.novabook.front.api.member.member.dto.response.GetPaycoMembersRespon
 import store.novabook.front.api.member.member.dto.response.LoginMembersResponse;
 import store.novabook.front.common.security.aop.GetMembersTokenResponse;
 
-@FeignClient(name = "memberAuthClient")
+@FeignClient(name = "gateway-service", path = "/api/v1/auth", contextId = "memberAuthClient")
 public interface MemberAuthClient {
 	@PostMapping("/login")
 	ResponseEntity<LoginMembersResponse> login(@RequestBody LoginMembersRequest loginMembersRequest);
