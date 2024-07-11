@@ -28,9 +28,9 @@ public class FeignConfig {
 	}
 
 
-	// @Bean
-	// public ErrorDecoder errorDecoder() {
-	// 	return new NovaErrorDecoder();
-	// }
+	@Bean
+	public ErrorDecoder errorDecoder() {
+		return new NovaErrorDecoder();
+	}
 
 }
