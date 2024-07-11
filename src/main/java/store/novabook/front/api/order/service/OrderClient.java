@@ -12,6 +12,6 @@ import store.novabook.front.api.order.dto.request.TossPaymentRequest;
 import store.novabook.front.api.order.dto.response.CreateOrderResponse;
 import store.novabook.front.common.response.ApiResponse;
 
-@FeignClient(name="orderClient")
+@FeignClient(name = "gateway-service", path = "/api/v1/store/order", contextId = "orderClient")
 public interface OrderClient {
 }

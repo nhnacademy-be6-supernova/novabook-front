@@ -11,10 +11,12 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import store.novabook.front.common.security.RefreshTokenContext;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class FeignClientInterceptor implements RequestInterceptor {
 
 	private final HttpServletRequest request;
@@ -27,9 +29,16 @@ public class FeignClientInterceptor implements RequestInterceptor {
 
 	@Override
 	public void apply(RequestTemplate template) {
+		log.debug("out :   {}, {}", template.feignTarget().url(), template.method());
+		if (template.feignTarget().url().equals("http://localhost:9777/api/v1/store/categories") && template.method()
+			.equals("GET")) {
+			log.debug("in :   {}, {}", template.feignTarget().url(), template.method());
+			return;
+		}
 		if (template.feignTarget().name().contains("payco")) {
 			return;
 		}
+
 
 		Cookie[] cookies = request.getCookies();
 		String access = response.getHeader("access");
@@ -38,7 +47,7 @@ public class FeignClientInterceptor implements RequestInterceptor {
 			template.header(AUTHORIZATION, BEARER + " " + access);
 			template.header(REFRESH, BEARER + " " + refresh);
 			refreshTokenContext.setTokenData(null);
-			refreshTokenContext.setUri(null);
+			refreshTokenContext.setRefreshToken(null);
 			return;
 		}
 		if (Objects.isNull(cookies)) {

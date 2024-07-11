@@ -1,7 +1,6 @@
 package store.novabook.front.api.book.dto.response;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import lombok.Builder;
 
@@ -11,11 +10,11 @@ public record GetBookSearchResponse(
 	String title,
 	String author,
 	String publisher,
+	LocalDateTime publication_date,
+	String image,
 	Long price,
 	Long discountPrice,
-	List<String> tags,
-	List<String> categories,
-	float score,
-	String image
+	Integer score,
+	Boolean isPackaged
 ) {
 }

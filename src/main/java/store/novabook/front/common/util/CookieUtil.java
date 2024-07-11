@@ -21,6 +21,11 @@ public class CookieUtil {
 		deleteCookie(response, MEMBER_COOKIE_NAME);
 	}
 
+	public static void deleteAuthorizationCookie(HttpServletResponse response) {
+		deleteCookie(response, "Authorization");
+		deleteCookie(response, "Refresh");
+	}
+
 	public static void deleteGuestCookie(HttpServletResponse response) {
 		deleteCookie(response, GUEST_COOKIE_NAME);
 	}

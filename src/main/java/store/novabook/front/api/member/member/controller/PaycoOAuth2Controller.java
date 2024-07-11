@@ -1,13 +1,11 @@
 package store.novabook.front.api.member.member.controller;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Objects;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,15 +16,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.dto.PaycoResponseValidator;
 import store.novabook.front.api.member.member.dto.request.GetPaycoMembersRequest;
+import store.novabook.front.api.member.member.dto.request.LinkPaycoMembersUUIDRequest;
 import store.novabook.front.api.member.member.dto.request.LoginMembersRequest;
 import store.novabook.front.api.member.member.dto.response.GetPaycoMembersResponse;
 import store.novabook.front.api.member.member.service.MemberAuthClient;
 import store.novabook.front.api.member.member.service.PaycoApiClient;
 import store.novabook.front.api.member.member.service.PaycoLoginClient;
+import store.novabook.front.common.exception.ErrorCode;
+import store.novabook.front.common.exception.UnauthorizedException;
 import store.novabook.front.common.util.KeyManagerUtil;
 import store.novabook.front.common.util.dto.Oauth2Dto;
 
@@ -70,6 +71,65 @@ public class PaycoOAuth2Controller {
 		}
 	}
 
+	@GetMapping("/link")
+	public void linkPayco(HttpServletResponse response) {
+		try {
+			String redirectUrl = "https://id.payco.com/oauth2.0/authorize?"
+				+ "response_type=code"
+				+ "&client_id=3RD6nxfHUTIZ1sl7133gUN6"
+				+ "&serviceProviderCode=FRIENDS"
+				+ "&redirect_uri=https%3a%2f%2fnovabook.store%2foauth2%2fpayco%2flink%2fcallback"
+				+ "&state=gh86qj"
+				+ "&userLocale=ko_KR";
+			response.sendRedirect(redirectUrl);
+		} catch (IOException e) {
+			throw new RuntimeException("Redirection to OAuth2 provider failed", e);
+		}
+	}
+
+	@GetMapping("/link/callback")
+	public String linkCallback(@RequestParam(value = "code", required = false) String code,
+		@RequestParam(value = "state", required = false) String state,
+		@RequestParam(value = "serviceExtra", required = false) String serviceExtraEncoded,
+		HttpServletRequest request) {
+
+		Map<String, Object> authorizationCode = paycoApiClient.getAuthorizationToken("authorization_code", clientId,
+			clientSecret, code, redirectUri, state);
+
+		String paycoAccessToken = (String)authorizationCode.get("access_token");
+		if (Objects.isNull(paycoAccessToken)) {
+			throw new RuntimeException("Failed to get Payco access token");
+		}
+
+		String paycoId = getPaycoId(paycoAccessToken);
+
+		if (!logout(paycoAccessToken)) {
+			throw new RuntimeException("Failed to logout");
+		}
+
+		Cookie[] cookies = request.getCookies();
+		String accessToken = "";
+		for (Cookie cookie : cookies) {
+			if ("Authorization".equals(cookie.getName())) {
+				accessToken = cookie.getValue();
+			}
+		}
+
+		if (accessToken.isEmpty()) {
+			throw new UnauthorizedException(ErrorCode.UNAUTHORIZED);
+		}
+
+		LinkPaycoMembersUUIDRequest linkPaycoMembersUUIDRequest = new LinkPaycoMembersUUIDRequest(accessToken, paycoId);
+
+		ResponseEntity<Void> paycoLinkResponse = memberAuthClient.paycoLink(linkPaycoMembersUUIDRequest);
+
+		if (!paycoLinkResponse.getStatusCode().is2xxSuccessful()) {
+			return "redirect:/login";
+		}
+
+		return "redirect:/mypage";
+	}
+
 	@GetMapping("/callback")
 	public String callback(@RequestParam(value = "code", required = false) String code,
 		@RequestParam(value = "state", required = false) String state,
@@ -90,7 +150,6 @@ public class PaycoOAuth2Controller {
 			throw new RuntimeException("Failed to logout");
 		}
 
-		//afaf22a0-beb4-11e6-bc03-005056ac229d
 		GetPaycoMembersRequest getPaycoMembersRequest = GetPaycoMembersRequest.builder()
 			.paycoId(paycoId)
 			.build();

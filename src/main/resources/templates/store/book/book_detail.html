@@ -632,32 +632,55 @@
             return;
         }
 
-        fetch('https://novabook.store/api/v1/front/books/likes/' + bookId, {
+        axios.request({
+            url: '/api/v1/front/books/likes/' + bookId,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             }
+        }).then(response => {
+            if (response.data.isLiked) {
+                console.log("좋아요")
+                icon.classList.remove("fa-heart-o");
+                icon.classList.add("fa-heart");
+                icon.style.color = "red";
+            } else {
+                console.log("좋아요 취소")
+                icon.classList.remove("fa-heart");
+                icon.classList.add("fa-heart-o");
+                icon.style.color = "";
+            }
         })
-            .then(response => response.json())
-            .then(data => {
-                console.log("실행됨")
-                if (data.isLiked) {
-                    console.log("좋아요")
-                    icon.classList.remove("fa-heart-o");
-                    icon.classList.add("fa-heart");
-                    icon.style.color = "red";
-                }
-                if (!data.isLiked){
-                    console.log("좋아요 취소")
-                    icon.classList.remove("fa-heart");
-                    icon.classList.add("fa-heart-o");
-                    icon.style.color = "";
-                }
-            })
             .catch(error => {
-                console.error('Error toggling like:', error);
-                alert("좋아요 상태 변경 중 오류가 발생했습니다." + error);
+                alert(error.response.data);
+                console.error('Error cart add:', error.response.data);
             });
+        //
+        // fetch('http://localhost:8080/api/v1/front/books/likes/' + bookId, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         if (data.isLiked) {
+        //             console.log("좋아요")
+        //             icon.classList.remove("fa-heart-o");
+        //             icon.classList.add("fa-heart");
+        //             icon.style.color = "red";
+        //         }
+        //         if (!data.isLiked){
+        //             console.log("좋아요 취소")
+        //             icon.classList.remove("fa-heart");
+        //             icon.classList.add("fa-heart-o");
+        //             icon.style.color = "";
+        //         }
+        //     })
+        //     .catch(error => {
+        //         console.error('Error toggling like:', error);
+        //         alert("좋아요 상태 변경 중 오류가 발생했습니다." + error);
+        //     });
     }
 
     // review

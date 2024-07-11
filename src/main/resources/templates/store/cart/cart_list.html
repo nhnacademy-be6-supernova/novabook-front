@@ -454,7 +454,7 @@
             })
             .catch(error => {
                 console.error('실패 : ', error.response.data);
-                alert(error.response.data);
+                // alert(error.response.data);
                 // location.reload();
             });
 
@@ -483,7 +483,7 @@
             bookDTOS: selectedItems
         };
 
-        alert(order)
+        // alert(order)
 
         //TODO ajax 연결
     }
@@ -569,33 +569,10 @@
             location.reload();
         })
             .catch(error => {
-                alert('Error cart refresh:', error);
+                // alert('Error cart refresh:', error);
                 console.error('Error cart refresh:', error);
             });
 
-
-        // // AJAX 요청
-        // fetch('http://localhost:8080/api/v1/front/carts/refresh', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: requestBody
-        // })
-        //     .then(response => {
-        //         if (!response.ok) {
-        //             throw new Error('Network response was not ok');
-        //         }
-        //         return response.json();
-        //     })
-        //     .then(data => {
-        //         alert("요청에 성공했습니다.");
-        //         location.reload();
-        //     })
-        //     .catch(error => {
-        //         alert("요청에 실패했습니다. : " + error.message);
-        //         location.reload();
-        //     });
     }
 
 

@@ -2,7 +2,9 @@
 
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="nav">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/category.js"></script>
     <div class="top-bar">
 
         <div class="container">
@@ -29,21 +31,33 @@
                 <div class="col-md-6">
                     <div class="action pull-right">
 
-                        <ul>
-                            <li><a href="/mypage"><i class="fa fa-book"></i> MyPage</a></li>
+                        <ul th:if="${not isLoggedIn}">
+                            <li>
+                                <a href="/login"><i class="fa fa-user"></i> MyPage</a>
+                            </li>
 
-                            <li th:if="${not isLoggedIn}">
+                            <li>
                                 <a href="/login"><i class="fa fa-user"></i> Login</a>
                             </li>
-                            <li th:if="${isLoggedIn}">
+
+                            <li>
+                                <a href="/users/user/form"><i class="fa fa-lock"></i> Register</a>
+                            </li>
+
+                        </ul>
+
+                        <ul th:if="${isLoggedIn}">
+                            <li >
+                                <a href="/mypage"><i class="fa fa-book"></i> MyPage</a>
+                            </li>
+
+                            <li>
                                 <form action="/users/user/form/logout" method="post" style="display:inline;">
                                     <button type="submit" style="background:none; border:none; padding:0; margin:0; color:mediumspringgreen; cursor:pointer;">
                                         <i class="fa fa-user"></i> Logout
                                     </button>
                                 </form>
                             </li>
-
-                            <li><a href="/users/user/form"><i class="fa fa-lock"></i> Register</a></li>
 
                         </ul>
 
@@ -79,9 +93,9 @@
                 <div class="col-md-7 col-sm-5">
 
                     <div class="search-form">
-                        <form class="navbar-form" role="search" method="get" action="search/title">
+                        <form class="navbar-form" role="search" method="get" th:action="@{/search/keyword}">
                             <div class="form-group">
-                                <input type="text" class="form-control" name="title" placeholder="도서를 검색하세요">
+                                <input type="text" class="form-control" name="keyword" placeholder="도서를 검색하세요">
                             </div>
                             <button type="submit" class="search-btn"><i class="fa fa-search"></i></button>
                         </form>
@@ -142,48 +156,37 @@
 
                 </div>
 
+<!--                <div class="shop-category nav navbar-nav navbar-left">-->
+<!--                    &lt;!&ndash; Single button &ndash;&gt;-->
+<!--                    <div class="btn-group">-->
+<!--                        <button type="button" class="btn btn-shop-category dropdown-toggle" data-toggle="dropdown"-->
+<!--                                aria-haspopup="true" aria-expanded="false">카테고리 <span class="caret"></span>-->
+<!--                        </button>-->
+<!--                        <ul class="dropdown-menu">-->
+<!--                            &lt;!&ndash; Iterate over categories &ndash;&gt;-->
+<!--                            <li class="dropdown-submenu" th:each="category : ${categories.categories}">-->
+<!--                                <a th:href="@{/search/category(category=${category.name})}" th:text="${category.name}" class="dropdown-toggle" data-toggle="dropdown">상위카테고리이름<span class="caret"></span></a>-->
+
+<!--                                <ul class="dropdown-menu">-->
+<!--                                    &lt;!&ndash; Iterate over subcategories of current category &ndash;&gt;-->
+<!--                                    <li th:each="subCategory : ${category.sub}">-->
+<!--                                        <a th:text="${subCategory.name}" th:href="@{/search/category(category=${subCategory.name})}">하위카테고리이름</a>-->
+<!--                                    </li>-->
+<!--                                </ul>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div class="shop-category nav navbar-nav navbar-left">
-
-                    <!-- Single button -->
-
                     <div class="btn-group">
-
                         <button type="button" class="btn btn-shop-category dropdown-toggle" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-
-                            카테고리 <span class="caret"></span>
-
+                                aria-haspopup="true" aria-expanded="false">카테고리 <span class="caret"></span>
                         </button>
-
-                        <ul class="dropdown-menu">
-                            <li role="separator" class="divider"></li>
-
-                            <li class="dropdown-submenu"> 국내 도서
-
-
-
-                                <ul class="dropdown-menu">
-                                    <li><a href="">전공서적</a></li>
-                                    <li><a href="">전공서적</a></li>
-                                    <li><a href="">소설</a></li>
-                                    <li><a href="">자기개발</a></li>
-                                </ul>
-                            </li>
-
-                            <li role="separator" class="divider"></li>
-
-                            <li class="dropdown-submenu"> 해외 도서
-                                <ul class="dropdown-menu">
-                                    <li><a href="">전공서적</a></li>
-                                    <li><a href="">전공서적</a></li>
-                                    <li><a href="">소설</a></li>
-                                    <li><a href="">자기개발</a></li>
-                                </ul>
-                            </li>
+                        <ul class="dropdown-menu" id="category-dropdown">
+                            <!-- Categories will be injected here -->
                         </ul>
                     </div>
                 </div>
-
                 <!-- Collect the nav links, forms, and other content for toggling -->
 
                 <div class="collapse navbar-collapse" id="navbar">
@@ -213,5 +216,7 @@
         </nav>
 
     </div>
+
 </div>
+
 </html>

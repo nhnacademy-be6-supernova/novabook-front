@@ -22,11 +22,6 @@ public class NovaErrorDecoder implements ErrorDecoder {
 
 	@Override
 	public Exception decode(String methodKey, Response response) {
-		if (response.status() == HttpStatus.SEE_OTHER.value()) {
-			return new SeeOtherException(ErrorCode.SEE_OTHER);
-		} else if(response.status() == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-			return new FeignClientException(response.status(), ErrorCode.INTERNAL_SERVER_ERROR);
-		}
 		try (InputStream bodyIs = response.body().asInputStream()) {
 			ApiResponse<ErrorResponse> apiResponse = objectMapper.readValue(bodyIs,
 				objectMapper.getTypeFactory().constructParametricType(ApiResponse.class, ErrorResponse.class));

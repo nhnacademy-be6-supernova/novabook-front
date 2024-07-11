@@ -72,7 +72,7 @@
                             </li>
 
                             <!-- Page numbers -->
-                            <li class="page-item" th:each="i : ${#numbers.sequence(0, ordersBook.getTotalPageCount() - 1)}">
+                            <li class="page-item" th:if="${ordersBook.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, ordersBook.getTotalPageCount() - 1)}">
                                 <a th:href="@{/mypage/reviews(page=${i})}" th:text="${i + 1}+'&nbsp;'"
                                    th:classappend="${i == ordersBook.getPageNum()} ? 'active' : ''"></a>
                             </li>

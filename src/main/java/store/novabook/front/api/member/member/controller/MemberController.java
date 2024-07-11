@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -32,10 +31,6 @@ public class MemberController {
 	@PostMapping("/login")
 	public String login(@Valid @ModelAttribute LoginMembersRequest loginMembersRequest,
 		HttpServletResponse response) {
-		// try {
-		//
-		// }catch (Exception e) {
-		// }
 		return memberService.login(loginMembersRequest, response);
 	}
 
@@ -48,23 +43,7 @@ public class MemberController {
 
 	@PostMapping("/logout")
 	public String logout(HttpServletRequest request, HttpServletResponse response) {
-		memberService.logout();
-		deleteCookie(request, response, "Authorization");
-		deleteCookie(request, response, "Refresh");
+		memberService.logout(response);
 		return "redirect:/";
-	}
-
-	public void deleteCookie(HttpServletRequest request, HttpServletResponse response, String cookieName) {
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals(cookieName)) {
-					cookie.setValue("");
-					cookie.setPath("/");
-					cookie.setMaxAge(0);
-					response.addCookie(cookie);
-				}
-			}
-		}
 	}
 }

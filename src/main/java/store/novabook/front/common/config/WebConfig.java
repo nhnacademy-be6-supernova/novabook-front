@@ -12,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.service.MemberAuthClient;
+import store.novabook.front.api.member.member.service.MemberService;
 import store.novabook.front.common.interceptor.LoginStatusInterceptor;
 import store.novabook.front.common.security.aop.CurrentMembersArgumentResolver;
 import store.novabook.front.common.interceptor.TokenInterceptor;
@@ -23,18 +24,23 @@ public class WebConfig implements WebMvcConfigurer {
 
 	private final RefreshTokenContext refreshTokenContext;
 	private final ObjectProvider<MemberAuthClient> memberAuthClientProvider;
+	private final ObjectProvider<MemberService> memberServices;
+
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new TokenInterceptor(refreshTokenContext))
+
+		MemberService memberService = memberServices.getIfAvailable();
+
+		registry.addInterceptor(new TokenInterceptor(refreshTokenContext, memberService))
 			.excludePathPatterns(
 				"/books",
-				// "/carts",
 				"/login",
 				"/users/user/form/**",
-				// "/auth/**",
+				"**/favicon.ico",
+				"**/categories",
 				"/",
-				"/api/v1/front/new-token",
+				"/api/v1/front/new-token/**",
 				"/**/*.css",
 				"/**/*.html",
 				"/**/*.js",
@@ -49,14 +55,18 @@ public class WebConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping(("/**"))
-			.allowedOrigins("*")
+		registry.addMapping("/**")
+			.allowedOrigins("https://www.novabook.store")  // 특정 도메인을 명시적으로 설정
+			.allowedOrigins("https://novabook.store")  // 특정 도메인을 명시적으로 설정
+			.allowedOrigins("http://localhost:8080")
+			.allowedOrigins("http://localhost:8081")
 			.allowedMethods(
 				HttpMethod.HEAD.name(),
 				HttpMethod.GET.name(),
 				HttpMethod.POST.name(),
 				HttpMethod.PUT.name(),
-				HttpMethod.DELETE.name());
+				HttpMethod.DELETE.name())
+			.allowCredentials(true);  // 자격 증명을 허용
 	}
 
 	@Override

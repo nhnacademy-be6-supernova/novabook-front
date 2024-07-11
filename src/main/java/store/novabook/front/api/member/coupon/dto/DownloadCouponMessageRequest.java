@@ -1,4 +1,4 @@
-package store.novabook.front.messaging.dto;
+package store.novabook.front.api.member.coupon.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
