@@ -8,6 +8,8 @@ import lombok.Builder;
 @Builder
 public record GetOrderDetailResponse(
 	Long ordersId,
+	Long ordersStatusId,
+	String ordersStatusName,
 	List<String> bookTitle,
 	Long price,
 	Integer quantity,

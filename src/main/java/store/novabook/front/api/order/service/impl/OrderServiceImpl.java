@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -21,8 +23,11 @@ import store.novabook.front.api.order.service.OrderService;
 import store.novabook.front.api.point.dto.request.GetPointHistoryRequest;
 import store.novabook.front.api.point.dto.response.GetPointHistoryResponse;
 import store.novabook.front.api.point.service.PointHistoryClient;
+import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.store.book.dto.BookDTO;
+import store.novabook.front.store.order.dto.GetOrdersAdminResponse;
 import store.novabook.front.store.order.dto.OrderViewDTO;
+import store.novabook.front.store.order.dto.UpdateOrdersAdminRequest;
 
 @RequiredArgsConstructor
 @Service
@@ -87,4 +92,15 @@ public class OrderServiceImpl implements OrderService {
 			.myPoint(myPoint)
 			.build();
 	}
+
+	@Override
+	public PageResponse<GetOrdersAdminResponse> getOrderAllAdmin(int page, int size) {
+		return orderClient.getOrdersAdmin(page, size);
+	}
+
+	@Override
+	public void update(Long id, UpdateOrdersAdminRequest request) {
+		orderClient.update(id, request);
+	}
+
 }

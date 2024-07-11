@@ -136,6 +136,10 @@
                             <th>도착예정일</th>
                             <td><strong th:text="${ordersDetail.expectedDeliveryDate}"></strong></td>
                         </tr>
+                        <tr>
+                            <th>배송현황</th>
+                            <td><strong th:text="${ordersDetail.ordersStatusName}"></strong></td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -170,13 +174,16 @@
             <!-- 환불하기 버튼 -->
             <tr>
                 <th></th>
-                <td>
-                    <a href="#" class="btn btn-danger" th:onclick="'confirmRefund(\'' + ${ordersDetail.ordersId} + '\')'">결제취소</a>
+                <td th:if="${ordersDetail.ordersStatusId == 1}">
+                    <a href="#" class="btn btn-danger" th:onclick="'confirmCancel(\'' + ${ordersDetail.ordersId} + '\')'">결제취소</a>
+                </td>
+                <td th:if="${ordersDetail.ordersStatusId == 2}">
+                    <a href="#" class="btn btn-danger" th:onclick="'confirmRefund(\'' + ${ordersDetail.ordersId} + '\')'">환불하기</a>
                 </td>
             </tr>
 
             <!-- 돌아가기 버튼 -->
-            <a href="/mypage/orders" class="btn btn-primary">돌아가기</a>
+            <a href="/mypage/orders" class="btn btn-primary" style="float: right;">돌아가기</a>
         </div>
     </div>
 </div>
@@ -190,8 +197,21 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
-    function confirmRefund(orderId) {
+    function confirmCancel(orderId) {
         if (confirm('정말로 취소하시겠습니까?')) {
+            axios.post('/orders/cancel/' + orderId)
+                .then(function (response) {
+                    alert(response.data); // 취소 처리 성공 메시지
+                    // 여기서 화면 갱신 또는 다른 작업을 수행할 수 있음
+                })
+                .catch(function (error) {
+                    console.error(error); // 에러 처리
+                });
+        }
+    }
+
+    function confirmRefund(orderId) {
+        if (confirm('정말로 환불하시겠습니까?')) {
             axios.post('/orders/refund/' + orderId)
                 .then(function (response) {
                     alert(response.data); // 환불 처리 성공 메시지
