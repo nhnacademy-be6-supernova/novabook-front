@@ -12,7 +12,7 @@ import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.store.order.dto.GetOrderDetailResponse;
 import store.novabook.front.store.order.dto.GetOrdersBookResponse;
 
-@FeignClient(name = "ordersBookClient")
+@FeignClient(name = "gateway-service", path = "/api/v1/store/orders/book", contextId = "ordersBookClient")
 public interface OrdersBookClient {
 	@GetMapping("/members")
 	PageResponse<GetOrdersBookReviewIdResponse> getOrdersBookReviewId(@RequestParam int page, @RequestParam int size);

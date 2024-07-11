@@ -38,7 +38,7 @@
         padding: 0;
     }
 
-    .review-size {
+    .review-size{
         min-height: 50px;
     }
 
@@ -197,8 +197,7 @@
                 </form>
 
                 <button class="btn product-info-btn" type="button" onclick="toggleLike()">
-                    <i class="fa" th:classappend="${isLiked ? 'fa-heart' : 'fa-heart-o'}"
-                       th:style="${isLiked ? 'color: red;' : ''}"></i> 좋아요
+                    <i class="fa" th:classappend="${isLiked ? 'fa-heart' : 'fa-heart-o'}" th:style="${isLiked ? 'color: red;' : ''}"></i> 좋아요
                 </button>
                 <button type="button" class="btn btn-primary" style="color: white; background-color: #0e0e0e"
                         data-toggle="modal" data-target="#couponModal"

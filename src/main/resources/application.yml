@@ -5,56 +5,9 @@ spring:
     prefix: classpath:/templates/
   #기본으로 실행할 프로필
   profiles:
-    active: dev
-# Feign client url
-  cloud:
-    openfeign:
-      client:
-        config:
-          couponClient:
-            url: http://localhost:9777/api/v1/coupon
-          categoryClient:
-            url: http://localhost:9777/api/v1/store/categories
-          storeBookClient:
-            url: http://localhost:9777/api/v1/store/books
-          bookLikeClient:
-            url: http://localhost:9777/api/v1/store/books/likes
-          reviewClient:
-            url: http://localhost:9777/api/v1/store/reviews
-          searchBookClient:
-            url: http://localhost:9777/api/v1/store/search
-          orderClient:
-            url: http://localhost:9777/api/v1/store/order
-          deliveryClient:
-            url: http://localhost:9777/api/v1/store/orders/delivery-fee
-          wrappingPaperClient:
-            url: http://localhost:9777/api/v1/store/orders/wrapping-papers
-          ordersBookClient:
-            url: http://localhost:9777/api/v1/store/orders/book
-          memberClient:
-            url: http://localhost:9777/api/v1/store/members
-          memberAddressClient:
-            url: http://localhost:9777/api/v1/store/addresses
-          memberGradeClient:
-            url: http://localhost:9777/api/v1/store/members/grade
-          memberAuthClient:
-            url: http://localhost:9777/auth
-          memberCouponClient:
-            url: http://localhost:9777/api/v1/store/members/coupons
-          tagClient:
-            url: http://localhost:9777/api/v1/store/tags
-          pointPolicyClient:
-            url: http://localhost:9777/api/v1/store/point/policies
-          doorayHookClient:
-            url: http://localhost:9777/api/v1/store/dooray
-          pointHistoryClient:
-            url: http://localhost:9777/api/v1/store/point/histories
-          pointClient:
-            url: http://localhost:9777/api/v1/store/point/histories
-          cartClient:
-            url: http://localhost:9777/api/v1/store/carts
+    include: dev
 
-# RabbitMQ config
+  # RabbitMQ config
   rabbitmq:
     listener:
       simple:
@@ -87,3 +40,8 @@ management:
     web:
       exposure:
         include: health,info
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
