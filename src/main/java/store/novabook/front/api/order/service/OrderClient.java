@@ -8,7 +8,7 @@ import jakarta.validation.Valid;
 import store.novabook.front.api.order.dto.request.CreateOrdersRequest;
 import store.novabook.front.api.order.dto.response.CreateOrderResponse;
 
-@FeignClient(name="orderClient")
+@FeignClient(name = "gateway-service", path = "/api/v1/store/order", contextId = "orderClient")
 public interface OrderClient {
 	ResponseEntity<CreateOrderResponse> createOrders(@Valid @RequestBody CreateOrdersRequest request);
 }

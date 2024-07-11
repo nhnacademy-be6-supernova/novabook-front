@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import store.novabook.front.api.book.dto.response.GetBookSearchResponse;
 import store.novabook.front.common.response.PageResponse;
 
-@FeignClient(name = "searchBookClient")
+@FeignClient(name = "gateway-service", path = "/api/v1/store/search", contextId = "bookSearchClient")
 public interface BookSearchClient {
 	@GetMapping("/keyword")
 	PageResponse<GetBookSearchResponse> searchByKeyword(@RequestParam String title, @RequestParam int page,

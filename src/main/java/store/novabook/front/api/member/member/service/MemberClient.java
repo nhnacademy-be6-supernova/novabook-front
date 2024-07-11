@@ -17,7 +17,7 @@ import store.novabook.front.api.member.member.dto.response.DuplicateResponse;
 import store.novabook.front.api.member.member.dto.response.GetMemberResponse;
 import store.novabook.front.common.response.ApiResponse;
 
-@FeignClient(name = "memberClient")
+@FeignClient(name = "gateway-service", path = "/api/v1/store/members", contextId = "memberClient")
 public interface MemberClient {
 
 	@PostMapping
