@@ -7,14 +7,6 @@ spring:
   profiles:
     include: dev
 
-  # Feign client url
-  cloud:
-    openfeign:
-      client:
-        config:
-          pointClient:
-            url: http://localhost:9777/api/v1/store/point/histories
-
   # RabbitMQ config
   rabbitmq:
     listener:
