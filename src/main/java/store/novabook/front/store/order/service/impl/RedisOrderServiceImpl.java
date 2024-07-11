@@ -26,7 +26,7 @@ public class RedisOrderServiceImpl implements RedisOrderService {
 	 * @return
 	 */
 	@Override
-	public UUID createOrderForm(OrderTemporaryFormRequest orderTemporaryFormRequest) {
+	public UUID createOrderForm(OrderTemporaryFormRequest orderTemporaryFormRequest, String cartUUID) {
 		UUID orderUUID = UUID.randomUUID();
 		// 비회원 가주문 폼 저장
 		if (orderTemporaryFormRequest.memberId() == null) {
@@ -40,6 +40,7 @@ public class RedisOrderServiceImpl implements RedisOrderService {
 				.deliveryId(orderTemporaryFormRequest.deliveryId())
 				.orderSenderInfo(orderTemporaryFormRequest.orderSenderInfo())
 				.orderReceiverInfo(orderTemporaryFormRequest.orderReceiverInfo())
+				.cartUUID(cartUUID)
 				.build();
 			redisOrderNonMemberRepository.save(orderTemporaryForm);
 		} else {

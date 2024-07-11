@@ -111,6 +111,7 @@ function calculateTotalDiscount() {
 
 // 포인트 등록 JS
 function applyPoints() {
+
     const currentPoints = parseInt($('#currentPoints').text().replace('포인트', '').replace(',', ''), 10);
     const pointsInput = parseInt($('#pointsInput').val(), 10);
 
@@ -219,10 +220,7 @@ function processPayment() {
             alert("상품을 선택해주세요.");
             throw new Error("No items selected");
         }
-        if (!pointAmount || !selectedDate) {
-            alert("모든 필드를 채워주세요.");
-            throw new Error("Missing required fields");
-        }
+
         if (parseInt(pointAmount) > currentPoints) {
             alert("사용할 포인트가 현재 포인트보다 많습니다.");
             throw new Error("Insufficient points");
@@ -266,10 +264,18 @@ function processPayment() {
         }
 
         var memberID = $('#login_member_id').val();
+
         if(!memberID) {
-            alert("맴버 정보가 존재하지 않습니다!");
-            throw new Error("로그인 정보가 일치하지 않습니다");
+            memberID = null;
         }
+
+        if(!couponId) {
+            couponId = null;
+        }
+        if(!pointAmount) {
+            pointAmount = 0;
+        }
+
 
         // 폼 내용
         var formData = {
@@ -297,6 +303,7 @@ function processPayment() {
         };
 
         alert("보내는 내용" + JSON.stringify(formData));
+        console.log(JSON.stringify(formData));
         sendOrderData(formData);
 
     } catch (error) {

@@ -13,5 +13,5 @@ public interface OrderService {
 	void createOrder(PaymentRequest request);
 	boolean isInvalidAccess(Long memberId, UUID orderUUID, Long orderMemberId);
 
-	MemberOrderNameReponse getSuccessView(UUID orderUUID);
+	MemberOrderNameReponse getSuccessView(UUID orderUUID, Long memberId);
 }

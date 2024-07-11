@@ -5,5 +5,5 @@ import java.util.UUID;
 import store.novabook.front.store.order.dto.OrderTemporaryFormRequest;
 
 public interface RedisOrderService {
-	UUID createOrderForm(OrderTemporaryFormRequest orderTemporaryFormRequest);
+	UUID createOrderForm(OrderTemporaryFormRequest orderTemporaryFormRequest, String cartUUID);
 }

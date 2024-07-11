@@ -1,17 +1,21 @@
 package store.novabook.front.store.order.controller;
 
+import static store.novabook.front.common.util.CookieUtil.*;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -42,10 +46,10 @@ public class OrderController {
 	BookListDTO build = BookListDTO.builder().bookDTOS(List.of(임시데이터)).build();
 
 	@GetMapping("/order/form")
-	public String getOrderForm(@CurrentMembers Long memberId, Model model) {
+	public String getOrderForm(@CurrentMembers(required = false) Long memberId, Model model) {
 		model.addAttribute("memberId", memberId);
 		model.addAttribute("items", build.bookDTOS());
-		model.addAttribute("orderDTO", orderService.getOrder(build.bookDTOS(), 7L));
+		model.addAttribute("orderDTO", orderService.getOrder(build.bookDTOS(), memberId));
 		return "store/order/order_form";
 	}
 
@@ -62,7 +66,7 @@ public class OrderController {
 	public String getTossOrderSuccessPage(
 		@CurrentMembers(required = false) Long memberId,
 		@Valid @ModelAttribute TossPaymentRequest tossPaymentRequest,
-		@RequestParam("memberId") Long orderMemberId,
+		@RequestParam(value = "memberId", required = false) Long orderMemberId,
 		@RequestParam("orderId") UUID orderUUID,
 		Model model) {
 
@@ -70,12 +74,9 @@ public class OrderController {
 			throw new IllegalArgumentException("부적절한 접근입니다.");
 		}
 
-		// TODO : ddl에 orderUUID 넣고 존재하는 지 조회하는 로직 추가 (Unique UUID 필요)
-
-
 		// 전달받은 orderUUID, orderMemberId는 가주문서와 검증용으로 사용
 		orderService.createOrder(new PaymentRequest(PaymentType.TOSS, orderMemberId, orderUUID, tossPaymentRequest));
-		model.addAttribute("memberDto",orderService.getSuccessView(orderUUID));
+		model.addAttribute("memberDto",orderService.getSuccessView(orderUUID, orderMemberId));
 
 		return "store/order/order_success";
 	}

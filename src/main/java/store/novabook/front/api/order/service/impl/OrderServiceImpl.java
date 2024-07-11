@@ -89,28 +89,10 @@ public class OrderServiceImpl implements OrderService {
 			categoryIdList.addAll(categoryIds);
 		});
 
-		List<Long> couponIdList = memberCouponClient.getMemberCoupon().getBody().couponIds();
 
 		List<GetWrappingPaperResponse> papers = wrappingPaperClient.getWrappingPaperAllList()
 			.getBody()
 			.getWrappingPaperResponse();
-
-		GetCouponAllRequest couponRequest = GetCouponAllRequest.builder()
-			.couponIdList(couponIdList)
-			.categoryIdList(categoryIdList)
-			.bookIdList(bookIds)
-			.build();
-
-		List<GetCouponResponse> coupons = couponClient.getSufficientCouponAll(couponRequest)
-			.getBody()
-			.couponResponseList();
-
-		long myPoint = pointHistoryClient.getPointHistoryListByMemberId(new GetPointHistoryRequest(memberId))
-			.getBody()
-			.pointHistoryResponseList()
-			.stream()
-			.mapToLong(GetPointHistoryResponse::pointAmount)
-			.sum();
 
 		GetDeliveryFeeResponse deliveryFeeInfo = deliveryFeeClient.getRecentDeliveryFee().getBody();
 
@@ -119,20 +101,50 @@ public class OrderServiceImpl implements OrderService {
 			dates.add(LocalDate.now().plusDays(i).format(DateTimeFormatter.ofPattern("M/d (E)")));
 		}
 
-		List<GetMemberAddressResponse> memberAddresses = memberAddressClient.getMemberAddressAll()
-			.getBody()
-			.memberAddresses();
 
-		return OrderViewDTO.builder()
-			.isPackable(isPackage)
-			.coupons(coupons)
-			.wrappingPapers(papers)
-			.memberAddresses(memberAddresses)
-			.dates(dates)
-			.myPoint(myPoint)
-			.deliveryFeeInfo(deliveryFeeInfo)
-			.build();
+		if (memberId != null) {
+			List<Long> couponIdList = memberCouponClient.getMemberCoupon().getBody().couponIds();
+
+			GetCouponAllRequest couponRequest = GetCouponAllRequest.builder()
+				.couponIdList(couponIdList)
+				.categoryIdList(categoryIdList)
+				.bookIdList(bookIds)
+				.build();
+
+			List<GetCouponResponse> coupons = couponClient.getSufficientCouponAll(couponRequest)
+				.getBody()
+				.couponResponseList();
+
+			long myPoint = pointHistoryClient.getPointHistoryListByMemberId(new GetPointHistoryRequest(memberId))
+				.getBody()
+				.pointHistoryResponseList()
+				.stream()
+				.mapToLong(GetPointHistoryResponse::pointAmount)
+				.sum();
+
+			List<GetMemberAddressResponse> memberAddresses = memberAddressClient.getMemberAddressAll()
+				.getBody()
+				.memberAddresses();
+
+			return OrderViewDTO.builder()
+				.isPackable(isPackage)
+				.coupons(coupons)
+				.wrappingPapers(papers)
+				.memberAddresses(memberAddresses)
+				.dates(dates)
+				.myPoint(myPoint)
+				.deliveryFeeInfo(deliveryFeeInfo)
+				.build();
+		} else {
+			return OrderViewDTO.builder()
+				.isPackable(isPackage)
+				.wrappingPapers(papers)
+				.dates(dates)
+				.deliveryFeeInfo(deliveryFeeInfo)
+				.build();
+		}
 	}
+
 
 	/**
 	 * 분산락 매커니즘 사용
@@ -175,10 +187,10 @@ public class OrderServiceImpl implements OrderService {
 	 * @return 주문이 완료된 회원이름을 반환
 	 */
 	@Override
-	public MemberOrderNameReponse getSuccessView(UUID orderUUID) {
+	public MemberOrderNameReponse getSuccessView(UUID orderUUID, Long meberId) {
 		// 비회원일때
 		MemberOrderNameReponse memberResponse;
-		if (memberClient.getMember() == null) {
+		if (memberClient.getMember().getBody() ==  null) {
 			memberResponse = MemberOrderNameReponse.builder()
 				.name("비회원")
 				.orderNumber(orderUUID.toString())
@@ -188,7 +200,6 @@ public class OrderServiceImpl implements OrderService {
 			memberResponse = MemberOrderNameReponse.builder()
 				.orderNumber(orderUUID.toString())
 				.name(memberInfo.name()).build();
-
 		}
 		return memberResponse;
 	}
