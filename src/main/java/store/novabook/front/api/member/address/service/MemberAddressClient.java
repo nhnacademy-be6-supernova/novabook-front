@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import store.novabook.front.api.member.address.dto.request.CreateMemberAddressRequest;
 import store.novabook.front.api.member.address.dto.request.UpdateMemberAddressRequest;
@@ -18,7 +17,7 @@ import store.novabook.front.api.member.address.dto.response.GetMemberAddressList
 import store.novabook.front.api.member.address.dto.response.GetMemberAddressResponse;
 import store.novabook.front.common.response.ApiResponse;
 
-@FeignClient(name = "memberAddressClient")
+@FeignClient(name = "gateway-service", path = "/api/v1/store/addresses", contextId = "memberAddressClient")
 public interface MemberAddressClient {
 
 	@PostMapping
