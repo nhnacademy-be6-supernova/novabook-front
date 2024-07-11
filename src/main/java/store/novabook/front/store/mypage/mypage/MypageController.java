@@ -19,7 +19,7 @@ public class MypageController {
 
 	@GetMapping
 	public String getMypage(Model model) {
-		model.addAttribute("orders", ordersBookService.getAllOrdersBook(0, 2));
+		model.addAttribute("orders", ordersBookService.getOrdersBookAll(0, 2));
 		model.addAttribute("grade", memberGradeService.getMemberGrade());
 		return "store/mypage/mypage_index";
 	}

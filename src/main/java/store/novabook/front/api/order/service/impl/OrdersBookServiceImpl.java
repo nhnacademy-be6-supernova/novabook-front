@@ -21,8 +21,8 @@ public class OrdersBookServiceImpl implements OrdersBookService {
 	}
 
 	@Override
-	public PageResponse<GetOrdersBookResponse> getAllOrdersBook(int page, int size) {
-		return ordersBookClient.getAllOrdersBook(page, size);
+	public PageResponse<GetOrdersBookResponse> getOrdersBookAll(int page, int size) {
+		return ordersBookClient.getOrdersBookAll(page, size);
 	}
 
 	@Override

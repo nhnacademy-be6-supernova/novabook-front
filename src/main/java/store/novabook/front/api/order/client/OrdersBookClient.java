@@ -18,7 +18,7 @@ public interface OrdersBookClient {
 	PageResponse<GetOrdersBookReviewIdResponse> getOrdersBookReviewId(@RequestParam int page, @RequestParam int size);
 
 	@GetMapping("/member/orders")
-	PageResponse<GetOrdersBookResponse> getAllOrdersBook(@RequestParam int page, @RequestParam int size);
+	PageResponse<GetOrdersBookResponse> getOrdersBookAll(@RequestParam int page, @RequestParam int size);
 
 	@GetMapping("/detail/{ordersId}")
 	ApiResponse<GetOrderDetailResponse> getOrderDetails(@PathVariable Long ordersId);

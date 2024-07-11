@@ -8,7 +8,7 @@ import store.novabook.front.store.order.dto.GetOrdersBookResponse;
 public interface OrdersBookService {
 	PageResponse<GetOrdersBookReviewIdResponse> getOrdersBookReviewId(int page, int size);
 
-	PageResponse<GetOrdersBookResponse> getAllOrdersBook(int page, int size);
+	PageResponse<GetOrdersBookResponse> getOrdersBookAll(int page, int size);
 
 	GetOrderDetailResponse getOrderDetail(Long ordersId);
 }

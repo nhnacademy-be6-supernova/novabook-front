@@ -24,7 +24,7 @@ public class MypageOrderController {
 	@GetMapping
 	public String getOrderAll(Model model,@RequestParam(defaultValue = DEFAULT_PAGE_PAGE) int page,
 		@RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int size) {
-		model.addAttribute("orders", ordersBookService.getAllOrdersBook(page, size));
+		model.addAttribute("orders", ordersBookService.getOrdersBookAll(page, size));
 		model.addAttribute("grade", memberGradeService.getMemberGrade());
 		return "store/mypage/order/order_list";
 	}

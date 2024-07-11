@@ -42,10 +42,13 @@
                             <tbody>
                             <tr th:each="order : ${orders.data}">
                                 <td th:text="${order.ordersId}">주문번호</td>
-                                <td th:text="${order.bookName}">책 제목 1</td>
-                                <td th:text="${order.price}">10,000원</td>
+                                <td th:text="${order.firstBookTitle + (order.extraBookCount > 0 ? ' 외 ' + order.extraBookCount + '건' : '')}">
+                                    책 제목 1
+                                </td>
+                                <!--                                <td th:text="${order.firstBookTitle} + ${order.extraBookCount}">책 제목 1</td>-->
+                                <td th:text="${order.totalAmount}">10,000원</td>
                                 <td th:text="${order.orderStatus}">배송 중</td>
-                                <td><a th:href="@{'/mypage/orders/detail/' + ${order.ordersId}}">상세보기</a> </td>
+                                <td><a th:href="@{'/mypage/orders/detail/' + ${order.ordersId}}">상세보기</a></td>
                             </tr>
                             </tbody>
                         </table>

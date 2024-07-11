@@ -24,6 +24,7 @@
         pointer-events: none;
         opacity: 0.5;
     }
+
     .product-info-btn .fa-heart-o {
         color: #777; /* 기본 하트 아이콘 색상 */
     }
@@ -37,7 +38,7 @@
         padding: 0;
     }
 
-    .review-size{
+    .review-size {
         min-height: 50px;
     }
 
@@ -196,7 +197,8 @@
                 </form>
 
                 <button class="btn product-info-btn" type="button" onclick="toggleLike()">
-                    <i class="fa" th:classappend="${isLiked ? 'fa-heart' : 'fa-heart-o'}" th:style="${isLiked ? 'color: red;' : ''}"></i> 좋아요
+                    <i class="fa" th:classappend="${isLiked ? 'fa-heart' : 'fa-heart-o'}"
+                       th:style="${isLiked ? 'color: red;' : ''}"></i> 좋아요
                 </button>
                 <button type="button" class="btn btn-primary" style="color: white; background-color: #0e0e0e"
                         data-toggle="modal" data-target="#couponModal"
@@ -296,7 +298,8 @@
                                                         <h3 class="mt-2 mb-0" th:text="${review.nickName}">Username</h3>
                                                         <div>
                                                             <p class="text-left">
-                                                                <span class="text-muted" th:text="${review.score} + '.0'">4.0</span>
+                                                                <span class="text-muted"
+                                                                      th:text="${review.score} + '.0'">4.0</span>
                                                                 <span th:each="star, iterStat : ${#numbers.sequence(1, 5)}"
                                                                       class="fa fa-star"
                                                                       th:classappend="${iterStat.count <= review.score} ? 'star-active' : 'star-inactive'"></span>
@@ -304,7 +307,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="ml-auto">
-                                                        <p class="text-muted pt-5 pt-sm-3" th:text="${review.createdAt}">Date</p>
+                                                        <p class="text-muted pt-5 pt-sm-3"
+                                                           th:text="${review.createdAt}">Date</p>
                                                     </div>
                                                 </div>
                                                 <div class="row text-left">
@@ -316,7 +320,8 @@
                                                     </div>
                                                     <div th:unless="${#lists.isEmpty(review.reviewImages) or review.reviewImages[0] == null}">
                                                         <img class="pic" th:each="image : ${review.reviewImages}"
-                                                             th:src="${image}" th:attr="data-image-url=${image}" onclick="openImage(this)">
+                                                             th:src="${image}" th:attr="data-image-url=${image}"
+                                                             onclick="openImage(this)">
                                                     </div>
                                                 </div>
                                             </div>
@@ -632,31 +637,30 @@
             return;
         }
 
-        fetch('http://localhost:8080/api/v1/front/books/likes/' + bookId, {
+        axios.request({
+            url: '/api/v1/front/books/likes/' + bookId,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             }
+        }).then(response => {
+            if (response.data.isLiked) {
+                console.log("좋아요")
+                icon.classList.remove("fa-heart-o");
+                icon.classList.add("fa-heart");
+                icon.style.color = "red";
+            } else {
+                console.log("좋아요 취소")
+                icon.classList.remove("fa-heart");
+                icon.classList.add("fa-heart-o");
+                icon.style.color = "";
+            }
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.isLiked) {
-                    console.log("좋아요")
-                    icon.classList.remove("fa-heart-o");
-                    icon.classList.add("fa-heart");
-                    icon.style.color = "red";
-                }
-                if (!data.isLiked){
-                    console.log("좋아요 취소")
-                    icon.classList.remove("fa-heart");
-                    icon.classList.add("fa-heart-o");
-                    icon.style.color = "";
-                }
-            })
             .catch(error => {
-                console.error('Error toggling like:', error);
-                alert("좋아요 상태 변경 중 오류가 발생했습니다." + error);
+                alert(error.response.data);
+                console.error('Error cart add:', error.response.data);
             });
+
     }
 
     // review
@@ -672,6 +676,7 @@
             },
         });
     });
+
     //review image
     function openImage(element) {
         var imageUrl = element.getAttribute('data-image-url');

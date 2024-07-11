@@ -45,8 +45,10 @@
                             <tbody>
                             <tr th:each="order : ${orders.data}">
                                 <td th:text="${order.ordersId}">001</td>
-                                <td th:text="${order.bookName}">책 A</td>
-                                <td th:text="${order.quantity}">2</td>
+                                <td th:text="${order.firstBookTitle + (order.extraBookCount > 0 ? ' 외 ' + order.extraBookCount + '건' : '')}">
+                                    책 제목 1
+                                </td>
+                                <td th:text="${order.totalAmount}">2</td>
                                 <td th:text="${order.createdAt}">2024-06-01</td>
                                 <td th:text="${order.orderStatus}">배송중</td>
                             </tr>
