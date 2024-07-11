@@ -40,8 +40,6 @@ public class CurrentMembersArgumentResolver implements HandlerMethodArgumentReso
 						return membersId;
 					} catch (Exception e) {
 						throw new IllegalArgumentException("현재 로그인 정보가 없습니다.");
-						// e.printStackTrace();
-						// return null;
 					}
 				}
 			}

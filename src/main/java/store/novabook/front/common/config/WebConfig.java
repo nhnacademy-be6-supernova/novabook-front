@@ -13,7 +13,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.service.MemberAuthClient;
 import store.novabook.front.api.member.member.service.MemberService;
-import store.novabook.front.api.member.member.service.TestService;
 import store.novabook.front.common.interceptor.LoginStatusInterceptor;
 import store.novabook.front.common.security.aop.CurrentMembersArgumentResolver;
 import store.novabook.front.common.interceptor.TokenInterceptor;
@@ -25,23 +24,21 @@ public class WebConfig implements WebMvcConfigurer {
 
 	private final RefreshTokenContext refreshTokenContext;
 	private final ObjectProvider<MemberAuthClient> memberAuthClientProvider;
-	private final ObjectProvider<MemberService> memberServices; // 변경된 부분
+	private final ObjectProvider<MemberService> memberServices;
 
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 
-		MemberService memberService = memberServices.getIfAvailable(); // 변경된 부분
+		MemberService memberService = memberServices.getIfAvailable();
 
 		registry.addInterceptor(new TokenInterceptor(refreshTokenContext, memberService))
 			.excludePathPatterns(
 				"/books",
-				// "/carts",
 				"/login",
 				"/users/user/form/**",
 				"**/favicon.ico",
 				"**/categories",
-				// "/auth/**",
 				"/",
 				"/api/v1/front/new-token/**",
 				"/**/*.css",
