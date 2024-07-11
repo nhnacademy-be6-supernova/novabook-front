@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Error Alert</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        // 타임리프를 통해 서버에서 전달된 errorMessage를 자바스크립트 변수에 할당
+        let errorMessage = [[${errorMessage}]];
+        // errorMessage가 없으면 기본 메시지로 설정
+        if (!errorMessage) {
+            errorMessage = '예기치 못한 문제가 발생했습니다';
+        }
+        alert(errorMessage);
+        // 원래 페이지로 돌아가기
+        window.history.back();
+    });
+</script>
+</body>
+</html>
