@@ -252,18 +252,18 @@
 
 
                     </div>
-                    <div id="guest-order-tab" class="tab-pane fade">
-                        <h2>비회원 주문 확인</h2>
+                        <div id="guest-order-tab" class="tab-pane fade">
+                            <h2>비회원 주문 확인</h2>
 
-                        <form method="post" action="서버의url" id="guest-form">
-                            <input type="text" name="orderNumber" placeholder="Order Number">
-                            <input type="text" name="phoneNumber" placeholder="Phone Number">
-                            <label for="remember-check-order">
-                                <input type="checkbox" id="remember-check-order">주문번호 저장하기
-                            </label>
-                            <button type="submit">Confirm</button>
-                        </form>
-                    </div>
+                            <form method="post" th:action="@{/guest/login}" id="guest-form">
+                                <input type="text" name="uuid" placeholder="Order Number">
+                                <input type="text" name="senderNumber" placeholder="Phone Number">
+                                <label for="remember-check-order">
+                                    <input type="checkbox" id="remember-check-order">주문번호 저장하기
+                                </label>
+                                <button type="submit">Confirm</button>
+                            </form>
+                        </div>
                 </div>
             </div>
         </div>

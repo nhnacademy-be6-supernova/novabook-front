@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.validation.Valid;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
+import store.novabook.front.store.order.dto.GetOrderDetailResponse;
 import store.novabook.front.store.order.dto.GetOrdersAdminResponse;
 import store.novabook.front.store.order.dto.UpdateOrdersAdminRequest;
 
@@ -22,4 +23,9 @@ public interface OrderClient {
 
 	@PutMapping("/{id}")
 	ApiResponse<Void> update(@PathVariable Long id, @Valid @RequestBody UpdateOrdersAdminRequest request);
+
+	@GetMapping("/guest/{ordersId}")
+	ApiResponse <GetOrderDetailResponse> getOrdersGuest(@PathVariable Long ordersId);
+
+
 }
