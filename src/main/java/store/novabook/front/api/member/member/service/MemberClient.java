@@ -15,6 +15,7 @@ import store.novabook.front.api.member.member.dto.request.UpdateMemberRequest;
 import store.novabook.front.api.member.member.dto.response.CreateMemberResponse;
 import store.novabook.front.api.member.member.dto.response.DuplicateResponse;
 import store.novabook.front.api.member.member.dto.response.GetMemberResponse;
+import store.novabook.front.api.member.member.dto.response.MemberNameResponse;
 import store.novabook.front.common.response.ApiResponse;
 
 @FeignClient(name = "gateway-service", path = "/api/v1/store/members", contextId = "memberClient")
@@ -40,4 +41,7 @@ public interface MemberClient {
 
 	@PostMapping("/email/is-duplicate")
 	ApiResponse<DuplicateResponse> isDuplicateEmail(@RequestBody DuplicateEmailRequest request);
+
+	@GetMapping("/member/name")
+	ApiResponse<MemberNameResponse> getMemberName();
 }
