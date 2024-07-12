@@ -16,12 +16,18 @@
     <link rel="stylesheet" href="/css/responsive.css">
 
     <style>
-        body {
-            font-family: 'Open Sans', sans-serif;
-            background-color: #f5f5f5;
+        html, body {
+            height: 100%;
             margin: 0;
         }
-
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+        }
+        .content {
+            flex: 1;
+        }
         .withdraw-container {
             width: 90%;
             max-width: 600px;
@@ -99,41 +105,44 @@
 </head>
 
 <body>
-<div th:replace="~{layout/store/nav :: nav}"></div>
+<div class="wrapper">
+    <div th:replace="~{layout/store/nav :: nav}"></div>
 
-<form method="post" id="passwordForm" th:action="@{/mypage/withdraw/withdraw}">
-    <div class="withdraw-container">
-        <h2>회원 탈퇴</h2>
-        <table class="withdraw-table">
-            <tr>
-                <th>아이디</th>
-                <td th:text="${member.loginId}">MemberId</td>
-            </tr>
-            <tr>
-                <th>이름</th>
-                <td th:text="${member.name}">MemberName</td>
-            </tr>
-            <tr>
-                <th>비밀번호</th>
-                <td>
-                    <input type="password" class="form-control" id="password" name="loginPassword" placeholder="비밀번호를 입력해주세요"
-                           required>
-                    <p class="help-block">정확한 본인 확인을 위해 비밀번호를 입력하세요.</p>
-                </td>
-            </tr>
-        </table>
+    <div class="content">
+        <form method="post" id="passwordForm" th:action="@{/mypage/withdraw/withdraw}">
+            <div class="withdraw-container">
+                <h2><strong>회원 탈퇴</strong></h2>
+                <table class="withdraw-table">
+                    <tr>
+                        <th><strong>아이디</strong></th>
+                        <td th:text="${member.loginId}">MemberId</td>
+                    </tr>
+                    <tr>
+                        <th><strong>이름</strong></th>
+                        <td th:text="${member.name}">MemberName</td>
+                    </tr>
+                    <tr>
+                        <th><strong>비밀번호</strong></th>
+                        <td>
+                            <input type="password" class="form-control" id="password" name="loginPassword" placeholder="비밀번호를 입력해주세요"
+                                   required>
+                            <p class="help-block">정확한 본인 확인을 위해 비밀번호를 입력하세요.</p>
+                        </td>
+                    </tr>
+                </table>
 
-        <!-- 회원 탈퇴 버튼 -->
-        <div style="text-align: center;">
-            <button type="submit" class="btn btn-danger btn-lg">회원 탈퇴</button>
-        </div>
+                <!-- 회원 탈퇴 버튼 -->
+                <div style="text-align: center;">
+                    <button type="submit" class="btn btn-danger btn-lg">회원 탈퇴</button>
+                </div>
+            </div>
+        </form>
     </div>
-</form>
 
-<div th:replace="~{layout/store/footer :: footer}"></div>
+    <div th:replace="~{layout/store/footer :: footer}"></div>
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
 </body>
 </html>
