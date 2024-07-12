@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.dto.request.DuplicateEmailRequest;
 import store.novabook.front.api.member.member.dto.request.DuplicateLoginIdRequest;
 import store.novabook.front.api.member.member.dto.response.DuplicateResponse;
+import store.novabook.front.api.member.member.dto.response.MemberNameResponse;
 import store.novabook.front.api.member.member.service.MemberClient;
 import store.novabook.front.api.member.member.service.MemberRestService;
 
@@ -23,5 +24,10 @@ public class MemberRestServiceImpl implements MemberRestService {
 	@Override
 	public DuplicateResponse isDuplicateEmail(DuplicateEmailRequest request) {
 		return memberClient.isDuplicateEmail(request).getBody();
+	}
+
+	@Override
+	public MemberNameResponse getMemberName() {
+		return memberClient.getMemberName().getBody();
 	}
 }
