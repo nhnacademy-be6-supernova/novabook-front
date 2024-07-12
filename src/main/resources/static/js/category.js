@@ -58,8 +58,10 @@ $(document).ready(function() {
             }
         })
         .catch(error => {
-            console.error('실패 : ', error.response ? error.response.data : error.message);
-            alert("오류가 발생하였습니다: " + (error.response ? error.response.data : error.message));
+
+            // console.error('실패 : ', error.response ? error.response.data : error.message);
+            alert('실패 : ', error.response ? error.response.data : error.message)
+            // alert("오류가 발생하였습니다: " + (error.response ? error.response.data : error.message));
         });
 
 
