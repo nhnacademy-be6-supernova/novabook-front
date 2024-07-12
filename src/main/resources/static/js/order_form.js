@@ -313,7 +313,7 @@ function processPayment() {
 
 function sendOrderData(formData) {
     const xhr = new XMLHttpRequest();
-    const url = 'http://localhost:8080/orders/order/form';
+    const url = 'http://localhost:8080/orders/order/form/submit';
 
     xhr.open('POST', url, true);
     xhr.setRequestHeader('Content-Type', 'application/json');

@@ -28,7 +28,7 @@ public class OrderRestController {
 		this.orderService = orderService;
 	}
 
-	@PostMapping("/order/form")
+	@PostMapping("/order/form/submit")
 	public ResponseEntity<UUID> createOrderForm(@Valid @RequestBody OrderTemporaryFormRequest orderTemporaryFormRequest,
 		@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie
 		) {

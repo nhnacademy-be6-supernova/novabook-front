@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -34,22 +36,11 @@ import store.novabook.front.store.order.repository.RedisOrderRepository;
 @Controller
 public class OrderController {
 	private final OrderService orderService;
-	BookDTO 임시데이터 = BookDTO.builder()
-		.id(5L)
-		.price(10000)
-		.name("불량감자 (불량 감자의 바삭한 여행)")
-		.discount(1000)
-		.isPackage(true)
-		.quantity(10)
-		.imageUrl("https://shopping-phinf.pstatic.net/main_3247334/32473349454.20230927071208.jpg")
-		.build();
-	BookListDTO build = BookListDTO.builder().bookDTOS(List.of(임시데이터)).build();
-
-	@GetMapping("/order/form")
-	public String getOrderForm(@CurrentMembers(required = false) Long memberId, Model model) {
+	@PostMapping("/order/form")
+	public String getOrderForm(@CurrentMembers(required = false) Long memberId, Model model, @RequestBody BookListDTO bookListDTO) {
 		model.addAttribute("memberId", memberId);
-		model.addAttribute("items", build.bookDTOS());
-		model.addAttribute("orderDTO", orderService.getOrder(build.bookDTOS(), memberId));
+		model.addAttribute("items", bookListDTO.bookDTOS());
+		model.addAttribute("orderDTO", orderService.getOrder(bookListDTO.bookDTOS(), memberId));
 		return "store/order/order_form";
 	}
 
