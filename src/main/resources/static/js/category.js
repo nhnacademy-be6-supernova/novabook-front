@@ -61,4 +61,22 @@ $(document).ready(function() {
             console.error('실패 : ', error.response ? error.response.data : error.message);
             alert("오류가 발생하였습니다: " + (error.response ? error.response.data : error.message));
         });
+
+
+    // Axios를 사용하여 백엔드에서 데이터를 가져옵니다.
+    axios.get("/api/v1/front/members/member-name", {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => {
+        const memberData = response.data;
+        const memberName = memberData.memberName; // 응답 받은 데이터 중에서 사용할 값을 선택합니다.
+
+        // HTML 요소에 데이터를 반영합니다.
+        document.getElementById("member-name").innerText = memberName;
+    }).catch(error => {
+        console.error("Error retrieving member data", error);
+        document.getElementById("member-name").innerText = "Failed to load data";
+    });
+
 });
