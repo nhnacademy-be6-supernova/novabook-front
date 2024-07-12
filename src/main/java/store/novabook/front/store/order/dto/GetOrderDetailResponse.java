@@ -11,7 +11,6 @@ public record GetOrderDetailResponse(
 	Long ordersStatusId,
 	String ordersStatusName,
 	List<String> bookTitle,
-	Long price,
 	Integer quantity,
 	Long deliveryFee,
 	Long wrappingFee,
@@ -19,9 +18,9 @@ public record GetOrderDetailResponse(
 	String receiverNumber,
 	String receiverAddress,
 	LocalDateTime expectedDeliveryDate,
-	Long totalPrice
-	// Long couponDiscountPrice,
-	// Long finalPrice,
-	// Long pointsSave
+	Long totalPrice,
+	Long couponDiscountAmount,
+	Long finalAmount,
+	Long pointSaveAmount
 ) {
 }
