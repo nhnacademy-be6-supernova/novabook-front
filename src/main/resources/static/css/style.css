@@ -358,9 +358,6 @@ img {
     padding-top: 70px;
 }
 
-form.navbar-form {
-    overflow: hidden;
-}
 
 form.navbar-form input {
     min-width: 550px;
