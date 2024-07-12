@@ -96,9 +96,13 @@
                         <form class="navbar-form" role="search" method="get" th:action="@{/search/keyword}">
                             <div class="form-group">
                                 <input type="text" class="form-control" name="keyword" placeholder="도서를 검색하세요">
-                            </div>
+
                             <button type="submit" class="search-btn"><i class="fa fa-search"></i></button>
+
+                            </div>
+
                         </form>
+
                     </div>
                 </div>
 
@@ -110,27 +114,15 @@
                             <a href="/carts"><i class="fa fa-shopping-cart"></i></a>
                         </div>
 
-                        &nbsp;
-                        <b>
-                            <div id="member-name">Loading...</div>
-                        </b>님
-                        <br>
-                        &nbsp;
-                        환영합니다.
-
-                        <div class="cart-text">
-
-
-                        </div>
-
                     </div>
 
+                    <b>
+                        <div id="member-name">Loading...</div>
+                    </b>
+                    환영합니다 !!
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
     <div class="navigation">
