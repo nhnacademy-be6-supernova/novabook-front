@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.order.dto.PaymentType;
@@ -24,13 +27,23 @@ import store.novabook.front.store.book.dto.BookListDTO;
 public class OrderController {
 	private final OrderService orderService;
 	@PostMapping("/order/form")
-	public String getOrderForm(@CurrentMembers(required = false) Long memberId, Model model, @RequestBody BookListDTO bookListDTO) {
+	public String getOrderForm(@CurrentMembers(required = false) Long memberId, @RequestParam("order") String orderJson, Model model) {
+		ObjectMapper objectMapper = new ObjectMapper();
+		BookListDTO bookListDTO;
+
+		try {
+			bookListDTO = objectMapper.readValue(orderJson, BookListDTO.class);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return "error"; // 오류 처리
+		}
+
 		model.addAttribute("memberId", memberId);
 		model.addAttribute("items", bookListDTO.bookDTOS());
 		model.addAttribute("orderDTO", orderService.getOrder(bookListDTO.bookDTOS(), memberId));
+
 		return "store/order/order_form";
 	}
-
 
 	/**
 	 * 실제 트랜잭션을 시작하기 위한 로직

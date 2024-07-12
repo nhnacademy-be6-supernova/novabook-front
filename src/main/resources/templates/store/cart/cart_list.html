@@ -477,26 +477,20 @@
             selectedItems.push(item);
         });
 
-        var order = {
-            bookDTOS: selectedItems
-        };
-
-        alert(JSON.stringify(order));
-
-        // Ajax 요청
-        $.ajax({
-            url: 'orders/order/form',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(order),
-            success: function(response) {
-                console.log('Order Form loaded successfully');
-                $('body').html(response);
-            },
-            error: function(xhr, status, error) {
-                console.error('Error loading order form:', error);
-            }
+        var form = $('<form>', {
+            action: 'orders/order/form',
+            method: 'post'
         });
+
+        var input = $('<input>', {
+            type: 'hidden',
+            name: 'order',
+            value: JSON.stringify({ bookDTOS: selectedItems })
+        });
+
+        form.append(input);
+        $('body').append(form);
+        form.submit();
     }
 
 

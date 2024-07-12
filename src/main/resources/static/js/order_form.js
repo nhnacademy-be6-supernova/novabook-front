@@ -100,6 +100,8 @@ function calculateTotalDiscount() {
     let totalDiscount = 0;
     const itemTotalElements = document.querySelectorAll('[name="totalPrice"]');
 
+    alert("itemToal " + itemTotalElements.length);
+
     itemTotalElements.forEach(function (element) {
         const itemTotalText = element.innerText.replace(/[^0-9]/g, '');
         const itemTotal = parseInt(itemTotalText);
