@@ -321,7 +321,7 @@ function sendOrderData(formData) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 201 || xhr.status === 200) {
-                const responseCode = JSON.parse(xhr.responseText);
+                const responseCode = xhr.responseText;
                 requestPayment(responseCode);
             } else {
                 console.log(xhr.status);

@@ -36,7 +36,7 @@ public class CartController {
 	@GetMapping
 	public String getCartBookAll(
 		@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie,
-		@CurrentMembers Long memberId,
+		@CurrentMembers(required = false) Long memberId,
 		HttpServletResponse response,
 		Model model) {
 
