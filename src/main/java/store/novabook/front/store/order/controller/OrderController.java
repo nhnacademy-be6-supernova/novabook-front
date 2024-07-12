@@ -1,35 +1,22 @@
 package store.novabook.front.store.order.controller;
 
-import static store.novabook.front.common.util.CookieUtil.*;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.order.dto.PaymentType;
 import store.novabook.front.api.order.dto.request.PaymentRequest;
 import store.novabook.front.api.order.dto.request.TossPaymentRequest;
 import store.novabook.front.api.order.service.OrderService;
 import store.novabook.front.common.security.aop.CurrentMembers;
-import store.novabook.front.store.book.dto.BookDTO;
 import store.novabook.front.store.book.dto.BookListDTO;
-import store.novabook.front.store.order.repository.RedisOrderNonMemberRepository;
-import store.novabook.front.store.order.repository.RedisOrderRepository;
 
 @RequestMapping("/orders")
 @RequiredArgsConstructor
@@ -47,27 +34,26 @@ public class OrderController {
 
 	/**
 	 * 실제 트랜잭션을 시작하기 위한 로직
-	 * @param
-	 * @param tossPaymentRequest
-	 * @param orderMemberId
-	 * @param orderUUID
-	 * @return
+	 * @param tossPaymentRequest 토스페이먼츠에서 전달해주는 내용 저장
+	 * @param orderMemberId 주문자 memberId 검증을 위해 필요
+	 * @param orderCode order 를 구분하기 위한 고유한 번호
+	 * @return 주문 성공페이지 이동, 주문번호, 이름 전달
 	 */
 	@GetMapping("/order/toss/success")
 	public String getTossOrderSuccessPage(
 		@CurrentMembers(required = false) Long memberId,
 		@Valid @ModelAttribute TossPaymentRequest tossPaymentRequest,
 		@RequestParam(value = "memberId", required = false) Long orderMemberId,
-		@RequestParam("orderId") UUID orderUUID,
+		@RequestParam("orderId") String orderCode,
 		Model model) {
 
-		if (orderService.isInvalidAccess(memberId, orderUUID, orderMemberId)) {
+		if (orderService.isInvalidAccess(memberId, orderCode, orderMemberId)) {
 			throw new IllegalArgumentException("부적절한 접근입니다.");
 		}
 
-		// 전달받은 orderUUID, orderMemberId는 가주문서와 검증용으로 사용
-		orderService.createOrder(new PaymentRequest(PaymentType.TOSS, orderMemberId, orderUUID, tossPaymentRequest));
-		model.addAttribute("memberDto",orderService.getSuccessView(orderUUID, orderMemberId));
+		// 전달받은 orderCode, orderMemberId는 가주문서와 검증용으로 사용
+		orderService.createOrder(new PaymentRequest(PaymentType.TOSS, orderMemberId, orderCode, tossPaymentRequest));
+		model.addAttribute("memberDto",orderService.getSuccessView(orderCode));
 
 		return "store/order/order_success";
 	}
