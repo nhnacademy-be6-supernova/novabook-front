@@ -62,7 +62,6 @@ public class PaycoOAuth2Controller {
 				+ "response_type=code"
 				+ "&client_id=3RD6nxfHUTIZ1sl7133gUN6"
 				+ "&serviceProviderCode=FRIENDS"
-				// + "&redirect_uri=http%3a%2f%2ftest.com%3a8080%2foauth2%2fpayco%2fcallback"
 				+ "&redirect_uri=https%3a%2f%2fnovabook.store%2foauth2%2fpayco%2fcallback"
 				+ "&state=gh86qj"
 				+ "&userLocale=ko_KR";
@@ -79,7 +78,6 @@ public class PaycoOAuth2Controller {
 				+ "response_type=code"
 				+ "&client_id=3RD6nxfHUTIZ1sl7133gUN6"
 				+ "&serviceProviderCode=FRIENDS"
-				// + "&redirect_uri=http%3a%2f%2ftest.com%3a8080%2foauth2%2fpayco%2flink%2fcallback"
 				+ "&redirect_uri=https%3a%2f%2fnovabook.store%2foauth2%2fpayco%2flink%2fcallback"
 				+ "&state=gh86qj"
 				+ "&userLocale=ko_KR";
@@ -93,7 +91,6 @@ public class PaycoOAuth2Controller {
 	public String linkCallback(@RequestParam(value = "code", required = false) String code,
 		@RequestParam(value = "state", required = false) String state,
 		@RequestParam(value = "serviceExtra", required = false) String serviceExtraEncoded,
-		HttpServletResponse response,
 		HttpServletRequest request) {
 
 		Map<String, Object> authorizationCode = paycoApiClient.getAuthorizationToken("authorization_code", clientId,
@@ -153,7 +150,6 @@ public class PaycoOAuth2Controller {
 			throw new RuntimeException("Failed to logout");
 		}
 
-		//afaf22a0-beb4-11e6-bc03-005056ac229d
 		GetPaycoMembersRequest getPaycoMembersRequest = GetPaycoMembersRequest.builder()
 			.paycoId(paycoId)
 			.build();
