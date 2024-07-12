@@ -116,7 +116,7 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th>#</th>
+                            <th>주문 번호</th>
                             <th>주문 일</th>
                             <th>주문 금액</th>
                             <th>할인금액</th>
@@ -125,18 +125,55 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>2024-07-15</td>
-                            <td>20000원</td>
-                            <td>5000원</td>
-                            <td>kimhyungwang</td>
+                        <tr th:each="order : ${orders.data}">
+                            <td th:text="${order.ordersId}">주문 번호</td>
+                            <td th:text="${order.createdAt}">2024-07-15</td>
+                            <td th:text="${order.totalAmount} + '원'">20000원</td>
+                            <td th:text="${order.totalAmount}">1</td>
+<!--                            <td th:text="${order.discountAmount}">5000원</td>-->
+                            <td th:text="${order.memberLoginId}">한태환</td>
                             <td>
-                                <button class="btn btn-sm btn-primary">배송중으로 변경</button>
+                                <!-- 배송 상태 변경 -->
+                                <form method="post" th:action="@{'/admin/orders/' + ${order.ordersId}}">
+                                    <div class="panel-body">
+                                        <div class="form-group">
+                                            <select class="form-control" id="ordersStatusId" name="ordersStatusId">
+                                                <option value="1" th:selected="${order.ordersStatusId == 1}">대기</option>
+                                                <option value="2" th:selected="${order.ordersStatusId == 2}">배송중</option>
+                                                <option value="3" th:selected="${order.ordersStatusId == 3}">완료</option>
+                                                <option value="4" th:selected="${order.ordersStatusId == 4}">반품</option>
+                                                <option value="5" th:selected="${order.ordersStatusId == 5}">주문취소</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">변경</button>
+                                    </div>
+                                </form>
                             </td>
                         </tr>
                         </tbody>
                     </table>
+                    <!-- 페이져블 JS 추가 -->
+                    <div class="pagination">
+                        <!-- Previous button -->
+                        <li class="page-item" th:classappend="${orders.getPageNum() == 0} ? 'disabled'">
+                            <a th:if="${orders.getPageNum() > 0}" th:href="@{/admin/orders(page=${orders.getPageNum() - 1})}">Previous</a>
+                            <span th:if="${orders.getPageNum() == 0}">Previous</span>
+                        </li>
+
+                        <!-- Page numbers -->
+                        <li class="page-item" th:if="${orders.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, orders.getTotalPageCount() - 1)}">
+                            <a th:href="@{/admin/orders(page=${i})}" th:text="${i + 1}+'&nbsp;'"
+                               th:classappend="${i == orders.getPageNum()} ? 'active' : ''"></a>
+                        </li>
+
+                        <!-- Next button -->
+                        <li class="page-item"
+                            th:classappend="${orders.getPageNum() >= orders.getTotalPageCount() - 1} ? 'disabled'">
+                            <a th:if="${orders.getPageNum() < orders.getTotalPageCount() - 1}"
+                               th:href="@{/admin/orders(page=${orders.getPageNum() + 1})}">Next</a>
+                            <span th:if="${orders.getPageNum() >= orders.getTotalPageCount() - 1}">Next</span>
+                        </li>
+                    </div>
                 </div>
             </div>
         </div>

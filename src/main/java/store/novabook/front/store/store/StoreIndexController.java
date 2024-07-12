@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.category.service.CategoryService;
 
 @Controller
-@RequiredArgsConstructor
 public class StoreIndexController {
-
-    private final CategoryService categoryService;
 
     @GetMapping
     public String getCategory() {

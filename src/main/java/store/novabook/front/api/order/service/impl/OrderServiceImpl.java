@@ -11,6 +11,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,14 +33,18 @@ import store.novabook.front.api.member.member.service.MemberClient;
 import store.novabook.front.api.order.client.WrappingPaperClient;
 import store.novabook.front.api.order.dto.request.PaymentRequest;
 import store.novabook.front.api.order.dto.response.GetWrappingPaperResponse;
+import store.novabook.front.api.order.service.OrderClient;
 import store.novabook.front.api.order.service.OrderService;
 import store.novabook.front.api.order.service.OrdersSagaClient;
 import store.novabook.front.api.point.dto.request.GetPointHistoryRequest;
 import store.novabook.front.api.point.dto.response.GetPointHistoryResponse;
 import store.novabook.front.api.point.service.PointHistoryClient;
+import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.store.book.dto.BookDTO;
+import store.novabook.front.store.order.dto.GetOrdersAdminResponse;
 import store.novabook.front.store.order.dto.OrderTemporaryForm;
 import store.novabook.front.store.order.dto.OrderViewDTO;
+import store.novabook.front.store.order.dto.UpdateOrdersAdminRequest;
 import store.novabook.front.store.order.repository.RedisOrderNonMemberRepository;
 import store.novabook.front.store.order.repository.RedisOrderRepository;
 
@@ -46,6 +52,7 @@ import store.novabook.front.store.order.repository.RedisOrderRepository;
 @Service
 public class OrderServiceImpl implements OrderService {
 
+	private final OrderClient orderClient;
 	public static final String ORDER_LOCK = "orderLock";
 	private final WrappingPaperClient wrappingPaperClient;
 	private final CouponClient couponClient;
@@ -203,5 +210,16 @@ public class OrderServiceImpl implements OrderService {
 		}
 		return memberResponse;
 	}
+
+	@Override
+	public PageResponse<GetOrdersAdminResponse> getOrderAllAdmin(int page, int size) {
+		return orderClient.getOrdersAdmin(page, size);
+	}
+
+	@Override
+	public void update(Long id, UpdateOrdersAdminRequest request) {
+		orderClient.update(id, request);
+	}
+
 
 }
