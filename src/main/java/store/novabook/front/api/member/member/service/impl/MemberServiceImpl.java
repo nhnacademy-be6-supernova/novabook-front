@@ -54,17 +54,12 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public String login(@Valid LoginMembersRequest loginMembersRequest, HttpServletResponse response) {
-		ResponseEntity<LoginMembersResponse> loginMembersResponse = memberAuthClient.login(loginMembersRequest);
-		if (!loginMembersResponse.getStatusCode().is2xxSuccessful() || loginMembersResponse.getBody() == null) {
-			return "";
-		}
+		ApiResponse<LoginMembersResponse> loginMembersResponse = memberAuthClient.login(loginMembersRequest);
 
 		GetMembersStatusRequest getMembersStatusRequest = new GetMembersStatusRequest(
 			loginMembersResponse.getBody().accessToken());
-		ResponseEntity<GetMembersStatusResponse> status = memberAuthClient.status(getMembersStatusRequest);
-		if (!status.getStatusCode().is2xxSuccessful() || status.getBody() == null) {
-			return "";
-		}
+		ApiResponse<GetMembersStatusResponse> status = memberAuthClient.status(getMembersStatusRequest);
+
 		if (status.getBody().memberStatusId() == 2) {
 			Cookie uuidCookie = new Cookie("UUID", status.getBody().uuid());
 			uuidCookie.setMaxAge(60 * 60 * 24 * 7);
@@ -127,7 +122,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public GetNewTokenResponse newToken(GetNewTokenRequest getNewTokenRequest) {
-		ResponseEntity<GetNewTokenResponse> getNewTokenResponseResponseEntity = memberAuthClient.newToken(
+		ApiResponse<GetNewTokenResponse> getNewTokenResponseResponseEntity = memberAuthClient.newToken(
 			getNewTokenRequest);
 		return getNewTokenResponseResponseEntity.getBody();
 	}

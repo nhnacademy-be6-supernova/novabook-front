@@ -34,7 +34,7 @@ public class NovaErrorDecoder implements ErrorDecoder {
 			ErrorResponse errorResponse = apiResponse.getBody();
 			return new FeignClientException(response.status(), errorResponse.errorCode());
 		} catch (IOException e) {
-			return defaultErrorDecoder.decode(methodKey, response);
+				return defaultErrorDecoder.decode(methodKey, response);
 		}
 	}
 }

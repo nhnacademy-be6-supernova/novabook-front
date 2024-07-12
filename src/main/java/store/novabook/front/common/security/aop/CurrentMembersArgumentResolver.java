@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import store.novabook.front.api.member.member.service.MemberAuthClient;
 import store.novabook.front.common.exception.ErrorCode;
 import store.novabook.front.common.exception.UnauthorizedException;
+import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.security.aop.dto.GetMembersTokenResponse;
 
 @Slf4j
@@ -63,7 +64,7 @@ public class CurrentMembersArgumentResolver implements HandlerMethodArgumentReso
 		for (Cookie cookie : cookies) {
 			if ("Authorization".equals(cookie.getName())) {
 				try {
-					ResponseEntity<GetMembersTokenResponse> response = memberAuthClient.token();
+					ApiResponse<GetMembersTokenResponse> response = memberAuthClient.token();
 					return Objects.requireNonNull(response.getBody()).membersId();
 				} catch (Exception e) {
 					log.error(e.getMessage(), e);

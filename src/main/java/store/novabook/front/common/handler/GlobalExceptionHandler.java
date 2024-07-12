@@ -20,6 +20,7 @@ public class GlobalExceptionHandler {
 	public String handleFeignClientException(FeignClientException e, Model model) {
 		model.addAttribute("message", e.getMessage());
 		return "error/error";
+	}
 
 	@ExceptionHandler(UnauthorizedException.class)
 	public String handleUnauthorizedException(UnauthorizedException exception) {
