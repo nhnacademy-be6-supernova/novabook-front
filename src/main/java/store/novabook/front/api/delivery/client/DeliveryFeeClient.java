@@ -12,12 +12,14 @@ import store.novabook.front.api.delivery.dto.response.GetDeliveryFeeResponse;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
 
-@FeignClient(name = "deliveryClient")
-public interface DeliveryClient {
+@FeignClient(name = "gateway-service", path = "/api/v1/store/orders/delivery-fee", contextId = "deliveryFeeClient")
+public interface DeliveryFeeClient {
 	@GetMapping
 	PageResponse<GetDeliveryFeeResponse> getDeliveryAllPage(@RequestParam int page, @RequestParam int size);
 
 	@PostMapping
 	ApiResponse<CreateDeliveryFeeResponse> createDeliveryFee(@RequestBody CreateDeliveryFeeRequest request);
 
+	@GetMapping("/recent")
+	ApiResponse<GetDeliveryFeeResponse> getRecentDeliveryFee();
 }

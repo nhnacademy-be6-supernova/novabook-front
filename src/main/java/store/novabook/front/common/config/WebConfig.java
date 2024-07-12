@@ -55,18 +55,15 @@ public class WebConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**")
-			.allowedOrigins("https://www.novabook.store")  // 특정 도메인을 명시적으로 설정
-			.allowedOrigins("https://novabook.store")  // 특정 도메인을 명시적으로 설정
-			.allowedOrigins("http://localhost:8080")
-			.allowedOrigins("http://localhost:8081")
+		registry.addMapping(("/**"))
+			.allowedOrigins("*")
 			.allowedMethods(
-				HttpMethod.HEAD.name(),
 				HttpMethod.GET.name(),
+				HttpMethod.HEAD.name(),
 				HttpMethod.POST.name(),
 				HttpMethod.PUT.name(),
-				HttpMethod.DELETE.name())
-			.allowCredentials(true);  // 자격 증명을 허용
+				HttpMethod.DELETE.name());
+
 	}
 
 	@Override
