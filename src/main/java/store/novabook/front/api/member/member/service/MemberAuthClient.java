@@ -15,7 +15,7 @@ import store.novabook.front.api.member.member.dto.request.LoginMembersRequest;
 import store.novabook.front.api.member.member.dto.response.GetMembersStatusRequest;
 import store.novabook.front.api.member.member.dto.response.GetPaycoMembersResponse;
 import store.novabook.front.api.member.member.dto.response.LoginMembersResponse;
-import store.novabook.front.common.security.aop.GetMembersTokenResponse;
+import store.novabook.front.common.security.aop.dto.GetMembersTokenResponse;
 
 @FeignClient(name = "gateway-service", path = "/auth", contextId = "memberAuthClient")
 public interface MemberAuthClient {

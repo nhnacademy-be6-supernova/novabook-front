@@ -16,6 +16,7 @@ public class MypageController {
 	private final MemberGradeService memberGradeService;
 	@GetMapping
 	public String getMypage(Model model) {
+		memberGradeService.getMemberGrade();
 		model.addAttribute("grade", memberGradeService.getMemberGrade());
 		return "store/mypage/mypage_index";
 	}

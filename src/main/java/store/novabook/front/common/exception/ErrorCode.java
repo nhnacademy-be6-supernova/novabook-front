@@ -30,6 +30,7 @@ public enum ErrorCode {
 	DUPLICATED_LOGIN_ID("중복된 아이디입니다."),
 	NOT_DELETABLE_CATEGORY("해당 카테고리 등록된 도서가 있어 삭제할 수 없습니다."),
 	NOT_UPDATE_CART_QUANTITY("요청된 수량이 재고를 초과하거나 도서 상태가 유효하지 않습니다."),
+	CANNOT_LOGIN("로그인 할 수 없습니다. 아이디 또는 비밀번호를 확인해주세요."),
 
 
 	// 401 로그인 안됨

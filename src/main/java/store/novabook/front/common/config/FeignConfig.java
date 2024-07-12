@@ -6,11 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import feign.RequestInterceptor;
 import feign.codec.ErrorDecoder;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.common.interceptor.FeignClientInterceptor;
 import store.novabook.front.common.response.decorder.NovaErrorDecoder;
-import store.novabook.front.common.security.RefreshTokenContext;
 
 @Configuration
 @RequiredArgsConstructor
@@ -18,13 +16,9 @@ public class FeignConfig {
 
 	private final HttpServletRequest request;
 
-	private final HttpServletResponse response;
-
-	private final RefreshTokenContext refreshTokenContext;
-
 	@Bean
 	public RequestInterceptor requestInterceptor() {
-		return new FeignClientInterceptor(request, response, refreshTokenContext);
+		return new FeignClientInterceptor(request);
 	}
 
 	@Bean
