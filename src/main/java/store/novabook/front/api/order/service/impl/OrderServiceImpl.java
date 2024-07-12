@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +40,7 @@ import store.novabook.front.api.point.service.PointHistoryClient;
 import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.store.book.dto.BookDTO;
 import store.novabook.front.store.order.dto.GetOrdersAdminResponse;
+import store.novabook.front.store.order.dto.GetOrdersResponse;
 import store.novabook.front.store.order.dto.OrderTemporaryForm;
 import store.novabook.front.store.order.dto.OrderViewDTO;
 import store.novabook.front.store.order.dto.UpdateOrdersAdminRequest;
@@ -60,6 +62,7 @@ public class OrderServiceImpl implements OrderService {
 	private final DeliveryFeeClient deliveryFeeClient;
 	private final MemberClient memberClient;
 
+	private final RabbitTemplate rabbitTemplate;
 	private final OrdersSagaClient ordersSagaClient;
 	private final RedisOrderNonMemberRepository redisOrderNonMemberRepository;
 	private final RedisOrderRepository redisOrderRepository;
@@ -207,6 +210,16 @@ public class OrderServiceImpl implements OrderService {
 		}
 		return memberResponse;
 	}
+
+
+	@Override
+	public void sendRequestPayCancel(Long orderId) {
+		GetOrdersResponse ordersResponse = orderClient.getOrders(orderId).getBody();
+
+		// 미완
+		rabbitTemplate.convertAndSend("", "" );
+	}
+
 
 	@Override
 	public PageResponse<GetOrdersAdminResponse> getOrderAllAdmin(int page, int size) {
