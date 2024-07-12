@@ -32,7 +32,6 @@
 
     <springProfile name="prod">
 
-        <include resource="logstash/http-info-appender.xml"/>
         <include resource="logstash/http-warn-appender.xml"/>
         <include resource="logstash/http-error-appender.xml"/>
 
@@ -42,7 +41,6 @@
 
         <root level="INFO">
 
-            <appender-ref ref="HTTP-INFO"/>
             <appender-ref ref="HTTP-WARN"/>
             <appender-ref ref="HTTP-ERROR"/>
 
