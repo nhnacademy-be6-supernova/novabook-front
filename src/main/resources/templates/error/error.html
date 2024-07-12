@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8">d
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NovaBook📕</title>
@@ -18,14 +18,10 @@
 </head>
 
 <body>
-<div th:replace="~{layout/nav::nav}"></div>
-
 <div class="layout">
     <h1>Error Page</h1>
     <p th:text="${errorMessage}">An unexpected error occurred.</p>
 </div>
-
-<div th:replace="~{layout/footer::footer}"></div>
 </body>
 </html>
 

@@ -1,17 +1,26 @@
 package store.novabook.front.common.handler;
 
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import jakarta.servlet.http.HttpServletRequest;
 import store.novabook.front.common.exception.FeignClientException;
 
-@ControllerAdvice(annotations = HandleWithAlert.class)
+@Order(1)
+@RestControllerAdvice(annotations = HandleWithAlert.class)
 public class RestExceptionHandler {
 
 	@ExceptionHandler(FeignClientException.class)
-	public String handleSpecificFeignClientException(FeignClientException e, Model model) {
+	public ResponseEntity<String> handleSpecificFeignClientException(FeignClientException e, HttpServletRequest request,
+		Model model) {
 		model.addAttribute("errorMessage", e.getMessage());
-		return "/error/error-alert";
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 	}
+
+
 }
+
