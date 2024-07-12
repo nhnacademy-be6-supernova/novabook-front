@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.dto.request.DuplicateEmailRequest;
 import store.novabook.front.api.member.member.dto.response.DuplicateResponse;
 import store.novabook.front.api.member.member.dto.request.DuplicateLoginIdRequest;
+import store.novabook.front.api.member.member.dto.response.MemberNameResponse;
 import store.novabook.front.api.member.member.service.MemberRestService;
 import store.novabook.front.common.security.aop.CurrentMembers;
 
@@ -42,5 +43,11 @@ public class MemberRestController {
 			throw new IllegalArgumentException("현재 로그인 정보가 없습니다.");
 		}
 		return ResponseEntity.ok().body(memberId);
+	}
+
+	@GetMapping("/member-name")
+	public ResponseEntity<MemberNameResponse> getMemberName() {
+		MemberNameResponse response = memberRestService.getMemberName();
+		return ResponseEntity.ok().body(response);
 	}
 }
