@@ -6,7 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import jakarta.validation.constraints.NotNull;
 import store.novabook.front.store.order.dto.OrderTemporaryForm;
+import store.novabook.front.store.order.dto.OrderTemporaryNonMemberForm;
 
-public interface RedisOrderRepository extends CrudRepository<OrderTemporaryForm, Long> {
-	boolean existsById(Long id);
+public interface RedisOrderNonMemberRepository extends CrudRepository<OrderTemporaryNonMemberForm, UUID> {
+	boolean existsById(UUID uuid);
 }

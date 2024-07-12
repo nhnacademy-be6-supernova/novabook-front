@@ -260,7 +260,7 @@
 
 
     function deleteCategory(id) {
-        fetch("https://novabook.store/api/v1/front/categories/" + id, {
+        fetch("/api/v1/front/categories/" + id, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'

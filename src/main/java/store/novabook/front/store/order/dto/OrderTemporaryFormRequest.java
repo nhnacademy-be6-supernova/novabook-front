@@ -2,11 +2,6 @@ package store.novabook.front.store.order.dto;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.redis.core.RedisHash;
-import org.springframework.data.redis.core.index.Indexed;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Future;
@@ -16,13 +11,8 @@ import lombok.Builder;
 import store.novabook.front.store.book.dto.BookIdAndQuantityDTO;
 
 @Builder
-@RedisHash("OrderForm")
-public record OrderTemporaryForm(
-	@Id
-	@NotNull
+public record OrderTemporaryFormRequest(
 	Long memberId,
-	@NotNull
-	UUID orderUUID,
 	@NotNull
 	@Valid
 	List<BookIdAndQuantityDTO> books,
