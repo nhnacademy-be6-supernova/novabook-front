@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import lombok.extern.slf4j.Slf4j;
-import store.novabook.front.common.exception.FeignClientException;
 import store.novabook.front.common.exception.NovaException;
 import store.novabook.front.common.exception.UnauthorizedException;
 
@@ -17,9 +16,9 @@ import store.novabook.front.common.exception.UnauthorizedException;
 @Slf4j
 public class GlobalExceptionHandler {
 	@ExceptionHandler(NovaException.class)
-	public String handleFeignClientException(FeignClientException e, Model model) {
-		model.addAttribute("message", e.getMessage());
-		return "error/error";
+	public String handleFeignClientException(NovaException e, Model model) {
+		model.addAttribute("exception", e);
+		return "static/error";
 	}
 
 	@ExceptionHandler(UnauthorizedException.class)
