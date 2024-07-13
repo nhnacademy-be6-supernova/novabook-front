@@ -96,7 +96,6 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void logout(HttpServletResponse response) {
 		memberAuthClient.logout();
-
 		CookieUtil.deleteAuthorizationCookie(response);
 	}
 

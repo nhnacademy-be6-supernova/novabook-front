@@ -24,6 +24,6 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(UnauthorizedException.class)
 	public String handleUnauthorizedException(UnauthorizedException exception) {
-		return "redirect:/login";
+		return "redirect:/";
 	}
 }
