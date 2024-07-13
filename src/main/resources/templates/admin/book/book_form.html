@@ -265,38 +265,37 @@
     </div>
 </div>
 
-<!--컨텐츠 영역-->
 <div class="content">
     <div class="container-fluid">
         <!-- Book Inventory Table -->
-        <h1 class="dashboard" style="padding-top: 0.3%">책 등록</h1>
+        <h1 class="dashboard" style="padding-top: 0.3%" th:text="#{dashboard.title}">책 등록</h1>
         <!-- Book Registration Form -->
         <div class="card book-form">
             <form id="addBookForm" action="/admin/books" method="POST">
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="inputTitle">책 제목:</label>
+                            <label for="inputTitle" th:text="#{book_form.title_label}">책 제목:</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="inputTitle" name="query" required>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default btn-search" id="book_search" type="button" ><i class="fa fa-search"></i></button>
+                                    <button class="btn btn-default btn-search" id="book_search" type="button"><i class="fa fa-search"></i> <span th:text="#{book_form.search_button}">검색</span></button>
                                 </span>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="inputBookStatus">책 상태:</label>
+                            <label for="inputBookStatus" th:text="#{book_form.book_status_label}">책 상태:</label>
                             <select class="form-control" id="inputBookStatus" name="book_status" required>
-                                <option value="1">판매중</option>
-                                <option value="2">일시품절</option>
-                                <option value="3">판매종료</option>
+                                <option value="1" th:text="#{book_form.book_status_options.option_1}">판매중</option>
+                                <option value="2" th:text="#{book_form.book_status_options.option_2}">일시품절</option>
+                                <option value="3" th:text="#{book_form.book_status_options.option_3}">판매종료</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="categorySelect">책 카테고리:</label>
-                            <select id="categorySelect" class="chosen-select form-control chosen-choices" multiple data-placeholder="태그를 선택하세요">
+                            <label for="categorySelect" th:text="#{book_form.category_label}">책 카테고리:</label>
+                            <select id="categorySelect" class="chosen-select form-control chosen-choices" multiple th:data-placeholder="#{book_form.category_placeholder}">
                                 <!-- Iterate over categories -->
                                 <th:block th:each="category : ${categories.categories}">
                                     <!-- Display top category -->
@@ -308,59 +307,53 @@
                                     </th:block>
                                 </th:block>
                             </select>
-
                         </div>
-
-
-
                         <div class="form-group">
-                            <label for="tagSelect">책 태그:</label>
-                            <select id="tagSelect" class="chosen-select form-control chosen-choices" multiple data-placeholder="태그를 선택하세요">
+                            <label for="tagSelect" th:text="#{book_form.tag_label}">책 태그:</label>
+                            <select id="tagSelect" class="chosen-select form-control chosen-choices" multiple th:data-placeholder="#{book_form.tag_placeholder}">
                                 <option th:each="tag : ${tags}" th:value="${tag.id}" th:text="${tag.name}"></option>
                             </select>
                         </div>
-
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="inputDiscountPrice">할인가:</label>
+                            <label for="inputDiscountPrice" th:text="#{book_form.discount_price_label}">할인가:</label>
                             <input type="number" class="form-control" id="inputDiscountPrice" name="discountPrice" required>
                         </div>
                         <div class="form-group">
-                            <label for="inputStock">재고:</label>
+                            <label for="inputStock" th:text="#{book_form.stock_label}">재고:</label>
                             <input type="number" class="form-control" id="inputStock" name="inventory" required>
                         </div>
                         <div class="form-group">
-                            <label for="inputPackagingStatus">책 포장여부:</label>
+                            <label for="inputPackagingStatus" th:text="#{book_form.packaging_status_label}">책 포장여부:</label>
                             <select class="form-control" id="inputPackagingStatus" name="isPackaged" required>
-                                <option value="true">가능</option>
-                                <option value="false">불가능</option>
+                                <option value="true" th:text="#{book_form.packaging_status_options.option_true}">가능</option>
+                                <option value="false" th:text="#{book_form.packaging_status_options.option_false}">불가능</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="panel panel-default" id="selectedBookPanel">
                     <div class="panel-heading">
-                        <h3 class="panel-title">선택한 도서 정보</h3>
+                        <h3 class="panel-title" th:text="#{book_form.selected_book_panel_title}">선택한 도서 정보</h3>
                     </div>
                     <div class="panel-body">
-                        <div id="selectedBookInfo">
-                            <!-- Selected book details will be shown here -->
-                        </div>
+                        <div id="selectedBookInfo" th:text="#{book_form.selected_book_info_placeholder}">선택한 도서 정보가 여기에 표시됩니다.</div>
                     </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">도서 설명</h3>
+                        <h3 class="panel-title" th:text="#{book_form.book_description_panel_title}">도서 설명</h3>
                     </div>
-
                     <div class="panel-body">
                         <div id="editor"></div>
                     </div>
                 </div>
-                <button type="submit" id="submitBtn" class="btn btn-primary"><i class="fa fa-save"></i> 등록</button>
+                <button type="submit" id="submitBtn" class="btn btn-primary"><i class="fa fa-save"></i> <span th:text="#{book_form.submit_button}">등록</span></button>
             </form>
         </div>
+    </div>
+</div>
 
 
         <script src="/js/admin_book_form.js"></script>
