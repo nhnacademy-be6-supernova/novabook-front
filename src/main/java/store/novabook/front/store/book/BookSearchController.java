@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.book.dto.response.GetBookSearchResponse;
 import store.novabook.front.api.book.service.BookService;
-import store.novabook.front.common.exception.FeignClientException;
+import store.novabook.front.common.exception.NovaException;
 import store.novabook.front.common.response.PageResponse;
 
 @RequestMapping("/search")
@@ -22,20 +22,16 @@ public class BookSearchController {
 	private static final String DEFAULT_SORT = "createdAt";
 
 	@GetMapping("/keyword")
-	public String searchKeyword(
-		Model model,
-		@RequestParam String keyword,
-		@RequestParam(defaultValue = DEFAULT_PAGE) int page,
-		@RequestParam(defaultValue = DEFAULT_SIZE) int size,
-		@RequestParam(defaultValue = DEFAULT_SORT) String sort
-	) {
+	public String searchKeyword(Model model, @RequestParam String keyword,
+		@RequestParam(defaultValue = DEFAULT_PAGE) int page, @RequestParam(defaultValue = DEFAULT_SIZE) int size,
+		@RequestParam(defaultValue = DEFAULT_SORT) String sort) {
 		try {
 			PageResponse<GetBookSearchResponse> bookSearches = bookService.getBookSearchAllPage(keyword, page, size,
 				sort);
 			model.addAttribute("bookSearches", bookSearches);
 			model.addAttribute("searchType", "keyword");
 			model.addAttribute("keyword", keyword);
-		} catch (FeignClientException e) {
+		} catch (NovaException e) {
 			return "error/404";
 		}
 
@@ -43,13 +39,9 @@ public class BookSearchController {
 	}
 
 	@GetMapping("/category")
-	public String searchCategory(
-		Model model,
-		@RequestParam String category,
-		@RequestParam(defaultValue = DEFAULT_PAGE) int page,
-		@RequestParam(defaultValue = DEFAULT_SIZE) int size,
-		@RequestParam(defaultValue = DEFAULT_SORT) String sort
-	) {
+	public String searchCategory(Model model, @RequestParam String category,
+		@RequestParam(defaultValue = DEFAULT_PAGE) int page, @RequestParam(defaultValue = DEFAULT_SIZE) int size,
+		@RequestParam(defaultValue = DEFAULT_SORT) String sort) {
 
 		try {
 			PageResponse<GetBookSearchResponse> bookSearches = bookService.getBookSearchCategory(category, page, size,
@@ -57,7 +49,7 @@ public class BookSearchController {
 			model.addAttribute("bookSearches", bookSearches);
 			model.addAttribute("searchType", "category");
 			model.addAttribute("keyword", category);
-		} catch (FeignClientException e) {
+		} catch (NovaException e) {
 			return "error/404";
 		}
 		return "store/book/book_list";
