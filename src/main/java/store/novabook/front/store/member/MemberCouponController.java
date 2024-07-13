@@ -1,8 +1,6 @@
 package store.novabook.front.store.member;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -21,10 +19,12 @@ import store.novabook.front.api.coupon.dto.request.DownloadCouponRequest;
 import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateAllResponse;
 import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateAllResponse;
 import store.novabook.front.api.coupon.service.CouponService;
-import store.novabook.front.api.member.member.service.MemberCouponService;
 import store.novabook.front.api.member.coupon.dto.DownloadCouponMessageRequest;
+import store.novabook.front.api.member.member.service.MemberCouponService;
+import store.novabook.front.common.handler.HandleWithAlert;
 
 @Slf4j
+@HandleWithAlert
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/coupons")
@@ -42,11 +42,9 @@ public class MemberCouponController {
 
 	// 쿠폰 다운로드 (일반, 도서, 카테고리)
 	@PostMapping("/download")
-	public ResponseEntity<Map<String, String>> downloadCoupon(@Valid @RequestBody DownloadCouponRequest request) {
-		String message = memberCouponService.downloadCoupon(request);
-		Map<String, String> response = new HashMap<>();
-		response.put("message", message);
-		return ResponseEntity.ok(response);
+	public ResponseEntity<String> downloadCoupon(@Valid @RequestBody DownloadCouponRequest request) {
+		memberCouponService.downloadCoupon(request);
+		return ResponseEntity.ok("쿠폰 발급에 성공했습니다 \\uD83D\\uDCE6");
 	}
 
 	@GetMapping("/book/{bookId}")

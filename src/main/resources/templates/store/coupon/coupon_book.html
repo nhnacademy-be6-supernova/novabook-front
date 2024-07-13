@@ -155,7 +155,8 @@
                 </li>
 
                 <!-- Page numbers -->
-                <li class="page-item" th:if="${generalCouponList.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, generalCouponList.getTotalPageCount() - 1)}">
+                <li class="page-item" th:if="${generalCouponList.getTotalPageCount() > 0}"
+                    th:each="i : ${#numbers.sequence(0, generalCouponList.getTotalPageCount() - 1)}">
                     <a th:href="@{/coupons(generalPage=${i}, categoryPage=${categoryCouponList.getPageNum()})}"
                        th:text="${i + 1}+'&nbsp;'"
                        th:classappend="${i == generalCouponList.getPageNum()} ? 'active' : ''"></a>
@@ -207,7 +208,8 @@
                 </li>
 
                 <!-- Page numbers -->
-                <li class="page-item" th:if="${categoryCouponList.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, categoryCouponList.getTotalPageCount() - 1)}">
+                <li class="page-item" th:if="${categoryCouponList.getTotalPageCount() > 0}"
+                    th:each="i : ${#numbers.sequence(0, categoryCouponList.getTotalPageCount() - 1)}">
                     <a th:href="@{/coupons(categoryPage=${i},generalPage=${generalCouponList.getPageNum()})}"
                        th:text="${i + 1}+'&nbsp;'"
                        th:classappend="${i == categoryCouponList.getPageNum()} ? 'active' : ''"></a>
@@ -235,12 +237,11 @@
             couponTemplateId: couponId
         })
             .then(response => {
-                const message = response.data.message;
+                const message = response.data;
                 alert(message);
             })
             .catch(error => {
-                console.error('There was an error downloading the coupon!', error);
-                alert('쿠폰 다운로드 실패: 서버 오류가 발생했습니다.');
+                alert(error.response.data);
             });
     }
 </script>
