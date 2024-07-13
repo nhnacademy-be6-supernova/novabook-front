@@ -20,7 +20,6 @@ public class RedisCartHash{
 
 	List<CartBookDTO> cartBookList;
 
-
 	@Builder
 	public RedisCartHash(Object cartId, List<CartBookDTO> cartBookList) {
 		this.cartId = cartId;

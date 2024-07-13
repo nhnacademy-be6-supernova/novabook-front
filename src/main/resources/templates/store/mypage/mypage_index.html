@@ -38,29 +38,20 @@
                                 <th>주문번호</th>
                                 <th>상품명</th>
                                 <th>수량</th>
-                                <th>가격</th>
                                 <th>주문일자</th>
                                 <th>주문상태</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>001</td>
-                                <td>책 A</td>
-                                <td>2</td>
-                                <td>₩20,000</td>
-                                <td>2024-06-01</td>
-                                <td>배송중</td>
+                            <tr th:each="order : ${orders.data}">
+                                <td th:text="${order.ordersId}">001</td>
+                                <td th:text="${order.firstBookTitle + (order.extraBookCount > 0 ? ' 외 ' + order.extraBookCount + '건' : '')}">
+                                    책 제목 1
+                                </td>
+                                <td th:text="${order.totalAmount}">2</td>
+                                <td th:text="${order.createdAt}">2024-06-01</td>
+                                <td th:text="${order.orderStatus}">배송중</td>
                             </tr>
-                            <tr>
-                                <td>002</td>
-                                <td>책 B</td>
-                                <td>1</td>
-                                <td>₩10,000</td>
-                                <td>2024-06-10</td>
-                                <td>배송완료</td>
-                            </tr>
-                            <!-- 추가적인 주문내역을 여기에 추가하세요 -->
                             </tbody>
                         </table>
                     </div>
@@ -113,7 +104,7 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td>쿠폰등록을 안하시고 할인이 안된다고 그러면.. </td>
+                                <td>쿠폰등록을 안하시고 할인이 안된다고 그러면..</td>
                                 <td>10000원 할인</td>
                                 <td>2024-06-30</td>
                             </tr>

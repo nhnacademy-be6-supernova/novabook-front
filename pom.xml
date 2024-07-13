@@ -16,7 +16,19 @@
     <description>front</description>
     <properties>
         <java.version>21</java.version>
+        <spring-cloud.version>2023.0.2</spring-cloud.version>
     </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -60,6 +72,18 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
             <version>4.1.2</version>
         </dependency>
+
+        <!-- Eureka-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
@@ -90,7 +114,7 @@
 
 
 
-<!--logback 관련 종속성-->
+        <!--logback 관련 종속성-->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
@@ -111,6 +135,7 @@
             <artifactId>okhttp</artifactId>
             <version>4.9.3</version>
         </dependency>
+
     </dependencies>
 
 

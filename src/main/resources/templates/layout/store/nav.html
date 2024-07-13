@@ -47,13 +47,14 @@
                         </ul>
 
                         <ul th:if="${isLoggedIn}">
-                            <li >
+                            <li>
                                 <a href="/mypage"><i class="fa fa-book"></i> MyPage</a>
                             </li>
 
                             <li>
                                 <form action="/users/user/form/logout" method="post" style="display:inline;">
-                                    <button type="submit" style="background:none; border:none; padding:0; margin:0; color:mediumspringgreen; cursor:pointer;">
+                                    <button type="submit"
+                                            style="background:none; border:none; padding:0; margin:0; color:mediumspringgreen; cursor:pointer;">
                                         <i class="fa fa-user"></i> Logout
                                     </button>
                                 </form>
@@ -96,39 +97,33 @@
                         <form class="navbar-form" role="search" method="get" th:action="@{/search/keyword}">
                             <div class="form-group">
                                 <input type="text" class="form-control" name="keyword" placeholder="도서를 검색하세요">
+
+                                <button type="submit" class="search-btn"><i class="fa fa-search"></i></button>
+
                             </div>
-                            <button type="submit" class="search-btn"><i class="fa fa-search"></i></button>
+
                         </form>
+
                     </div>
                 </div>
 
                 <div class="col-md-2 col-sm-3">
 
                     <div class="cart">
-
-                        <div class="cart-icon">
-                            <a href="/carts"><i class="fa fa-shopping-cart"></i></a>
-                        </div>
-
-                        &nbsp;
-                        <b>이세희</b>님
-                        <br>
-                        &nbsp;
-                        환영합니다.
-
-                        <div class="cart-text">
-
-
-                        </div>
-
+                        <a href="/carts">
+                            <div class="cart-icon">
+                                <i class="fa fa-shopping-cart"></i>
+                            </div>
+                        </a>
                     </div>
 
+                    <b>
+                        <div id="member-name">Loading...</div>
+                    </b>
+                    환영합니다 !!
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
     <div class="navigation">
@@ -156,27 +151,27 @@
 
                 </div>
 
-<!--                <div class="shop-category nav navbar-nav navbar-left">-->
-<!--                    &lt;!&ndash; Single button &ndash;&gt;-->
-<!--                    <div class="btn-group">-->
-<!--                        <button type="button" class="btn btn-shop-category dropdown-toggle" data-toggle="dropdown"-->
-<!--                                aria-haspopup="true" aria-expanded="false">카테고리 <span class="caret"></span>-->
-<!--                        </button>-->
-<!--                        <ul class="dropdown-menu">-->
-<!--                            &lt;!&ndash; Iterate over categories &ndash;&gt;-->
-<!--                            <li class="dropdown-submenu" th:each="category : ${categories.categories}">-->
-<!--                                <a th:href="@{/search/category(category=${category.name})}" th:text="${category.name}" class="dropdown-toggle" data-toggle="dropdown">상위카테고리이름<span class="caret"></span></a>-->
+                <!--                <div class="shop-category nav navbar-nav navbar-left">-->
+                <!--                    &lt;!&ndash; Single button &ndash;&gt;-->
+                <!--                    <div class="btn-group">-->
+                <!--                        <button type="button" class="btn btn-shop-category dropdown-toggle" data-toggle="dropdown"-->
+                <!--                                aria-haspopup="true" aria-expanded="false">카테고리 <span class="caret"></span>-->
+                <!--                        </button>-->
+                <!--                        <ul class="dropdown-menu">-->
+                <!--                            &lt;!&ndash; Iterate over categories &ndash;&gt;-->
+                <!--                            <li class="dropdown-submenu" th:each="category : ${categories.categories}">-->
+                <!--                                <a th:href="@{/search/category(category=${category.name})}" th:text="${category.name}" class="dropdown-toggle" data-toggle="dropdown">상위카테고리이름<span class="caret"></span></a>-->
 
-<!--                                <ul class="dropdown-menu">-->
-<!--                                    &lt;!&ndash; Iterate over subcategories of current category &ndash;&gt;-->
-<!--                                    <li th:each="subCategory : ${category.sub}">-->
-<!--                                        <a th:text="${subCategory.name}" th:href="@{/search/category(category=${subCategory.name})}">하위카테고리이름</a>-->
-<!--                                    </li>-->
-<!--                                </ul>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <!--                                <ul class="dropdown-menu">-->
+                <!--                                    &lt;!&ndash; Iterate over subcategories of current category &ndash;&gt;-->
+                <!--                                    <li th:each="subCategory : ${category.sub}">-->
+                <!--                                        <a th:text="${subCategory.name}" th:href="@{/search/category(category=${subCategory.name})}">하위카테고리이름</a>-->
+                <!--                                    </li>-->
+                <!--                                </ul>-->
+                <!--                            </li>-->
+                <!--                        </ul>-->
+                <!--                    </div>-->
+                <!--                </div>-->
                 <div class="shop-category nav navbar-nav navbar-left">
                     <div class="btn-group">
                         <button type="button" class="btn btn-shop-category dropdown-toggle" data-toggle="dropdown"

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕 - 주문 상세</title>
+    <!-- 부트스트랩 CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <!-- 테마 관련 스타일시트 -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <style>
+        /* 추가적인 사용자 정의 스타일 */
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        .panel {
+            margin-top: 20px;
+        }
+
+        .panel-heading {
+            background-color: #428bca;
+            color: white;
+            padding: 10px 15px;
+        }
+
+        .panel-body {
+            padding: 20px;
+        }
+
+        .panel-title {
+            margin-top: 0;
+            margin-bottom: 0;
+            font-size: 18px;
+            font-weight: bold; /* 타이틀들 두껍게 */
+        }
+
+        .order-info table, .shipping-info table, .payment-info table {
+            width: 100%;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        .order-info th, .order-info td,
+        .shipping-info th, .shipping-info td,
+        .payment-info th, .payment-info td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            width: 30%; /* 예시로 너비를 설정 */
+            word-wrap: break-word;
+        }
+
+        .order-info th, .shipping-info th, .payment-info th {
+            background-color: #f5f5f5;
+            font-weight: bold; /* 헤더들 두껍게 */
+            color: #333;
+        }
+
+        .order-info td, .shipping-info td, .payment-info td {
+            color: #333;
+        }
+
+        .circle-bullet {
+            display: flex;
+            align-items: center;
+        }
+
+        .circle-bullet::before {
+            content: '•'; /* 동그라미 기호 */
+            margin-right: 8px; /* 동그라미와 텍스트 사이의 간격 */
+            font-size: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{layout/store/nav::nav}"></div>
+
+<div class="container">
+    <div class="row">
+        <div th:replace="~{layout/store/sidebar::sidebar}"></div>
+        <div class="col-md-9">
+            <!-- 주문 정보 테이블 -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">주문 정보</h2>
+                </div>
+                <div class="panel-body order-info">
+                    <table>
+                        <tr>
+                            <th style="width: 30%;">주문 번호</th>
+                            <td style="width: 70%;"><strong th:text="${ordersDetail.ordersId}"></strong></td>
+                        </tr>
+                        <tr>
+                            <th>상품 이름</th>
+                            <td>
+                                <p th:each="title : ${ordersDetail.bookTitle}" class="circle-bullet" th:text="${title}"></p>
+                            </td>
+                        </tr>
+                        <!--                        <tr>-->
+                        <!--                            <th>가격</th>-->
+                        <!--                            <td><strong th:text="${ordersDetail.price}"></strong></td>-->
+                        <!--                        </tr>-->
+                        <tr>
+                            <th>수량</th>
+                            <td><strong th:text="${ordersDetail.quantity}"></strong></td>
+                        </tr>
+                        <tr>
+                            <th>배송비</th>
+                            <td><strong th:text="${ordersDetail.deliveryFee}"></strong></td>
+                        </tr>
+                        <tr>
+                            <th>포장비</th>
+                            <td><strong th:text="${ordersDetail.wrappingFee}"></strong></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+
+            <!-- 배송 정보 테이블 -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">배송 정보</h2>
+                </div>
+                <div class="panel-body shipping-info">
+                    <table>
+                        <tr>
+                            <th style="width: 30%;">받는 사람</th>
+                            <td style="width: 70%;"><strong th:text="${ordersDetail.receiverName}"></strong></td>
+                        </tr>
+                        <tr>
+                            <th>휴대폰 번호</th>
+                            <td><strong th:text="${ordersDetail.receiverNumber}"></strong></td>
+                        </tr>
+                        <tr>
+                            <th>주소</th>
+                            <td><strong th:text="${ordersDetail.receiverAddress}"></strong></td>
+                        </tr>
+                        <tr>
+                            <th>도착예정일</th>
+                            <td>
+                                <strong th:if="${ordersDetail.expectedDeliveryDate}"
+                                         th:text="${#temporals.format(ordersDetail.expectedDeliveryDate, 'yyyy년 MM월 dd일')}">
+                                </strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>배송현황</th>
+                            <td><strong th:text="${ordersDetail.ordersStatusName}"></strong></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 결제 내역 테이블 -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">결제 내역</h2>
+                </div>
+                <div class="panel-body payment-info">
+                    <table>
+                        <tr>
+                            <th style="width: 30%;">상품 총 금액</th>
+                            <td style="width: 70%;"><strong th:text="${ordersDetail.totalPrice}"></strong></td>
+                        </tr>
+                        <tr>
+                            <th>쿠폰 할인 금액</th>
+                            <td><strong th:text="${ordersDetail.couponDiscountAmount}"></strong></td>
+                        </tr>
+                        <tr>
+                            <th>최종 결제 금액</th>
+                            <td><strong th:text="${ordersDetail.finalAmount}"></strong></td>
+                        </tr>
+                        <tr>
+                            <th>포인트 적립</th>
+                            <td><strong th:text="${ordersDetail.pointSaveAmount}"></strong></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 환불하기 버튼 -->
+            <tr>
+                <th></th>
+                <td th:if="${ordersDetail.ordersStatusId == 1}">
+                    <a href="#" class="btn btn-danger"
+                       th:onclick="'confirmCancel(\'' + ${ordersDetail.ordersId} + '\')'">결제취소</a>
+                </td>
+                <td th:if="${ordersDetail.ordersStatusId == 2}">
+                    <a href="#" class="btn btn-danger"
+                       th:onclick="'confirmRefund(\'' + ${ordersDetail.ordersId} + '\')'">환불하기</a>
+                </td>
+            </tr>
+
+            <!-- 돌아가기 버튼 -->
+            <a href="/mypage/orders" class="btn btn-primary" style="float: right;">돌아가기</a>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/store/footer::footer}"></div>
+
+<!-- jQuery 및 부트스트랩 자바스크립트 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- AXIOS -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+    function confirmCancel(orderId) {
+        if (confirm('정말로 취소하시겠습니까?')) {
+            axios.post('/orders/cancel/' + orderId)
+                .then(function (response) {
+                    alert(response.data); // 취소 처리 성공 메시지
+                    // 여기서 화면 갱신 또는 다른 작업을 수행할 수 있음
+                })
+                .catch(function (error) {
+                    console.error(error); // 에러 처리
+                });
+        }
+    }
+
+    function confirmRefund(orderId) {
+        if (confirm('정말로 환불하시겠습니까?')) {
+            axios.post('/orders/refund/' + orderId)
+                .then(function (response) {
+                    alert(response.data); // 환불 처리 성공 메시지
+                    // 여기서 화면 갱신 또는 다른 작업을 수행할 수 있음
+                })
+                .catch(function (error) {
+                    console.error(error); // 에러 처리
+                });
+        }
+    }
+</script>
+</body>
+
+</html>

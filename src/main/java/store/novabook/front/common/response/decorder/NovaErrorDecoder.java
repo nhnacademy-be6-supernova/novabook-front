@@ -12,6 +12,7 @@ import feign.codec.ErrorDecoder;
 import store.novabook.front.common.exception.ErrorCode;
 import store.novabook.front.common.exception.FeignClientException;
 import store.novabook.front.common.exception.SeeOtherException;
+import store.novabook.front.common.exception.UnauthorizedException;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.ErrorResponse;
 
@@ -22,20 +23,18 @@ public class NovaErrorDecoder implements ErrorDecoder {
 
 	@Override
 	public Exception decode(String methodKey, Response response) {
-		// if (response.status() == HttpStatus.SEE_OTHER.value()) {
-		// 	return new SeeOtherException(ErrorCode.SEE_OTHER);
-		// } else if(response.status() == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-		// 	return new FeignClientException(response.status(), ErrorCode.INTERNAL_SERVER_ERROR);
-		// } else if(response.status() == HttpStatus.FORBIDDEN.value()) {
-		// 	return new SeeOtherException(ErrorCode.SEE_OTHER);
-		// }
+		if (response.status() == HttpStatus.UNAUTHORIZED.value()) {
+			return new UnauthorizedException(ErrorCode.UNAUTHORIZED);
+		} else if(response.status() == HttpStatus.SEE_OTHER.value()) {
+			return new SeeOtherException(ErrorCode.SEE_OTHER);
+		}
 		try (InputStream bodyIs = response.body().asInputStream()) {
 			ApiResponse<ErrorResponse> apiResponse = objectMapper.readValue(bodyIs,
 				objectMapper.getTypeFactory().constructParametricType(ApiResponse.class, ErrorResponse.class));
 			ErrorResponse errorResponse = apiResponse.getBody();
 			return new FeignClientException(response.status(), errorResponse.errorCode());
 		} catch (IOException e) {
-			return defaultErrorDecoder.decode(methodKey, response);
+				return defaultErrorDecoder.decode(methodKey, response);
 		}
 	}
 }

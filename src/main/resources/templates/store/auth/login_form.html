@@ -59,14 +59,42 @@
             color: #fff;
         }
 
-        #login-form > a.payco-login {
+        .payco-login {
             background-color: #D60000;
             color: #fff;
+            width: 100%;
+            height: 48px;
+            padding: 0 10px;
+            box-sizing: border-box;
+            margin-bottom: 16px;
+            border-radius: 6px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            text-align: center;
+            line-height: 48px;
+            text-decoration: none;
         }
 
-        #login-form > a.signup {
+        .signup {
             background-color: #87CEFA;
             color: #fff;
+            width: 100%;
+            height: 48px;
+            padding: 0 10px;
+            box-sizing: border-box;
+            margin-bottom: 16px;
+            border-radius: 6px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            text-align: center;
+            line-height: 48px;
+            text-decoration: none;
         }
 
         #login-form > button:hover[type="submit"],
@@ -74,12 +102,12 @@
             background-color: #0169a5;
         }
 
-        #login-form > a.payco-login:hover {
+        .payco-login:hover {
             background-color: #f2f2f2;
             color: #C00000;
         }
 
-        #login-form > a.signup:hover {
+        .signup:hover {
             background-color: #66B2FF;
         }
 
@@ -214,28 +242,28 @@
                                 <input type="checkbox" id="remember-check-id">아이디 저장하기
                             </label>
                             <button type="submit">Login</button>
-                            <a href="/" class="payco-login">PAYCO</a>
-                            <a href="/" class="signup">회원가입</a>
                         </form>
-
                         <form method="get" action="/oauth2/payco">
-                            <button class="payco-login" type="submit">PAYCO 로그인</button>
+                            <button class="payco-login">PAYCO</button>
+                        </form>
+                        <form method="get" action="/users/user/form">
+                            <button class="signup">회원가입</button>
                         </form>
 
 
                     </div>
-                    <div id="guest-order-tab" class="tab-pane fade">
-                        <h2>비회원 주문 확인</h2>
+                        <div id="guest-order-tab" class="tab-pane fade">
+                            <h2>비회원 주문 확인</h2>
 
-                        <form method="post" action="서버의url" id="guest-form">
-                            <input type="text" name="orderNumber" placeholder="Order Number">
-                            <input type="text" name="phoneNumber" placeholder="Phone Number">
-                            <label for="remember-check-order">
-                                <input type="checkbox" id="remember-check-order">주문번호 저장하기
-                            </label>
-                            <button type="submit">Confirm</button>
-                        </form>
-                    </div>
+                            <form method="post" th:action="@{/guest/login}" id="guest-form">
+                                <input type="text" name="code" placeholder="Order Number">
+                                <input type="text" name="senderNumber" placeholder="Phone Number">
+                                <label for="remember-check-order">
+                                    <input type="checkbox" id="remember-check-order">주문번호 저장하기
+                                </label>
+                                <button type="submit">Confirm</button>
+                            </form>
+                        </div>
                 </div>
             </div>
         </div>
@@ -248,8 +276,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $('.login-tabs a').click(function(e) {
+    $(document).ready(function () {
+        $('.login-tabs a').click(function (e) {
             e.preventDefault();
             $(this).tab('show');
         });

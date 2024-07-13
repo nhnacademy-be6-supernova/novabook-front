@@ -1,7 +1,9 @@
 package store.novabook.front.store.order.service;
 
-import store.novabook.front.store.order.dto.OrderTemporaryForm;
+import java.util.UUID;
+
+import store.novabook.front.store.order.dto.OrderTemporaryFormRequest;
 
 public interface RedisOrderService {
-	void create(OrderTemporaryForm orderTemporaryForm);
+	String createOrderForm(OrderTemporaryFormRequest orderTemporaryFormRequest, String cartCode);
 }

@@ -14,8 +14,7 @@
           type="text/css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
-    <script src="https://js.tosspayments.com/v1/payment"></script>
-    <script src="https://js.tosspayments.com/v1/payment-widget"></script>
+    <script src="https://js.tosspayments.com/v2/standard"></script>
     <script src="/js/order_form.js"></script>
     <style>
         .form-inline .form-group {
@@ -198,14 +197,15 @@
                     </thead>
                     <tbody>
                     <tr th:each="item, iterStat : ${items}" class="item-row" data-item-id="${item.id()}"
-                        data-item-quantity="${item.quantity}">
+                        data-item-quantity="${item.quantity}" data-item-name="${item.name}">
                         <input type="hidden" name="itemId" th:id="${item.id()}" th:value="${item.id()}" class="item-id">
                         <td class="image-cell"><img th:src="@{${item.imageUrl()}}" alt="Product Image"></td>
-                        <td th:text="${item.name}">Product Name</td>
+                        <td name="itemName" th:text="${item.name()}" class="item-name">Product Name</td>
                         <td th:text="${item.price} + '원'">14,800원</td>
                         <td name="itemQuantity" th:text="${item.quantity}" class="item-quantity">1</td>
-                        <td th:text="${item.discount()} + '원'">판매가</td>
-                        <td class="total-price align-center" name="totalPrice" th:text="${item.discount() * item.quantity()}" >총가격
+                        <td th:text="${item.price - item.discount()} + '원'">할인가</td>
+                        <td class="total-price align-center" name="totalPrice"
+                            th:text="${(item.price - item.discount()) * item.quantity()} + '원'">총가격
                         </td>
                     </tr>
                     <tr th:if="${items == null || #lists.isEmpty(items)}">
@@ -236,9 +236,9 @@
 
             <div class="section">
                 <!--   받는 사람        -->
-                <h2 class="section-header">받는 사람 정보 <input type="button" class="btn btn-primary"
+                <h2 class="section-header">받는 사람 정보 <th:block th:if="${memberId != null}"> <input type="button" class="btn btn-primary"
                                                            onclick="openMyaddress()" value="내 주소"
-                                                           style="margin-left: 10px;"></h2> <br>
+                                                           style="margin-left: 10px;"></th:block></h2> <br>
                 <div class="form-group full-width">
                     <label for="receiver_name">이름</label>
                     <input type="text" id="receiver_name" name="name" class="form-control" style="width: 20%;"
@@ -262,22 +262,23 @@
                     <div class="form-group full-width">
                         <label for="receiver_phone">전화번호</label>
                         <input type="text" id="receiver_phone" name="phone" class="form-control" style="width: 70%;"
-                                placeholder="전화번호"/>
+                               placeholder="전화번호"/>
                     </div>
                     <div class="form-group full-width">
                         <label for="receiver_email">이메일</label>
                         <input type="email" id="receiver_email" name="email" class="form-control" style="width: 70%;"
-                                placeholder="이메일"/>
+                               placeholder="이메일"/>
                     </div>
                 </div>
 
 
                 <!-- 배송일 선택 -->
-                <div class="section delivery-date-container" style="background-color: #f5f5f5; border: 1px solid #ddd; margin-top: 100px;">
+                <div class="section delivery-date-container"
+                     style="background-color: #f5f5f5; border: 1px solid #ddd; margin-top: 100px;">
                     <h4 class="delivery-date-header">배송일 선택 (도착 예상일)</h4>
                     <div class="delivery-date-row">
-                        <div th:each="date : ${dates}"
-                             th:classappend="${#lists.isEmpty(dates)} ? ' selected' : ''"
+                        <div th:each="date : ${orderDTO.dates()}"
+                             th:classappend="${#lists.isEmpty(orderDTO.dates())} ? ' selected' : ''"
                              th:text="${date}"
                              th:data-date="${date}"
                              class="delivery-date-btn"
@@ -289,39 +290,45 @@
                 <div class="section">
                     <h2 class="section-header">포장 옵션</h2>
                     <select name="packaging" id="wrap_paper" class="form-control" onchange="updatePackagingPrice(this)">
-                        <option th:value="0" selected>포장 안함</option>
+                        <option th:value="4" selected>포장 안함</option>
                         <option th:each="wrap : ${orderDTO.wrappingPapers()}" th:value="${wrap.id()}"
-                                th:text="${wrap.name()}" data-price="1000">일반 포장
+                                th:text="${wrap.name()}" th:attr="data-price=${wrap.price()}">일반 포장
                         </option>
                     </select>
                 </div>
 
+                <th:block th:if="${memberId != null}">
 
+                    <!-- 쿠폰 적용 -->
+                    <div class="section">
+                        <h2 class="section-header">쿠폰 적용</h2>
+                        <div class="form-group form-group-inline">
+                            <input type="text" name="coupon" id="selectedCouponName" class="form-control"
+                                   placeholder="쿠폰 사용"
+                                   readonly/>
+                            <input type="hidden" name="couponId" id="selectedCouponId"/>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="openCoupon()">쿠폰 적용</button>
+                    </div>
 
-                <!-- 쿠폰 적용 -->
-                <div class="section">
-                    <h2 class="section-header">쿠폰 적용</h2>
-                    <div class="form-group form-group-inline">
-                        <input type="text" name="coupon" id="selectedCouponName" class="form-control" placeholder="쿠폰 사용"
-                               readonly/>
-                        <input type="hidden" name="couponId" id="selectedCouponId"/>
+                    <!-- 포인트 사용 -->
+                    <div class="section">
+                        <h2 class="section-header">포인트 사용</h2>
+                        <div class="form-group full-width">
+                            <label for="currentPoints">현재 포인트: </label>
+                            <span id="currentPoints" style="margin-left: 10px;"
+                                  th:text="${orderDTO.myPoint()}">5,000포인트</span>
+                        </div>
+                        <div class="form-group full-width" style="display: flex; align-items: center;">
+                            <input type="text" name="points" id="pointsInput" class="form-control" style="width: 20%;"
+                                   value="0" placeholder="사용할 포인트를 입력하세요"/>
+                            <button type="button" class="btn btn-primary" style="margin-left: 10px;"
+                                    onclick="applyPoints()">포인트 적용
+                            </button>
+                        </div>
                     </div>
-                    <button type="button" class="btn btn-primary" onclick="openCoupon()">쿠폰 적용</button>
-                </div>
 
-                <!-- 포인트 사용 -->
-                <div class="section">
-                    <h2 class="section-header">포인트 사용</h2>
-                    <div class="form-group full-width">
-                        <label for="currentPoints">현재 포인트: </label>
-                        <span id="currentPoints" style="margin-left: 10px;" th:text="${orderDTO.myPoint()}">5,000포인트</span>
-                    </div>
-                    <div class="form-group full-width" style="display: flex; align-items: center;">
-                        <input type="text" name="points" id="pointsInput" class="form-control" style="width: 20%;"
-                               value="0" placeholder="사용할 포인트를 입력하세요"/>
-                        <button type="button" class="btn btn-primary" style="margin-left: 10px;" onclick="applyPoints()">포인트 적용</button>
-                    </div>
-                </div>
+                </th:block>
 
 
                 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -347,7 +354,9 @@
                                 <td id="additionalAmount">0원</td>
                                 <td id="discountAmount">0원</td>
                                 <td id="pointsUsed">0원</td>
-                                <td id="shippingFee">2,500원</td> <!-- 추가된 배송비 부분 -->
+                                <td id="shippingFee" th:text="${orderDTO.deliveryFeeInfo().fee()} + '원'">0원</td>
+                                <!-- 추가된 배송비 부분 -->
+                                <input type="hidden" id="deliveryFeeId" th:value="${orderDTO.deliveryFeeInfo().id()}">
                                 <td class="total" id="finalAmount">0원</td> <!-- 최종 결제금액에 배송비를 반영 -->
                             </tr>
                             </tbody>
@@ -376,17 +385,17 @@
                 <div class="section terms-conditions">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="agreeServiceTerms" id="agreeServiceTerms" required> 결제 서비스 이용약관에 동의합니다.
+                            <input type="checkbox" name="agreeServiceTerms" id="agreeServiceTerms" required> 결제 서비스
+                            이용약관에 동의합니다.
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="agreePrivacyPolicy" id="agreePrivacyPolicy" required> 개인정보 처리방침에 동의합니다.
+                            <input type="checkbox" name="agreePrivacyPolicy" id="agreePrivacyPolicy" required> 개인정보
+                            처리방침에 동의합니다.
                         </label>
                     </div>
                 </div>
-
-
             </div>
         </form>
     </div>
@@ -516,6 +525,8 @@
         </div>
     </div>
 </div>
+
+<input type="hidden" id="login_member_id" th:value="${memberId}">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>

@@ -43,7 +43,7 @@ public class CartRestController {
 	@PostMapping
 	public ResponseEntity<Object> addCartBook(
 		@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie,
-		@CurrentMembers Long memberId,
+		@CurrentMembers(required = false) Long memberId,
 		HttpServletResponse response,
 		@Valid @RequestBody CartBookDTO request) {
 
@@ -99,7 +99,7 @@ public class CartRestController {
 	@DeleteMapping
 	public ResponseEntity<Void> deleteCartBooks(
 		@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie,
-		@CurrentMembers Long memberId,
+		@CurrentMembers(required = false) Long memberId,
 		@Valid @RequestBody DeleteCartBookListRequest request) {
 
 		if (Objects.nonNull(memberId)) {
@@ -122,7 +122,7 @@ public class CartRestController {
 	@PostMapping("/refresh")
 	public ResponseEntity<Void> refresh(
 		@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie,
-		@CurrentMembers Long memberId,
+		@CurrentMembers(required = false) Long memberId,
 		@Valid @RequestBody(required = false) CartBookIdDTO cartBookIdDTO) {
 		//비회원 장바구니 최신정보로 업데이트
 		if (Objects.nonNull(guestCookie) && !cartBookIdDTO.bookIdsAndQuantity().isEmpty()) {
@@ -154,7 +154,7 @@ public class CartRestController {
 	@PutMapping("/update")
 	public ResponseEntity<Object> updateCart(
 		@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie,
-		@CurrentMembers Long memberId,
+		@CurrentMembers(required = false) Long memberId,
 		@Valid @RequestBody UpdateCartBookQuantityRequest request
 	) {
 		if (Objects.nonNull(memberId)) {

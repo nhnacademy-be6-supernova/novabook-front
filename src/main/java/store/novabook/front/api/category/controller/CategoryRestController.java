@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.category.dto.response.DeleteResponse;
 import store.novabook.front.api.category.dto.response.GetCategoryListResponse;
@@ -31,12 +30,7 @@ public class CategoryRestController {
 
 	@GetMapping
 	ResponseEntity<Object> getCategory() {
-		try {
-			GetCategoryListResponse getCategoryListResponse = categoryService.getCategoryAll();
-			return ResponseEntity.ok().body(getCategoryListResponse);
-		} catch (FeignException e) {
-			return ResponseEntity.status(e.status()).body(e.getMessage());
-		}
-
+		GetCategoryListResponse getCategoryListResponse = categoryService.getCategoryAll();
+		return ResponseEntity.ok().body(getCategoryListResponse);
 	}
 }

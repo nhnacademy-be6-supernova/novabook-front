@@ -11,7 +11,7 @@ import store.novabook.front.api.book.likes.dto.LikeBookResponse;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
 
-@FeignClient(name = "bookLikeClient")
+@FeignClient(name = "gateway-service", path = "/api/v1/store/books/likes", contextId = "bookLikeClient")
 public interface BookLikeClient {
 
 	@GetMapping("/member")

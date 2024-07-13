@@ -13,37 +13,32 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.service.MemberAuthClient;
 import store.novabook.front.api.member.member.service.MemberService;
-import store.novabook.front.api.member.member.service.TestService;
 import store.novabook.front.common.interceptor.LoginStatusInterceptor;
-import store.novabook.front.common.security.aop.CurrentMembersArgumentResolver;
 import store.novabook.front.common.interceptor.TokenInterceptor;
-import store.novabook.front.common.security.RefreshTokenContext;
+import store.novabook.front.common.security.aop.CurrentMembersArgumentResolver;
 
 @Configuration
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-	private final RefreshTokenContext refreshTokenContext;
 	private final ObjectProvider<MemberAuthClient> memberAuthClientProvider;
-	private final ObjectProvider<MemberService> memberServices; // 변경된 부분
+	private final ObjectProvider<MemberService> memberServices;
 
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 
-		MemberService memberService = memberServices.getIfAvailable(); // 변경된 부분
+		MemberService memberService = memberServices.getIfAvailable();
 
-		registry.addInterceptor(new TokenInterceptor(refreshTokenContext, memberService))
+		registry.addInterceptor(new TokenInterceptor(memberService))
 			.excludePathPatterns(
 				"/books",
-				// "/carts",
-				"/login",
 				"/users/user/form/**",
-				"**/favicon.ico",
 				"**/categories",
-				// "/auth/**",
-				"/",
 				"/api/v1/front/new-token/**",
+				"/login",
+				"/",
+				"**/favicon.ico",
 				"/**/*.css",
 				"/**/*.html",
 				"/**/*.js",
@@ -58,21 +53,19 @@ public class WebConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**")
-			.allowedOrigins("https://www.novabook.store")  // 특정 도메인을 명시적으로 설정
-			.allowedOrigins("https://novabook.store")  // 특정 도메인을 명시적으로 설정
-			.allowedOrigins("http://localhost:8080")  // 특정 도메인을 명시적으로 설정
+		registry.addMapping(("/**"))
+			.allowedOrigins("*")
 			.allowedMethods(
-				HttpMethod.HEAD.name(),
 				HttpMethod.GET.name(),
+				HttpMethod.HEAD.name(),
 				HttpMethod.POST.name(),
 				HttpMethod.PUT.name(),
-				HttpMethod.DELETE.name())
-			.allowCredentials(true);  // 자격 증명을 허용
+				HttpMethod.DELETE.name());
+
 	}
 
-	// @Override
-	// public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-	// 	resolvers.add(new CurrentMembersArgumentResolver(memberAuthClientProvider.getIfAvailable()));
-	// }
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+		resolvers.add(new CurrentMembersArgumentResolver(memberAuthClientProvider.getIfAvailable()));
+	}
 }
