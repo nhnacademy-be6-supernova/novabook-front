@@ -5,6 +5,6 @@ import lombok.Builder;
 @Builder
 public record MemberOrderNameReponse (
 	String name,
-	String orderNumber
+	String orderCode
 ){
 }

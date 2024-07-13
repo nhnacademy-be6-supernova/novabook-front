@@ -2,8 +2,6 @@ package store.novabook.front.store.order.controller;
 
 import static store.novabook.front.common.util.CookieUtil.*;
 
-import java.util.UUID;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -28,12 +26,12 @@ public class OrderRestController {
 		this.orderService = orderService;
 	}
 
-	@PostMapping("/order/form")
-	public ResponseEntity<UUID> createOrderForm(@Valid @RequestBody OrderTemporaryFormRequest orderTemporaryFormRequest,
+	@PostMapping("/order/form/submit")
+	public ResponseEntity<String> createOrderForm(@Valid @RequestBody OrderTemporaryFormRequest orderTemporaryFormRequest,
 		@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie
 		) {
 		String guestCookieValue = (guestCookie != null) ? guestCookie.getValue() : null;
-		UUID orderUUID = orderService.createOrderForm(orderTemporaryFormRequest, guestCookieValue);
-		return ResponseEntity.status(HttpStatus.CREATED).body(orderUUID);
+		String orderCode = orderService.createOrderForm(orderTemporaryFormRequest, guestCookieValue);
+		return ResponseEntity.status(HttpStatus.CREATED).body(orderCode);
 	}
 }

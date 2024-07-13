@@ -457,8 +457,6 @@
                 // alert(error.response.data);
                 // location.reload();
             });
-
-
         });
 
     });
@@ -468,25 +466,33 @@
         $('input[name="selectedItems"]:checked').each(function() {
             var row = $(this).closest('tr');
             var item = {
-                bookId: row.find('.item-id').val(),
-                image: row.find('.item-image').val(),
-                title: row.find('.item-title').val(),
+                id: row.find('.item-id').val(),
+                imageUrl: row.find('.item-image').val(),
+                name: row.find('.item-title').val(),
                 price: row.find('.item-price').val(),
-                discountPrice: row.find('.item-discount').val(),
+                discount: row.find('.item-discount').val(),
                 quantity: row.find('.item-quantity').val(),
                 isPackage: row.find('.item-isPackage').val()
             };
             selectedItems.push(item);
         });
 
-        var order = {
-            bookDTOS: selectedItems
-        };
+        var form = $('<form>', {
+            action: 'orders/order/form',
+            method: 'post'
+        });
 
-        // alert(order)
+        var input = $('<input>', {
+            type: 'hidden',
+            name: 'order',
+            value: JSON.stringify({ bookDTOS: selectedItems })
+        });
 
-        //TODO ajax 연결
+        form.append(input);
+        $('body').append(form);
+        form.submit();
     }
+
 
 
     function update() {

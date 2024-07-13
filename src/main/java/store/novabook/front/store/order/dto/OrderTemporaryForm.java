@@ -22,7 +22,7 @@ public record OrderTemporaryForm(
 	@NotNull
 	Long memberId,
 	@NotNull
-	UUID orderUUID,
+	String orderCode,
 	@NotNull
 	@Valid
 	List<BookIdAndQuantityDTO> books,
