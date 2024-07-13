@@ -6,6 +6,7 @@ import lombok.Builder;
 
 @Builder
 public record GetOrdersResponse(
+	String code,
 	Long memberId,
 	Long deliveryFeeId,
 	Long wrappingPaperId,
@@ -15,6 +16,10 @@ public record GetOrdersResponse(
 	LocalDateTime deliveryDate,
 	long bookPurchaseAmount,
 	String deliveryAddress,
+	Long couponId,
+	Long usePointAmount,
+	Long pointSaveAmount,
+	String paymentKey,
 	String receiverName,
 	String receiverNumber,
 	LocalDateTime createdAt,

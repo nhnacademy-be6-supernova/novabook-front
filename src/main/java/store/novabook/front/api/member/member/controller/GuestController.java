@@ -18,7 +18,6 @@ import store.novabook.front.store.order.dto.GetOrderDetailResponse;
 @RequiredArgsConstructor
 public class GuestController {
 
-	private static final Logger log = LoggerFactory.getLogger(GuestController.class);
 	private final GuestService guestService;
 
 	@PostMapping("/login")

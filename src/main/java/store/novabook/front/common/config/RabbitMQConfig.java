@@ -6,7 +6,10 @@ import java.util.Map;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.Exchange;
+import org.springframework.amqp.core.ExchangeBuilder;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -31,7 +34,6 @@ import store.novabook.front.common.util.dto.RabbitMQConfigDto;
 @Configuration
 @RequiredArgsConstructor
 public class RabbitMQConfig {
-
 
 	@Value("${rabbitmq.queue.couponCreateNormal}")
 	private String couponCreateNormalQueue;
@@ -71,16 +73,25 @@ public class RabbitMQConfig {
 	@Bean
 	public ConnectionFactory connectionFactory() {
 		RabbitMQConfigDto config = KeyManagerUtil.getRabbitMQConfig(environment);
-		CachingConnectionFactory connectionFactory = new CachingConnectionFactory(config.host());
-		connectionFactory.setPort(config.port());
-		connectionFactory.setUsername(config.username());
-		connectionFactory.setPassword(config.password());
+		// CachingConnectionFactory connectionFactory = new CachingConnectionFactory(config.host());
+		// connectionFactory.setPort(config.port());
+		// connectionFactory.setUsername(config.username());
+		// connectionFactory.setPassword(config.password());
+		CachingConnectionFactory connectionFactory = new CachingConnectionFactory("localhost");
+		connectionFactory.setPort(5672);
+		connectionFactory.setUsername("supernova");
+		connectionFactory.setPassword("1234");
 		return connectionFactory;
 	}
 
 	@Bean
 	public TopicExchange couponOperationExchange() {
 		return new TopicExchange(couponOperationExchange);
+	}
+
+	@Bean
+	public Exchange sagaExchange() {
+		return ExchangeBuilder.directExchange("nova.orders.saga.exchange").build();
 	}
 
 	@Bean
@@ -108,6 +119,11 @@ public class RabbitMQConfig {
 	public Queue couponRegisterHighTrafficQueue() {
 		return new Queue(couponRegisterHighTrafficQueue, true, false, false,
 			queueArguments(couponRegisterHighTrafficQueue));
+	}
+
+	@Bean
+	public Queue requestPayCancelQueue() {
+		return QueueBuilder.durable("nova.request.pay.cancel.queue").build();
 	}
 
 	@Bean
@@ -146,10 +162,17 @@ public class RabbitMQConfig {
 	}
 
 	@Bean
+	public Binding requestPayCancelBinding() {
+		return BindingBuilder.bind(requestPayCancelQueue())
+			.to(sagaExchange())
+			.with("pay.cancel.routing.key")
+			.noargs();
+	}
+
+	@Bean
 	public Binding deadLetterBinding(Queue deadLetterQueue, TopicExchange deadLetterExchange) {
 		return BindingBuilder.bind(deadLetterQueue).to(deadLetterExchange).with("#");
 	}
-
 
 	@Bean
 	public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
