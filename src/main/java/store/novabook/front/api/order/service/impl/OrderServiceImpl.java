@@ -9,10 +9,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
-import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +40,7 @@ import store.novabook.front.api.point.service.PointHistoryClient;
 import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.store.book.dto.BookDTO;
 import store.novabook.front.store.order.dto.GetOrdersAdminResponse;
+import store.novabook.front.store.order.dto.GetOrdersResponse;
 import store.novabook.front.store.order.dto.OrderTemporaryForm;
 import store.novabook.front.store.order.dto.OrderViewDTO;
 import store.novabook.front.store.order.dto.UpdateOrdersAdminRequest;
@@ -63,6 +62,7 @@ public class OrderServiceImpl implements OrderService {
 	private final DeliveryFeeClient deliveryFeeClient;
 	private final MemberClient memberClient;
 
+	private final RabbitTemplate rabbitTemplate;
 	private final OrdersSagaClient ordersSagaClient;
 	private final RedisOrderNonMemberRepository redisOrderNonMemberRepository;
 	private final RedisOrderRepository redisOrderRepository;
@@ -160,7 +160,7 @@ public class OrderServiceImpl implements OrderService {
 	 */
 	@Override
 	public void createOrder(PaymentRequest request) {
-		String lockKey = ORDER_LOCK + ":" + request.orderId();
+		String lockKey = ORDER_LOCK + ":" + request.orderCode();
 
 		boolean lockAcquired = Boolean.TRUE.equals(
 			redisTemplate.opsForValue().setIfAbsent(lockKey, "lock", Duration.ofMinutes(60)));
@@ -172,44 +172,54 @@ public class OrderServiceImpl implements OrderService {
 
 	/**
 	 * 주문서가 존재하는지 체크
-	 * @param orderUUID
+	 * @param orderCode
 	 * @param orderMemberId
 	 * @return
 	 */
 	@Override
-	public boolean isInvalidAccess(Long memberId, UUID orderUUID, Long orderMemberId) {
+	public boolean isInvalidAccess(Long memberId, String orderCode, Long orderMemberId) {
 		if (memberId == null) {
-			return !redisOrderNonMemberRepository.existsById(orderUUID);
+			return !redisOrderNonMemberRepository.existsById(orderCode);
 		} else {
 			Optional<OrderTemporaryForm> temporaryForm = redisOrderRepository.findById(memberId);
 			if (temporaryForm.isEmpty()) {
 				throw new IllegalArgumentException("조회되는 주문서가 없습니다.");
 			}
-			return !Objects.equals(memberId, orderMemberId) && temporaryForm.get().orderUUID().equals(orderUUID);
+			return !Objects.equals(memberId, orderMemberId) && temporaryForm.get().orderCode().equals(orderCode);
 		}
 	}
 
 	/**
-	 * @param orderUUID
+	 * @param orderCode
 	 * @return 주문이 완료된 회원이름을 반환
 	 */
 	@Override
-	public MemberOrderNameReponse getSuccessView(UUID orderUUID, Long meberId) {
+	public MemberOrderNameReponse getSuccessView(String orderCode) {
 		// 비회원일때
 		MemberOrderNameReponse memberResponse;
 		if (memberClient.getMember().getBody() ==  null) {
 			memberResponse = MemberOrderNameReponse.builder()
 				.name("비회원")
-				.orderNumber(orderUUID.toString())
+				.orderCode(orderCode)
 				.build();
 		} else {
 			GetMemberResponse memberInfo = memberClient.getMember().getBody();
 			memberResponse = MemberOrderNameReponse.builder()
-				.orderNumber(orderUUID.toString())
+				.orderCode(orderCode)
 				.name(memberInfo.name()).build();
 		}
 		return memberResponse;
 	}
+
+
+	@Override
+	public void sendRequestPayCancel(Long orderId) {
+		GetOrdersResponse ordersResponse = orderClient.getOrders(orderId).getBody();
+
+		// 미완
+		rabbitTemplate.convertAndSend("", "" );
+	}
+
 
 	@Override
 	public PageResponse<GetOrdersAdminResponse> getOrderAllAdmin(int page, int size) {

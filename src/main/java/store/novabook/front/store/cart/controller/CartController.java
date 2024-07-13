@@ -86,7 +86,7 @@ public class CartController {
 	@GetMapping("/refresh")
 	public String refresh(
 		@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie,
-		@CurrentMembers Long memberId,
+		@CurrentMembers(required = false) Long memberId,
 		Model model) {
 		//로그인되어 있을때
 		if (Objects.nonNull(memberId)) {
@@ -108,7 +108,7 @@ public class CartController {
 	public String deleteCart(
 		@PathVariable Long bookId,
 		@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie,
-		@CurrentMembers Long memberId) {
+		@CurrentMembers(required = false) Long memberId) {
 		if (Objects.nonNull(memberId)) {
 			redisCartService.deleteCartBook(memberId, bookId);
 			try {

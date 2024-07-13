@@ -19,7 +19,7 @@ import store.novabook.front.store.book.dto.BookIdAndQuantityDTO;
 public record OrderTemporaryNonMemberForm(
 	@Id
 	@NotNull
-	UUID orderUUID,
+	String orderCode,
 	String cartUUID,
 	@NotNull
 	@Valid

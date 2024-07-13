@@ -152,7 +152,11 @@
                         </tr>
                         <tr>
                             <th>도착예정일</th>
-                            <td><strong th:text="${ordersDetail.expectedDeliveryDate}"></strong></td>
+                            <td>
+                                <strong th:if="${ordersDetail.expectedDeliveryDate}"
+                                         th:text="${#temporals.format(ordersDetail.expectedDeliveryDate, 'yyyy년 MM월 dd일')}">
+                                </strong>
+                            </td>
                         </tr>
                         <tr>
                             <th>배송현황</th>

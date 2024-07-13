@@ -31,7 +31,7 @@ public class BookController {
 	}
 
 	@GetMapping("/book/{bookId}")
-	public String getBook(@PathVariable Long bookId, @CurrentMembers Long memberId, Model model) {
+	public String getBook(@PathVariable Long bookId, @CurrentMembers(required = false) Long memberId, Model model) {
 		try {
 			model.addAttribute("book", bookService.getBookClient(bookId));
 			GetReviewListResponse response = reviewService.getReviewsByBookId(bookId);

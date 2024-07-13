@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import store.novabook.front.common.util.UniqueRandomCodeGenerator;
 import store.novabook.front.store.order.dto.OrderTemporaryForm;
 import store.novabook.front.store.order.dto.OrderTemporaryFormRequest;
 import store.novabook.front.store.order.dto.OrderTemporaryNonMemberForm;
@@ -18,20 +19,21 @@ public class RedisOrderServiceImpl implements RedisOrderService {
 
 	private final RedisOrderRepository redisOrderRepository;
 	private final RedisOrderNonMemberRepository redisOrderNonMemberRepository;
+	private final UniqueRandomCodeGenerator uniqueRandomCodeGenerator;
 
 	/**
-	 * 비회원일 경우, orderUUID로 ID 저장
+	 * 비회원일 경우, orderCode로 ID 저장
 	 * 회원일 경우, memberID로 ID 저장 -> 나갔다가 와도 주문 정보 불러올 수 있음
 	 * @param orderTemporaryFormRequest
 	 * @return
 	 */
 	@Override
-	public UUID createOrderForm(OrderTemporaryFormRequest orderTemporaryFormRequest, String cartUUID) {
-		UUID orderUUID = UUID.randomUUID();
+	public String createOrderForm(OrderTemporaryFormRequest orderTemporaryFormRequest, String cartUUID) {
+		String code = uniqueRandomCodeGenerator.generateUniqueRandomCode();
 		// 비회원 가주문 폼 저장
 		if (orderTemporaryFormRequest.memberId() == null) {
 			OrderTemporaryNonMemberForm orderTemporaryForm = OrderTemporaryNonMemberForm.builder()
-				.orderUUID(orderUUID)
+				.orderCode(code)
 				.books(orderTemporaryFormRequest.books())
 				.wrappingPaperId(orderTemporaryFormRequest.wrappingPaperId())
 				.couponId(orderTemporaryFormRequest.couponId())
@@ -45,7 +47,7 @@ public class RedisOrderServiceImpl implements RedisOrderService {
 			redisOrderNonMemberRepository.save(orderTemporaryForm);
 		} else {
 			OrderTemporaryForm orderTemporaryForm = OrderTemporaryForm.builder()
-				.orderUUID(orderUUID)
+				.orderCode(code)
 				.memberId(orderTemporaryFormRequest.memberId())
 				.books(orderTemporaryFormRequest.books())
 				.wrappingPaperId(orderTemporaryFormRequest.wrappingPaperId())
@@ -58,6 +60,6 @@ public class RedisOrderServiceImpl implements RedisOrderService {
 				.build();
 			redisOrderRepository.save(orderTemporaryForm);
 		}
-		return orderUUID;
+		return code;
 	}
 }

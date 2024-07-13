@@ -24,7 +24,6 @@ public class GuestController {
 	@PostMapping("/login")
 	public String getOrder(@ModelAttribute GetGuestOrderHistoryRequest request, Model model) {
 		GetOrderDetailResponse response = guestService.login(request);
-		log.info(response.toString());
 		model.addAttribute("ordersDetail",response);
 		return "store/mypage/order/order_list_detail";
 	}

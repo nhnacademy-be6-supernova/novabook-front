@@ -313,7 +313,7 @@ function processPayment() {
 
 function sendOrderData(formData) {
     const xhr = new XMLHttpRequest();
-    const url = 'http://localhost:8080/orders/order/form';
+    const url = 'http://localhost:8080/orders/order/form/submit';
 
     xhr.open('POST', url, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -321,8 +321,8 @@ function sendOrderData(formData) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 201 || xhr.status === 200) {
-                const responseUUID = JSON.parse(xhr.responseText);
-                requestPayment(responseUUID);
+                const responseCode = xhr.responseText;
+                requestPayment(responseCode);
             } else {
                 console.log(xhr.status);
                 console.error('주문 정보 전송 중 오류가 발생했습니다.');
@@ -340,7 +340,7 @@ const tossPayments = TossPayments(clientKey);
 const payment = tossPayments.payment({ customerKey });
 
 
-async function requestPayment(orderUUID) {
+async function requestPayment(orderCode) {
     var totalPrice = parseInt($('#finalAmount').text().replace('원', '').replace(',', ''), 10);
     var orderName = globalFirstItemName;
     var memberID = $('#login_member_id').val();
@@ -356,7 +356,7 @@ async function requestPayment(orderUUID) {
             currency: "KRW",
             value: totalPrice,
         },
-        orderId: orderUUID, // 고유 주문번호
+        orderId: orderCode, // 고유 주문번호
         orderName: orderName,
         successUrl: 'http://localhost:8080/orders/order/toss/success?memberId='+memberID , // 결제 성공 시 이동할 페이지(이 주소는 예시입니다. 상점에서 직접 만들어주세요.)
         failUrl: 'http://localhost:8080/orders/order/toss/fail',
