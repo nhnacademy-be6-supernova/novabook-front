@@ -28,6 +28,7 @@ import store.novabook.front.api.member.member.service.PaycoApiClient;
 import store.novabook.front.api.member.member.service.PaycoLoginClient;
 import store.novabook.front.common.exception.ErrorCode;
 import store.novabook.front.common.exception.UnauthorizedException;
+import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.util.KeyManagerUtil;
 import store.novabook.front.common.util.dto.Oauth2Dto;
 
@@ -121,9 +122,9 @@ public class PaycoOAuth2Controller {
 
 		LinkPaycoMembersUUIDRequest linkPaycoMembersUUIDRequest = new LinkPaycoMembersUUIDRequest(accessToken, paycoId);
 
-		ResponseEntity<Void> paycoLinkResponse = memberAuthClient.paycoLink(linkPaycoMembersUUIDRequest);
+		ApiResponse<Void> paycoLinkResponse = memberAuthClient.paycoLink(linkPaycoMembersUUIDRequest);
 
-		if (!paycoLinkResponse.getStatusCode().is2xxSuccessful()) {
+		if (paycoLinkResponse == null) {
 			return "redirect:/login";
 		}
 
@@ -153,12 +154,9 @@ public class PaycoOAuth2Controller {
 		GetPaycoMembersRequest getPaycoMembersRequest = GetPaycoMembersRequest.builder()
 			.paycoId(paycoId)
 			.build();
-		ResponseEntity<GetPaycoMembersResponse> paycoMembersResponse = memberAuthClient.paycoLogin(
+		ApiResponse<GetPaycoMembersResponse> paycoMembersResponse = memberAuthClient.paycoLogin(
 			getPaycoMembersRequest);
 
-		if (!paycoMembersResponse.getStatusCode().is2xxSuccessful()) {
-			return "redirect:/login";
-		}
 		if (paycoMembersResponse.getBody() == null) {
 			return "redirect:/login";
 		}

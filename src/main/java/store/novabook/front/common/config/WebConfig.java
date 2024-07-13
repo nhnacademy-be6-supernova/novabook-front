@@ -14,15 +14,13 @@ import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.service.MemberAuthClient;
 import store.novabook.front.api.member.member.service.MemberService;
 import store.novabook.front.common.interceptor.LoginStatusInterceptor;
-import store.novabook.front.common.security.aop.CurrentMembersArgumentResolver;
 import store.novabook.front.common.interceptor.TokenInterceptor;
-import store.novabook.front.common.security.RefreshTokenContext;
+import store.novabook.front.common.security.aop.CurrentMembersArgumentResolver;
 
 @Configuration
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-	private final RefreshTokenContext refreshTokenContext;
 	private final ObjectProvider<MemberAuthClient> memberAuthClientProvider;
 	private final ObjectProvider<MemberService> memberServices;
 
@@ -32,15 +30,15 @@ public class WebConfig implements WebMvcConfigurer {
 
 		MemberService memberService = memberServices.getIfAvailable();
 
-		registry.addInterceptor(new TokenInterceptor(refreshTokenContext, memberService))
+		registry.addInterceptor(new TokenInterceptor(memberService))
 			.excludePathPatterns(
 				"/books",
-				"/login",
 				"/users/user/form/**",
-				"**/favicon.ico",
 				"**/categories",
-				"/",
 				"/api/v1/front/new-token/**",
+				"/login",
+				"/",
+				"**/favicon.ico",
 				"/**/*.css",
 				"/**/*.html",
 				"/**/*.js",
