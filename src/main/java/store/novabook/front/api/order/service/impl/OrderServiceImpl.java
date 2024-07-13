@@ -232,7 +232,7 @@ public class OrderServiceImpl implements OrderService {
 
 
 		// 5L 주문 취소 환불 상태로 변경
-		orderClient.update(orderId, new UpdateOrdersAdminRequest(4L));
+		orderClient.update(orderId, new UpdateOrdersAdminRequest(5L));
 		rabbitTemplate.convertAndSend(NOVA_ORDERS_SAGA_EXCHANGE, "pay.cancel.routing.key", message);
 	}
 
