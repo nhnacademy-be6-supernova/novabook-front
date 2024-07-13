@@ -153,8 +153,8 @@
         </div>
         2
     </h1>
-    <p>Bad Gateway &nbsp; 잠시 후 다시 시도해 주세요.</p>
-</div>
+    <p><span th:text="${exception.errorCode.name}">Bad Gateway</span>
+        &nbsp; <span th:text="${exception.getMessage()}">게이트웨이에 문제가 발생했습니다.</span> 잠시 후 다시 이용해 주세요.</p></div>
 </body>
 <script>
     const interval = 500;

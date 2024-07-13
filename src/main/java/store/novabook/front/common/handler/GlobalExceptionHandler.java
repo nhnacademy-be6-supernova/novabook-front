@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 import store.novabook.front.common.exception.BadGatewayException;
 import store.novabook.front.common.exception.ForbiddenException;
+import store.novabook.front.common.exception.InternalServerException;
 import store.novabook.front.common.exception.NovaException;
 import store.novabook.front.common.exception.UnauthorizedException;
 
@@ -25,7 +26,14 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(ForbiddenException.class)
 	public String handleForbiddenException(ForbiddenException exception, Model model) {
+		model.addAttribute("exception", exception);
 		return "error/403";
+	}
+
+	@ExceptionHandler(InternalServerException.class)
+	public String handleInternalServerException(InternalServerException e, Model model) {
+		model.addAttribute("exception", e);
+		return "error/500";
 	}
 
 	@ExceptionHandler(BadGatewayException.class)

@@ -146,15 +146,17 @@
 
 <body>
 <div class="container">
-    <h1>4
+    <h1>5
         <div class="lock">
             <div class="top"></div>
             <div class="bottom"></div>
         </div>
-        3
-    </h1>
-    <p><span th:text="${exception.errorCode.name}">Forbidden</span>
-        &nbsp; <span th:text="${exception.getMessage()}">접근 권한이 없습니다.</span> 잠시 후 다시 이용해 주세요.</p></div>
+        <div class="lock">
+            <div class="top"></div>
+            <div class="bottom"></div>
+        </div>    </h1>
+    <p><span th:text="${exception.errorCode.name}">Internal Server Error</span>
+        &nbsp; <span th:text="${exception.getMessage()}">서버에 오류가 발생했습니다.</span> 잠시 후 다시 이용해 주세요.</p></div>
 </body>
 <script>
     const interval = 500;

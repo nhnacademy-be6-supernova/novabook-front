@@ -1,6 +1,5 @@
 package store.novabook.front.common.response.decorder;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import org.springframework.http.HttpStatus;
@@ -23,7 +22,6 @@ import store.novabook.front.common.response.ErrorResponse;
 
 public class NovaErrorDecoder implements ErrorDecoder {
 
-	private final ErrorDecoder defaultErrorDecoder = new Default();
 	private final ObjectMapper objectMapper = new ObjectMapper();
 
 	@Override
@@ -47,7 +45,7 @@ public class NovaErrorDecoder implements ErrorDecoder {
 			ApiResponse<ErrorResponse> apiResponse = objectMapper.readValue(bodyIs,
 				objectMapper.getTypeFactory().constructParametricType(ApiResponse.class, ErrorResponse.class));
 			return apiResponse.getBody().errorCode();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			return ErrorCode.DECODING_ERROR; // 에러 해석 실패 시 기본 에러 코드
 		}
 	}
