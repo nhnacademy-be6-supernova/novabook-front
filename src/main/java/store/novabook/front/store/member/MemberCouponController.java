@@ -42,9 +42,9 @@ public class MemberCouponController {
 
 	// 쿠폰 다운로드 (일반, 도서, 카테고리)
 	@PostMapping("/download")
-	public ResponseEntity<String> downloadCoupon(@Valid @RequestBody DownloadCouponRequest request) {
+	public ResponseEntity<Void> downloadCoupon(@Valid @RequestBody DownloadCouponRequest request) {
 		memberCouponService.downloadCoupon(request);
-		return ResponseEntity.ok("쿠폰 발급에 성공했습니다 \\uD83D\\uDCE6");
+		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/book/{bookId}")
