@@ -58,10 +58,7 @@ $(document).ready(function() {
             }
         })
         .catch(error => {
-
-            // console.error('실패 : ', error.response ? error.response.data : error.message);
-            alert('실패 : ', error.response ? error.response.data : error.message)
-            // alert("오류가 발생하였습니다: " + (error.response ? error.response.data : error.message));
+            alert('서버 연결 중 잠시만 기다려주세요~  ', error.response ? error.response.data : error.message)
         });
 
 
