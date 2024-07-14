@@ -242,9 +242,6 @@
                             <label>
                                 <input type="password" name="loginPassword" th:placeholder="#{login_form.password.placeholder}">
                             </label>
-                            <label for="remember-check-id">
-                                <input type="checkbox" id="remember-check-id" th:text="#{login_form.remember.id}">
-                            </label>
                             <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
                             <button type="submit" th:text="#{login_form.button}">Login</button>
                         </form>
@@ -263,9 +260,6 @@
                         <form method="post" th:action="@{/guest/login}" id="guest-form">
                             <input type="text" name="code" th:placeholder="#{login_form.guest.order.number.placeholder}">
                             <input type="text" name="senderNumber" th:placeholder="#{login_form.guest.phone.number.placeholder}">
-                            <label for="remember-check-order">
-                                <input type="checkbox" id="remember-check-order" th:text="#{login_form.guest.remember.order}">주문번호 저장하기
-                            </label>
                             <div th:if="${guestError}" class="alert alert-danger" role="alert" th:text="${guestError}"></div>
                             <button type="submit" th:text="#{login_form.guest.confirm.button}">Confirm</button>
                         </form>
