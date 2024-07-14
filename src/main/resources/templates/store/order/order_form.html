@@ -203,9 +203,9 @@
                         <td name="itemName" th:text="${item.name()}" class="item-name">Product Name</td>
                         <td th:text="${item.price} + '원'">14,800원</td>
                         <td name="itemQuantity" th:text="${item.quantity}" class="item-quantity">1</td>
-                        <td th:text="${item.price - item.discount()} + '원'">할인가</td>
+                        <td th:text="${item.discount()} + '원'">할인가</td>
                         <td class="total-price align-center" name="totalPrice"
-                            th:text="${(item.price - item.discount()) * item.quantity()} + '원'">총가격
+                            th:text="${item.discount() * item.quantity()} + '원'">총가격
                         </td>
                     </tr>
                     <tr th:if="${items == null || #lists.isEmpty(items)}">

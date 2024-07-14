@@ -43,6 +43,7 @@ import store.novabook.front.store.order.dto.GetOrdersAdminResponse;
 import store.novabook.front.store.order.dto.GetOrdersResponse;
 import store.novabook.front.store.order.dto.OrderTemporaryForm;
 import store.novabook.front.store.order.dto.OrderViewDTO;
+import store.novabook.front.store.order.dto.RequestPayCancelMessage;
 import store.novabook.front.store.order.dto.UpdateOrdersAdminRequest;
 import store.novabook.front.store.order.repository.RedisOrderNonMemberRepository;
 import store.novabook.front.store.order.repository.RedisOrderRepository;
@@ -52,6 +53,7 @@ import store.novabook.front.store.order.repository.RedisOrderRepository;
 public class OrderServiceImpl implements OrderService {
 
 	private final OrderClient orderClient;
+	public static final String NOVA_ORDERS_SAGA_EXCHANGE = "nova.orders.saga.exchange";
 	public static final String ORDER_LOCK = "orderLock";
 	private final WrappingPaperClient wrappingPaperClient;
 	private final CouponClient couponClient;
@@ -213,13 +215,26 @@ public class OrderServiceImpl implements OrderService {
 
 
 	@Override
+	@Transactional
 	public void sendRequestPayCancel(Long orderId) {
+		// 상태 변경
 		GetOrdersResponse ordersResponse = orderClient.getOrders(orderId).getBody();
 
-		// 미완
-		rabbitTemplate.convertAndSend("", "" );
-	}
+		RequestPayCancelMessage message = RequestPayCancelMessage.builder()
+			.orderCode(ordersResponse.code())
+			.couponId(ordersResponse.couponId())
+			.earnPointAmount(ordersResponse.pointSaveAmount())
+			.paymentKey(ordersResponse.paymentKey())
+			.usePointAmount(ordersResponse.usePointAmount())
+			.memberId(ordersResponse.memberId())
+			.status("PROCESS_SEND_PAY_MESSAGE")
+			.build();
 
+
+		// 5L 주문 취소 환불 상태로 변경
+		orderClient.update(orderId, new UpdateOrdersAdminRequest(5L));
+		rabbitTemplate.convertAndSend(NOVA_ORDERS_SAGA_EXCHANGE, "pay.cancel.routing.key", message);
+	}
 
 	@Override
 	public PageResponse<GetOrdersAdminResponse> getOrderAllAdmin(int page, int size) {

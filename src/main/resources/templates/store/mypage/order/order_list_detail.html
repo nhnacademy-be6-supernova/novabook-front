@@ -221,26 +221,35 @@
 <script>
     function confirmCancel(orderId) {
         if (confirm('정말로 취소하시겠습니까?')) {
-            axios.post('/orders/cancel/' + orderId)
-                .then(function (response) {
-                    alert(response.data); // 취소 처리 성공 메시지
-                    // 여기서 화면 갱신 또는 다른 작업을 수행할 수 있음
+            axios.post('/orders/' + orderId + '/cancel')
+                .then(response => {
+                    if (response.status === 200) {
+                        alert('성공적으로 취소되었습니다. 1~2일이 소모 될 수 있습니다.');
+                        location.reload(); // 페이지 새로고침
+                    } else {
+                        alert('결제 취소에 실패했습니다.');
+                    }
                 })
-                .catch(function (error) {
-                    console.error(error); // 에러 처리
+                .catch(error => {
+                    console.error('결제 취소 중 오류 발생:', error);
+                    alert('결제 취소 중 오류가 발생했습니다.');
                 });
         }
     }
-
     function confirmRefund(orderId) {
         if (confirm('정말로 환불하시겠습니까?')) {
-            axios.post('/orders/refund/' + orderId)
-                .then(function (response) {
-                    alert(response.data); // 환불 처리 성공 메시지
-                    // 여기서 화면 갱신 또는 다른 작업을 수행할 수 있음
+            axios.post('/orders/' + orderId + '/cancel')
+                .then(response => {
+                    if (response.status === 200) {
+                        alert('환불이 성공적으로 요청 되었습니다.');
+                        location.reload(); // 페이지 새로고침
+                    } else {
+                        alert('환불 요청에 실패했습니다.');
+                    }
                 })
-                .catch(function (error) {
-                    console.error(error); // 에러 처리
+                .catch(error => {
+                    console.error('환불 요청 중 오류 발생:', error);
+                    alert('환불 요청 중 오류가 발생했습니다.');
                 });
         }
     }
