@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import store.novabook.front.api.cart.dto.CartBookListDTO;
-import store.novabook.front.common.exception.FeignClientException;
+import store.novabook.front.common.exception.NovaException;
 import store.novabook.front.common.security.aop.CurrentMembers;
 import store.novabook.front.common.util.CookieUtil;
 import store.novabook.front.store.cart.hash.RedisCartHash;
@@ -34,11 +34,8 @@ public class CartController {
 
 	//장바구니 버튼 클릭했을 때
 	@GetMapping
-	public String getCartBookAll(
-		@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie,
-		@CurrentMembers(required = false) Long memberId,
-		HttpServletResponse response,
-		Model model) {
+	public String getCartBookAll(@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie,
+		@CurrentMembers(required = false) Long memberId, HttpServletResponse response, Model model) {
 
 		//로그인되어 있을때
 		if (Objects.nonNull(memberId) && Objects.isNull(guestCookie)) {
@@ -58,7 +55,7 @@ public class CartController {
 			if (Objects.nonNull(redisCartHash)) {
 				try {
 					cartService.addCartBooks(new CartBookListDTO(redisCartHash.getCartBookList()));
-				} catch (FeignClientException e) {
+				} catch (NovaException e) {
 					log.error(e.getMessage(), e);
 					model.addAttribute("cart", redisCartService.getCartList(memberId));
 				}
@@ -84,10 +81,8 @@ public class CartController {
 	}
 
 	@GetMapping("/refresh")
-	public String refresh(
-		@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie,
-		@CurrentMembers(required = false) Long memberId,
-		Model model) {
+	public String refresh(@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie,
+		@CurrentMembers(required = false) Long memberId, Model model) {
 		//로그인되어 있을때
 		if (Objects.nonNull(memberId)) {
 			CartBookListDTO getCartResponse = cartService.getCartList();
@@ -105,15 +100,14 @@ public class CartController {
 	}
 
 	@GetMapping("/delete/{bookId}")
-	public String deleteCart(
-		@PathVariable Long bookId,
+	public String deleteCart(@PathVariable Long bookId,
 		@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie,
 		@CurrentMembers(required = false) Long memberId) {
 		if (Objects.nonNull(memberId)) {
 			redisCartService.deleteCartBook(memberId, bookId);
 			try {
 				cartService.deleteCartBook(bookId);
-			} catch (FeignClientException e) {
+			} catch (NovaException e) {
 				log.error(e.getMessage(), e);
 			}
 
@@ -124,6 +118,5 @@ public class CartController {
 
 		return "redirect:/carts";
 	}
-
 
 }

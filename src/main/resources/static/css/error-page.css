@@ -1,0 +1,116 @@
+@font-face {
+    font-family: 'MangoDdobak-B';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2405-3@1.1/MangoDdobak-B.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+body.error-page {
+    background-color: #5784a1;
+}
+
+.error-page .container {
+    z-index: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    padding: 10px;
+    min-width: 300px;
+}
+
+.error-page .container div {
+    display: inline-block;
+}
+
+.error-page .container .lock {
+    opacity: 1;
+}
+
+.error-page .container h1 {
+    font-family: MangoDdobak-B, serif;
+    font-size: 100px;
+    text-align: center;
+    color: #eee;
+    font-weight: 100;
+    margin: 0;
+}
+
+.error-page .container p {
+    font-family: MangoDdobak-B, fantasy;
+    color: #fff;
+}
+
+.error-page .lock {
+    transition: 0.5s ease;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+}
+
+.error-page .lock.generated {
+    transform: scale(0.5);
+    position: absolute;
+    animation: 2s move linear;
+    animation-fill-mode: forwards;
+}
+
+.error-page .lock::after {
+    content: '';
+    background: rgba(247, 107, 28, 0.8);
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    top: 0;
+    left: 0;
+}
+
+.error-page .lock .bottom {
+    background: #D68910;
+    height: 40px;
+    width: 60px;
+    display: block;
+    position: relative;
+    margin: 0 auto;
+}
+
+.error-page .lock .top {
+    height: 60px;
+    width: 50px;
+    border-radius: 50%;
+    border: 10px solid #fff;
+    display: block;
+    position: relative;
+    top: 30px;
+    margin: 0 auto;
+}
+
+@keyframes move {
+    to {
+        top: 100%;
+    }
+}
+
+@media (max-width: 420px) {
+    .error-page .container {
+        transform: translate(-50%, -50%) scale(0.8)
+    }
+
+    .error-page .lock.generated {
+        transform: scale(0.3);
+    }
+}
