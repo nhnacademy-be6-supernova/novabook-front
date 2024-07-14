@@ -1,7 +1,5 @@
 package store.novabook.front.store.order.service.impl;
 
-import java.util.UUID;
-
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;

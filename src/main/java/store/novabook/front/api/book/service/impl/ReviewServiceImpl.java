@@ -13,8 +13,6 @@ import store.novabook.front.api.book.dto.response.GetReviewListResponse;
 import store.novabook.front.api.book.dto.response.GetReviewResponse;
 import store.novabook.front.api.book.service.ReviewClient;
 import store.novabook.front.api.book.service.ReviewService;
-import store.novabook.front.common.exception.ErrorCode;
-import store.novabook.front.common.exception.FeignClientException;
 
 @Service
 @RequiredArgsConstructor
