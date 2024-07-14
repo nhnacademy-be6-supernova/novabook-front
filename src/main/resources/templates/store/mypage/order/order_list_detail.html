@@ -96,70 +96,65 @@
             <!-- 주문 정보 테이블 -->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2 class="panel-title">주문 정보</h2>
+                    <h2 class="panel-title" th:text="#{panel.title.order_info}">주문 정보</h2>
                 </div>
                 <div class="panel-body order-info">
                     <table>
                         <tr>
-                            <th style="width: 30%;">주문 번호</th>
+                            <th style="width: 30%;" th:text="#{table.order.number}">주문 번호</th>
                             <td style="width: 70%;"><strong th:text="${ordersDetail.ordersId}"></strong></td>
                         </tr>
                         <tr>
-                            <th>상품 이름</th>
+                            <th th:text="#{table.product.name}">상품 이름</th>
                             <td>
                                 <p th:each="title : ${ordersDetail.bookTitle}" class="circle-bullet" th:text="${title}"></p>
                             </td>
                         </tr>
-                        <!--                        <tr>-->
-                        <!--                            <th>가격</th>-->
-                        <!--                            <td><strong th:text="${ordersDetail.price}"></strong></td>-->
-                        <!--                        </tr>-->
                         <tr>
-                            <th>수량</th>
+                            <th th:text="#{table.quantity}">수량</th>
                             <td><strong th:text="${ordersDetail.quantity}"></strong></td>
                         </tr>
                         <tr>
-                            <th>배송비</th>
+                            <th th:text="#{table.delivery_fee}">배송비</th>
                             <td><strong th:text="${ordersDetail.deliveryFee}"></strong></td>
                         </tr>
                         <tr>
-                            <th>포장비</th>
+                            <th th:text="#{table.wrapping_fee}">포장비</th>
                             <td><strong th:text="${ordersDetail.wrappingFee}"></strong></td>
                         </tr>
                     </table>
                 </div>
             </div>
 
-
             <!-- 배송 정보 테이블 -->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2 class="panel-title">배송 정보</h2>
+                    <h2 class="panel-title" th:text="#{panel.title.shipping_info}">배송 정보</h2>
                 </div>
                 <div class="panel-body shipping-info">
                     <table>
                         <tr>
-                            <th style="width: 30%;">받는 사람</th>
+                            <th style="width: 30%;" th:text="#{table.receiver_name}">받는 사람</th>
                             <td style="width: 70%;"><strong th:text="${ordersDetail.receiverName}"></strong></td>
                         </tr>
                         <tr>
-                            <th>휴대폰 번호</th>
+                            <th th:text="#{table.receiver_phone}">휴대폰 번호</th>
                             <td><strong th:text="${ordersDetail.receiverNumber}"></strong></td>
                         </tr>
                         <tr>
-                            <th>주소</th>
+                            <th th:text="#{table.receiver_address}">주소</th>
                             <td><strong th:text="${ordersDetail.receiverAddress}"></strong></td>
                         </tr>
                         <tr>
-                            <th>도착예정일</th>
+                            <th th:text="#{table.expected_delivery_date}">도착예정일</th>
                             <td>
                                 <strong th:if="${ordersDetail.expectedDeliveryDate}"
-                                         th:text="${#temporals.format(ordersDetail.expectedDeliveryDate, 'yyyy년 MM월 dd일')}">
+                                        th:text="${#temporals.format(ordersDetail.expectedDeliveryDate, 'yyyy년 MM월 dd일')}">
                                 </strong>
                             </td>
                         </tr>
                         <tr>
-                            <th>배송현황</th>
+                            <th th:text="#{table.shipping_status}">배송현황</th>
                             <td><strong th:text="${ordersDetail.ordersStatusName}"></strong></td>
                         </tr>
                     </table>
@@ -169,24 +164,24 @@
             <!-- 결제 내역 테이블 -->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2 class="panel-title">결제 내역</h2>
+                    <h2 class="panel-title" th:text="#{panel.title.payment_info}">결제 내역</h2>
                 </div>
                 <div class="panel-body payment-info">
                     <table>
                         <tr>
-                            <th style="width: 30%;">상품 총 금액</th>
+                            <th style="width: 30%;" th:text="#{table.total_price}">상품 총 금액</th>
                             <td style="width: 70%;"><strong th:text="${ordersDetail.totalPrice}"></strong></td>
                         </tr>
                         <tr>
-                            <th>쿠폰 할인 금액</th>
+                            <th th:text="#{table.coupon_discount}">쿠폰 할인 금액</th>
                             <td><strong th:text="${ordersDetail.couponDiscountAmount}"></strong></td>
                         </tr>
                         <tr>
-                            <th>최종 결제 금액</th>
+                            <th th:text="#{table.final_amount}">최종 결제 금액</th>
                             <td><strong th:text="${ordersDetail.finalAmount}"></strong></td>
                         </tr>
                         <tr>
-                            <th>포인트 적립</th>
+                            <th th:text="#{table.point_save}">포인트 적립</th>
                             <td><strong th:text="${ordersDetail.pointSaveAmount}"></strong></td>
                         </tr>
                     </table>
@@ -198,18 +193,21 @@
                 <th></th>
                 <td th:if="${ordersDetail.ordersStatusId == 1}">
                     <a href="#" class="btn btn-danger"
+                       th:text="#{button.cancel_payment}"
                        th:onclick="'confirmCancel(\'' + ${ordersDetail.ordersId} + '\')'">결제취소</a>
                 </td>
                 <td th:if="${ordersDetail.ordersStatusId == 2}">
                     <a href="#" class="btn btn-danger"
+                       th:text="#{button.refund}"
                        th:onclick="'confirmRefund(\'' + ${ordersDetail.ordersId} + '\')'">환불하기</a>
                 </td>
             </tr>
 
             <!-- 돌아가기 버튼 -->
-            <a href="/mypage/orders" class="btn btn-primary" style="float: right;">돌아가기</a>
+            <a href="/mypage/orders" class="btn btn-primary" style="float: right;" th:text="#{button.back}">돌아가기</a>
         </div>
     </div>
+</div>
 </div>
 
 <div th:replace="~{layout/store/footer::footer}"></div>

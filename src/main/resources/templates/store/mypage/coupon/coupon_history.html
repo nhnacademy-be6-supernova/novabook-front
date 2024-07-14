@@ -120,7 +120,7 @@
             <!-- 다운로드받은 쿠폰함 -->
             <div class="col-md-9">
                 <div class="coupon-container">
-                    <h3>내 쿠폰함</h3>
+                    <h3 th:text="#{title.coupon.my}">내 쿠폰함</h3>
                     <ul class="coupon-list">
                         <th:block th:each="coupon : ${myCouponList.couponResponseList}">
                             <li class="coupon-list-item">
@@ -144,17 +144,16 @@
             <div class="col-md-9">
                 <!-- 책갈피 탭 네비게이션 -->
                 <div class="bookmark-tabs">
-                    <div class="tab tab-issue active" onclick="openTab('issue')">쿠폰 발급 내역</div>
-                    <div class="tab tab-usage" onclick="openTab('usage')">쿠폰 사용 내역</div>
+                    <div class="tab tab-issue active" onclick="openTab('issue')" th:text="#{tab.issue}">쿠폰 발급 내역</div>
+                    <div class="tab tab-usage" onclick="openTab('usage')" th:text="#{tab.usage}">쿠폰 사용 내역</div>
                 </div>
 
-                <!-- 탭 내용 -->
                 <div class="tab-content">
                     <!-- 쿠폰 발급 내역 탭 -->
                     <div role="tabpanel" class="tab-pane active" id="issue">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">쿠폰 발급 내역</h3>
+                                <h3 class="panel-title" th:text="#{panel.title.issue}">쿠폰 발급 내역</h3>
                             </div>
                             <div class="panel-body">
                                 <!-- 테이블 형태로 쿠폰 발급 내역을 나타내는 부분 -->
@@ -162,11 +161,11 @@
                                     <table class="table table-striped" id="issue-table">
                                         <thead>
                                         <tr>
-                                            <th style="width: 16.67%;">발급 일자</th>
-                                            <th style="width: 16.67%;">쿠폰 명</th>
-                                            <th style="width: 16.67%;">쿠폰 타입</th>
-                                            <th style="width: 16.67%;">쿠폰 상태</th>
-                                            <th style="width: 16.67%;">할인 금액</th>
+                                            <th style="width: 16.67%;" th:text="#{table.issue.date}">발급 일자</th>
+                                            <th style="width: 16.67%;" th:text="#{table.coupon.name}">쿠폰 명</th>
+                                            <th style="width: 16.67%;" th:text="#{table.coupon.type}">쿠폰 타입</th>
+                                            <th style="width: 16.67%;" th:text="#{table.coupon.status}">쿠폰 상태</th>
+                                            <th style="width: 16.67%;" th:text="#{table.discount.amount}">할인 금액</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -187,7 +186,7 @@
                     <div role="tabpanel" class="tab-pane" id="usage">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">쿠폰 사용 내역</h3>
+                                <h3 class="panel-title" th:text="#{panel.title.usage}">쿠폰 사용 내역</h3>
                             </div>
                             <div class="panel-body">
                                 <!-- 테이블 형태로 쿠폰 사용 내역을 나타내는 부분 -->
@@ -195,11 +194,11 @@
                                     <table class="table table-striped" id="usage-table">
                                         <thead>
                                         <tr>
-                                            <th style="width: 16.67%;">사용 일자</th>
-                                            <th style="width: 16.67%;">쿠폰 명</th>
-                                            <th style="width: 16.67%;">쿠폰 타입</th>
-                                            <th style="width: 16.67%;">쿠폰 상태</th>
-                                            <th style="width: 16.67%;">할인 금액</th>
+                                            <th style="width: 16.67%;" th:text="#{table.issue.date}">사용 일자</th>
+                                            <th style="width: 16.67%;" th:text="#{table.coupon.name}">쿠폰 명</th>
+                                            <th style="width: 16.67%;" th:text="#{table.coupon.type}">쿠폰 타입</th>
+                                            <th style="width: 16.67%;" th:text="#{table.coupon.status}">쿠폰 상태</th>
+                                            <th style="width: 16.67%;" th:text="#{table.discount.amount}">할인 금액</th>
                                         </tr>
                                         </thead>
                                         <tbody>

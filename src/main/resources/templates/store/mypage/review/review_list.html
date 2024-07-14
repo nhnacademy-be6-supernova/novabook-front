@@ -31,58 +31,59 @@
     <div class="container">
         <div class="row">
             <div th:replace="~{layout/store/sidebar::sidebar}"></div>
+
             <!-- 콘텐츠 섹션 -->
             <div class="col-md-9">
                 <!-- 리뷰 관리 섹션 -->
                 <div class="row">
                     <div class="col-md-12">
-                        <h2>리뷰 관리</h2>
+                        <h2 th:text="#{section.title}">리뷰 관리</h2>
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th>주문 번호</th>
-                                <th>책 내용</th>
-                                <th>주문 날짜</th>
-                                <th>작성 리뷰</th>
+                                <th th:text="#{table.header.orderNumber}">주문 번호</th>
+                                <th th:text="#{table.header.bookContent}">책 내용</th>
+                                <th th:text="#{table.header.orderDate}">주문 날짜</th>
+                                <th th:text="#{table.header.writtenReview}">작성 리뷰</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="book : ${ordersBook.data}">
                                 <td th:text="${book.ordersId}">12345</td>
-                                <td th:text="${book.bookTitle}"> 책 제목 1</td>
+                                <td th:text="${book.bookTitle}">책 제목 1</td>
                                 <td th:text="${book.orderAt}">2024-06-15</td>
                                 <td>
                                     <a th:value="${book.reviewId}"
                                        th:class="${book.reviewId != null ? 'btn btn-secondary' : 'btn btn-primary'}"
                                        th:href="@{'/mypage/reviews/' + ${book.reviewId != null ? book.reviewId + '/update' : book.ordersBookId}}"
-                                       th:text="${book.reviewId != null ? '리뷰 수정' : '리뷰 쓰기'}">
+                                       th:text="${book.reviewId != null ? #{button.editReview} : #{button.writeReview}}">
                                         리뷰 수정
                                     </a>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
-                        <a href="/mypage" class="btn btn-primary">돌아가기</a>
-                        <!-- 페이져블 JS 추가 -->
+                        <a href="/mypage" class="btn btn-primary" th:text="#{button.back}">돌아가기</a>
+
+                        <!-- 페이징 -->
                         <div class="pagination">
                             <!-- Previous button -->
                             <li class="page-item" th:classappend="${ordersBook.getPageNum() == 0} ? 'disabled'">
-                                <a th:if="${ordersBook.getPageNum() > 0}" th:href="@{/mypage/reviews(page=${ordersBook.getPageNum() - 1})}">Previous</a>
-                                <span th:if="${ordersBook.getPageNum() == 0}">Previous</span>
+                                <a th:if="${ordersBook.getPageNum() > 0}" th:href="@{/mypage/reviews(page=${ordersBook.getPageNum() - 1})}" th:text="#{pagination.previous}">Previous</a>
+                                <span th:if="${ordersBook.getPageNum() == 0}" th:text="#{pagination.previous}">Previous</span>
                             </li>
 
                             <!-- Page numbers -->
                             <li class="page-item" th:if="${ordersBook.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, ordersBook.getTotalPageCount() - 1)}">
-                                <a th:href="@{/mypage/reviews(page=${i})}" th:text="${i + 1}+'&nbsp;'"
+                                <a th:href="@{/mypage/reviews(page=${i})}" th:text="${i + 1} + ' '"
                                    th:classappend="${i == ordersBook.getPageNum()} ? 'active' : ''"></a>
                             </li>
 
                             <!-- Next button -->
-                            <li class="page-item"
-                                th:classappend="${ordersBook.getPageNum() >= ordersBook.getTotalPageCount() - 1} ? 'disabled'">
+                            <li class="page-item" th:classappend="${ordersBook.getPageNum() >= ordersBook.getTotalPageCount() - 1} ? 'disabled'">
                                 <a th:if="${ordersBook.getPageNum() < ordersBook.getTotalPageCount() - 1}"
-                                   th:href="@{/mypage/reviews(page=${ordersBook.getPageNum() + 1})}">Next</a>
-                                <span th:if="${ordersBook.getPageNum() >= ordersBook.getTotalPageCount() - 1}">Next</span>
+                                   th:href="@{/mypage/reviews(page=${ordersBook.getPageNum() + 1})}" th:text="#{pagination.next}">Next</a>
+                                <span th:if="${ordersBook.getPageNum() >= ordersBook.getTotalPageCount() - 1}" th:text="#{pagination.next}">Next</span>
                             </li>
                         </div>
                     </div>
@@ -91,6 +92,7 @@
         </div>
     </div>
 </div>
+
 
 
 
