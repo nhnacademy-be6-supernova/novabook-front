@@ -19,8 +19,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, @NotNull HttpServletResponse response,
-		@NotNull Object handler) throws
-		Exception {
+		@NotNull Object handler) {
 
 		Cookie[] cookies = request.getCookies();
 		if (cookies == null) {

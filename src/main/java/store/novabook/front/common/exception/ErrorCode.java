@@ -89,7 +89,11 @@ public enum ErrorCode {
 	CATEGORY_COUPON_NOT_FOUND("해당 카테고리에 대한 쿠폰이 존재하지 않습니다."),
 	COUPON_TEMPLATE_NOT_FOUND("해당 쿠폰 템플릿이 존재하지 않습니다."),
 
-	DECODING_ERROR("요청을 처리하는 중 문제가 발생했습니다. ");
+	DECODING_ERROR("요청을 처리하는 중 문제가 발생했습니다. "),
+
+	IMAGE_FILE_SAVE_FAIL("이미지를 저장하는 데 실패했습니다."),
+
+	;
 
 	private final String message;
 

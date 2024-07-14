@@ -13,7 +13,7 @@ public record CreateMemberRequest(
 	@Size(max = 20, message = "최대 20자까지 가능합니다.")
 	String loginId,
 
-	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[~!@#$%^&*]).{10,16}$")
+	@Pattern(regexp = "^(?=.*\\d)(?=.*[a-zA-Z])(?=.*[~!@#$%^&*]).{10,16}$")
 	@NotBlank(message = "비밀번호는 필수 입력 값입니다.")
 	@Size(max = 16, message = "최대 16자까지 가능합니다.")
 	String loginPassword,

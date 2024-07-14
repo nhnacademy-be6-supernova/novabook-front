@@ -37,7 +37,7 @@ public class ReviewServiceImpl implements ReviewService {
 
 	@Override
 	public GetReviewListResponse getReviewsByBookId(Long bookId) {
-		return reviewClient.GetReviewListByBookId(bookId).getBody();
+		return reviewClient.getReviewListByBookId(bookId).getBody();
 	}
 
 	@Override

@@ -17,8 +17,6 @@ import store.novabook.front.store.order.dto.UpdateOrdersAdminRequest;
 
 @FeignClient(name = "gateway-service", path = "/api/v1/store/orders", contextId = "orderClient")
 public interface OrderClient {
-	// ResponseEntity<CreateOrderResponse> createOrders(@Valid @RequestBody CreateOrdersRequest request);
-
 	@GetMapping("/admin")
 	PageResponse<GetOrdersAdminResponse> getOrdersAdmin(@RequestParam("page") int page, @RequestParam("size") int size);
 
@@ -30,6 +28,4 @@ public interface OrderClient {
 
 	@GetMapping("/guest/{ordersId}")
 	ApiResponse <GetOrderDetailResponse> getOrdersGuest(@PathVariable Long ordersId);
-
-
 }
