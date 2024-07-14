@@ -119,16 +119,16 @@
 <div class="layout">
     <div class="container">
         <div class="coupon-wrapper">
-            <h2>쿠폰 다운로드</h2>
+            <h2 th:text="#{coupon.download.title}">쿠폰 다운로드</h2>
             <ul class="coupon-list">
                 <th:block th:each="coupon : ${generalCouponList.getData()}">
                     <li>
                         <div class="coupon-details">
                             <div class="coupon-name" th:text="${coupon.name()}">쿠폰 이름</div>
                             <div class="coupon-meta">
-                                <span th:text="'최소구매금액: ' + ${coupon.minPurchaseAmount} + '원'">최소구매금액: 10000원</span> |
-                                <span th:text="'최대할인금액: ' + ${coupon.maxDiscountAmount} + '원'">최대할인금액: 5000원</span> <br>
-                                <span th:text="'유효기간: ' + ${coupon.startedAt} + ' ~ ' + ${coupon.expirationAt}">유효기간: 2024년 1월 1일 ~ 2024년 12월 31일</span>
+                                <span th:text="#{coupon.minPurchaseAmount} + ${coupon.minPurchaseAmount} + '원'">최소구매금액: 10000원</span> |
+                                <span th:text="#{coupon.maxDiscountAmount} + ${coupon.maxDiscountAmount} + '원'">최대할인금액: 5000원</span> <br>
+                                <span th:text="#{coupon.validity} + ${coupon.startedAt} + ' ~ ' + ${coupon.expirationAt}">유효기간: 2024년 1월 1일 ~ 2024년 12월 31일</span>
                             </div>
                         </div>
 
@@ -138,7 +138,7 @@
                             <button type="button"
                                     th:attr="data-coupon-id=${coupon.id}"
                                     onclick="subscribeSse(this)">
-                                <i class="fa fa-download"></i> 다운로드
+                                <i class="fa fa-download"></i> <span th:text="#{coupon.download}">다운로드</span>
                             </button>
                         </div>
 
@@ -150,38 +150,37 @@
                 <!-- Previous button -->
                 <li class="page-item" th:classappend="${generalCouponList.getPageNum() == 0} ? 'disabled'">
                     <a th:if="${generalCouponList.getPageNum() > 0}"
-                       th:href="@{/coupons(generalPage=${generalCouponList.getPageNum() - 1},categoryPage=${categoryCouponList.getPageNum()} )}">Previous</a>
-                    <span th:if="${generalCouponList.getPageNum() == 0}">Previous</span>
+                       th:href="@{/coupons(generalPage=${generalCouponList.getPageNum() - 1},categoryPage=${categoryCouponList.getPageNum()} )}" th:text="#{coupon.pagination.previous}">Previous</a>
+                    <span th:if="${generalCouponList.getPageNum() == 0}" th:text="#{coupon.pagination.previous}">Previous</span>
                 </li>
 
                 <!-- Page numbers -->
                 <li class="page-item" th:if="${generalCouponList.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, generalCouponList.getTotalPageCount() - 1)}">
                     <a th:href="@{/coupons(generalPage=${i}, categoryPage=${categoryCouponList.getPageNum()})}"
-                       th:text="${i + 1}+'&nbsp;'"
-                       th:classappend="${i == generalCouponList.getPageNum()} ? 'active' : ''"></a>
+                       th:text="${i + 1}+'&nbsp;'" th:classappend="${i == generalCouponList.getPageNum()} ? 'active' : ''"></a>
                 </li>
 
                 <!-- Next button -->
                 <li class="page-item"
                     th:classappend="${generalCouponList.getPageNum() >= generalCouponList.getTotalPageCount() - 1} ? 'disabled'">
                     <a th:if="${generalCouponList.getPageNum() < generalCouponList.getTotalPageCount() - 1}"
-                       th:href="@{/couons(generalPage=${generalCouponList.getPageNum() + 1}, categoryPage=${categoryCouponList.getPageNum()})}">Next</a>
-                    <span th:if="${generalCouponList.getPageNum() >= generalCouponList.getTotalPageCount() - 1}">Next</span>
+                       th:href="@{/coupons(generalPage=${generalCouponList.getPageNum() + 1}, categoryPage=${categoryCouponList.getPageNum()})}" th:text="#{coupon.pagination.next}">Next</a>
+                    <span th:if="${generalCouponList.getPageNum() >= generalCouponList.getTotalPageCount() - 1}" th:text="#{coupon.pagination.next}">Next</span>
                 </li>
             </div>
         </div>
 
         <div class="coupon-wrapper">
-            <h2>카테고리 쿠폰 다운로드</h2>
+            <h2 th:text="#{coupon.category.title}">카테고리 쿠폰 다운로드</h2>
             <ul class="coupon-list">
                 <th:block th:each="coupon : ${categoryCouponList.getData()}">
                     <li>
                         <div class="coupon-details">
                             <div class="coupon-name" th:text="${coupon.name()}">쿠폰 이름</div>
                             <div class="coupon-meta">
-                                <span th:text="'최소구매금액: ' + ${coupon.minPurchaseAmount} + '원'">최소구매금액: 10000원</span> |
-                                <span th:text="'최대할인금액: ' + ${coupon.maxDiscountAmount} + '원'">최대할인금액: 5000원</span> <br>
-                                <span th:text="'유효기간: ' + ${coupon.startedAt} + ' ~ ' + ${coupon.expirationAt}">유효기간: 2024년 1월 1일 ~ 2024년 12월 31일</span>
+                                <span th:text="#{coupon.minPurchaseAmount} + ${coupon.minPurchaseAmount} + '원'">최소구매금액: 10000원</span> |
+                                <span th:text="#{coupon.maxDiscountAmount} + ${coupon.maxDiscountAmount} + '원'">최대할인금액: 5000원</span> <br>
+                                <span th:text="#{coupon.validity} + ${coupon.startedAt} + ' ~ ' + ${coupon.expirationAt}">유효기간: 2024년 1월 1일 ~ 2024년 12월 31일</span>
                             </div>
                         </div>
 
@@ -191,7 +190,7 @@
                             <button type="button"
                                     th:attr="data-coupon-id=${coupon.id}"
                                     onclick="subscribeSse(this)">
-                                <i class="fa fa-download"></i> 다운로드
+                                <i class="fa fa-download"></i> <span th:text="#{coupon.download}">다운로드</span>
                             </button>
                         </div>
                     </li>
@@ -202,23 +201,22 @@
                 <!-- Previous button -->
                 <li class="page-item" th:classappend="${categoryCouponList.getPageNum() == 0} ? 'disabled'">
                     <a th:if="${categoryCouponList.getPageNum() > 0}"
-                       th:href="@{/coupons(categoryPage=${categoryCouponList.getPageNum() - 1},generalPage=${generalCouponList.getPageNum()} )}">Previous</a>
-                    <span th:if="${categoryCouponList.getPageNum() == 0}">Previous</span>
+                       th:href="@{/coupons(categoryPage=${categoryCouponList.getPageNum() - 1},generalPage=${generalCouponList.getPageNum()} )}" th:text="#{coupon.pagination.previous}">Previous</a>
+                    <span th:if="${categoryCouponList.getPageNum() == 0}" th:text="#{coupon.pagination.previous}">Previous</span>
                 </li>
 
                 <!-- Page numbers -->
                 <li class="page-item" th:if="${categoryCouponList.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, categoryCouponList.getTotalPageCount() - 1)}">
                     <a th:href="@{/coupons(categoryPage=${i},generalPage=${generalCouponList.getPageNum()})}"
-                       th:text="${i + 1}+'&nbsp;'"
-                       th:classappend="${i == categoryCouponList.getPageNum()} ? 'active' : ''"></a>
+                       th:text="${i + 1}+'&nbsp;'" th:classappend="${i == categoryCouponList.getPageNum()} ? 'active' : ''"></a>
                 </li>
 
                 <!-- Next button -->
                 <li class="page-item"
                     th:classappend="${categoryCouponList.getPageNum() >= categoryCouponList.getTotalPageCount() - 1} ? 'disabled'">
                     <a th:if="${categoryCouponList.getPageNum() < categoryCouponList.getTotalPageCount() - 1}"
-                       th:href="@{/coupons(categoryPage=${categoryCouponList.getPageNum() + 1},generalPage=${generalCouponList.getPageNum()})}">Next</a>
-                    <span th:if="${categoryCouponList.getPageNum() >= categoryCouponList.getTotalPageCount() - 1}">Next</span>
+                       th:href="@{/coupons(categoryPage=${categoryCouponList.getPageNum() + 1}, generalPage=${generalCouponList.getPageNum()})}" th:text="#{coupon.pagination.next}">Next</a>
+                    <span th:if="${categoryCouponList.getPageNum() >= categoryCouponList.getTotalPageCount() - 1}" th:text="#{coupon.pagination.next}">Next</span>
                 </li>
             </div>
         </div>
