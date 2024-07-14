@@ -27,6 +27,7 @@ public class MyCouponController {
 		GetCouponAllResponse myCouponList = memberCouponService.getMyCouponAllWithValid();
 		model.addAttribute("myCouponList", myCouponList);
 		model.addAttribute("grade", memberGradeService.getMemberGrade());
+
 		return "store/mypage/coupon/coupon_history";
 	}
 }
