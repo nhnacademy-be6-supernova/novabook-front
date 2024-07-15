@@ -26,28 +26,27 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(ForbiddenException.class)
 	public String handleForbiddenException(ForbiddenException exception, Model model) {
-		log.error("Internal server error {}", e);
 		model.addAttribute("exception", exception);
 		return "error/403";
 	}
 
 	@ExceptionHandler(InternalServerException.class)
 	public String handleInternalServerException(InternalServerException e, Model model) {
-		log.error("Internal server error {}", e);
+		log.error("Internal server error :", e);
 		model.addAttribute("exception", e);
 		return "error/500";
 	}
 
 	@ExceptionHandler(BadGatewayException.class)
 	public String handleBadGatewayException(BadGatewayException e, Model model) {
-		log.error("Internal server error {}", e);
+		log.error("Internal server error :", e);
 		model.addAttribute("exception", e);
 		return "error/502";
 	}
 
 	@ExceptionHandler(NovaException.class)
 	public String handleFeignClientException(NovaException e, Model model) {
-		log.error("Internal server error {}", e);
+		log.error("Internal server error :", e);
 		model.addAttribute("exception", e);
 		return "error/nova_error";
 	}
