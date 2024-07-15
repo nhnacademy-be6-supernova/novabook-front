@@ -32,6 +32,7 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(InternalServerException.class)
 	public String handleInternalServerException(InternalServerException e, Model model) {
+		log.error("Internal server error {}", e.getMessage());
 		model.addAttribute("exception", e);
 		return "error/500";
 	}
