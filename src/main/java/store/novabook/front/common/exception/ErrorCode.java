@@ -32,7 +32,6 @@ public enum ErrorCode {
 	NOT_UPDATE_CART_QUANTITY("요청된 수량이 재고를 초과하거나 도서 상태가 유효하지 않습니다."),
 	CANNOT_LOGIN("로그인 할 수 없습니다. 아이디 또는 비밀번호를 확인해주세요."),
 
-
 	// 401 로그인 안됨
 	UNAUTHORIZED("인증되지 않은 사용자입니다."),
 	UNAUTHORIZED_CODE("유효하지 않은 코드입니다."),
@@ -88,7 +87,13 @@ public enum ErrorCode {
 	COUPON_NOT_FOUND("해당 쿠폰이 존재하지 않습니다."),
 	BOOK_COUPON_NOT_FOUND("해당 도서에 대한 쿠폰이 존재하지 않습니다."),
 	CATEGORY_COUPON_NOT_FOUND("해당 카테고리에 대한 쿠폰이 존재하지 않습니다."),
-	COUPON_TEMPLATE_NOT_FOUND("해당 쿠폰 템플릿이 존재하지 않습니다.");
+	COUPON_TEMPLATE_NOT_FOUND("해당 쿠폰 템플릿이 존재하지 않습니다."),
+
+	DECODING_ERROR("요청을 처리하는 중 문제가 발생했습니다. "),
+
+	IMAGE_FILE_SAVE_FAIL("이미지를 저장하는 데 실패했습니다."),
+
+	;
 
 	private final String message;
 

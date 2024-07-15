@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.book.likes.dto.LikeBookResponse;
-import store.novabook.front.api.book.service.BookLikeClient;
 import store.novabook.front.api.book.likes.service.LikeBookRestService;
+import store.novabook.front.api.book.service.BookLikeClient;
 
 @Service
 @RequiredArgsConstructor

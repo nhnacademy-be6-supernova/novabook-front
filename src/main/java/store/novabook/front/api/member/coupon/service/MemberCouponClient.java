@@ -10,11 +10,11 @@ import store.novabook.front.api.coupon.dto.request.DownloadCouponRequest;
 import store.novabook.front.api.coupon.dto.response.GetCouponAllResponse;
 import store.novabook.front.api.coupon.dto.response.GetCouponHistoryResponse;
 import store.novabook.front.api.coupon.dto.response.GetUsedCouponHistoryResponse;
+import store.novabook.front.api.member.coupon.dto.DownloadCouponMessageRequest;
 import store.novabook.front.api.member.coupon.dto.GetCouponIdsResponse;
 import store.novabook.front.api.member.member.dto.response.CreateMemberCouponResponse;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
-import store.novabook.front.api.member.coupon.dto.DownloadCouponMessageRequest;
 
 @FeignClient(name = "gateway-service", path = "/api/v1/store/members/coupons", contextId = "memberCouponClient")
 public interface MemberCouponClient {

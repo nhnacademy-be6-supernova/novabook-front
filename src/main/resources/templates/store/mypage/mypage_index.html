@@ -72,21 +72,20 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>2024-06-15</td>
-                                <td>구매 포인트 적립</td>
-                                <td>+100</td>
-                            </tr>
-                            <tr>
-                                <td>2024-06-14</td>
-                                <td>쿠폰 사용</td>
-                                <td>-50</td>
+                            <tr th:each=" pointHistory : ${pointHistories.data}">
+                                <td th:text="${pointHistory.createdAt}">2024-06-15</td>
+                                <td th:text="${pointHistory.pointContent}">구매 포인트 적립</td>
+                                <td>
+                                    <span th:if="${pointHistory.pointAmount > 0}" th:text="'+' + ${pointHistory.pointAmount}" style="color: blue;"></span>
+                                    <span th:unless="${pointHistory.pointAmount > 0}" th:text="${pointHistory.pointAmount}" style="color: gray;"></span>
+                                </td>
                             </tr>
                             <!-- 추가적인 포인트 내역을 여기에 추가하세요 -->
                             </tbody>
                         </table>
                     </div>
                 </div>
+
 
                 <!-- 쿠폰내역 섹션 -->
                 <div class="row">
@@ -98,26 +97,23 @@
                             <thead>
                             <tr>
                                 <th>쿠폰 명</th>
-                                <th>할인 혜택</th>
-                                <th>만료일</th>
+                                <th>쿠폰 타입</th>
+                                <th>할인 금액</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>쿠폰등록을 안하시고 할인이 안된다고 그러면..</td>
-                                <td>10000원 할인</td>
-                                <td>2024-06-30</td>
-                            </tr>
-                            <tr>
-                                <td>모두다 할인</td>
-                                <td>15%</td>
-                                <td>2024-07-15</td>
+                            <tr th:each="coupon : ${coupons}">
+                                <td th:text="${coupon.name}">쿠폰 명</td>
+                                <td th:text="${coupon.type}">쿠폰 타입</td>
+                                <td th:text="${coupon.discountType == 'PERCENT' ? coupon.discountAmount + '%' : coupon.discountAmount + '원'}">할인 금액</td>
                             </tr>
                             <!-- 추가적인 쿠폰내역을 여기에 추가하세요 -->
                             </tbody>
                         </table>
                     </div>
                 </div>
+
+
             </div>
         </div>
     </div>

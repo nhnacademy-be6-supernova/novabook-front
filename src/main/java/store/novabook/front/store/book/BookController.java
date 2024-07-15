@@ -12,9 +12,8 @@ import store.novabook.front.api.book.likes.dto.LikeBookResponse;
 import store.novabook.front.api.book.likes.service.LikeBookRestService;
 import store.novabook.front.api.book.service.BookService;
 import store.novabook.front.api.book.service.ReviewService;
-import store.novabook.front.common.exception.FeignClientException;
+import store.novabook.front.common.exception.NovaException;
 import store.novabook.front.common.security.aop.CurrentMembers;
-
 
 @RequestMapping("/books")
 
@@ -43,7 +42,7 @@ public class BookController {
 				return "store/book/book_detail";
 			}
 			model.addAttribute("isLiked", false);
-		} catch (FeignClientException e) {
+		} catch (NovaException e) {
 			return "error/404";
 		}
 		return "store/book/book_detail";
