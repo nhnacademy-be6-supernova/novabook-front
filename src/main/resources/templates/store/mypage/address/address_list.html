@@ -31,154 +31,148 @@
                 <!-- 배송지 관리 섹션 -->
                 <div class="row">
                     <div class="col-md-12">
-                        <h2>배송지 관리
-                            <button id="addAddressBtn" class="btn btn-primary pull-right"
-                                    onclick="checkMemberAddressCount()">배송지 추가
-                            </button>
+                        <h2 th:text="#{title.delivery.management}">Delivery Management
+                            <button id="addAddressBtn" class="btn btn-primary pull-right" onclick="checkMemberAddressCount()" th:text="#{add.address}">Add Address</button>
                         </h2>
                         <table id="addressTable" class="table table-striped">
                             <thead>
                             <tr>
-                                <th>번호</th>
-                                <th>배송지</th>
-                                <th>우편번호</th>
-                                <th>주소</th>
-                                <th>수정</th>
-                                <th>삭제</th>
+                                <th th:text="#{table.number}">번호</th>
+                                <th th:text="#{table.destination}">배송지</th>
+                                <th th:text="#{table.postal.code}">우편번호</th>
+                                <th th:text="#{table.address}">주소</th>
+                                <th th:text="#{table.edit}">수정</th>
+                                <th th:text="#{table.delete}">삭제</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="address : ${addressList}">
+                            <tr th:each="address, addressStat : ${addressList}">
                                 <td th:text="${addressStat.index + 1}"></td>
                                 <td th:text="${address.nickname}"></td>
                                 <td th:text="${address.zipcode}"></td>
                                 <td th:text="${address.streetAddress} + '&nbsp' + ${address.memberAddressDetail}"></td>
                                 <td>
                                     <button class="btn btn-info btn-sm edit-btn" th:value="${address.id}"
-                                            th:attr="onclick='openEditModal(\'' + ${address. nickname} + '\', \'' + ${address.zipcode} + '\', \'' + ${address.streetAddress} + '\', \'' + ${address.memberAddressDetail} + '\', \'' + ${address.id} + '\', \'' + ${address.id} + '\' )'">
-                                        수정
-                                    </button>
+                                            th:attr="onclick='openEditModal(\'' + ${address.nickname} + '\', \'' + ${address.zipcode} + '\', \'' + ${address.streetAddress} + '\', \'' + ${address.memberAddressDetail} + '\', \'' + ${address.id} + '\', \'' + ${address.id} + '\' )'" th:text="#{table.edit}">Edit</button>
                                 </td>
                                 <td>
-                                    <a th:href="@{/mypage/addresses/address/{id}/delete(id=${address.id})}" class="btn btn-danger btn-sm">삭제</a>
+                                    <a th:href="@{/mypage/addresses/address/{id}/delete(id=${address.id})}" class="btn btn-danger btn-sm" th:text="#{table.delete}">Delete</a>
                                 </td>
-
                                 <input type="hidden" th:id="'addressId_' + ${address.id}" th:value="${address.id}">
                             </tr>
                             </tbody>
                         </table>
-                        <a href="/mypage" class="btn btn-primary">돌아가기</a>
+                        <a href="/mypage" class="btn btn-primary" th:text="#{back}">Go Back</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- 배송지 추가 모달 -->
-<form method="post" action="/mypage/addresses">
-    <div id="addAddressModal" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">배송지 추가</h4>
+    <!-- 배송지 추가 모달 -->
+    <form method="post" action="/mypage/addresses">
+        <div id="addAddressModal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" th:text="#{add.address}">Add Address</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addAddressForm" onsubmit="return validateAddForm()">
+                            <div class="form-group">
+                                <label for="address" th:text="#{address}">Address</label>
+                                <input type="text" class="form-control" id="address" name="nickname"
+                                       placeholder="Enter address" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="sample6_postcode" th:text="#{table.postal.code}">Postal Code</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="sample6_postcode" placeholder="Postal Code"
+                                           name="zipcode" readonly required>
+                                    <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" onclick="sample6_execDaumPostcode()" th:text="#{find.postal.code}">Find Postal Code</button>
+                            </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sample6_address" th:text="#{table.address}">Address</label>
+                                <input type="text" class="form-control" id="sample6_address" name="streetAddress"
+                                       placeholder="Address" readonly required>
+                            </div>
+                            <div class="form-group">
+                                <label for="sample6_detailAddress" th:text="#{detailed.address}">Detailed Address</label>
+                                <input type="text" class="form-control" id="sample6_detailAddress"
+                                       name="memberAddressDetail" placeholder="Detailed Address" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="sample6_extraAddress" th:text="#{additional.items}">Additional Items</label>
+                                <input type="text" class="form-control" id="sample6_extraAddress" placeholder="Additional Items">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{close}">Close</button>
+                        <button type="submit" class="btn btn-primary" th:text="#{save}">Save</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <form id="addAddressForm" onsubmit="return validateAddForm()">
+            </div>
+        </div>
+    </form>
+
+    <!-- 배송지 수정 모달 -->
+    <form method="post" id="editAddressForm">
+        <div id="editAddressModal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" th:text="#{edit.address}">Edit Address</h4>
+                    </div>
+                    <div class="modal-body">
                         <div class="form-group">
-                            <label for="address">배송지</label>
-                            <input type="text" class="form-control" id="address" name="nickname"
-                                   placeholder="배송지를 입력하세요" required>
+                            <label for="edit_address" th:text="#{address}">Address</label>
+                            <input type="text" class="form-control" id="edit_address" name="nickname"
+                                   placeholder="Enter address" required>
                         </div>
                         <div class="form-group">
-                            <label for="sample6_postcode">우편번호</label>
+                            <label for="edit_sample6_postcode" th:text="#{table.postal.code}">Postal Code</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="sample6_postcode" placeholder="우편번호"
-                                       name="zipcode" readonly required>
+                                <input type="text" class="form-control" id="edit_sample6_postcode" name="zipcode"
+                                       placeholder="Postal Code" readonly required>
                                 <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
+                                <button class="btn btn-default" type="button" onclick="edit_sample6_execDaumPostcode()" th:text="#{find.postal.code}">Find Postal Code</button>
                             </span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="sample6_address">주소</label>
-                            <input type="text" class="form-control" id="sample6_address" name="streetAddress"
-                                   placeholder="주소" readonly required>
+                            <label for="edit_sample6_address" th:text="#{table.address}">Address</label>
+                            <input type="text" class="form-control" id="edit_sample6_address" name="streetAddress"
+                                   placeholder="Address" readonly required>
                         </div>
                         <div class="form-group">
-                            <label for="sample6_detailAddress">상세주소</label>
-                            <input type="text" class="form-control" id="sample6_detailAddress"
-                                   name="memberAddressDetail" placeholder="상세주소" required>
+                            <label for="edit_sample6_detailAddress" th:text="#{detailed.address}">Detailed Address</label>
+                            <input type="text" class="form-control" id="edit_sample6_detailAddress"
+                                   name="memberAddressDetail" placeholder="Detailed Address" required>
                         </div>
                         <div class="form-group">
-                            <label for="sample6_extraAddress">참고항목</label>
-                            <input type="text" class="form-control" id="sample6_extraAddress" placeholder="참고항목">
+                            <label for="edit_sample6_extraAddress" th:text="#{additional.items}">Additional Items</label>
+                            <input type="text" class="form-control" id="edit_sample6_extraAddress" placeholder="Additional Items">
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-                    <button type="submit" class="btn btn-primary">저장</button>
+                        <!-- hidden input으로 addressId를 전달 -->
+                        <input type="hidden" id="edit_id" name="addressId">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{close}">Close</button>
+                        <button type="submit" class="btn btn-primary" th:text="#{save}">Save</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</form>
-
-<!-- 배송지 수정 모달 -->
-<form method="post" id="editAddressForm">
-    <div id="editAddressModal" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title">배송지 수정</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="edit_address">배송지</label>
-                        <input type="text" class="form-control" id="edit_address" name="nickname"
-                               placeholder="배송지를 입력하세요" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_sample6_postcode">우편번호</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="edit_sample6_postcode" name="zipcode"
-                                   placeholder="우편번호" readonly required>
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" onclick="edit_sample6_execDaumPostcode()">우편번호 찾기</button>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_sample6_address">주소</label>
-                        <input type="text" class="form-control" id="edit_sample6_address" name="streetAddress"
-                               placeholder="주소" readonly required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_sample6_detailAddress">상세주소</label>
-                        <input type="text" class="form-control" id="edit_sample6_detailAddress"
-                               name="memberAddressDetail" placeholder="상세주소" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_sample6_extraAddress">참고항목</label>
-                        <input type="text" class="form-control" id="edit_sample6_extraAddress" placeholder="참고항목">
-                    </div>
-                    <!-- hidden input으로 addressId를 전달 -->
-                    <input type="hidden" id="edit_id" name="addressId">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-                    <button type="submit" class="btn btn-primary">저장</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</form>
+    </form>
 
 
 <!-- jQuery and Bootstrap JS -->
@@ -324,6 +318,7 @@
 
 
 </script>
+</div>
 <div th:replace="~{layout/store/footer::footer}"></div>
 </body>
 </html>
