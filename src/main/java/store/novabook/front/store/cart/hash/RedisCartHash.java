@@ -13,7 +13,10 @@ import store.novabook.front.api.cart.dto.CartBookListDTO;
 
 @RedisHash("cart")
 @Getter
-public class RedisCartHash{
+public class RedisCartHash {
+
+	public static final String MEMBER_CART_PREFIX = "member:";
+	public static final String GUEST_CART_PREFIX = "guest:";
 
 	@Id
 	Object cartId;
@@ -25,30 +28,38 @@ public class RedisCartHash{
 		this.cartId = cartId;
 		this.cartBookList = cartBookList;
 	}
+
 	public static RedisCartHash of(Object cartId) {
 		return RedisCartHash.builder()
-			.cartId(cartId)
+			.cartId(redisName(cartId))
 			.cartBookList(Collections.emptyList())
 			.build();
 	}
 
 	public static RedisCartHash of(Object cartId, CartBookDTO request) {
 		return RedisCartHash.builder()
-			.cartId(cartId)
+			.cartId(redisName(cartId))
 			.cartBookList(List.of(request))
 			.build();
 	}
 
 	public static RedisCartHash of(Object cartId, CartBookListDTO request) {
 		return RedisCartHash.builder()
-			.cartId(cartId)
+			.cartId(redisName(cartId))
 			.cartBookList(request.getCartBookList())
 			.build();
 
 	}
 
-	public void update(List<CartBookDTO> newCartBookList){
+	public void update(List<CartBookDTO> newCartBookList) {
 		this.cartBookList = newCartBookList;
+	}
+
+	public static Object redisName(Object cartId) {
+		if (cartId instanceof Long) {
+			return MEMBER_CART_PREFIX + cartId;
+		}
+		return GUEST_CART_PREFIX + cartId;
 	}
 
 }

@@ -70,6 +70,12 @@ public class CartRestController {
 			redisCartService.addCartBook(uuid, request);
 		} else {
 			String uuid = guestCookie.getValue();
+			try {
+				cartService.addCartBook(request);
+			} catch (FeignClientException e) {
+				return ResponseEntity.status(e.getStatus()).body(e.getMessage());
+			}
+
 			redisCartService.addCartBook(uuid, request);
 		}
 

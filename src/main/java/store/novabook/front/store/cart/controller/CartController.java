@@ -1,6 +1,7 @@
 package store.novabook.front.store.cart.controller;
 
 import static store.novabook.front.common.util.CookieUtil.*;
+import static store.novabook.front.store.cart.hash.RedisCartHash.*;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -31,7 +32,6 @@ import store.novabook.front.store.cart.service.RedisCartService;
 public class CartController {
 	private final CartService cartService;
 	private final RedisCartService redisCartService;
-
 	//장바구니 버튼 클릭했을 때
 	@GetMapping
 	public String getCartBookAll(
@@ -124,6 +124,5 @@ public class CartController {
 
 		return "redirect:/carts";
 	}
-
 
 }

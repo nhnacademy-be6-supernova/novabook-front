@@ -247,7 +247,7 @@
                 <form style="display: flex; flex-direction: column; align-items: center;">
                     <input type="number" name="quantity" th:value="${item.quantity}" min="1" class="form-control input-sm item-quantity" style="width: 60px; height: 30px; text-align: center; margin-bottom: 5px;">
                     <input type="hidden" name="bookId" th:value="${item.bookId}">
-                    <button type="submit" class="btn btn-default btn-sm" onclick="update()" style="width: 60px; height: 30px;">변경</button>
+                    <button type="submit" class="btn btn-default btn-sm change-item-btn" onclick="update()" style="width: 60px; height: 30px;">변경</button>
                 </form>
             </td>
             <td style="text-align: center; vertical-align: middle;">
@@ -374,9 +374,9 @@
         function calculateSelectedItemsTotal() {
             var total = 0;
             $('.item-checkbox:checked').each(function() {
-                var priceText = $(this).closest('tr').find('.item-price').text();
+                var priceText = $(this).closest('tr').find('.item-discount').text();
                 var price = parseInt(priceText.replace('₩', '').replace(',', '').trim());
-                total += price;
+                total += (price * parseInt(form.querySelector('.item-quantity').value));
             });
             $('#selectedItemsTotal').text('₩' + total.toLocaleString());
 
