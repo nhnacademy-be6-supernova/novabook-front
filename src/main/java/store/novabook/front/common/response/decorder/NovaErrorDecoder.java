@@ -1,6 +1,8 @@
 package store.novabook.front.common.response.decorder;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.springframework.http.HttpStatus;
 
@@ -29,7 +31,11 @@ public class NovaErrorDecoder implements ErrorDecoder {
 	@Override
 	public Exception decode(String methodKey, Response response) {
 
-		log.info(response.body().toString());
+		String responseBody = getResponseBody(response);
+
+		if (responseBody != null) {
+			log.info("Response Body: {}", responseBody);
+		}
 
 		ErrorCode errorCode = getErrorCode(response);
 
@@ -43,6 +49,15 @@ public class NovaErrorDecoder implements ErrorDecoder {
 			case BAD_GATEWAY -> new BadGatewayException(errorCode);
 			default -> new FeignClientException(response.status(), errorCode);
 		};
+	}
+
+	private String getResponseBody(Response response) {
+		try (InputStream bodyIs = response.body().asInputStream()) {
+			return new String(bodyIs.readAllBytes(), StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			log.error("Error reading response body", e);
+			return null;
+		}
 	}
 
 	private ErrorCode getErrorCode(Response response) {
