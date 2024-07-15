@@ -29,7 +29,7 @@ public class NovaErrorDecoder implements ErrorDecoder {
 	@Override
 	public Exception decode(String methodKey, Response response) {
 
-		log.info(response.toString());
+		log.info(response.body().toString());
 
 		ErrorCode errorCode = getErrorCode(response);
 
