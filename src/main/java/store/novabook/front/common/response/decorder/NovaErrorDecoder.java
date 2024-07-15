@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import feign.Response;
 import feign.codec.ErrorDecoder;
+import lombok.extern.slf4j.Slf4j;
 import store.novabook.front.common.exception.BadGatewayException;
 import store.novabook.front.common.exception.BadRequestException;
 import store.novabook.front.common.exception.ErrorCode;
@@ -20,12 +21,16 @@ import store.novabook.front.common.exception.UnauthorizedException;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.ErrorResponse;
 
+@Slf4j
 public class NovaErrorDecoder implements ErrorDecoder {
 
 	private final ObjectMapper objectMapper = new ObjectMapper();
 
 	@Override
 	public Exception decode(String methodKey, Response response) {
+
+		log.info(response.toString());
+
 		ErrorCode errorCode = getErrorCode(response);
 
 		return switch (HttpStatus.valueOf(response.status())) {
