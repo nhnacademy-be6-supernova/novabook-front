@@ -111,29 +111,28 @@
     <div class="content">
         <form method="post" id="passwordForm" th:action="@{/mypage/withdraw/withdraw}">
             <div class="withdraw-container">
-                <h2><strong>회원 탈퇴</strong></h2>
+                <h2><strong th:text="#{withdraw.title}">회원 탈퇴</strong></h2>
                 <table class="withdraw-table">
                     <tr>
-                        <th><strong>아이디</strong></th>
+                        <th><strong th:text="#{withdraw.memberId}">아이디</strong></th>
                         <td th:text="${member.loginId}">MemberId</td>
                     </tr>
                     <tr>
-                        <th><strong>이름</strong></th>
+                        <th><strong th:text="#{withdraw.name}">이름</strong></th>
                         <td th:text="${member.name}">MemberName</td>
                     </tr>
                     <tr>
-                        <th><strong>비밀번호</strong></th>
+                        <th><strong th:text="#{withdraw.password}">비밀번호</strong></th>
                         <td>
-                            <input type="password" class="form-control" id="password" name="loginPassword" placeholder="비밀번호를 입력해주세요"
-                                   required>
-                            <p class="help-block">정확한 본인 확인을 위해 비밀번호를 입력하세요.</p>
+                            <input type="password" class="form-control" id="password" name="loginPassword" th:placeholder="#{withdraw.passwordPlaceholder}" required>
+                            <p class="help-block" th:text="#{withdraw.passwordHelp}">정확한 본인 확인을 위해 비밀번호를 입력하세요.</p>
                         </td>
                     </tr>
                 </table>
 
                 <!-- 회원 탈퇴 버튼 -->
                 <div style="text-align: center;">
-                    <button type="submit" class="btn btn-danger btn-lg">회원 탈퇴</button>
+                    <button type="submit" class="btn btn-danger btn-lg" th:text="#{withdraw.submitButton}">회원 탈퇴</button>
                 </div>
             </div>
         </form>

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.grade.service.MemberGradeService;
 import store.novabook.front.api.order.service.OrdersBookService;
+import store.novabook.front.api.point.service.PointService;
 
 @RequestMapping("/mypage")
 @Controller
@@ -15,10 +16,14 @@ import store.novabook.front.api.order.service.OrdersBookService;
 public class MypageController {
 	private final MemberGradeService memberGradeService;
 	private final OrdersBookService ordersBookService;
+	private final PointService pointService;
+	private static final int PAGE = 0;
+	private static final int SIZE = 2;
 
 	@GetMapping
 	public String getMypage(Model model) {
-		model.addAttribute("orders", ordersBookService.getOrdersBookAll(0, 2));
+		model.addAttribute("pointHistories", pointService.getPointHistories(PAGE, SIZE));
+		model.addAttribute("orders", ordersBookService.getOrdersBookAll(PAGE, SIZE));
 		model.addAttribute("grade", memberGradeService.getMemberGrade());
 		return "store/mypage/mypage_index";
 	}
