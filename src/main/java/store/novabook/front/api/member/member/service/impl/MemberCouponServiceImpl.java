@@ -10,11 +10,11 @@ import store.novabook.front.api.coupon.dto.request.DownloadCouponRequest;
 import store.novabook.front.api.coupon.dto.response.GetCouponAllResponse;
 import store.novabook.front.api.coupon.dto.response.GetCouponHistoryResponse;
 import store.novabook.front.api.coupon.dto.response.GetUsedCouponHistoryResponse;
+import store.novabook.front.api.member.coupon.dto.DownloadCouponMessageRequest;
 import store.novabook.front.api.member.coupon.service.MemberCouponClient;
 import store.novabook.front.api.member.member.service.MemberClient;
 import store.novabook.front.api.member.member.service.MemberCouponService;
 import store.novabook.front.common.response.ApiResponse;
-import store.novabook.front.api.member.coupon.dto.DownloadCouponMessageRequest;
 
 @Service
 @RequiredArgsConstructor

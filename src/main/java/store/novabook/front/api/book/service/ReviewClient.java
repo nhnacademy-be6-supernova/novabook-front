@@ -24,7 +24,7 @@ public interface ReviewClient {
 	ApiResponse<GetReviewResponse> getReviewByReviewId(@PathVariable Long reviewsId);
 
 	@GetMapping("/books/{bookId}")
-	ApiResponse<GetReviewListResponse> GetReviewListByBookId(@PathVariable Long bookId);
+	ApiResponse<GetReviewListResponse> getReviewListByBookId(@PathVariable Long bookId);
 
 	@PutMapping("/reviews/{reviewsId}")
 	ApiResponse<Void> updateReview(@PathVariable Long reviewsId, @RequestBody UpdateReviewRequest updateReviewRequest);

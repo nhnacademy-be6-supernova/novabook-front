@@ -9,6 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
+import store.novabook.front.common.exception.ErrorCode;
+import store.novabook.front.common.exception.ImageProcessingException;
 
 @Builder
 public record CreateReviewRequest(
@@ -28,9 +30,9 @@ public record CreateReviewRequest(
 				.fileName(reviewImage.getOriginalFilename())
 				.fileType(reviewImage.getContentType())
 				.data(Base64.getEncoder().encodeToString(reviewImage.getBytes()))
-				.build();
+			.build();
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new ImageProcessingException(ErrorCode.IMAGE_FILE_SAVE_FAIL);
 		}
 	}
 }

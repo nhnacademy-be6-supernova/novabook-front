@@ -6,13 +6,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.dto.request.DeleteMemberRequest;
 import store.novabook.front.api.member.member.service.MemberService;
-import store.novabook.front.common.util.CookieUtil;
 
 @Controller
 @RequestMapping("/mypage/withdraw")
