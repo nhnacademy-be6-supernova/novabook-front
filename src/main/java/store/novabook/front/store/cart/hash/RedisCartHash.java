@@ -31,21 +31,21 @@ public class RedisCartHash {
 
 	public static RedisCartHash of(Object cartId) {
 		return RedisCartHash.builder()
-			.cartId(redisName(cartId))
+			.cartId(cartId)
 			.cartBookList(Collections.emptyList())
 			.build();
 	}
 
 	public static RedisCartHash of(Object cartId, CartBookDTO request) {
 		return RedisCartHash.builder()
-			.cartId(redisName(cartId))
+			.cartId(cartId)
 			.cartBookList(List.of(request))
 			.build();
 	}
 
 	public static RedisCartHash of(Object cartId, CartBookListDTO request) {
 		return RedisCartHash.builder()
-			.cartId(redisName(cartId))
+			.cartId(cartId)
 			.cartBookList(request.getCartBookList())
 			.build();
 
@@ -55,11 +55,11 @@ public class RedisCartHash {
 		this.cartBookList = newCartBookList;
 	}
 
-	public static Object redisName(Object cartId) {
-		if (cartId instanceof Long) {
-			return MEMBER_CART_PREFIX + cartId;
-		}
-		return GUEST_CART_PREFIX + cartId;
-	}
+	// public static Object redisName(Object cartId) {
+	// 	if (cartId instanceof Long) {
+	// 		return MEMBER_CART_PREFIX + cartId;
+	// 	}
+	// 	return GUEST_CART_PREFIX + cartId;
+	// }
 
 }

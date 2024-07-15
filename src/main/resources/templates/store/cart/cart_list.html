@@ -366,10 +366,14 @@
         // 선택 상품 총 금액 계산 UI 업데이트
         function calculateSelectedItemsTotal() {
             var total = 0;
-            $('.item-checkbox:checked').each(function() {
-                var priceText = $(this).closest('tr').find('.item-discount').text();
+            $('.item-checkbox:checked').each(function () {
+                var row = $(this).closest('tr');
+                var priceText = row.find('.item-discount').val();
                 var price = parseInt(priceText.replace('₩', '').replace(',', '').trim());
-                total += (price * parseInt(form.querySelector('.item-quantity').value));
+                var quantity = parseInt(row.find('.item-quantity').val());
+                if (!isNaN(price) && !isNaN(quantity)) {
+                    total += (price * quantity);
+                }
             });
             $('#selectedItemsTotal').text('₩' + total.toLocaleString());
 

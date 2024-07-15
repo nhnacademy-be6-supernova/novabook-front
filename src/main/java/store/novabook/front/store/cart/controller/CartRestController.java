@@ -53,7 +53,6 @@ public class CartRestController {
 				redisCartService.createCart(memberId);
 			}
 			cartService.addCartBook(request);
-
 			redisCartService.addCartBook(memberId, request);
 			return ResponseEntity.ok().build();
 		}
@@ -66,11 +65,7 @@ public class CartRestController {
 			redisCartService.addCartBook(uuid, request);
 		} else {
 			String uuid = guestCookie.getValue();
-			try {
-				cartService.addCartBook(request);
-			} catch (FeignClientException e) {
-				return ResponseEntity.status(e.getStatus()).body(e.getMessage());
-			}
+			cartService.addCartBook(request);
 
 			redisCartService.addCartBook(uuid, request);
 		}
