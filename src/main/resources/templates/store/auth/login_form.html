@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NovaBook📕</title>
+    <title>NovaBook</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
@@ -15,6 +15,9 @@
     <!-- Theme Stylesheet -->
     <link rel="stylesheet" href="/css/style.css">
     <!--    <link rel="stylesheet" href="/css/responsive.css">-->
+    <link rel="icon" href="/images/favicon.png" type="image/png">
+    <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
 
     <style>
         #login-form > input,
@@ -237,7 +240,7 @@
                         <h2 th:text="#{login_form.title}">Login</h2>
                         <form method="post" action="/users/user/form/login" id="login-form">
                             <label>
-                                <input type="text" name="loginId" th:placeholder="#{login_form.email.placeholder}">
+                                <input type="text" name="loginId" th:placeholder="#{login_form.id.placeholder}">
                             </label>
                             <label>
                                 <input type="password" name="loginPassword" th:placeholder="#{login_form.password.placeholder}">
