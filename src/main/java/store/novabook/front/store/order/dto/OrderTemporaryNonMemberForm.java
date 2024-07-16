@@ -8,6 +8,7 @@ import org.springframework.data.redis.core.RedisHash;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Builder;
@@ -27,7 +28,7 @@ public record OrderTemporaryNonMemberForm(
 	Long couponId,
 	@PositiveOrZero(message = "사용 포인트는 0보다 작을 수 없습니다.")
 	long usePointAmount,
-	@Future(message = "배송일은 주문일 이후로 가능합니다.")
+	@FutureOrPresent(message = "배송일은 주문일 이후로 가능합니다.")
 	LocalDate deliveryDate,
 	@NotNull(message = "배송비 ID는 null 일 수 없습니다.")
 	Long deliveryId,
