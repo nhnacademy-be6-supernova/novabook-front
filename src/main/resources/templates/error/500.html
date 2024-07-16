@@ -157,9 +157,15 @@
         <div class="lock">
             <div class="top"></div>
             <div class="bottom"></div>
-        </div>    </h1>
-    <p><span th:text="${exception.errorCode.name}">Internal Server Error</span>
-        &nbsp; <span th:text="${exception.getMessage()}">서버에 오류가 발생했습니다.</span> 잠시 후 다시 이용해 주세요.</p></div>
+        </div>
+    </h1>
+    <th:block th:if="${exception != null}">
+        <p>
+            <span th:text="${exception.errorCode != null ? exception.errorCode.name : 'Unknown Error'}">Internal Server Error</span>
+            &nbsp; <span th:text="${exception.message}">서버에 오류가 발생했습니다.</span> 잠시 후 다시 이용해 주세요.</p>
+    </th:block>
+
+</div>
 </body>
 <script>
     const interval = 500;

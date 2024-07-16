@@ -1,6 +1,8 @@
 package store.novabook.front.common.response.decorder;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.springframework.http.HttpStatus;
 
@@ -8,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import feign.Response;
 import feign.codec.ErrorDecoder;
+import lombok.extern.slf4j.Slf4j;
 import store.novabook.front.common.exception.BadGatewayException;
 import store.novabook.front.common.exception.BadRequestException;
 import store.novabook.front.common.exception.ErrorCode;
@@ -20,6 +23,7 @@ import store.novabook.front.common.exception.UnauthorizedException;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.ErrorResponse;
 
+@Slf4j
 public class NovaErrorDecoder implements ErrorDecoder {
 
 	private final ObjectMapper objectMapper = new ObjectMapper();
@@ -27,6 +31,12 @@ public class NovaErrorDecoder implements ErrorDecoder {
 	@Override
 	public Exception decode(String methodKey, Response response) {
 		ErrorCode errorCode = getErrorCode(response);
+
+		String responseBody = getResponseBody(response);
+
+		if (responseBody != null) {
+			log.info("Response Body: {}", responseBody);
+		}
 
 		return switch (HttpStatus.valueOf(response.status())) {
 			case UNAUTHORIZED -> new UnauthorizedException(errorCode);
@@ -49,4 +59,14 @@ public class NovaErrorDecoder implements ErrorDecoder {
 			return ErrorCode.DECODING_ERROR; // 에러 해석 실패 시 기본 에러 코드
 		}
 	}
+
+	private String getResponseBody(Response response) {
+		try (InputStream bodyIs = response.body().asInputStream()) {
+			return new String(bodyIs.readAllBytes(), StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			log.error("Error reading response body", e);
+			return null;
+		}
+	}
+
 }

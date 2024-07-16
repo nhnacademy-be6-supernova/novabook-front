@@ -9,6 +9,10 @@ public class CookieUtil {
 	public static final String GUEST_COOKIE_NAME = "cart_guest";
 	public static final int COOKIE_MAX_AGE = 7 * 24 * 60 * 60; // 7 days
 
+	private CookieUtil() {
+		throw new UnsupportedOperationException("Utility class should not be instantiated");
+	}
+
 	public static void createMemberCookie(HttpServletResponse response, Long cartId) {
 		createCookie(response, MEMBER_COOKIE_NAME, cartId.toString());
 	}

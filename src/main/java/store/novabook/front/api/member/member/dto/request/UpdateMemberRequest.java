@@ -7,7 +7,7 @@ public record UpdateMemberRequest(
 	@Size(max = 50, message = "최대 50자까지 가능합니다.")
 	String name,
 
-	@Pattern(regexp = "^[0-9]{11}$")
+	@Pattern(regexp = "^\\d{11}$")
 	@Size(max = 11, message = "최대 11자까지 가능합니다.")
 	String number) {
 }
