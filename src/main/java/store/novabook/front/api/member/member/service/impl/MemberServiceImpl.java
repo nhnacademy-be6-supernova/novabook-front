@@ -1,24 +1,24 @@
 package store.novabook.front.api.member.member.service.impl;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import store.novabook.front.api.member.member.domain.Member;
 import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
 import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
 import store.novabook.front.api.member.member.dto.request.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.request.DeleteMemberRequest;
 import store.novabook.front.api.member.member.dto.request.GetMembersStatusResponse;
+import store.novabook.front.api.member.member.dto.request.IsExpireAccessTokenRequest;
 import store.novabook.front.api.member.member.dto.request.LoginMembersRequest;
 import store.novabook.front.api.member.member.dto.request.UpdateMemberPasswordRequest;
 import store.novabook.front.api.member.member.dto.request.UpdateMemberRequest;
 import store.novabook.front.api.member.member.dto.response.CreateMemberResponse;
 import store.novabook.front.api.member.member.dto.response.GetMemberResponse;
 import store.novabook.front.api.member.member.dto.response.GetMembersStatusRequest;
+import store.novabook.front.api.member.member.dto.response.IsExpireAccessTokenResponse;
 import store.novabook.front.api.member.member.dto.response.LoginMembersResponse;
 import store.novabook.front.api.member.member.service.MemberAuthClient;
 import store.novabook.front.api.member.member.service.MemberClient;
@@ -66,6 +66,9 @@ public class MemberServiceImpl implements MemberService {
 			uuidCookie.setPath("/");
 			response.addCookie(uuidCookie);
 			return "redirect:/dormant";
+		} else if(status.getBody().memberStatusId() == 3) {
+			//탈퇴한 사용자
+			return "redirect:/";
 		}
 
 		String authorization = loginMembersResponse.getBody().accessToken();
@@ -97,6 +100,12 @@ public class MemberServiceImpl implements MemberService {
 	public void logout(HttpServletResponse response) {
 		memberAuthClient.logout();
 		CookieUtil.deleteAuthorizationCookie(response);
+	}
+
+	@Override
+	public IsExpireAccessTokenResponse isExpireAccessToken(IsExpireAccessTokenRequest isExpireAccessTokenRequest) {
+		ApiResponse<IsExpireAccessTokenResponse> isExpireAccessTokenResponse = memberAuthClient.expire(isExpireAccessTokenRequest);
+		return isExpireAccessTokenResponse.getBody();
 	}
 
 	@Override

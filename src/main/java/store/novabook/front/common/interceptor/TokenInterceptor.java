@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
 import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
+import store.novabook.front.api.member.member.dto.request.IsExpireAccessTokenRequest;
+import store.novabook.front.api.member.member.dto.response.IsExpireAccessTokenResponse;
 import store.novabook.front.api.member.member.service.MemberService;
 import store.novabook.front.common.util.JwtDecoderUtil;
 
@@ -39,7 +41,10 @@ public class TokenInterceptor implements HandlerInterceptor {
 			return true;
 		}
 
-		if (JwtDecoderUtil.decodeJWT(accessToken)) {
+		IsExpireAccessTokenResponse isExpireAccessTokenResponse = memberService.isExpireAccessToken(
+			new IsExpireAccessTokenRequest(accessToken));
+
+		if (isExpireAccessTokenResponse.isExpire()) {
 			GetNewTokenResponse getNewTokenResponse = memberService.newToken(new GetNewTokenRequest(refreshToken));
 
 			Cookie accessCookie = new Cookie("Authorization", getNewTokenResponse.accessToken());
