@@ -39,6 +39,12 @@ public class NovaErrorDecoder implements ErrorDecoder {
 
 		ErrorCode errorCode = getErrorCode(response);
 
+		String responseBody = getResponseBody(response);
+
+		if (responseBody != null) {
+			log.info("Response Body: {}", responseBody);
+		}
+
 		return switch (HttpStatus.valueOf(response.status())) {
 			case UNAUTHORIZED -> new UnauthorizedException(errorCode);
 			case SEE_OTHER -> new SeeOtherException(errorCode);
@@ -69,4 +75,14 @@ public class NovaErrorDecoder implements ErrorDecoder {
 			return ErrorCode.DECODING_ERROR; // 에러 해석 실패 시 기본 에러 코드
 		}
 	}
+
+	private String getResponseBody(Response response) {
+		try (InputStream bodyIs = response.body().asInputStream()) {
+			return new String(bodyIs.readAllBytes(), StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			log.error("Error reading response body", e);
+			return null;
+		}
+	}
+
 }
