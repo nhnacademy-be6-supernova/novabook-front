@@ -1,5 +1,7 @@
 package store.novabook.front.store.cart.service;
 
+import static store.novabook.front.store.cart.hash.RedisCartHash.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -28,7 +30,7 @@ public class RedisCartService {
 
 	public RedisCartHash getCartList(Object cartId) {
 		Optional<RedisCartHash> redisCartHash = redisCartRepository.findById(cartId);
-		if(redisCartHash.isPresent() && Objects.nonNull(redisCartHash.get().getCartBookList())) {
+		if (redisCartHash.isPresent() && Objects.nonNull(redisCartHash.get().getCartBookList())) {
 			return redisCartHash.get();
 		}
 		return RedisCartHash.of(cartId);
@@ -85,15 +87,12 @@ public class RedisCartService {
 
 	public void deleteCartBook(Object cartId, Long bookId) {
 		Optional<RedisCartHash> redisCartHashOpt = redisCartRepository.findById(cartId);
-		if (redisCartHashOpt.isPresent()  && Objects.nonNull(redisCartHashOpt.get().getCartBookList())) {
+		if (redisCartHashOpt.isPresent() && Objects.nonNull(redisCartHashOpt.get().getCartBookList())) {
 			RedisCartHash redisCartHash = redisCartHashOpt.get();
 			List<CartBookDTO> updatedCartBookList = redisCartHash.getCartBookList().stream()
 				.filter(cartBook -> !cartBook.bookId().equals(bookId))
-				.collect(Collectors.toList());
-			RedisCartHash updatedRedisCartHash = RedisCartHash.builder()
-				.cartId(cartId)
-				.cartBookList(updatedCartBookList)
-				.build();
+				.toList();
+			RedisCartHash updatedRedisCartHash = new RedisCartHash(cartId, updatedCartBookList);
 			redisCartRepository.save(updatedRedisCartHash);
 		}
 	}
@@ -104,11 +103,8 @@ public class RedisCartService {
 			RedisCartHash redisCartHash = redisCartHashOpt.get();
 			List<CartBookDTO> updatedCartBookList = redisCartHash.getCartBookList().stream()
 				.filter(cartBook -> !bookIds.contains(cartBook.bookId()))
-				.collect(Collectors.toList());
-			RedisCartHash updatedRedisCartHash = RedisCartHash.builder()
-				.cartId(cartId)
-				.cartBookList(updatedCartBookList)
-				.build();
+				.toList();
+			RedisCartHash updatedRedisCartHash = new RedisCartHash(cartId, updatedCartBookList);
 			redisCartRepository.save(updatedRedisCartHash);
 		}
 	}
@@ -129,17 +125,18 @@ public class RedisCartService {
 			List<CartBookDTO> updatedCartBookList = redisCartHash.getCartBookList();
 			for (CartBookDTO cartBook : updatedCartBookList) {
 				if (cartBook.bookId().equals(request.bookId())) {
-					// Create a new cartBook request with updated quantity
+
 					CartBookDTO updatedCartBook = CartBookDTO.update(request.bookId(), request.quantity(), cartBook);
-					// Replace the old cartBook with the updated one
+
 					int index = updatedCartBookList.indexOf(cartBook);
 					updatedCartBookList.set(index, updatedCartBook);
 					break;
 				}
 			}
-			// Update the RedisCartHash with the modified cartBookList
+
 			redisCartHash.update(updatedCartBookList);
 			redisCartRepository.save(redisCartHash);
 		}
 	}
+
 }
