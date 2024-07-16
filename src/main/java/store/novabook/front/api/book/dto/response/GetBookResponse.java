@@ -22,7 +22,7 @@ public record GetBookResponse(
 	List<String> tags,
 	List<String> categories,
 	int likes,
-	int score,
+	Double score,
 	String image,
 	Long bookStatusId
 ) {
