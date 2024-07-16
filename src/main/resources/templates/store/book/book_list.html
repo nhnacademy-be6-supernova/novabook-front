@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NovaBook📕</title>
+    <title th:text="#{book.list.title}+'📕'">책 검색 결과</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
@@ -98,52 +98,25 @@
 <div class="layout">
     <div class="container">
         <div class="row">
-<!--            &lt;!&ndash; 사이드바 섹션 &ndash;&gt;-->
-<!--            <div class="col-md-2">-->
-<!--                <div class="panel panel-default">-->
-<!--                    <div class="panel-heading">-->
-<!--                        <h3 class="panel-title">검색 옵션</h3>-->
-<!--                    </div>-->
-<!--                    <div class="panel-body">-->
-<!--                        <ul class="nav nav-pills nav-stacked">-->
-<!--                            <h4>검색 조건</h4>-->
-<!--                            <li><div class="checkbox"><label><input type="checkbox" name="scales" checked> 저자/ 역자</label></div></li>-->
-<!--                            <li><div class="checkbox"><label><input type="checkbox" name="scales" checked> 출판사</label></div></li>-->
-<!--                            <hr>-->
-<!--                            <h4>가격 설정</h4>-->
-<!--                            <li><div class="radio"><label><input type="radio" name="chk_info" value="all" checked> 전체</label></div></li>-->
-<!--                            <li><div class="radio"><label><input type="radio" name="chk_info" value="below5"> 5천원 이하</label></div></li>-->
-<!--                            <li><div class="radio"><label><input type="radio" name="chk_info" value="5to10"> 5천원 ~ 1만원</label></div></li>-->
-<!--                            <li><div class="radio"><label><input type="radio" name="chk_info" value="10to30"> 1만원 ~ 3만원</label></div></li>-->
-<!--                            <li><div class="radio"><label><input type="radio" name="chk_info" value="above30"> 3만원 이상</label></div></li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-                <div class="col-md-12">
-                    <div class="sort-options well">
-                        <div class="pull-left">
-                            <label>정렬 기준:</label>
-<!--                            <a href="?sort=popularity">인기도</a> |-->
-                            <a id="lowest_price" href="#">최저가</a> |
-<!--                            <a id="highest_price" href="#">최고가</a> |-->
-<!--                            <a id="title" href="#">이름 순</a> |-->
-                            <a id="rating" href="#">평점</a> |
-                            <a id="review" href="#">리뷰 순</a>
-                        </div>
-                        <div class="pull-right">
-                            <label for="itemsPerPage" class="control-label">페이지당 항목 수:</label>
-                            <select id="itemsPerPage" class="form-control"
-                                    style="display:inline-block; width:auto;">
-                                <option value="10">10개</option>
-                                <option value="20">20개</option>
-                                <option value="50">50개</option>
-                            </select>
-                        </div>
-                        <div class="clearfix"></div>
+            <div class="col-md-12">
+                <div class="sort-options well">
+                    <div class="pull-left">
+                        <label th:text="#{book.list.sortBy}">정렬 기준:</label>
+                        <a id="lowest_price" href="#" th:text="#{sortOption.lowestPrice}">최저가</a> |
+                        <a id="rating" href="#" th:text="#{sortOption.rating}">평점</a> |
+                        <a id="review" href="#" th:text="#{sortOption.review}">리뷰 순</a>
                     </div>
+                    <div class="pull-right">
+                        <label for="itemsPerPage" class="control-label" th:text="#{book.list.itemsPerPage}">페이지당 항목 수:</label>
+                        <select id="itemsPerPage" class="form-control" style="display:inline-block; width:auto;">
+                            <option value="10">10개</option>
+                            <option value="20">20개</option>
+                            <option value="50">50개</option>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
                 </div>
+            </div>
 
             <!-- 책 검색 결과 섹션 -->
             <div class="col-md-12">
@@ -151,11 +124,11 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th>책 표지</th>
-                            <th>책 정보</th>
-                            <th>별점</th>
-                            <th>가격</th>
-                            <th>포장 여부</th>
+                            <th th:text="#{book.list.cover}">책 표지</th>
+                            <th th:text="#{book.list.info}">책 정보</th>
+                            <th th:text="#{book.list.rating}">별점</th>
+                            <th th:text="#{book.list.price}">가격</th>
+                            <th th:text="#{book.list.packaging}">포장 여부</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -164,7 +137,7 @@
                             <td><img th:src="@{${book.image}}" alt="책 사진" style="width:100px;"></td>
                             <td>
                                 <div class="book-info">
-                                    <a class="book-title" th:href="@{/books/book/{id}(id=${book.id})}" th:text="${book.title}">책 제목</a>
+                                    <a class="book-title" th:href="@{/books/book/{id}(id=${book.id})}" th:text="${book.title}" >책 제목</a>
                                     <div class="book-author-publisher">
                                         <span class="book-author" th:text="${book.author}">저자</span><br>
                                         <span class="book-publisher" th:text="${book.publisher}">출판사</span>
@@ -187,9 +160,11 @@
                             </td>
                             <td>
                                 <div class="btn-group-vertical">
-                                    <a href="#" class="btn btn-primary">장바구니에 넣기</a>
-                                    <a href="#" class="btn btn-success">바로 구매</a>
-                                    <a th:href="@{/books/book/{id}(id=${book.id})}" class="btn btn-info">상품 보기</a>
+<!--                                    <a onclick="" class="btn btn-primary" th:text="#{book.list.addToCart}">장바구니에 넣기</a>-->
+                                    <a  th:attr="onclick='addToCart(' + ${book.id} + ', \'' + ${book.title} + '\', \'' + ${book.image} + '\', ' + ${book.price} + ', ' + ${book.discountPrice} + ', ' + ${book.isPackaged} + ')'"   th:text="#{book.list.addToCart}" class="btn btn-primary">장바구니에 넣기</a>
+
+                                    <a href="#" class="btn btn-success" th:text="#{book.list.buyNow}">바로 구매</a>
+                                    <a th:href="@{/books/book/{id}(id=${book.id})}" class="btn btn-info" th:text="#{book.list.viewProduct}">상품 보기</a>
                                 </div>
                             </td>
                         </tr>
@@ -201,24 +176,22 @@
                 <div class="pagination">
                     <!-- 이전 버튼 -->
                     <li class="page-item" th:classappend="${bookSearches.pageNum == 0} ? 'disabled'">
-                        <a th:if="${bookSearches.pageNum > 0}" th:href="@{${prevPageUrl}}" onclick="return false;">Previous</a>
-                        <span th:if="${bookSearches.pageNum == 0}">Previous</span>
+                        <a th:if="${bookSearches.pageNum > 0}" th:href="@{${prevPageUrl}}" onclick="return false;" th:text="#{pagination.previous}">Previous</a>
+                        <span th:if="${bookSearches.pageNum == 0}" th:text="#{pagination.previous}">Previous</span>
                     </li>
 
                     <!-- 페이지 번호 -->
                     <li class="page-item" th:if="${bookSearches.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, bookSearches.getTotalPageCount() - 1)}">
-                        <a th:href="@{${currentPageUrl}}" th:text="${i + 1}"
-                           th:classappend="${i == bookSearches.pageNum} ? 'active' : ''"></a>
+                        <a th:href="@{${currentPageUrl}}" th:text="${i + 1}" th:classappend="${i == bookSearches.pageNum} ? 'active' : ''"></a>
                     </li>
 
                     <!-- 다음 버튼 -->
                     <li class="page-item" th:classappend="${bookSearches.pageNum >= bookSearches.getTotalPageCount() - 1} ? 'disabled'">
-                        <a th:if="${bookSearches.pageNum < bookSearches.getTotalPageCount() - 1}" th:href="@{${nextPageUrl}}" onclick="return false;">Next</a>
-                        <span th:if="${bookSearches.pageNum >= bookSearches.getTotalPageCount() - 1}">Next</span>
+                        <a th:if="${bookSearches.pageNum < bookSearches.getTotalPageCount() - 1}" th:href="@{${nextPageUrl}}" onclick="return false;" th:text="#{pagination.next}">Next</a>
+                        <span th:if="${bookSearches.pageNum >= bookSearches.getTotalPageCount() - 1}" th:text="#{pagination.next}">Next</span>
                     </li>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -288,12 +261,12 @@
             $('.bookCheckbox').prop('checked', this.checked);
         });
 
-        // 선택된 항목 장바구니에 넣기 및 바로 구매
-        $('#searchResultsForm').on('submit', function (e) {
-            e.preventDefault();
-            // 선택된 책 아이템들에 대한 처리 로직을 여기에 추가하세요.
-            alert('선택된 항목이 처리되었습니다.');
-        });
+        // // 선택된 항목 장바구니에 넣기 및 바로 구매
+        // $('#searchResultsForm').on('submit', function (e) {
+        //     e.preventDefault();
+        //     // 선택된 책 아이템들에 대한 처리 로직을 여기에 추가하세요.
+        //     alert('선택된 항목이 처리되었습니다.');
+        // });
     });
 
 
@@ -315,7 +288,33 @@
             return '#';
         }
     }
+    function addToCart(bookId, bookTitle, bookImage, bookPrice, bookDiscountPrice, bookIsPackaged) {
 
+        axios.request({
+            url: '/api/v1/front/carts',
+            method: 'POST',
+            data: JSON.stringify({
+                bookId: bookId,
+                title: bookTitle,
+                image: bookImage,
+                price: bookPrice,
+                discountPrice: bookDiscountPrice,
+                quantity: 1,
+                isPackaged: bookIsPackaged,
+                bookStatusId:1
+
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            alert('장바구니에 추가되었습니다.');
+        })
+            .catch(error => {
+                alert(error.response.data);
+                console.error('Error cart add:', error.response.data);
+            });
+    }
 </script>
 </body>
 </html>

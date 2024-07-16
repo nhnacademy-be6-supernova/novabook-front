@@ -19,5 +19,5 @@ public interface MemberCouponService {
 
 	Page<GetUsedCouponHistoryResponse> getMyUsedCouponHistory(Pageable pageable);
 
-	String downloadCoupon(DownloadCouponRequest request);
+	void downloadCoupon(DownloadCouponRequest request);
 }

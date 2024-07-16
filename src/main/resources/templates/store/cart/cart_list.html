@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>NovaBook📕 - 장바구니</title>
+    <title th:text="'NovaBook📕 -' + #{cart.list.title}">장바구니</title>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
@@ -183,33 +185,29 @@
 <body>
 <div th:replace="~{layout/store/nav::nav}"></div>
 <div class="layout container">
-    <h1>장바구니</h1>
+    <h1 th:text="#{cart.list.title}">장바구니</h1>
 
     <div style="display: flex; align-items: center; margin-bottom: 10px;">
         <input type="checkbox" id="selectAllItems" style="margin-right: 10px;">
-        <label for="selectAllItems" style="margin-right: auto; margin-top: auto">전체 선택/해제</label>
-        <button id="refreshCarts" onclick="refresh()" class="btn btn-primary">새로고침</button>
-        <button id="deleteSelectedItems" class="btn btn-danger">선택 상품 삭제</button>
-
+        <label for="selectAllItems" style="margin-right: auto; margin-top: auto" th:text="#{cart.list.selectAll}">전체 선택/해제</label>
+        <button id="refreshCarts" onclick="refresh()" class="btn btn-primary" th:text="#{cart.list.refresh}">새로고침</button>
+        <button id="deleteSelectedItems" class="btn btn-danger" th:text="#{cart.list.deleteSelected}">선택 상품 삭제</button>
     </div>
 
     <table class="cart-table">
         <thead>
         <tr>
-            <th>선택</th>
-            <th>상품 정보</th>
-            <th>상품금액</th>
-            <th>포장 여부</th>
-
-            <th>수량</th>
-            <th>설정</th>
+            <th th:text="#{cart.list.item.selected}">선택</th>
+            <th th:text="#{cart.list.item.info}">상품 정보</th>
+            <th th:text="#{cart.list.item.price}">상품금액</th>
+            <th th:text="#{cart.list.item.packaging}">포장 여부</th>
+            <th th:text="#{cart.list.item.quantity}">수량</th>
+            <th th:text="#{cart.list.item.update}">설정</th>
         </tr>
         </thead>
         <tbody>
         <tr th:if="${cart == null or cart.cartBookList == null or #lists.isEmpty(cart.cartBookList)}">
-            <td colspan="6" style="text-align: center; padding: 20px;">
-                장바구니가 비었습니다
-            </td>
+            <td colspan="6" style="text-align: center; padding: 20px;" th:text="#{cart.list.empty}">장바구니가 비었습니다</td>
         </tr>
         <th:block th:if="${cart != null}">
         <tr th:each="item : ${cart.getCartBookList}">
@@ -231,36 +229,33 @@
                     </div>
                 </div>
             </td>
-
             <td class="item-price">
                 <div style="margin-top: 5px;">
                     <p style="margin: 0;">
                         <del style="color: #999;" th:text="'₩' + ${item.price}">₩15,000</del><br>
                         <span style="font-weight: bold; color: #333;" th:text="'₩' + ${item.discountPrice}"> ₩13,500</span><br>
-<!--                        <span style="color: #999;" th:text="'(' + (100 - (item.discountPrice * 100 / item.price)) + '% 할인)'"> (10% 할인)</span>-->
+                        <!--                        <span style="color: #999;" th:text="'(' + (100 - (item.discountPrice * 100 / item.price)) + '% 할인)'"> (10% 할인)</span>-->
                     </p>
-<!--                    <p style="margin: 0; color: #999;" th:text="'할인액: ₩' + (${item.price - item.discountPrice})">할인액: ₩1,500</p>-->
+                    <!--                    <p style="margin: 0; color: #999;" th:text="'할인액: ₩' + (${item.price - item.discountPrice})">할인액: ₩1,500</p>-->
                 </div>
             </td>
-            <td>포장 가능</td>
+            <td th:text="#{cart.list.item.packaging}">포장 가능</td>
             <td style="text-align: center; vertical-align: middle;">
                 <form style="display: flex; flex-direction: column; align-items: center;">
                     <input type="number" name="quantity" th:value="${item.quantity}" min="1" class="form-control input-sm item-quantity" style="width: 60px; height: 30px; text-align: center; margin-bottom: 5px;">
                     <input type="hidden" name="bookId" th:value="${item.bookId}">
-                    <button type="submit" class="btn btn-default btn-sm" onclick="update()" style="width: 60px; height: 30px;">변경</button>
+                    <button type="submit" class="btn btn-default btn-sm change-item-btn" th:text="#{cart.list.item.update}" onclick="update()" style="width: 60px; height: 30px;">변경</button>
                 </form>
             </td>
             <td style="text-align: center; vertical-align: middle;">
                 <div style="display: flex; flex-direction: column; align-items: center;">
                     <span class="out-of-stock"
                           th:if="${item.bookStatusId != 1}"
+                          th:text="#{cart.list.item.outOfStock}">
                           th:text="${item.bookStatusId == 2 || item.bookStatusId == 3 ? '품절' : '판매종료'}">
                         판매할 수 없습니다
                     </span>
-<!--                    <a type="submit" th:href="@{/carts/delete/{bookId}(bookId=${item.bookId})}" class="btn btn-danger" style="width: 60%; height: 40%;">-->
-<!--                        삭제-->
-<!--                    </a>-->
-                    <a type="submit" th:href="@{/carts/delete/{bookId}(bookId=${item.bookId})}" class="btn btn-danger delete-btn">
+                    <a type="submit" th:href="@{/carts/delete/{bookId}(bookId=${item.bookId})}" class="btn btn-danger delete-btn" th:text="#{cart.list.item.delete}">
                         삭제
                     </a>
                 </div>
@@ -309,25 +304,23 @@
         </tbody>
     </table>
 
-
-
     <div class="total-container" style="border: 1px solid #ddd; border-radius: 5px; padding: 10px; margin-top: 20px;">
         <table style="width: 100%; border-collapse: collapse;">
             <tr>
                 <td style="padding: 10px; border-bottom: 1px solid #ddd;">
-                    <span class="total-label">총 상품금액</span>
+                    <span class="total-label" th:text="#{cart.list.totalPrice}">총 상품금액</span>
                 </td>
                 <td class="total-value" id="totalPriceValue" style="padding: 10px; border-bottom: 1px solid #ddd; text-align: right;">₩0</td>
             </tr>
             <tr>
                 <td style="padding: 10px; border-bottom: 1px solid #ddd;">
-                    <span class="total-label">배송비</span>
+                    <span class="total-label" th:text="#{cart.list.shippingFee}">배송비</span>
                 </td>
                 <td class="total-value additional-price" style="padding: 10px; border-bottom: 1px solid #ddd; text-align: right;">₩0</td>
             </tr>
             <tr>
                 <td style="padding: 10px;">
-                    <span class="total-label"> 총 결제금액</span>
+                    <span class="total-label" th:text="#{cart.list.totalPayment}"> 총 결제금액</span>
                 </td>
                 <td class="total-value final-price" style="padding: 10px; text-align: right;">₩0</td>
             </tr>
@@ -335,8 +328,8 @@
     </div>
 
     <div style="margin-top: 10px; display: flex; justify-content: space-between;">
-        <a onclick="checkOut()" class="checkout-btn btn btn-primary">주문하기</a>
-        <a href="#" class="continue-shopping-btn btn btn-default">쇼핑 계속하기</a>
+        <a onclick="checkOut()" class="checkout-btn btn btn-primary" th:text="#{cart.list.checkout}">주문하기</a>
+        <a href="#" class="continue-shopping-btn btn btn-default" th:text="#{cart.list.continueShopping}">쇼핑 계속하기</a>
     </div>
 
 </div>
@@ -373,10 +366,14 @@
         // 선택 상품 총 금액 계산 UI 업데이트
         function calculateSelectedItemsTotal() {
             var total = 0;
-            $('.item-checkbox:checked').each(function() {
-                var priceText = $(this).closest('tr').find('.item-price').text();
+            $('.item-checkbox:checked').each(function () {
+                var row = $(this).closest('tr');
+                var priceText = row.find('.item-discount').val();
                 var price = parseInt(priceText.replace('₩', '').replace(',', '').trim());
-                total += price;
+                var quantity = parseInt(row.find('.item-quantity').val());
+                if (!isNaN(price) && !isNaN(quantity)) {
+                    total += (price * quantity);
+                }
             });
             $('#selectedItemsTotal').text('₩' + total.toLocaleString());
 

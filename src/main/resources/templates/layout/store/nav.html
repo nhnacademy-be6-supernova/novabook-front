@@ -84,7 +84,7 @@
                     <div class="search-form">
                         <form class="navbar-form" role="search" method="get" th:action="@{/search/keyword}">
                             <div class="form-group">
-                                <input type="text" class="form-control" name="keyword" placeholder="도서를 검색하세요">
+                                <input type="text" class="form-control" name="keyword" th:placeholder="#{nav.search}">
 
                                 <button type="submit" class="search-btn"><i class="fa fa-search"></i></button>
 
@@ -108,7 +108,8 @@
                     <b>
                         <div id="member-name">Loading...</div>
                     </b>
-                    환영합니다 !!
+                    <p th:text="#{nav.welcome}">환영합니다 !!</p>
+
                 </div>
             </div>
         </div>

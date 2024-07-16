@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import lombok.extern.slf4j.Slf4j;
-import store.novabook.front.common.exception.FeignClientException;
+import store.novabook.front.common.exception.BadGatewayException;
+import store.novabook.front.common.exception.ForbiddenException;
+import store.novabook.front.common.exception.InternalServerException;
 import store.novabook.front.common.exception.NovaException;
 import store.novabook.front.common.exception.UnauthorizedException;
 
@@ -16,14 +18,34 @@ import store.novabook.front.common.exception.UnauthorizedException;
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-	@ExceptionHandler(NovaException.class)
-	public String handleFeignClientException(FeignClientException e, Model model) {
-		model.addAttribute("message", e.getMessage());
-		return "error/error";
-	}
 
 	@ExceptionHandler(UnauthorizedException.class)
 	public String handleUnauthorizedException(UnauthorizedException exception) {
 		return "redirect:/";
 	}
+
+	@ExceptionHandler(ForbiddenException.class)
+	public String handleForbiddenException(ForbiddenException exception, Model model) {
+		model.addAttribute("exception", exception);
+		return "error/403";
+	}
+
+	@ExceptionHandler(InternalServerException.class)
+	public String handleInternalServerException(InternalServerException e, Model model) {
+		model.addAttribute("exception", e);
+		return "error/500";
+	}
+
+	@ExceptionHandler(BadGatewayException.class)
+	public String handleBadGatewayException(BadGatewayException e, Model model) {
+		model.addAttribute("exception", e);
+		return "error/502";
+	}
+
+	@ExceptionHandler(NovaException.class)
+	public String handleFeignClientException(NovaException e, Model model) {
+		model.addAttribute("exception", e);
+		return "error/nova_error";
+	}
+
 }
