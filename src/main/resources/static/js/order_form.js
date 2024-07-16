@@ -358,7 +358,7 @@ async function requestPayment(orderCode) {
         },
         orderId: orderCode, // 고유 주문번호
         orderName: orderName,
-        successUrl: '/orders/order/toss/success?memberId='+memberID , // 결제 성공 시 이동할 페이지(이 주소는 예시입니다. 상점에서 직접 만들어주세요.)
-        failUrl: '/orders/order/toss/fail',
+        successUrl: 'https://www.novabook.store/orders/order/toss/success?memberId='+memberID , // 결제 성공 시 이동할 페이지(이 주소는 예시입니다. 상점에서 직접 만들어주세요.)
+        failUrl: 'https://www.novabook.store/orders/order/toss/fail',
     });
 }
