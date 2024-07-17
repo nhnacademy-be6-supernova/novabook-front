@@ -314,6 +314,7 @@
             })
             .catch(error => {
                 console.error('주소 수 확인에 실패했습니다:', error);
+                alert(error.response.data)
                 // 기본적으로 모달을 열 수 있도록 구현
                 $('#addAddressModal').modal('show');
             });

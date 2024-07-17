@@ -331,7 +331,7 @@
             })
             .catch(error => {
                 console.error('Error checking ID:', error);
-                alert("아이디 중복 확인 중 오류가 발생했습니다. " + error);
+                alert(error.response.data)
             });
     }
 
@@ -398,7 +398,7 @@
             })
             .catch(error => {
                 console.error('Error checking email:', error);
-                alert("이메일 중복 확인 중 오류가 발생했습니다." + error);
+                alert(error.response.data)
             });
     }
 
