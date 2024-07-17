@@ -6,7 +6,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import store.novabook.front.common.security.exception.AlreadyLoginException;
+import store.novabook.front.common.exception.AlreadyLoginException;
+import store.novabook.front.common.exception.ErrorCode;
+import store.novabook.front.common.util.CookieUtil;
 
 public class LoginStatusInterceptor implements HandlerInterceptor {
 
@@ -28,7 +30,8 @@ public class LoginStatusInterceptor implements HandlerInterceptor {
 		}
 
 		if (hasAuthorization || hasRefresh) {
-			throw new AlreadyLoginException();
+			CookieUtil.deleteAuthorizationCookie(response);
+			throw new AlreadyLoginException(ErrorCode.ALREADY_LOGIN);
 		}
 
 		return true;
