@@ -1,17 +1,27 @@
 package store.novabook.front.common.interceptor;
 
+import java.io.IOException;
+
 import org.jetbrains.annotations.NotNull;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
 import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
+import store.novabook.front.api.member.member.dto.request.IsExpireAccessTokenRequest;
+import store.novabook.front.api.member.member.dto.response.IsExpireAccessTokenResponse;
 import store.novabook.front.api.member.member.service.MemberService;
-import store.novabook.front.common.util.JwtDecoderUtil;
+import store.novabook.front.common.exception.ErrorCode;
+import store.novabook.front.common.exception.UnauthorizedException;
+import store.novabook.front.common.util.CookieUtil;
 
+@Slf4j
 @RequiredArgsConstructor
 public class TokenInterceptor implements HandlerInterceptor {
 
@@ -20,6 +30,9 @@ public class TokenInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, @NotNull HttpServletResponse response,
 		@NotNull Object handler) {
+
+		String requestURI = request.getRequestURI();
+		log.info("requestURI : {}", requestURI);
 
 		Cookie[] cookies = request.getCookies();
 		if (cookies == null) {
@@ -38,8 +51,17 @@ public class TokenInterceptor implements HandlerInterceptor {
 			return true;
 		}
 
-		if (JwtDecoderUtil.decodeJWT(accessToken)) {
+		IsExpireAccessTokenResponse isExpireAccessTokenResponse = memberService.isExpireAccessToken(
+			new IsExpireAccessTokenRequest(accessToken));
+
+		if (isExpireAccessTokenResponse.isExpire()) {
 			GetNewTokenResponse getNewTokenResponse = memberService.newToken(new GetNewTokenRequest(refreshToken));
+
+			if (getNewTokenResponse.accessToken().equals("expired")) {
+				log.debug("refresh token expired");
+				CookieUtil.deleteAuthorizationCookie(response);
+				throw new UnauthorizedException(ErrorCode.UNAUTHORIZED);
+			}
 
 			Cookie accessCookie = new Cookie("Authorization", getNewTokenResponse.accessToken());
 			accessCookie.setPath("/");
