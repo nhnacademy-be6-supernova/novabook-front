@@ -23,6 +23,8 @@ import store.novabook.front.api.member.member.dto.response.LoginMembersResponse;
 import store.novabook.front.api.member.member.service.MemberAuthClient;
 import store.novabook.front.api.member.member.service.MemberClient;
 import store.novabook.front.api.member.member.service.MemberService;
+import store.novabook.front.common.exception.ErrorCode;
+import store.novabook.front.common.exception.ForbiddenException;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.util.CookieUtil;
 
@@ -67,7 +69,6 @@ public class MemberServiceImpl implements MemberService {
 			response.addCookie(uuidCookie);
 			return "redirect:/dormant";
 		} else if(status.getBody().memberStatusId() == 3) {
-			//탈퇴한 사용자
 			return "redirect:/";
 		}
 
@@ -90,7 +91,7 @@ public class MemberServiceImpl implements MemberService {
 			response.addCookie(refreshCookie);
 
 		} else {
-			throw new RuntimeException("로그인 실패");
+			throw new ForbiddenException(ErrorCode.FORBIDDEN);
 		}
 
 		return "redirect:/";
