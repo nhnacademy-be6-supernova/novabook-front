@@ -5,11 +5,13 @@ import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
 import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
 import store.novabook.front.api.member.member.dto.request.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.request.DeleteMemberRequest;
+import store.novabook.front.api.member.member.dto.request.IsExpireAccessTokenRequest;
 import store.novabook.front.api.member.member.dto.request.LoginMembersRequest;
 import store.novabook.front.api.member.member.dto.request.UpdateMemberPasswordRequest;
 import store.novabook.front.api.member.member.dto.request.UpdateMemberRequest;
 import store.novabook.front.api.member.member.dto.response.CreateMemberResponse;
 import store.novabook.front.api.member.member.dto.response.GetMemberResponse;
+import store.novabook.front.api.member.member.dto.response.IsExpireAccessTokenResponse;
 
 public interface MemberService {
 	CreateMemberResponse createMember(CreateMemberRequest createMemberRequest);
@@ -27,5 +29,7 @@ public interface MemberService {
 	GetNewTokenResponse newToken(GetNewTokenRequest getNewTokenRequest);
 
 	void logout(HttpServletResponse response);
+
+	IsExpireAccessTokenResponse isExpireAccessToken(IsExpireAccessTokenRequest isExpireAccessTokenRequest);
 
 }

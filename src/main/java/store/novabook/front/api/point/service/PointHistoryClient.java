@@ -20,9 +20,6 @@ public interface PointHistoryClient {
 	ApiResponse<GetPointHistoryListResponse> getPointHistoryListByMemberId(
 		@RequestBody GetPointHistoryRequest getPointHistoryRequest);
 
-	@GetMapping
-	PageResponse<GetPointHistoryResponse> getPointHistoryList(@RequestParam int page, @RequestParam int size);
-
 	@GetMapping("/member/point")
 	ApiResponse<GetMemberPointResponse> getPointTotalByMemberId();
 

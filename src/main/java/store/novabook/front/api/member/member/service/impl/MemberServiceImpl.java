@@ -11,16 +11,20 @@ import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
 import store.novabook.front.api.member.member.dto.request.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.request.DeleteMemberRequest;
 import store.novabook.front.api.member.member.dto.request.GetMembersStatusResponse;
+import store.novabook.front.api.member.member.dto.request.IsExpireAccessTokenRequest;
 import store.novabook.front.api.member.member.dto.request.LoginMembersRequest;
 import store.novabook.front.api.member.member.dto.request.UpdateMemberPasswordRequest;
 import store.novabook.front.api.member.member.dto.request.UpdateMemberRequest;
 import store.novabook.front.api.member.member.dto.response.CreateMemberResponse;
 import store.novabook.front.api.member.member.dto.response.GetMemberResponse;
 import store.novabook.front.api.member.member.dto.response.GetMembersStatusRequest;
+import store.novabook.front.api.member.member.dto.response.IsExpireAccessTokenResponse;
 import store.novabook.front.api.member.member.dto.response.LoginMembersResponse;
 import store.novabook.front.api.member.member.service.MemberAuthClient;
 import store.novabook.front.api.member.member.service.MemberClient;
 import store.novabook.front.api.member.member.service.MemberService;
+import store.novabook.front.common.exception.ErrorCode;
+import store.novabook.front.common.exception.ForbiddenException;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.util.CookieUtil;
 
@@ -64,6 +68,8 @@ public class MemberServiceImpl implements MemberService {
 			uuidCookie.setPath("/");
 			response.addCookie(uuidCookie);
 			return "redirect:/dormant";
+		} else if(status.getBody().memberStatusId() == 3) {
+			return "redirect:/";
 		}
 
 		String authorization = loginMembersResponse.getBody().accessToken();
@@ -85,7 +91,7 @@ public class MemberServiceImpl implements MemberService {
 			response.addCookie(refreshCookie);
 
 		} else {
-			throw new RuntimeException("로그인 실패");
+			throw new ForbiddenException(ErrorCode.FORBIDDEN);
 		}
 
 		return "redirect:/";
@@ -95,6 +101,12 @@ public class MemberServiceImpl implements MemberService {
 	public void logout(HttpServletResponse response) {
 		memberAuthClient.logout();
 		CookieUtil.deleteAuthorizationCookie(response);
+	}
+
+	@Override
+	public IsExpireAccessTokenResponse isExpireAccessToken(IsExpireAccessTokenRequest isExpireAccessTokenRequest) {
+		ApiResponse<IsExpireAccessTokenResponse> isExpireAccessTokenResponse = memberAuthClient.expire(isExpireAccessTokenRequest);
+		return isExpireAccessTokenResponse.getBody();
 	}
 
 	@Override

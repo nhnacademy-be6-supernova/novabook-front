@@ -33,7 +33,9 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addInterceptor(new TokenInterceptor(memberService))
 			.excludePathPatterns(
 				"/books",
-				"/users/user/form/**",
+				"/users/user/form",
+				"/users/user/form/login",
+				"/users/user/form/payco/link/login",
 				"**/categories",
 				"/api/v1/front/new-token/**",
 				"/login",
