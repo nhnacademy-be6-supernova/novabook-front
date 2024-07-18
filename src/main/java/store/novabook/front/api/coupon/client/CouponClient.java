@@ -40,7 +40,7 @@ public interface CouponClient {
 	 *
 	 * @param type 쿠폰 타입 (선택 사항)
 	 * @param page 페이지 번호
-	 * @param size 페이지 크기
+	 * @param size 페이지 크기3ㅓㅘㅘㅓㅘㅓㅘㅓㅣㅗ햐ㅣㅕ혀ㅛ혀ㅛ하ㅓ호호ㅓㅗㅓ호호ㅓ허ㅗ허ㅗ하ㅕㅛ혀ㅛ허ㅗ호혀ㅛ혀ㅛㅎ허ㅛㅊ
 	 * @return 페이지 응답 객체
 	 */
 	@GetMapping("/templates")

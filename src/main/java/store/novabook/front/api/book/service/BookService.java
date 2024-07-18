@@ -5,6 +5,7 @@ import store.novabook.front.api.book.dto.request.UpdateBookRequest;
 import store.novabook.front.api.book.dto.response.GetBookAllResponse;
 import store.novabook.front.api.book.dto.response.GetBookResponse;
 import store.novabook.front.api.book.dto.response.GetBookSearchResponse;
+import store.novabook.front.api.book.dto.response.GetBookToMainResponseMap;
 import store.novabook.front.common.response.PageResponse;
 
 public interface BookService {
@@ -19,4 +20,6 @@ public interface BookService {
 	PageResponse<GetBookSearchResponse> getBookSearchAllPage(String keyword, int page, int size, String sort);
 
 	PageResponse<GetBookSearchResponse> getBookSearchCategory(String category, int page, int size, String sort);
+
+	GetBookToMainResponseMap getBookToMainPage();
 }

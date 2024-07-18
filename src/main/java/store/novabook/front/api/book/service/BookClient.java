@@ -13,6 +13,7 @@ import store.novabook.front.api.book.dto.request.CreateBookRequest;
 import store.novabook.front.api.book.dto.request.UpdateBookRequest;
 import store.novabook.front.api.book.dto.response.GetBookAllResponse;
 import store.novabook.front.api.book.dto.response.GetBookResponse;
+import store.novabook.front.api.book.dto.response.GetBookToMainResponseMap;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
 
@@ -31,4 +32,6 @@ public interface BookClient {
 	@PutMapping
 	ResponseEntity<Void> updateBook(@RequestBody UpdateBookRequest updateBookRequest);
 
+	@GetMapping("/main")
+	ApiResponse<GetBookToMainResponseMap> getBookToMainPage();
 }
