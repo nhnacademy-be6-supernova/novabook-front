@@ -74,7 +74,7 @@ $(document).ready(function() {
         // HTML 요소에 데이터를 반영합니다.
         document.getElementById("member-name").innerText = memberName;
     }).catch(error => {
-        document.getElementById("member-name").innerText = "";
+        document.getElementById("member-name").innerText = "비회원";
     });
 
 });
