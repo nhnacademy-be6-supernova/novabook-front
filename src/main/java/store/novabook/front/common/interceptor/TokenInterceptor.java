@@ -1,12 +1,8 @@
 package store.novabook.front.common.interceptor;
 
-import java.io.IOException;
-
 import org.jetbrains.annotations.NotNull;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,9 +26,6 @@ public class TokenInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, @NotNull HttpServletResponse response,
 		@NotNull Object handler) {
-
-		String requestURI = request.getRequestURI();
-		log.info("requestURI : {}", requestURI);
 
 		Cookie[] cookies = request.getCookies();
 		if (cookies == null) {
