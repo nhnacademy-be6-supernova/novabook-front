@@ -31,18 +31,20 @@ public class CouponServiceImpl implements CouponService {
 	}
 
 	@Override
-	public PageResponse<GetCategoryCouponTemplateResponse> getCategoryCouponTemplateAll(Boolean isValid, int page, int size) {
+	public PageResponse<GetCategoryCouponTemplateResponse> getCategoryCouponTemplateAll(Boolean isValid, int page,
+		int size) {
 		return couponClient.getCategoryCouponTemplateAll(isValid, page, size);
 	}
 
 	@Override
 	public PageResponse<GetCouponTemplateResponse> getCouponTemplateAll(CouponType type, Boolean isValid, int page,
-		int size) {
-		return couponClient.getCouponTemplateAll(type, isValid, page, size);
+		int size, String sort) {
+		return couponClient.getCouponTemplateAll(type, isValid, page, size, sort);
 	}
 
 	@Override
-	public PageResponse<GetLimitedCouponTemplateResponse> getLimitedCouponTemplateAll(boolean isValid, int page, int size) {
+	public PageResponse<GetLimitedCouponTemplateResponse> getLimitedCouponTemplateAll(boolean isValid, int page,
+		int size) {
 		return couponClient.getLimitedCouponTemplateAll(isValid, page, size);
 	}
 
@@ -75,7 +77,5 @@ public class CouponServiceImpl implements CouponService {
 	public GetCategoryCouponTemplateAllResponse getCategoryCouponTemplate(List<Long> categoryIdList, Boolean isValid) {
 		return couponClient.getCategoryCouponTemplateAllByCategoryIdAll(categoryIdList, isValid);
 	}
-
-
 
 }
