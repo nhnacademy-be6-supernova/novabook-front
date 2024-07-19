@@ -61,7 +61,7 @@ class CouponControllerTest {
 		PageResponse<GetCategoryCouponTemplateResponse> mockCategoryPageResponse = PageResponse.success(0, 5, 10, mockCouponList2);
 
 		// Mock couponService methods
-		when(couponService.getCouponTemplateAll(eq(CouponType.GENERAL), eq(true), anyInt(), anyInt()))
+		when(couponService.getCouponTemplateAll(eq(CouponType.GENERAL), eq(true), anyInt(), anyInt(), null))
 			.thenReturn(mockGeneralPageResponse);
 		when(couponService.getCategoryCouponTemplateAll(eq(true), anyInt(), anyInt()))
 			.thenReturn(mockCategoryPageResponse);
@@ -74,7 +74,7 @@ class CouponControllerTest {
 			.andExpect(model().attributeExists("categoryCouponList")); // Expect "categoryCouponList" attribute in the model
 
 		// Verify interactions with couponService
-		verify(couponService, times(1)).getCouponTemplateAll(eq(CouponType.GENERAL), eq(true), anyInt(), anyInt());
+		verify(couponService, times(1)).getCouponTemplateAll(eq(CouponType.GENERAL), eq(true), anyInt(), anyInt(), null);
 		verify(couponService, times(1)).getCategoryCouponTemplateAll(eq(true), anyInt(), anyInt());
 		verifyNoMoreInteractions(couponService);
 	}

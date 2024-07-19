@@ -46,7 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @WebMvcTest(AdminCouponController.class)
-public class AdminCouponControllerTest {
+class AdminCouponControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -147,7 +147,7 @@ public class AdminCouponControllerTest {
 
 
 		// Arrange
-		when(couponService.getCouponTemplateAll(any(CouponType.class), any(Boolean.class), anyInt(), anyInt()))
+		when(couponService.getCouponTemplateAll(any(CouponType.class), any(Boolean.class), anyInt(), anyInt(), null))
 			.thenReturn(expectedResponse);
 		when(couponService.getBookCouponTemplateAll(anyInt(), anyInt()))
 			.thenReturn(expectedResponse2);
