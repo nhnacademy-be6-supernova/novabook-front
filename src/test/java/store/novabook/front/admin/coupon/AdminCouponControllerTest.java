@@ -1,29 +1,24 @@
 package store.novabook.front.admin.coupon;
 
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import store.novabook.front.admin.category.AdminCategoryController;
 import store.novabook.front.api.category.domain.Category;
 import store.novabook.front.api.category.dto.SubCategoryDTO;
 import store.novabook.front.api.category.dto.response.GetCategoryListResponse;
 import store.novabook.front.api.category.dto.response.GetCategoryResponse;
-import store.novabook.front.api.category.service.CategoryService;
 import store.novabook.front.api.coupon.domain.CouponType;
 import store.novabook.front.api.coupon.domain.DiscountType;
 import store.novabook.front.api.coupon.dto.request.CreateBookCouponTemPlateRequest;
@@ -33,11 +28,22 @@ import store.novabook.front.api.coupon.dto.request.CreateLimitedCouponTemplateRe
 import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateResponse;
 import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateResponse;
 import store.novabook.front.api.coupon.dto.response.GetCouponTemplateResponse;
-import store.novabook.front.api.coupon.dto.response.GetLimitedCouponTemplateResponse;
 import store.novabook.front.api.coupon.service.CouponService;
+import store.novabook.front.api.category.service.CategoryService;
+import store.novabook.front.api.coupon.dto.response.GetLimitedCouponTemplateResponse;
+import store.novabook.front.api.delivery.dto.response.GetDeliveryFeeResponse;
 import store.novabook.front.api.member.member.service.MemberAuthClient;
 import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.common.security.aop.CurrentMembersArgumentResolver;
+
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebMvcTest(AdminCouponController.class)
 class AdminCouponControllerTest {
@@ -64,108 +70,9 @@ class AdminCouponControllerTest {
 			.build();
 	}
 
-
-	// @Test
-	// public void testGetCoupons() throws Exception {
-	// 	GetCouponTemplateResponse getCouponTemplateResponse = GetCouponTemplateResponse.builder()
-	// 		.id(1L)
-	// 		.type(CouponType.GENERAL)
-	// 		.name("10% Off Books")
-	// 		.discountAmount(10)
-	// 		.discountType(DiscountType.PERCENT)
-	// 		.maxDiscountAmount(5000)
-	// 		.minPurchaseAmount(10000)
-	// 		.startedAt(LocalDateTime.now())
-	// 		.expirationAt(LocalDateTime.now().plusDays(30))
-	// 		.usePeriod(30)
-	// 		.build();
-	// 	List<GetCouponTemplateResponse> data = new ArrayList<>();
-	// 	data.add(getCouponTemplateResponse);
-	//
-	// 	PageResponse<GetCouponTemplateResponse> expectedResponse = new PageResponse<>(1, 10, 30, data);
-	//
-	// 	GetBookCouponTemplateResponse getBookCouponTemplateResponse = GetBookCouponTemplateResponse.builder()
-	// 		.bookId(1L)
-	// 		.id(2L)
-	// 		.type(CouponType.GENERAL)
-	// 		.name("20% Off Selected Books")
-	// 		.discountAmount(20)
-	// 		.discountType(DiscountType.PERCENT)
-	// 		.maxDiscountAmount(5000)
-	// 		.minPurchaseAmount(20000)
-	// 		.startedAt(LocalDateTime.now())
-	// 		.expirationAt(LocalDateTime.now().plusDays(30))
-	// 		.usePeriod(30)
-	// 		.build();
-	//
-	// 	List<GetBookCouponTemplateResponse> data2 = new ArrayList<>();
-	// 	data2.add(getBookCouponTemplateResponse);
-	//
-	// 	PageResponse<GetBookCouponTemplateResponse> expectedResponse2 = new PageResponse<>(1, 10, 30, data2);
-	//
-	// 	GetCategoryCouponTemplateResponse getCategoryCouponTemplateResponse = new GetCategoryCouponTemplateResponse(
-	// 		1L, // categoryId
-	// 		2L, // id
-	// 		CouponType.GENERAL, // type
-	// 		"25% Off Category Books", // name
-	// 		25, // discountAmount
-	// 		DiscountType.PERCENT, // discountType
-	// 		10000, // maxDiscountAmount
-	// 		50000, // minPurchaseAmount
-	// 		LocalDateTime.now(), // startedAt
-	// 		LocalDateTime.now().plusDays(30), // expirationAt,
-	// 		30
-	// 	);
-	// 	List<GetCategoryCouponTemplateResponse> data3 = new ArrayList<>();
-	// 	data3.add(getCategoryCouponTemplateResponse);
-	//
-	// 	PageResponse<GetCategoryCouponTemplateResponse> expectedResponse3 = new PageResponse<>(1, 10, 30, data3);
-	//
-	//
-	// 	GetLimitedCouponTemplateResponse getLimitedCouponTemplateResponse = GetLimitedCouponTemplateResponse.builder()
-	// 		.quantity(100L)
-	// 		.id(1L)
-	// 		.type(CouponType.GENERAL)
-	// 		.name("Limited Time Offer")
-	// 		.discountAmount(15)
-	// 		.discountType(DiscountType.PERCENT)
-	// 		.maxDiscountAmount(3000)
-	// 		.minPurchaseAmount(15000)
-	// 		.startedAt(LocalDateTime.now())
-	// 		.expirationAt(LocalDateTime.now().plusDays(15))
-	// 		.usePeriod(15)
-	// 		.build();
-	// 	List<GetLimitedCouponTemplateResponse> data4 = new ArrayList<>();
-	// 	data4.add(getLimitedCouponTemplateResponse);
-	//
-	// 	PageResponse<GetLimitedCouponTemplateResponse> expectedResponse4 = new PageResponse<>(1, 10, 30, data4);
-	//
-	//
-	// 	// Arrange
-	// 	when(couponService.getCouponTemplateAll(any(CouponType.class), any(Boolean.class), anyInt(), anyInt(), null))
-	// 		.thenReturn(expectedResponse);
-	// 	when(couponService.getBookCouponTemplateAll(anyInt(), anyInt()))
-	// 		.thenReturn(expectedResponse2);
-	// 	when(couponService.getCategoryCouponTemplateAll(any(Boolean.class), anyInt(), anyInt()))
-	// 		.thenReturn(expectedResponse3);
-	// 	when(couponService.getLimitedCouponTemplateAll(any(Boolean.class), anyInt(), anyInt()))
-	// 		.thenReturn(expectedResponse4);
-	//
-	// 	// Act and Assert
-	// 	mockMvc.perform(get("/admin/coupons"))
-	// 		.andExpect(status().isOk())
-	// 		.andExpect(view().name("admin/coupon/coupon_list"))
-	// 		.andExpect(model().attributeExists("birthdayCoupons"))
-	// 		.andExpect(model().attributeExists("welcomeCoupons"))
-	// 		.andExpect(model().attributeExists("generalCoupons"))
-	// 		.andExpect(model().attributeExists("bookCoupons"))
-	// 		.andExpect(model().attributeExists("categoryCoupons"))
-	// 		.andExpect(model().attributeExists("limitedCoupons"))
-	// 		.andDo(MockMvcResultHandlers.print());
-	// }
-
 	@Test
-	void testGetCouponGeneralForm() throws Exception {
+	public void testGetCouponGeneralForm() throws Exception {
+		// Act and Assert
 		mockMvc.perform(get("/admin/coupons/common/type")
 				.param("type", CouponType.BIRTHDAY.name()))
 			.andExpect(status().isOk())
@@ -175,7 +82,8 @@ class AdminCouponControllerTest {
 	}
 
 	@Test
-	void testGetCouponBookForm() throws Exception {
+	public void testGetCouponBookForm() throws Exception {
+		// Act and Assert
 		mockMvc.perform(get("/admin/coupons/book/form"))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/admin/books"))
@@ -183,12 +91,12 @@ class AdminCouponControllerTest {
 	}
 
 	@Test
-	void testGetCouponCategoryForm() throws Exception {
+	public void testGetCouponCategoryForm() throws Exception {
 
 
 		Category category = Category.builder()
 			.id(1L)
-			.topCategory(null)
+			.topCategory(null) // Assuming this is a top-level category with no parent
 			.name("Fiction")
 			.createdAt(LocalDateTime.now())
 			.updatedAt(LocalDateTime.now())
@@ -214,7 +122,8 @@ class AdminCouponControllerTest {
 	}
 
 	@Test
-	void testGetCouponLimitedForm() throws Exception {
+	public void testGetCouponLimitedForm() throws Exception {
+		// Act and Assert
 		mockMvc.perform(get("/admin/coupons/limited/form"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("admin/coupon/coupon_limited_form"))
@@ -222,7 +131,8 @@ class AdminCouponControllerTest {
 	}
 
 	@Test
-	void testCreateCouponTemplateCommon() throws Exception {
+	public void testCreateCouponTemplateCommon() throws Exception {
+		// Arrange
 		mockMvc.perform(post("/admin/coupons/common/create")
 				.param("name", "Summer Sale")
 				.param("type", CouponType.GENERAL.name())
@@ -241,7 +151,8 @@ class AdminCouponControllerTest {
 	}
 
 	@Test
-	void testCreateCouponTemplateBook() throws Exception {
+	public void testCreateCouponTemplateBook() throws Exception {
+		// Arrange
 		mockMvc.perform(post("/admin/coupons/book/create")
 				.param("bookId", "1")
 				.param("name", "Bestseller Discount")
@@ -261,7 +172,8 @@ class AdminCouponControllerTest {
 
 
 	@Test
-	void testCreateCouponTemplateCategory() throws Exception {
+	public void testCreateCouponTemplateCategory() throws Exception {
+		// Arrange
 		mockMvc.perform(post("/admin/coupons/category/create")
 				.param("categoryId", "1")
 				.param("name", "Category-Wide Discount")
@@ -280,7 +192,8 @@ class AdminCouponControllerTest {
 	}
 
 	@Test
-	void testCreateCouponTemplateLimited() throws Exception {
+	public void testCreateCouponTemplateLimited() throws Exception {
+		// Arrange
 		mockMvc.perform(post("/admin/coupons/limited/create")
 				.param("quantity", "50")
 				.param("name", "Flash Sale 50% Off")
