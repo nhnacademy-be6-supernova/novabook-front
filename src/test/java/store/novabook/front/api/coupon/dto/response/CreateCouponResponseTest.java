@@ -1,0 +1,23 @@
+package store.novabook.front.api.coupon.dto.response;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class CreateCouponResponseTest {
+
+	@Test
+	void testCreateCouponResponse_Valid() {
+		Long expectedId = 123L;
+		CreateCouponResponse response = new CreateCouponResponse(expectedId);
+
+		assertNotNull(response);
+		assertEquals(expectedId, response.id());
+	}
+
+	@Test
+	void testCreateCouponResponse_NullId() {
+		CreateCouponResponse response = new CreateCouponResponse(null);
+
+		assertNotNull(response);
+		assertNull(response.id());
+	}
+}

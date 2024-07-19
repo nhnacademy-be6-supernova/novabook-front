@@ -1,63 +1,53 @@
 package store.novabook.front.api.cart;
-import static org.mockito.Mockito.*;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
 
 public class CartBookTest {
 
-	@InjectMocks
-	private CartBook cartBook;
+	@Test
+	public void testCartBookCreation() {
+		// Arrange
+		Long id = 1L;
+		Long cartId = 100L;
+		Long bookId = 200L;
+		int quantity = 3;
+		boolean isExposed = true;
+		LocalDateTime createdAt = LocalDateTime.now().minusDays(1);
+		LocalDateTime updatedAt = LocalDateTime.now();
 
-	@BeforeEach
-	public void setUp() {
-		MockitoAnnotations.openMocks(this);
-		cartBook = spy(new CartBook());
-		// Set initial values using reflection or direct assignment if needed
-		doReturn(1L).when(cartBook).getId();
-		doReturn(2L).when(cartBook).getCartId();
-		doReturn(3L).when(cartBook).getBookId();
-		doReturn(10).when(cartBook).getQuantity();
-		doReturn(true).when(cartBook).isExposed();
-		doReturn(LocalDateTime.of(2024, 7, 19, 10, 0)).when(cartBook).getCreatedAt();
-		doReturn(LocalDateTime.of(2024, 7, 19, 12, 0)).when(cartBook).getUpdatedAt();
+		// Act
+		CartBook cartBook = new CartBook();
+		// Using reflection to set private fields (since setters are not available)
+		setField(cartBook, "id", id);
+		setField(cartBook, "cartId", cartId);
+		setField(cartBook, "bookId", bookId);
+		setField(cartBook, "quantity", quantity);
+		setField(cartBook, "isExposed", isExposed);
+		setField(cartBook, "createdAt", createdAt);
+		setField(cartBook, "updatedAt", updatedAt);
+
+		// Assert
+		assertThat(cartBook.getId()).isEqualTo(id);
+		assertThat(cartBook.getCartId()).isEqualTo(cartId);
+		assertThat(cartBook.getBookId()).isEqualTo(bookId);
+		assertThat(cartBook.getQuantity()).isEqualTo(quantity);
+		assertThat(cartBook.isExposed()).isEqualTo(isExposed);
+		assertThat(cartBook.getCreatedAt()).isEqualTo(createdAt);
+		assertThat(cartBook.getUpdatedAt()).isEqualTo(updatedAt);
 	}
 
-	@Test
-	public void testGettersWithSpy() {
-		// Verify ID
-		assertThat(cartBook.getId()).isEqualTo(1L);
-
-		// Verify Cart ID
-		assertThat(cartBook.getCartId()).isEqualTo(2L);
-
-		// Verify Book ID
-		assertThat(cartBook.getBookId()).isEqualTo(3L);
-
-		// Verify Quantity
-		assertThat(cartBook.getQuantity()).isEqualTo(10);
-
-		// Verify IsExposed
-		assertThat(cartBook.isExposed()).isTrue();
-
-		// Verify CreatedAt
-		assertThat(cartBook.getCreatedAt()).isEqualTo(LocalDateTime.of(2024, 7, 19, 10, 0));
-
-		// Verify UpdatedAt
-		assertThat(cartBook.getUpdatedAt()).isEqualTo(LocalDateTime.of(2024, 7, 19, 12, 0));
-	}
-
-	@Test
-	public void testSpyInteraction() {
-		// Interact with the spy
-		cartBook.getId();
-
-		// Verify that getId() method was called exactly once
-		verify(cartBook, times(1)).getId();
+	// Helper method to set private fields using reflection
+	private void setField(CartBook cartBook, String fieldName, Object value) {
+		try {
+			var field = CartBook.class.getDeclaredField(fieldName);
+			field.setAccessible(true);
+			field.set(cartBook, value);
+		} catch (Exception e) {
+			throw new RuntimeException("Failed to set field value", e);
+		}
 	}
 }
