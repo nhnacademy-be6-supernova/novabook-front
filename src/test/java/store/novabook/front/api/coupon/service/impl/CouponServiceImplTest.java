@@ -129,15 +129,15 @@ public class CouponServiceImplTest {
 		int page = 0;
 		int size = 10;
 		PageResponse<GetCouponTemplateResponse> expectedResponse = new PageResponse<>(1, 10, 30, data);
-		when(couponClient.getCouponTemplateAll(type, isValid, page, size)).thenReturn(expectedResponse);
+		when(couponClient.getCouponTemplateAll(type, isValid, page, size,null)).thenReturn(expectedResponse);
 
 		// When
 		PageResponse<GetCouponTemplateResponse> actualResponse =
-			couponService.getCouponTemplateAll(type, isValid, page, size);
+			couponService.getCouponTemplateAll(type, isValid, page, size,null);
 
 		// Then
 		assertEquals(expectedResponse, actualResponse);
-		verify(couponClient, times(1)).getCouponTemplateAll(type, isValid, page, size);
+		verify(couponClient, times(1)).getCouponTemplateAll(type, isValid, page, size,null);
 	}
 
 	@Test
