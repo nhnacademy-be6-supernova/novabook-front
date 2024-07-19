@@ -16,9 +16,15 @@ import org.mockito.MockitoAnnotations;
 import jakarta.servlet.http.HttpServletResponse;
 import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
 import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
+import store.novabook.front.api.member.member.dto.request.CreateMemberRequest;
+import store.novabook.front.api.member.member.dto.request.DeleteMemberRequest;
 import store.novabook.front.api.member.member.dto.request.GetMembersStatusResponse;
 import store.novabook.front.api.member.member.dto.request.IsExpireAccessTokenRequest;
 import store.novabook.front.api.member.member.dto.request.LoginMembersRequest;
+import store.novabook.front.api.member.member.dto.request.UpdateMemberPasswordRequest;
+import store.novabook.front.api.member.member.dto.request.UpdateMemberRequest;
+import store.novabook.front.api.member.member.dto.response.CreateMemberResponse;
+import store.novabook.front.api.member.member.dto.response.GetMemberResponse;
 import store.novabook.front.api.member.member.dto.response.GetMembersStatusRequest;
 import store.novabook.front.api.member.member.dto.response.IsExpireAccessTokenResponse;
 import store.novabook.front.api.member.member.dto.response.LoginMembersResponse;
@@ -28,21 +34,6 @@ import store.novabook.front.common.exception.ErrorCode;
 import store.novabook.front.common.exception.ForbiddenException;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.util.CookieUtil;
-
-//////////////////////////////////////////////////////
-//////////////////////////////////////////////////////
-//////////////////////////////////////////////////////
-//////////////////////////////////////////////////////
-
-//이거 순서 정의 되어 있습니다
-//로그아웃 테스트는 맨 마지막에
-//@Order로 지정하세요
-
-//////////////////////////////////////////////////////
-//////////////////////////////////////////////////////
-//////////////////////////////////////////////////////
-//////////////////////////////////////////////////////
-
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class MemberServiceImplTest {
@@ -59,8 +50,6 @@ class MemberServiceImplTest {
 	@Mock
 	private HttpServletResponse response;
 
-	@Mock
-	private CookieUtil cookieUtil;
 
 	@BeforeEach
 	void setUp() {
@@ -207,5 +196,90 @@ class MemberServiceImplTest {
 		// Assert
 		verify(memberAuthClient).logout();
 		CookieUtil.deleteAuthorizationCookie(response);  // Verify the method call
+	}
+
+	@Test
+	void createMember_ShouldReturnCreateMemberResponse() {
+		// Arrange
+		CreateMemberRequest newMemberRequest = CreateMemberRequest.builder()
+			.loginId("id")
+			.loginPassword("!@#123password")
+			.loginPasswordConfirm("!@#123password")
+			.name("김김김")
+			.number("01012345678")
+			.email("aaa")
+			.emailDomain("naver.com")
+			.birthYear(2000)
+			.birthMonth(1)
+			.birthDay(1)
+			.address("home")
+			.build();
+
+		CreateMemberResponse expectedResponse = new CreateMemberResponse(1L);
+		ApiResponse<CreateMemberResponse> apiResponse = new ApiResponse<>("SUCCESS", true, expectedResponse);
+
+		when(memberClient.createMember(any(CreateMemberRequest.class))).thenReturn(apiResponse);
+
+		// Act
+		CreateMemberResponse actualResponse = memberService.createMember(newMemberRequest);
+
+		// Assert
+		assertNotNull(actualResponse);
+		assertEquals(expectedResponse, actualResponse);
+		verify(memberClient, times(1)).createMember(any(CreateMemberRequest.class));
+	}
+
+	@Test
+	void getMemberById_ShouldReturnGetMemberResponse() {
+		// Arrange
+		GetMemberResponse expectedResponse = new GetMemberResponse(1L, "id", 2000, 1, 1, "01012345678", "김",
+			"aa@naver.com");
+		ApiResponse<GetMemberResponse> apiResponse = new ApiResponse<>("SUCCESS", true, expectedResponse);
+
+		when(memberClient.getMember()).thenReturn(apiResponse);
+
+		// Act
+		GetMemberResponse actualResponse = memberService.getMemberById();
+
+		// Assert
+		assertNotNull(actualResponse);
+		assertEquals(expectedResponse, actualResponse);
+		verify(memberClient, times(1)).getMember();
+	}
+
+	@Test
+	void updateMember_ShouldCallUpdateMember() {
+		// Arrange
+		UpdateMemberRequest updateMemberRequest = new UpdateMemberRequest("aa", "123");
+
+		// Act
+		memberService.updateMember(updateMemberRequest);
+
+		// Assert
+		verify(memberClient, times(1)).updateMember(any(UpdateMemberRequest.class));
+	}
+
+	@Test
+	void updateMemberPassword_ShouldCallUpdateMemberPassword() {
+		// Arrange
+		UpdateMemberPasswordRequest updateMemberPasswordRequest = new UpdateMemberPasswordRequest("!@#123password", "!@#123password");
+
+		// Act
+		memberService.updateMemberPassword(updateMemberPasswordRequest);
+
+		// Assert
+		verify(memberClient, times(1)).updateMemberPassword(any(UpdateMemberPasswordRequest.class));
+	}
+
+	@Test
+	void deleteMember_ShouldCallUpdateMemberStatusToWithdraw() {
+		// Arrange
+		DeleteMemberRequest deleteMemberRequest = new DeleteMemberRequest("!@#123password");
+
+		// Act
+		memberService.deleteMember(deleteMemberRequest);
+
+		// Assert
+		verify(memberClient, times(1)).updateMemberStatusToWithdraw(any(DeleteMemberRequest.class));
 	}
 }
