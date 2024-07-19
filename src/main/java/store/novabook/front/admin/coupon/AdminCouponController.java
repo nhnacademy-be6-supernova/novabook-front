@@ -16,9 +16,7 @@ import store.novabook.front.api.coupon.dto.request.CreateBookCouponTemPlateReque
 import store.novabook.front.api.coupon.dto.request.CreateCategoryCouponTemplateRequest;
 import store.novabook.front.api.coupon.dto.request.CreateCouponTemplateRequest;
 import store.novabook.front.api.coupon.dto.request.CreateLimitedCouponTemplateRequest;
-import store.novabook.front.api.coupon.dto.response.GetLimitedCouponTemplateResponse;
 import store.novabook.front.api.coupon.service.CouponService;
-import store.novabook.front.common.response.PageResponse;
 
 @RequestMapping("/admin/coupons")
 @Controller
@@ -36,16 +34,15 @@ public class AdminCouponController {
 		@RequestParam(defaultValue = PAGE) int categoryPage, @RequestParam(defaultValue = PAGE_SIZE) int size) {
 
 		model.addAttribute("birthdayCoupons",
-			couponService.getCouponTemplateAll(CouponType.BIRTHDAY, false, birthdayPage, size));
+			couponService.getCouponTemplateAll(CouponType.BIRTHDAY, false, birthdayPage, size,"createdAt,desc"));
 		model.addAttribute("welcomeCoupons",
-			couponService.getCouponTemplateAll(CouponType.WELCOME, false, welcomePage, size));
+			couponService.getCouponTemplateAll(CouponType.WELCOME, false, welcomePage, size,"createdAt,desc"));
 		model.addAttribute("generalCoupons",
-			couponService.getCouponTemplateAll(CouponType.GENERAL, false, generalPage, size));
+			couponService.getCouponTemplateAll(CouponType.GENERAL, false, generalPage, size, "startedAt,desc"));
 		model.addAttribute("bookCoupons", couponService.getBookCouponTemplateAll(bookPage, size));
 		model.addAttribute("categoryCoupons", couponService.getCategoryCouponTemplateAll(false, categoryPage, size));
-		PageResponse<GetLimitedCouponTemplateResponse> limitedCouponTemplateAll = couponService.getLimitedCouponTemplateAll(
-			false, limitedPage, size);
-		model.addAttribute("limitedCoupons", limitedCouponTemplateAll);
+		model.addAttribute("limitedCoupons", couponService.getLimitedCouponTemplateAll(
+			false, limitedPage, size));
 
 		return "admin/coupon/coupon_list";
 	}

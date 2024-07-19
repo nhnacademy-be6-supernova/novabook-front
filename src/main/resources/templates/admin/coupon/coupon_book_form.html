@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>Admin Page - NovaBook</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
@@ -169,8 +170,8 @@
                                 <label for="discount-type">할인 종류:</label>
                                 <select class="form-control" id="discount-type" name="discountType" required>
                                     <option value="">선택하세요</option>
-                                    <option value="PERCENT">퍼센트</option>
-                                    <option value="AMOUNT">상수</option>
+                                    <option value="PERCENT">비율 할인</option>
+                                    <option value="AMOUNT">정액 할인</option>
                                 </select>
                             </div>
 

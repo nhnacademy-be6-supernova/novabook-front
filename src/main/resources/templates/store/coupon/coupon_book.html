@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>NovaBook - 쿠폰 다운로드</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
@@ -121,7 +122,7 @@
 <div class="layout">
     <div class="container">
         <div class="coupon-wrapper">
-            <h2 th:text="#{coupon.download.title}">쿠폰 다운로드</h2>
+            <h2 th:text="#{coupon.general.title}">쿠폰 목록</h2>
             <ul class="coupon-list">
                 <th:block th:each="coupon : ${generalCouponList.getData()}">
                     <li>
@@ -130,7 +131,7 @@
                             <div class="coupon-meta">
                                 <span th:text="#{coupon.minPurchaseAmount} + ${coupon.minPurchaseAmount} + '원'">최소구매금액: 10000원</span> |
                                 <span th:text="#{coupon.maxDiscountAmount} + ${coupon.maxDiscountAmount} + '원'">최대할인금액: 5000원</span> <br>
-                                <span th:text="#{coupon.validity} + ${coupon.startedAt} + ' ~ ' + ${coupon.expirationAt}">유효기간: 2024년 1월 1일 ~ 2024년 12월 31일</span>
+                                <span th:text="#{coupon.validity} + ${#temporals.format(coupon.startedAt, 'yyyy-MM-dd HH:mm')} + ' ~ ' + ${#temporals.format(coupon.expirationAt, 'yyyy-MM-dd HH:mm')}">유효기간: 2024년 1월 1일 ~ 2024년 12월 31일</span>
                             </div>
                         </div>
 
@@ -174,7 +175,7 @@
         </div>
 
         <div class="coupon-wrapper">
-            <h2 th:text="#{coupon.category.title}">카테고리 쿠폰 다운로드</h2>
+            <h2 th:text="#{coupon.category.title}">카테고리 쿠폰 목록</h2>
             <ul class="coupon-list">
                 <th:block th:each="coupon : ${categoryCouponList.getData()}">
                     <li>
@@ -183,7 +184,7 @@
                             <div class="coupon-meta">
                                 <span th:text="#{coupon.minPurchaseAmount} + ${coupon.minPurchaseAmount} + '원'">최소구매금액: 10000원</span> |
                                 <span th:text="#{coupon.maxDiscountAmount} + ${coupon.maxDiscountAmount} + '원'">최대할인금액: 5000원</span> <br>
-                                <span th:text="#{coupon.validity} + ${coupon.startedAt} + ' ~ ' + ${coupon.expirationAt}">유효기간: 2024년 1월 1일 ~ 2024년 12월 31일</span>
+                                <span th:text="#{coupon.validity} + ${#temporals.format(coupon.startedAt, 'yyyy-MM-dd HH:mm')} + ' ~ ' + ${#temporals.format(coupon.expirationAt, 'yyyy-MM-dd HH:mm')}">유효기간: 2024년 1월 1일 ~ 2024년 12월 31일</span>
                             </div>
                         </div>
 

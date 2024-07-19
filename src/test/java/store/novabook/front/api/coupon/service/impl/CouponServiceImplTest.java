@@ -1,13 +1,5 @@
 package store.novabook.front.api.coupon.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -15,20 +7,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import store.novabook.front.api.coupon.client.CouponClient;
-import store.novabook.front.api.coupon.domain.CouponType;
 import store.novabook.front.api.coupon.domain.DiscountType;
-import store.novabook.front.api.coupon.dto.request.CreateBookCouponTemPlateRequest;
-import store.novabook.front.api.coupon.dto.request.CreateCategoryCouponTemplateRequest;
-import store.novabook.front.api.coupon.dto.request.CreateCouponTemplateRequest;
-import store.novabook.front.api.coupon.dto.request.CreateLimitedCouponTemplateRequest;
-import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateAllResponse;
-import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateResponse;
-import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateAllResponse;
-import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateResponse;
-import store.novabook.front.api.coupon.dto.response.GetCouponTemplateResponse;
-import store.novabook.front.api.coupon.dto.response.GetLimitedCouponTemplateResponse;
+import store.novabook.front.api.coupon.dto.request.*;
+import store.novabook.front.api.coupon.dto.response.*;
+import store.novabook.front.api.coupon.domain.CouponType;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
+
 
 class CouponServiceImplTest {
 
@@ -135,15 +120,15 @@ class CouponServiceImplTest {
 		int page = 0;
 		int size = 10;
 		PageResponse<GetCouponTemplateResponse> expectedResponse = new PageResponse<>(1, 10, 30, data);
-		when(couponClient.getCouponTemplateAll(type, isValid, page, size)).thenReturn(expectedResponse);
+		when(couponClient.getCouponTemplateAll(type, isValid, page, size,null)).thenReturn(expectedResponse);
 
 		
 		PageResponse<GetCouponTemplateResponse> actualResponse =
-			couponService.getCouponTemplateAll(type, isValid, page, size);
+			couponService.getCouponTemplateAll(type, isValid, page, size,null);
 
 		
 		assertEquals(expectedResponse, actualResponse);
-		verify(couponClient, times(1)).getCouponTemplateAll(type, isValid, page, size);
+		verify(couponClient, times(1)).getCouponTemplateAll(type, isValid, page, size,null);
 	}
 
 	@Test
