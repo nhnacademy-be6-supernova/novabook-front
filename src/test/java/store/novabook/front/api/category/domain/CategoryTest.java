@@ -1,8 +1,10 @@
 package store.novabook.front.api.category.domain;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.*;
+
 import java.time.LocalDateTime;
-import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
 
 public class CategoryTest {
 

@@ -1,5 +1,11 @@
 package store.novabook.front.api.member.address.service.impl;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -14,12 +20,6 @@ import store.novabook.front.api.member.address.dto.response.GetMemberAddressList
 import store.novabook.front.api.member.address.dto.response.GetMemberAddressResponse;
 import store.novabook.front.api.member.address.service.MemberAddressClient;
 import store.novabook.front.common.response.ApiResponse;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 public class MemberAddressServiceImplTest {
 

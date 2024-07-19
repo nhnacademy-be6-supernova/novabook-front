@@ -1,5 +1,12 @@
 package store.novabook.front.api.book.service.impl;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -9,19 +16,11 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import store.novabook.front.api.book.dto.request.CreateReviewRequest;
-import store.novabook.front.api.book.dto.request.ReviewImageDTO;
 import store.novabook.front.api.book.dto.request.UpdateReviewRequest;
 import store.novabook.front.api.book.dto.response.GetReviewListResponse;
 import store.novabook.front.api.book.dto.response.GetReviewResponse;
 import store.novabook.front.api.book.service.ReviewClient;
 import store.novabook.front.common.response.ApiResponse;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 
 public class ReviewServiceImplTest {
 

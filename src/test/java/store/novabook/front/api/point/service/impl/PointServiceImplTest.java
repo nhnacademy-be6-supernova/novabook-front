@@ -1,6 +1,6 @@
 package store.novabook.front.api.point.service.impl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
@@ -11,11 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
 
 import store.novabook.front.api.point.dto.GetMemberPointResponse;
 import store.novabook.front.api.point.dto.response.GetPointHistoryResponse;
-import store.novabook.front.api.point.dto.response.GetPointPolicyResponse;
 import store.novabook.front.api.point.service.PointHistoryClient;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;

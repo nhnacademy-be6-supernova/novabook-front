@@ -1,21 +1,17 @@
 package store.novabook.front.api.member.address.service.impl;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
-import static org.mockito.Mockito.*;
 
 import store.novabook.front.api.member.address.dto.response.ExceedResponse;
 import store.novabook.front.api.member.address.service.MemberAddressClient;
 import store.novabook.front.common.response.ApiResponse;
-import store.novabook.front.store.order.dto.GetOrderDetailResponse;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class MemberAddressRestServiceImplTest {
 

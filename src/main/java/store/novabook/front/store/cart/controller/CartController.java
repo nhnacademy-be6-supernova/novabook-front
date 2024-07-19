@@ -1,7 +1,6 @@
 package store.novabook.front.store.cart.controller;
 
 import static store.novabook.front.common.util.CookieUtil.*;
-import static store.novabook.front.store.cart.hash.RedisCartHash.*;
 
 import java.util.Objects;
 import java.util.UUID;
