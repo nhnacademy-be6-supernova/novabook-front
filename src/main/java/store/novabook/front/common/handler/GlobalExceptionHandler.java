@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import store.novabook.front.common.exception.BadGatewayException;
 import store.novabook.front.common.exception.ForbiddenException;
 import store.novabook.front.common.exception.InternalServerException;
+import store.novabook.front.common.exception.KeyManagerException;
 import store.novabook.front.common.exception.NovaException;
 import store.novabook.front.common.exception.UnauthorizedException;
 
@@ -30,16 +31,16 @@ public class GlobalExceptionHandler {
 		return "error/403";
 	}
 
-	@ExceptionHandler(InternalServerException.class)
-	public String handleInternalServerException(InternalServerException e, Model model) {
-		model.addAttribute("exception", e);
-		return "error/500";
-	}
-
 	@ExceptionHandler(BadGatewayException.class)
 	public String handleBadGatewayException(BadGatewayException e, Model model) {
 		model.addAttribute("exception", e);
 		return "error/502";
+	}
+
+	@ExceptionHandler(InternalServerException.class)
+	public String handleInternalServerException(InternalServerException e, Model model) {
+		model.addAttribute("exception", e);
+		return "error/500";
 	}
 
 	@ExceptionHandler(NovaException.class)
