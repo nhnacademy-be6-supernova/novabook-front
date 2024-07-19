@@ -35,14 +35,14 @@ class MemberWithdrawControllerTest {
 	@Test
 	void testMemberWithdraw() throws Exception {
 		GetMemberResponse getMemberResponse = new GetMemberResponse(
-			1L, // id
-			"userLoginId", // loginId
-			1980, // birthYear
-			7, // birthMonth
-			14, // birthDay
-			"010-1234-5678", // number
-			"Jane Doe", // name
-			"jane.doe@example.com" // email
+			1L,
+			"userLoginId",
+			1980,
+			7,
+			14,
+			"010-1234-5678",
+			"Jane Doe",
+			"jane.doe@example.com"
 		);
 		when(memberService.getMemberById()).thenReturn(getMemberResponse);
 

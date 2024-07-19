@@ -20,6 +20,8 @@ package store.novabook.front.common.exception;
  */
 public enum ErrorCode {
 
+
+	PAYCO_API_ERROR("페이코 API 오류"),
 	ALREADY_LOGIN("이미 로그인 되어 있습니다."),
 
 	SEE_OTHER("SEE OTHER"),

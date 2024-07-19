@@ -1,23 +1,14 @@
 package store.novabook.front.store.order.dto;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import static org.assertj.core.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
 
-public class OrderAddressInfoTest {
+class OrderAddressInfoTest {
 
-	private final Validator validator;
-
-	public OrderAddressInfoTest() {
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		this.validator = factory.getValidator();
-	}
 
 	@Test
-	public void testOrderAddressInfoValid() {
+	void testOrderAddressInfoValid() {
 		// Arrange
 		String zipCode = "12345";
 		String streetAddress = "123 Main St";

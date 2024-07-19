@@ -1,29 +1,25 @@
 package store.novabook.front.api.cart.dto.request;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-public class UpdateCartBookQuantityRequestTest {
+class UpdateCartBookQuantityRequestTest {
 
 	@Test
-	public void testUpdateCartBookQuantityRequestWithValidData() {
-		// Arrange
+	void testUpdateCartBookQuantityRequestWithValidData() {
 		Long bookId = 1L;
 		Integer quantity = 5;
 
-		// Act
 		UpdateCartBookQuantityRequest request = new UpdateCartBookQuantityRequest(bookId, quantity);
 
-		// Assert
 		assertThat(request).isNotNull();
 		assertThat(request.bookId()).isEqualTo(bookId);
 		assertThat(request.quantity()).isEqualTo(quantity);
 	}
 
 	@Test
-	public void testUpdateCartBookQuantityRequestWithNullBookId() {
-		// Act & Assert
+	void testUpdateCartBookQuantityRequestWithNullBookId() {
 		try {
 			new UpdateCartBookQuantityRequest(null, 5);
 		} catch (Exception e) {
@@ -33,7 +29,7 @@ public class UpdateCartBookQuantityRequestTest {
 	}
 
 	@Test
-	public void testUpdateCartBookQuantityRequestWithNullQuantity() {
+	void testUpdateCartBookQuantityRequestWithNullQuantity() {
 		// Act & Assert
 		try {
 			new UpdateCartBookQuantityRequest(1L, null);

@@ -1,10 +1,9 @@
 package store.novabook.front.admin.point;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.time.LocalDateTime;
@@ -16,22 +15,16 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import store.novabook.front.admin.delivery.AdminDeliveryController;
 import store.novabook.front.admin.order.AdminOrderProcessController;
 import store.novabook.front.api.member.member.service.MemberAuthClient;
 import store.novabook.front.api.order.service.OrderService;
-import store.novabook.front.api.point.dto.response.GetPointHistoryResponse;
 import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.common.security.aop.CurrentMembersArgumentResolver;
 import store.novabook.front.store.order.dto.GetOrdersAdminResponse;
-import store.novabook.front.store.order.dto.OrderViewDTO;
 import store.novabook.front.store.order.dto.UpdateOrdersAdminRequest;
 
 @WebMvcTest(AdminOrderProcessController.class)

@@ -38,8 +38,8 @@ class MemberDormantControllerTest {
 
 	@Test
 	void testMemberDormant() throws Exception {
-		mockMvc.perform(get("/dormant")) // Perform GET request to "/dormant"
-			.andExpect(status().isOk()) // Expect HTTP 200 OK status
-			.andExpect(view().name("store/dormant/dormant")); // Expect view name to be "store/dormant/dormant"
+		mockMvc.perform(get("/dormant"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("store/dormant/dormant"));
 	}
 }

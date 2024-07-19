@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import store.novabook.front.common.exception.AlreadyLoginException;
 import store.novabook.front.common.exception.ErrorCode;
 
-public class LoginStatusInterceptorTest {
+class LoginStatusInterceptorTest {
 
 	private LoginStatusInterceptor loginStatusInterceptor;
 
@@ -25,69 +25,58 @@ public class LoginStatusInterceptorTest {
 	private HttpServletResponse response;
 
 	@BeforeEach
-	void setUp() {
+	public void setUp() {
 		MockitoAnnotations.openMocks(this);
 		loginStatusInterceptor = new LoginStatusInterceptor();
 	}
 
 	@Test
-	void preHandle_WithAuthorizationCookie_ShouldThrowException() throws Exception {
-		// Arrange
+	void testPreHandle_AlreadyLoginException() {
 		Cookie authorizationCookie = new Cookie("Authorization", "token");
 		Cookie refreshCookie = new Cookie("Refresh", "refreshToken");
 		Cookie[] cookies = new Cookie[]{authorizationCookie, refreshCookie};
 		when(request.getCookies()).thenReturn(cookies);
 
-		// Act & Assert
-		AlreadyLoginException thrown = assertThrows(AlreadyLoginException.class, () -> {
-			loginStatusInterceptor.preHandle(request, response, new Object());
-		});
+		AlreadyLoginException thrown = assertThrows(AlreadyLoginException.class, this::handleRequest);
 		assertEquals(ErrorCode.ALREADY_LOGIN, thrown.getErrorCode());
-
-
 	}
 
+	private void handleRequest() {
+		try {
+			loginStatusInterceptor.preHandle(request, response, new Object());
+		} catch (AlreadyLoginException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 	@Test
 	void preHandle_NoAuthorizationCookie_ShouldProceed() throws Exception {
-		// Arrange
 		Cookie[] cookies = new Cookie[0];
 		when(request.getCookies()).thenReturn(cookies);
 
-		// Act
 		boolean result = loginStatusInterceptor.preHandle(request, response, new Object());
 
-		// Assert
 		assertTrue(result);
 	}
 
 	@Test
-	void preHandle_WithRefreshCookie_ShouldThrowException() throws Exception {
-		// Arrange
+	void preHandle_WithRefreshCookie_ShouldThrowException() {
 		Cookie refreshCookie = new Cookie("Refresh", "refreshToken");
 		Cookie[] cookies = new Cookie[]{refreshCookie};
 		when(request.getCookies()).thenReturn(cookies);
 
-		// Act & Assert
-		AlreadyLoginException thrown = assertThrows(AlreadyLoginException.class, () -> {
-			loginStatusInterceptor.preHandle(request, response, new Object());
-		});
+		AlreadyLoginException thrown = assertThrows(AlreadyLoginException.class, this::invokePreHandle);
 		assertEquals(ErrorCode.ALREADY_LOGIN, thrown.getErrorCode());
-
 	}
 
-	@Test
-	void preHandle_WithAuthorizationAndRefreshCookies_ShouldThrowException() throws Exception {
-		// Arrange
-		Cookie authorizationCookie = new Cookie("Authorization", "token");
-		Cookie refreshCookie = new Cookie("Refresh", "refreshToken");
-		Cookie[] cookies = new Cookie[]{authorizationCookie, refreshCookie};
-		when(request.getCookies()).thenReturn(cookies);
-
-		// Act & Assert
-		AlreadyLoginException thrown = assertThrows(AlreadyLoginException.class, () -> {
+	private void invokePreHandle() {
+		try {
 			loginStatusInterceptor.preHandle(request, response, new Object());
-		});
-		assertEquals(ErrorCode.ALREADY_LOGIN, thrown.getErrorCode());
-
+		} catch (AlreadyLoginException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

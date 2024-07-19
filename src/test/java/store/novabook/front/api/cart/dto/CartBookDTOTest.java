@@ -1,14 +1,13 @@
 package store.novabook.front.api.cart.dto;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-public class CartBookDTOTest {
+class CartBookDTOTest {
 
 	@Test
-	public void testCartBookDTOBuilder() {
-		// Arrange
+	void testCartBookDTOBuilder() {
 		Long bookId = 1L;
 		String title = "Sample Book Title";
 		String image = "http://example.com/image.jpg";
@@ -18,7 +17,6 @@ public class CartBookDTOTest {
 		boolean isPackaged = true;
 		Long bookStatusId = 10L;
 
-		// Act
 		CartBookDTO cartBookDTO = CartBookDTO.builder()
 			.bookId(bookId)
 			.title(title)
@@ -30,7 +28,6 @@ public class CartBookDTOTest {
 			.bookStatusId(bookStatusId)
 			.build();
 
-		// Assert
 		assertThat(cartBookDTO).isNotNull();
 		assertThat(cartBookDTO.bookId()).isEqualTo(bookId);
 		assertThat(cartBookDTO.title()).isEqualTo(title);
@@ -43,8 +40,7 @@ public class CartBookDTOTest {
 	}
 
 	@Test
-	public void testUpdateMethod() {
-		// Arrange
+	void testUpdateMethod() {
 		Long originalBookId = 1L;
 		Integer newQuantity = 3;
 		CartBookDTO originalDTO = CartBookDTO.builder()
@@ -58,10 +54,8 @@ public class CartBookDTOTest {
 			.bookStatusId(10L)
 			.build();
 
-		// Act
 		CartBookDTO updatedDTO = CartBookDTO.update(2L, newQuantity, originalDTO);
 
-		// Assert
 		assertThat(updatedDTO).isNotNull();
 		assertThat(updatedDTO.bookId()).isEqualTo(2L);
 		assertThat(updatedDTO.title()).isEqualTo(originalDTO.title());

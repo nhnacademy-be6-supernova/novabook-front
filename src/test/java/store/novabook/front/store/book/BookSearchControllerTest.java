@@ -25,7 +25,7 @@ import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.common.security.aop.CurrentMembersArgumentResolver;
 
 @WebMvcTest(BookSearchController.class)
-public class BookSearchControllerTest {
+class BookSearchControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -52,7 +52,6 @@ public class BookSearchControllerTest {
 		int size = 20;
 		String sort = "createdAt";
 
-		// Mocking bookService response for search by keyword
 
 		GetBookSearchResponse getBookSearchResponse = GetBookSearchResponse.builder()
 			.id(1L)
@@ -71,17 +70,16 @@ public class BookSearchControllerTest {
 		PageResponse<GetBookSearchResponse> mockResponse = new PageResponse<>(1, 10, 30, data);
 		when(bookService.getBookSearchAllPage(eq(keyword), anyInt(), anyInt(), eq(sort))).thenReturn(mockResponse);
 
-		// Perform GET request to "/search/keyword" endpoint and validate the response
 		mockMvc.perform(get("/search/keyword")
 				.param("keyword", keyword)
 				.param("page", String.valueOf(page))
 				.param("size", String.valueOf(size))
 				.param("sort", sort))
-			.andExpect(status().isOk()) // Expect HTTP 200 OK status
-			.andExpect(view().name("store/book/book_list")) // Expect view name to be "store/book/book_list"
-			.andExpect(model().attributeExists("bookSearches")) // Expect "bookSearches" attribute in the model
-			.andExpect(model().attribute("searchType", "keyword")) // Verify value of "searchType" attribute
-			.andExpect(model().attribute("keyword", keyword)); // Verify value of "keyword" attribute
+			.andExpect(status().isOk())
+			.andExpect(view().name("store/book/book_list"))
+			.andExpect(model().attributeExists("bookSearches"))
+			.andExpect(model().attribute("searchType", "keyword"))
+			.andExpect(model().attribute("keyword", keyword));
 	}
 
 	@Test
@@ -105,50 +103,44 @@ public class BookSearchControllerTest {
 			.build();
 		List<GetBookSearchResponse> data = List.of(getBookSearchResponse);
 
-		// Mocking bookService response for search by category
 		PageResponse<GetBookSearchResponse> mockResponse = new PageResponse<>(1, 10, 30, data);
 		when(bookService.getBookSearchCategory(eq(category), anyInt(), anyInt(), eq(sort))).thenReturn(mockResponse);
 
-		// Perform GET request to "/search/category" endpoint and validate the response
 		mockMvc.perform(get("/search/category")
 				.param("category", category)
 				.param("page", String.valueOf(page))
 				.param("size", String.valueOf(size))
 				.param("sort", sort))
-			.andExpect(status().isOk()) // Expect HTTP 200 OK status
-			.andExpect(view().name("store/book/book_list")) // Expect view name to be "store/book/book_list"
-			.andExpect(model().attributeExists("bookSearches")) // Expect "bookSearches" attribute in the model
-			.andExpect(model().attribute("searchType", "category")) // Verify value of "searchType" attribute
-			.andExpect(model().attribute("keyword", category)); // Verify value of "keyword" attribute
+			.andExpect(status().isOk())
+			.andExpect(view().name("store/book/book_list"))
+			.andExpect(model().attributeExists("bookSearches"))
+			.andExpect(model().attribute("searchType", "category"))
+			.andExpect(model().attribute("keyword", category));
 	}
 
 	@Test
 	void testSearchKeywordNotFound() throws Exception {
 		String keyword = "Nonexistent Keyword";
 
-		// Mocking bookService to throw NovaException
 		when(bookService.getBookSearchAllPage(anyString(), anyInt(), anyInt(), anyString()))
 			.thenThrow(new ForbiddenException(ErrorCode.FORBIDDEN));
 
-		// Perform GET request to "/search/keyword" endpoint and validate the response for not found scenario
 		mockMvc.perform(get("/search/keyword")
 				.param("keyword", keyword))
-			.andExpect(status().isOk()) // Expect HTTP 200 OK status (as error handling is within the controller)
-			.andExpect(view().name("error/404")); // Expect view name to be "error/404"
+			.andExpect(status().isOk())
+			.andExpect(view().name("error/404"));
 	}
 
 	@Test
 	void testSearchCategoryNotFound() throws Exception {
 		String category = "Nonexistent Category";
 
-		// Mocking bookService to throw NovaException
 		when(bookService.getBookSearchCategory(anyString(), anyInt(), anyInt(), anyString()))
 			.thenThrow(new ForbiddenException(ErrorCode.FORBIDDEN));
 
-		// Perform GET request to "/search/category" endpoint and validate the response for not found scenario
 		mockMvc.perform(get("/search/category")
 				.param("category", category))
-			.andExpect(status().isOk()) // Expect HTTP 200 OK status (as error handling is within the controller)
-			.andExpect(view().name("error/404")); // Expect view name to be "error/404"
+			.andExpect(status().isOk())
+			.andExpect(view().name("error/404"));
 	}
 }

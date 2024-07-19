@@ -20,7 +20,7 @@ import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.store.order.dto.GetOrderDetailResponse;
 import store.novabook.front.store.order.dto.GetOrdersBookResponse;
 
-public class OrdersBookServiceImplTest {
+class OrdersBookServiceImplTest {
 
 	@Mock
 	private OrdersBookClient ordersBookClient;
@@ -37,27 +37,24 @@ public class OrdersBookServiceImplTest {
 	void testGetOrdersBookReviewId() {
 
 		GetOrdersBookReviewIdResponse ordersBookReviewIdResponse = new GetOrdersBookReviewIdResponse(
-			1L, // ordersBookId
-			2L, // reviewId
-			3L, // ordersId
-			4L, // bookId
-			"Effective Java", // bookTitle
-			LocalDateTime.now() // orderAt
+			1L,
+			2L,
+			4L,
+			3L,
+			"Effective Java",
+			LocalDateTime.now()
 		);
 
 		List<GetOrdersBookReviewIdResponse> data = new ArrayList<>();
 		data.add(ordersBookReviewIdResponse);
 
-		// Given
 		int page = 0;
 		int size = 10;
 		PageResponse<GetOrdersBookReviewIdResponse> expectedResponse = new PageResponse<>(1, 10, 30, data);
 		when(ordersBookClient.getOrdersBookReviewId(page, size)).thenReturn(expectedResponse);
 
-		// When
 		PageResponse<GetOrdersBookReviewIdResponse> actualResponse = ordersBookService.getOrdersBookReviewId(page, size);
 
-		// Then
 		assertEquals(expectedResponse, actualResponse);
 		verify(ordersBookClient, times(1)).getOrdersBookReviewId(page, size);
 	}
@@ -66,26 +63,23 @@ public class OrdersBookServiceImplTest {
 	void testGetOrdersBookAll() {
 
 		GetOrdersBookResponse ordersBookResponse = new GetOrdersBookResponse(
-			1L, // ordersId
-			"The Pragmatic Programmer", // firstBookTitle
-			2L, // extraBookCount
-			50000L, // totalAmount
-			"Shipped", // orderStatus
+			1L,
+			"The Pragmatic Programmer",
+			2L,
+			50000L,
+			"Shipped",
 			LocalDateTime.of(2023, 4, 15, 10, 30) // createdAt
 		);
 
 		List<GetOrdersBookResponse> data = new ArrayList<>();
 		data.add(ordersBookResponse);
-		// Given
 		int page = 0;
 		int size = 10;
 		PageResponse<GetOrdersBookResponse> expectedResponse = new PageResponse<>(1, 10, 30, data);
 		when(ordersBookClient.getOrdersBookAll(page, size)).thenReturn(expectedResponse);
 
-		// When
 		PageResponse<GetOrdersBookResponse> actualResponse = ordersBookService.getOrdersBookAll(page, size);
 
-		// Then
 		assertEquals(expectedResponse, actualResponse);
 		verify(ordersBookClient, times(1)).getOrdersBookAll(page, size);
 	}
@@ -110,14 +104,11 @@ public class OrdersBookServiceImplTest {
 			.finalAmount(9000L)
 			.pointSaveAmount(450L)
 			.build();
-		// Given
 		Long ordersId = 1L;
 		when(ordersBookClient.getOrderDetails(ordersId)).thenReturn(new ApiResponse<>("SUCCESS", true, orderDetailResponse));
 
-		// When
 		GetOrderDetailResponse actualResponse = ordersBookService.getOrderDetail(ordersId);
 
-		// Then
 		assertEquals(orderDetailResponse, actualResponse);
 		verify(ordersBookClient, times(1)).getOrderDetails(ordersId);
 	}

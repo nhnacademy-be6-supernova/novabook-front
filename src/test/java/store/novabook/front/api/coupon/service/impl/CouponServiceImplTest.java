@@ -30,7 +30,7 @@ import store.novabook.front.api.coupon.dto.response.GetLimitedCouponTemplateResp
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
 
-public class CouponServiceImplTest {
+class CouponServiceImplTest {
 
 	@Mock
 	private CouponClient couponClient;
@@ -63,16 +63,16 @@ public class CouponServiceImplTest {
 		List<GetBookCouponTemplateResponse> data = new ArrayList<>();
 		data.add(bookCouponTemplateResponse);
 
-		// Given
+		
 		int page = 0;
 		int size = 10;
 		PageResponse<GetBookCouponTemplateResponse> expectedResponse = new PageResponse<>(1, 10, 30, data);
 		when(couponClient.getBookCouponTemplateAll(page, size)).thenReturn(expectedResponse);
 
-		// When
+		
 		PageResponse<GetBookCouponTemplateResponse> actualResponse = couponService.getBookCouponTemplateAll(page, size);
 
-		// Then
+		
 		assertEquals(expectedResponse, actualResponse);
 		verify(couponClient, times(1)).getBookCouponTemplateAll(page, size);
 	}
@@ -96,18 +96,18 @@ public class CouponServiceImplTest {
 
 		List<GetCategoryCouponTemplateResponse> data = new ArrayList<>();
 		data.add(categoryCouponTemplateResponse);
-		// Given
-		Boolean isValid = true;
+		
+		boolean isValid = true;
 		int page = 0;
 		int size = 10;
 		PageResponse<GetCategoryCouponTemplateResponse> expectedResponse = new PageResponse<>(1, 10, 30, data);
 		when(couponClient.getCategoryCouponTemplateAll(isValid, page, size)).thenReturn(expectedResponse);
 
-		// When
+		
 		PageResponse<GetCategoryCouponTemplateResponse> actualResponse =
 			couponService.getCategoryCouponTemplateAll(isValid, page, size);
 
-		// Then
+		
 		assertEquals(expectedResponse, actualResponse);
 		verify(couponClient, times(1)).getCategoryCouponTemplateAll(isValid, page, size);
 	}
@@ -129,7 +129,7 @@ public class CouponServiceImplTest {
 
 		List<GetCouponTemplateResponse> data = new ArrayList<>();
 		data.add(getCouponTemplateResponse);
-		// Given
+		
 		CouponType type = CouponType.GENERAL;
 		Boolean isValid = true;
 		int page = 0;
@@ -137,11 +137,11 @@ public class CouponServiceImplTest {
 		PageResponse<GetCouponTemplateResponse> expectedResponse = new PageResponse<>(1, 10, 30, data);
 		when(couponClient.getCouponTemplateAll(type, isValid, page, size)).thenReturn(expectedResponse);
 
-		// When
+		
 		PageResponse<GetCouponTemplateResponse> actualResponse =
 			couponService.getCouponTemplateAll(type, isValid, page, size);
 
-		// Then
+		
 		assertEquals(expectedResponse, actualResponse);
 		verify(couponClient, times(1)).getCouponTemplateAll(type, isValid, page, size);
 	}
@@ -166,67 +166,67 @@ public class CouponServiceImplTest {
 		data.add(limitedCouponTemplateResponse);
 
 
-		// Given
+		
 		boolean isValid = true;
 		int page = 0;
 		int size = 10;
 		PageResponse<GetLimitedCouponTemplateResponse> expectedResponse = new PageResponse<>(1, 10, 30, data);
 		when(couponClient.getLimitedCouponTemplateAll(isValid, page, size)).thenReturn(expectedResponse);
 
-		// When
+		
 		PageResponse<GetLimitedCouponTemplateResponse> actualResponse =
 			couponService.getLimitedCouponTemplateAll(isValid, page, size);
 
-		// Then
+		
 		assertEquals(expectedResponse, actualResponse);
 		verify(couponClient, times(1)).getLimitedCouponTemplateAll(isValid, page, size);
 	}
 
 	@Test
 	void testCreateGeneralTemplateCoupon() {
-		// Given
+		
 		CreateCouponTemplateRequest request = mock(CreateCouponTemplateRequest.class);
 
-		// When
+		
 		couponService.createGeneralTemplateCoupon(request);
 
-		// Then
+		
 		verify(couponClient, times(1)).createCouponTemplate(request);
 	}
 
 	@Test
 	void testCreateBookTemplateCoupon() {
-		// Given
+		
 		CreateBookCouponTemPlateRequest request = mock(CreateBookCouponTemPlateRequest.class);
 
-		// When
+		
 		couponService.createBookTemplateCoupon(request);
 
-		// Then
+		
 		verify(couponClient, times(1)).createBookCouponTemplate(request);
 	}
 
 	@Test
 	void testCreateCategoryTemplateCoupon() {
-		// Given
+		
 		CreateCategoryCouponTemplateRequest request = mock(CreateCategoryCouponTemplateRequest.class);
 
-		// When
+		
 		couponService.createCategoryTemplateCoupon(request);
 
-		// Then
+		
 		verify(couponClient, times(1)).createCategoryCouponTemplate(request);
 	}
 
 	@Test
 	void testCreateLimitedTemplateCoupon() {
-		// Given
+		
 		CreateLimitedCouponTemplateRequest request = mock(CreateLimitedCouponTemplateRequest.class);
 
-		// When
+		
 		couponService.createLimitedTemplateCoupon(request);
 
-		// Then
+		
 		verify(couponClient, times(1)).createLimitedCouponTemplate(request);
 	}
 
@@ -249,17 +249,17 @@ public class CouponServiceImplTest {
 
 		List<GetBookCouponTemplateResponse> responseList = new ArrayList<>();
 		responseList.add(bookCouponTemplateResponse);
-		// Given
+		
 		Long bookId = 1L;
-		Boolean isValid = true;
+		boolean isValid = true;
 		GetBookCouponTemplateAllResponse expectedResponse = new GetBookCouponTemplateAllResponse(responseList);
 		ApiResponse<GetBookCouponTemplateAllResponse> apiResponse = new ApiResponse<>("SUCCESS", true, expectedResponse);
 		when(couponClient.getCouponTemplateByBookId(bookId, isValid)).thenReturn(apiResponse);
 
-		// When
+		
 		GetBookCouponTemplateAllResponse actualResponse = couponService.getBookCouponTemplate(bookId, isValid);
 
-		// Then
+		
 		assertEquals(expectedResponse, actualResponse);
 		verify(couponClient, times(1)).getCouponTemplateByBookId(bookId, isValid);
 	}
@@ -282,18 +282,18 @@ public class CouponServiceImplTest {
 
 		List<GetCategoryCouponTemplateResponse> responseList = new ArrayList<>();
 		responseList.add(categoryCouponTemplateResponse);
-		// Given
+		
 		List<Long> categoryIdList = Arrays.asList(1L, 2L);
-		Boolean isValid = true;
+		boolean isValid = true;
 		GetCategoryCouponTemplateAllResponse expectedResponse = new GetCategoryCouponTemplateAllResponse(responseList);
 		when(couponClient.getCategoryCouponTemplateAllByCategoryIdAll(categoryIdList, isValid))
 			.thenReturn(expectedResponse);
 
-		// When
+		
 		GetCategoryCouponTemplateAllResponse actualResponse =
 			couponService.getCategoryCouponTemplate(categoryIdList, isValid);
 
-		// Then
+		
 		assertEquals(expectedResponse, actualResponse);
 		verify(couponClient, times(1)).getCategoryCouponTemplateAllByCategoryIdAll(categoryIdList, isValid);
 	}

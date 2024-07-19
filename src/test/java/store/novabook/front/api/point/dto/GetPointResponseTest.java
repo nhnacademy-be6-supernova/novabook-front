@@ -1,7 +1,8 @@
 package store.novabook.front.api.point.dto;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 import store.novabook.front.api.point.dto.response.GetPointResponse;
 

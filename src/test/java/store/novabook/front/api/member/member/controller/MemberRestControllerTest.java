@@ -52,61 +52,49 @@ class MemberRestControllerTest {
 
 	@Test
 	void isCreatableLoginId_ShouldReturnDuplicateResponse() throws Exception {
-		// Given
 		DuplicateLoginIdRequest request = new DuplicateLoginIdRequest("testLoginId");
 		DuplicateResponse response = new DuplicateResponse(true);
 
 		when(memberRestService.isDuplicateLoginId(any(DuplicateLoginIdRequest.class))).thenReturn(response);
 
-		// When
 		mockMvc.perform(post("/api/v1/front/members/login-id/is-duplicate")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(request)))
-			// Then
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.isDuplicate").value(true));
 	}
 
 	@Test
 	void isCreatableEmail_ShouldReturnDuplicateResponse() throws Exception {
-		// Given
 		DuplicateEmailRequest request = new DuplicateEmailRequest("test@example.com");
 		DuplicateResponse response = new DuplicateResponse(false);
 
 		when(memberRestService.isDuplicateEmail(any(DuplicateEmailRequest.class))).thenReturn(response);
 
-		// When
 		mockMvc.perform(post("/api/v1/front/members/email/is-duplicate")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(request)))
-			// Then
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.isDuplicate").value(false));
 	}
 
 	@Test
 	void getCurrentLoginId_ShouldReturnMemberId() throws Exception {
-		// Given
 		ApiResponse<GetMembersTokenResponse> apiResponse = new ApiResponse<>("SUCCESS", true, new GetMembersTokenResponse(1L));
 		when(memberAuthClient.token()).thenReturn(apiResponse);
 
-		// When
 		mockMvc.perform(get("/api/v1/front/members/login-id/current")
 				.cookie(new Cookie("Authorization", "token")))
-			// Then
 			.andExpect(status().isOk())
 			.andExpect(content().string("1"));
 	}
 	@Test
 	void getMemberName_ShouldReturnMemberNameResponse() throws Exception {
-		// Given
 		MemberNameResponse response = new MemberNameResponse("John Doe");
 
 		when(memberRestService.getMemberName()).thenReturn(response);
 
-		// When
 		mockMvc.perform(get("/api/v1/front/members/member-name"))
-			// Then
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.memberName").value("John Doe"));
 	}

@@ -1,32 +1,28 @@
 package store.novabook.front.api.cart.dto;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-public class CartBookIdDTOTest {
+class CartBookIdDTOTest {
 
 	@Test
-	public void testCartBookIdDTOBuilder() {
-		// Arrange
+	void testCartBookIdDTOBuilder() {
 		Map<Long, Integer> bookIdsAndQuantity = Map.of(
 			1L, 2,
 			2L, 3
 		);
 
-		// Act
 		CartBookIdDTO cartBookIdDTO = new CartBookIdDTO(bookIdsAndQuantity);
 
-		// Assert
 		assertThat(cartBookIdDTO).isNotNull();
 		assertThat(cartBookIdDTO.bookIdsAndQuantity()).isEqualTo(bookIdsAndQuantity);
 	}
 
 	@Test
-	public void testCartBookIdDTOWithNullMap() {
-		// Act & Assert
+	void testCartBookIdDTOWithNullMap() {
 		try {
 			new CartBookIdDTO(null);
 		} catch (Exception e) {

@@ -13,7 +13,7 @@ import store.novabook.front.api.member.address.dto.response.ExceedResponse;
 import store.novabook.front.api.member.address.service.MemberAddressClient;
 import store.novabook.front.common.response.ApiResponse;
 
-public class MemberAddressRestServiceImplTest {
+class MemberAddressRestServiceImplTest {
 
 	@Mock
 	private MemberAddressClient memberAddressClient;
@@ -28,22 +28,17 @@ public class MemberAddressRestServiceImplTest {
 
 	@Test
 	void testIsExceedMemberAddressCount() {
-		// Given
-		ExceedResponse mockResponse = new ExceedResponse(true); // 예상되는 외부 API 응답
+		ExceedResponse mockResponse = new ExceedResponse(true);
 		ApiResponse<ExceedResponse> mockResponseEntity =new ApiResponse<>("SUCCESS", true, mockResponse);
 
-		// Mocking
 		when(memberAddressClient.isExceedMemberAddressCount()).thenReturn(mockResponseEntity);
 
-		// When
 		ExceedResponse actualResponse = memberAddressRestService.isExceedMemberAddressCount();
 
-		// Then
 		assertNotNull(actualResponse);
 		assertTrue(actualResponse.isExceed());
 		assertEquals(mockResponse.isExceed(), actualResponse.isExceed());
 
-		// Verify
 		verify(memberAddressClient, times(1)).isExceedMemberAddressCount();
 	}
 

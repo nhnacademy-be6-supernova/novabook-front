@@ -1,31 +1,20 @@
 package store.novabook.front.api.order.dto.request;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
-public class CreateOrdersRequestTest {
+class CreateOrdersRequestTest {
 
-	private final Validator validator;
 
 	public CreateOrdersRequestTest() {
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		this.validator = factory.getValidator();
 	}
 
 	@Test
-	public void testCreateOrdersRequestValid() {
-		// Arrange
+	void testCreateOrdersRequestValid() {
 		Long userId = 1L;
 		Long deliveryFeeId = 1L;
 		Long wrappingPaperId = 1L;
@@ -38,13 +27,11 @@ public class CreateOrdersRequestTest {
 		String receiverName = "John Doe";
 		String receiverNumber = "1234567890";
 
-		// Act
 		CreateOrdersRequest request = new CreateOrdersRequest(
 			userId, deliveryFeeId, wrappingPaperId, ordersStatusId, ordersDate, totalAmount,
 			deliveryDate, bookPurchaseAmount, deliveryAddress, receiverName, receiverNumber
 		);
 
-		// Assert
 		assertThat(request).isNotNull();
 		assertThat(request.userId()).isEqualTo(userId);
 		assertThat(request.deliveryFeeId()).isEqualTo(deliveryFeeId);

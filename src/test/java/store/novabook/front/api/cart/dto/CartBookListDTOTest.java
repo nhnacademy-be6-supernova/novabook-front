@@ -1,17 +1,16 @@
 package store.novabook.front.api.cart.dto;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-public class CartBookListDTOTest {
+class CartBookListDTOTest {
 
 	@Test
-	public void testCartBookListDTOBuilder() {
-		// Arrange
+	void testCartBookListDTOBuilder() {
 		List<CartBookDTO> cartBookList = List.of(
 			CartBookDTO.builder()
 				.bookId(1L)
@@ -35,17 +34,14 @@ public class CartBookListDTOTest {
 				.build()
 		);
 
-		// Act
 		CartBookListDTO cartBookListDTO = new CartBookListDTO(cartBookList);
 
-		// Assert
 		assertThat(cartBookListDTO).isNotNull();
 		assertThat(cartBookListDTO.getCartBookList()).isEqualTo(cartBookList);
 	}
 
 	@Test
-	public void testCartBookListDTOWithNullList() {
-		// Act & Assert
+	void testCartBookListDTOWithNullList() {
 		try {
 			new CartBookListDTO(null);
 		} catch (Exception e) {
@@ -55,14 +51,11 @@ public class CartBookListDTOTest {
 	}
 
 	@Test
-	public void testCartBookListDTOWithEmptyList() {
-		// Arrange
+	void testCartBookListDTOWithEmptyList() {
 		List<CartBookDTO> emptyCartBookList = Collections.emptyList();
 
-		// Act
 		CartBookListDTO cartBookListDTO = new CartBookListDTO(emptyCartBookList);
 
-		// Assert
 		assertThat(cartBookListDTO).isNotNull();
 		assertThat(cartBookListDTO.getCartBookList()).isEmpty();
 	}

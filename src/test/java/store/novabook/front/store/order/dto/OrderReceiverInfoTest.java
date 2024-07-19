@@ -1,25 +1,25 @@
 package store.novabook.front.store.order.dto;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 
-public class OrderReceiverInfoTest {
+class OrderReceiverInfoTest {
 
 	private final Validator validator;
 
 	public OrderReceiverInfoTest() {
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		this.validator = factory.getValidator();
+		try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
+			this.validator = factory.getValidator();
+		}
 	}
 
 	@Test
-	public void testOrderReceiverInfoValid() {
-		// Arrange
+	void testOrderReceiverInfoValid() {
 		OrderAddressInfo addressInfo = OrderAddressInfo.builder()
 			.zipCode("12345")
 			.streetAddress("123 Main St")
@@ -33,10 +33,8 @@ public class OrderReceiverInfoTest {
 			"john.doe@example.com"
 		);
 
-		// Act
 		var violations = validator.validate(orderReceiverInfo);
 
-		// Assert
 		assertThat(violations).isEmpty();
 	}
 

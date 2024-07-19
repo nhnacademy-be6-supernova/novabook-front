@@ -60,33 +60,29 @@ class MemberCouponControllerTest {
 
 	@Test
 	void testDownloadLimited() throws Exception {
-		// Create a request object
 		DownloadCouponMessageRequest request = new DownloadCouponMessageRequest("uuid", CouponType.GENERAL, 1L);
 
-		// Perform POST request to "/coupons/download/limited"
 		mockMvc.perform(post("/coupons/download/limited")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(request)))
-			.andExpect(status().isOk()); // Expect HTTP 200 OK status
+			.andExpect(status().isOk());
 	}
 
 	@Test
 	void testGetCouponAllForBook() throws Exception {
 		Long bookId = 1L;
 
-		// Perform GET request to "/coupons/book/{bookId}"
 		mockMvc.perform(get("/coupons/book/{bookId}", bookId))
-			.andExpect(status().isOk()); // Expect HTTP 200 OK status
+			.andExpect(status().isOk());
 	}
 
 	@Test
 	void testGetCouponAllForCategory() throws Exception {
 		List<Long> categoryIdList = Arrays.asList(1L, 2L, 3L);
 
-		// Perform GET request to "/coupons/categories"
 		mockMvc.perform(get("/coupons/categories")
 				.param("categoryIdList", categoryIdList.stream().map(Object::toString).collect(Collectors.joining(","))))
-			.andExpect(status().isOk()); // Expect HTTP 200 OK status
+			.andExpect(status().isOk());
 	}
 
 }

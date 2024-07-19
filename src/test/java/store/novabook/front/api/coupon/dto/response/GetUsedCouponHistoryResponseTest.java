@@ -1,9 +1,10 @@
 package store.novabook.front.api.coupon.dto.response;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
+
+import org.junit.jupiter.api.Test;
 
 import store.novabook.front.api.coupon.domain.CouponStatus;
 import store.novabook.front.api.coupon.domain.CouponType;

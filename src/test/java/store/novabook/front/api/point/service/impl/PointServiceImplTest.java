@@ -33,14 +33,11 @@ class PointServiceImplTest {
 
 	@Test
 	void testGetMemberPoint() {
-		// Given
 		GetMemberPointResponse expectedResponse = new GetMemberPointResponse(1L);
 		when(pointHistoryClient.getPointTotalByMemberId()).thenReturn(new ApiResponse<>("SUCCESS", true, expectedResponse));
 
-		// When
 		GetMemberPointResponse actualResponse = pointService.getMemberPoint();
 
-		// Then
 		assertEquals(expectedResponse, actualResponse);
 		verify(pointHistoryClient, times(1)).getPointTotalByMemberId();
 	}
@@ -54,16 +51,13 @@ class PointServiceImplTest {
 			.createdAt(LocalDateTime.now())
 			.build();
 		List<GetPointHistoryResponse> data = List.of(getPointHistoryResponse);
-		// Given
 		int page = 1;
 		int size = 10;
 		PageResponse<GetPointHistoryResponse> expectedResponse = new PageResponse<>(1, 10, 30, data);
 		when(pointHistoryClient.getPointHistoryByMemberIdPage(page, size)).thenReturn(expectedResponse);
 
-		// When
 		PageResponse<GetPointHistoryResponse> actualResponse = pointService.getPointHistories(page, size);
 
-		// Then
 		assertEquals(expectedResponse, actualResponse);
 		verify(pointHistoryClient, times(1)).getPointHistoryByMemberIdPage(page, size);
 	}

@@ -1,29 +1,25 @@
 package store.novabook.front.api.cart.dto.request;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-public class DeleteCartBookListRequestTest {
+class DeleteCartBookListRequestTest {
 
 	@Test
-	public void testDeleteCartBookListRequestWithValidData() {
-		// Arrange
+	void testDeleteCartBookListRequestWithValidData() {
 		List<Long> bookIds = List.of(1L, 2L, 3L);
 
-		// Act
 		DeleteCartBookListRequest request = new DeleteCartBookListRequest(bookIds);
 
-		// Assert
 		assertThat(request).isNotNull();
 		assertThat(request.bookIds()).isEqualTo(bookIds);
 	}
 
 	@Test
-	public void testDeleteCartBookListRequestWithNullBookIds() {
-		// Act & Assert
+	void testDeleteCartBookListRequestWithNullBookIds() {
 		try {
 			new DeleteCartBookListRequest(null);
 		} catch (Exception e) {
@@ -33,14 +29,11 @@ public class DeleteCartBookListRequestTest {
 	}
 
 	@Test
-	public void testDeleteCartBookListRequestWithEmptyBookIds() {
-		// Arrange
+	void testDeleteCartBookListRequestWithEmptyBookIds() {
 		List<Long> emptyBookIds = List.of();
 
-		// Act
 		DeleteCartBookListRequest request = new DeleteCartBookListRequest(emptyBookIds);
 
-		// Assert
 		assertThat(request).isNotNull();
 		assertThat(request.bookIds()).isEmpty();
 	}
