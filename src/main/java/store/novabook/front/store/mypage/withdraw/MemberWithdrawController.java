@@ -20,7 +20,6 @@ public class MemberWithdrawController {
 
 	@GetMapping
 	public String memberWithdraw(Model model) {
-		memberService.getMemberById();
 		model.addAttribute("member", memberService.getMemberById());
 		return "store/mypage/withdraw/withdraw";
 	}
