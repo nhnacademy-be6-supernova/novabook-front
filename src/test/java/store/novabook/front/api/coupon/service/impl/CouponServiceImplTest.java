@@ -6,7 +6,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import store.novabook.front.api.book.dto.response.GetBookAllResponse;
 import store.novabook.front.api.coupon.client.CouponClient;
 import store.novabook.front.api.coupon.domain.DiscountType;
 import store.novabook.front.api.coupon.dto.request.*;
@@ -21,10 +20,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-public class CouponServiceImplTest {
+class CouponServiceImplTest {
 
 	@Mock
 	private CouponClient couponClient;
