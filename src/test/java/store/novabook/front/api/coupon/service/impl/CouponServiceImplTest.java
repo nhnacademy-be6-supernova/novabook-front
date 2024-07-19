@@ -1,5 +1,14 @@
 package store.novabook.front.api.coupon.service.impl;
 
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -7,10 +16,18 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import store.novabook.front.api.coupon.client.CouponClient;
-import store.novabook.front.api.coupon.domain.DiscountType;
-import store.novabook.front.api.coupon.dto.request.*;
-import store.novabook.front.api.coupon.dto.response.*;
 import store.novabook.front.api.coupon.domain.CouponType;
+import store.novabook.front.api.coupon.domain.DiscountType;
+import store.novabook.front.api.coupon.dto.request.CreateBookCouponTemPlateRequest;
+import store.novabook.front.api.coupon.dto.request.CreateCategoryCouponTemplateRequest;
+import store.novabook.front.api.coupon.dto.request.CreateCouponTemplateRequest;
+import store.novabook.front.api.coupon.dto.request.CreateLimitedCouponTemplateRequest;
+import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateAllResponse;
+import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateResponse;
+import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateAllResponse;
+import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateResponse;
+import store.novabook.front.api.coupon.dto.response.GetCouponTemplateResponse;
+import store.novabook.front.api.coupon.dto.response.GetLimitedCouponTemplateResponse;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
 
@@ -58,7 +75,7 @@ class CouponServiceImplTest {
 		PageResponse<GetBookCouponTemplateResponse> actualResponse = couponService.getBookCouponTemplateAll(page, size);
 
 		
-		assertEquals(expectedResponse, actualResponse);
+		Assertions.assertEquals(expectedResponse, actualResponse);
 		verify(couponClient, times(1)).getBookCouponTemplateAll(page, size);
 	}
 
@@ -93,7 +110,7 @@ class CouponServiceImplTest {
 			couponService.getCategoryCouponTemplateAll(isValid, page, size);
 
 		
-		assertEquals(expectedResponse, actualResponse);
+		Assertions.assertEquals(expectedResponse, actualResponse);
 		verify(couponClient, times(1)).getCategoryCouponTemplateAll(isValid, page, size);
 	}
 
@@ -127,7 +144,7 @@ class CouponServiceImplTest {
 			couponService.getCouponTemplateAll(type, isValid, page, size,null);
 
 		
-		assertEquals(expectedResponse, actualResponse);
+		Assertions.assertEquals(expectedResponse, actualResponse);
 		verify(couponClient, times(1)).getCouponTemplateAll(type, isValid, page, size,null);
 	}
 
@@ -163,7 +180,7 @@ class CouponServiceImplTest {
 			couponService.getLimitedCouponTemplateAll(isValid, page, size);
 
 		
-		assertEquals(expectedResponse, actualResponse);
+		Assertions.assertEquals(expectedResponse, actualResponse);
 		verify(couponClient, times(1)).getLimitedCouponTemplateAll(isValid, page, size);
 	}
 
@@ -245,7 +262,7 @@ class CouponServiceImplTest {
 		GetBookCouponTemplateAllResponse actualResponse = couponService.getBookCouponTemplate(bookId, isValid);
 
 		
-		assertEquals(expectedResponse, actualResponse);
+		Assertions.assertEquals(expectedResponse, actualResponse);
 		verify(couponClient, times(1)).getCouponTemplateByBookId(bookId, isValid);
 	}
 
@@ -279,7 +296,7 @@ class CouponServiceImplTest {
 			couponService.getCategoryCouponTemplate(categoryIdList, isValid);
 
 		
-		assertEquals(expectedResponse, actualResponse);
+		Assertions.assertEquals(expectedResponse, actualResponse);
 		verify(couponClient, times(1)).getCategoryCouponTemplateAllByCategoryIdAll(categoryIdList, isValid);
 	}
 }
