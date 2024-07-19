@@ -45,7 +45,7 @@ public interface CouponClient {
 	 */
 	@GetMapping("/templates")
 	PageResponse<GetCouponTemplateResponse> getCouponTemplateAll(@RequestParam(required = false) CouponType type,
-		@RequestParam(defaultValue = "true") Boolean isValid, @RequestParam int page, @RequestParam int size);
+		@RequestParam(defaultValue = "true") Boolean isValid, @RequestParam int page, @RequestParam int size, @RequestParam(required = false) String sort);
 
 	/**
 	 * 모든 책 쿠폰 템플릿을 조회합니다.

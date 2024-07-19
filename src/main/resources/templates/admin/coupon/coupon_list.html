@@ -116,31 +116,38 @@
                 <h1 class="dashboard" style="padding-top: 0.3%">Coupon Management</h1>
                 <div class="card">
                     <h3>일반 쿠폰</h3>
-                    <table class="table table-striped">
+                    <table class="table tc table-striped">
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th>쿠폰 이름</th>
-                            <th>할인타입</th>
-                            <th>할인금액</th>
-                            <th>최대할인금액</th>
-                            <th>최소구매금액</th>
-                            <th>시작일</th>
-                            <th>만료일</th>
-                            <th>사용가능기간</th>
+                            <th class="tc">#</th>
+                            <th class="tc">쿠폰 이름</th>
+                            <th class="tc">할인타입</th>
+                            <th class="tc">할인금액</th>
+                            <th class="tc">최대할인금액</th>
+                            <th class="tc">최소구매금액</th>
+                            <th class="tc">시작일</th>
+                            <th class="tc">만료일</th>
+                            <th class="tc">사용가능기간</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="generalCoupon: ${generalCoupons.data}">
                             <td th:text="${generalCoupon.id}">1</td>
                             <td th:text="${generalCoupon.name}">생일 쿠폰</td>
-                            <td th:text="${generalCoupon.discountType}">상수</td>
-                            <td th:text="${generalCoupon.discountAmount}">5000원</td>
-                            <td th:text="${generalCoupon.maxDiscountAmount}">5000원</td>
-                            <td th:text="${generalCoupon.minPurchaseAmount}">5000원</td>
-                            <td th:text="${generalCoupon.startedAt}">2024.07.15</td>
-                            <td th:text="${generalCoupon.expirationAt}">2024.07.22</td>
-                            <td th:text="${generalCoupon.usePeriod}">2024.07.22</td>
+                            <td th:text="${generalCoupon.discountType.name() == 'AMOUNT' ? '정액' : (generalCoupon.discountType.name() == 'PERCENT' ? '비율' : '')}">
+                                상수
+                            </td>
+                            <td th:text="${generalCoupon.discountType.name() == 'AMOUNT' ? generalCoupon.discountAmount + '원' : (generalCoupon.discountType.name() == 'PERCENT' ? generalCoupon.discountAmount + '%' : '')}">
+                                할인 금액
+                            </td>
+                            <td th:text="${generalCoupon.maxDiscountAmount}+'원'">5000원</td>
+                            <td th:text="${generalCoupon.minPurchaseAmount}+'원'">5000원</td>
+                            <td th:text="${#temporals.format(generalCoupon.startedAt, 'yyyy-MM-dd HH:mm')}">2024.07.15
+                            </td>
+                            <td th:text="${#temporals.format(generalCoupon.expirationAt, 'yyyy-MM-dd HH:mm')}">
+                                2024.07.22
+                            </td>
+                            <td th:text="${generalCoupon.usePeriod}+'시간'">2024.07.22</td>
                         </tr>
                         </tbody>
                     </table>
@@ -149,19 +156,24 @@
                             <button class="btn btn-primary">쿠폰 추가</button>
                         </a>
                         <!-- Previous button -->
-                        <li class="page-item"  th:classappend="${generalCoupons.getPageNum() == 0} ? 'disabled'">
-                            <a th:if="${generalCoupons.getPageNum() > 0}" th:href="@{/admin/coupons(generalPage=${generalCoupons.getPageNum() - 1})}">Previous</a>
+                        <li class="page-item" th:classappend="${generalCoupons.getPageNum() == 0} ? 'disabled'">
+                            <a th:if="${generalCoupons.getPageNum() > 0}"
+                               th:href="@{/admin/coupons(generalPage=${generalCoupons.getPageNum() - 1})}">Previous</a>
                             <span th:if="${generalCoupons.getPageNum() == 0}">Previous</span>
                         </li>
 
                         <!-- Page numbers -->
-                        <li class="page-item" th:if="${generalCoupons.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, generalCoupons.getTotalPageCount() - 1)}">
-                            <a th:href="@{/admin/coupons(generalPage=${i})}" th:text="${i + 1}+'&nbsp;'" th:classappend="${i == generalCoupons.getPageNum()} ? 'active' : ''"></a>
+                        <li class="page-item" th:if="${generalCoupons.getTotalPageCount() > 0}"
+                            th:each="i : ${#numbers.sequence(0, generalCoupons.getTotalPageCount() - 1)}">
+                            <a th:href="@{/admin/coupons(generalPage=${i})}" th:text="${i + 1}+'&nbsp;'"
+                               th:classappend="${i == generalCoupons.getPageNum()} ? 'active' : ''"></a>
                         </li>
 
                         <!-- Next button -->
-                        <li class="page-item" th:classappend="${generalCoupons.getPageNum() >= generalCoupons.getTotalPageCount() - 1} ? 'disabled'">
-                            <a th:if="${generalCoupons.getPageNum() < generalCoupons.getTotalPageCount() - 1}" th:href="@{/admin/coupons(generalPage=${generalCoupons.getPageNum() + 1})}">Next</a>
+                        <li class="page-item"
+                            th:classappend="${generalCoupons.getPageNum() >= generalCoupons.getTotalPageCount() - 1} ? 'disabled'">
+                            <a th:if="${generalCoupons.getPageNum() < generalCoupons.getTotalPageCount() - 1}"
+                               th:href="@{/admin/coupons(generalPage=${generalCoupons.getPageNum() + 1})}">Next</a>
                             <span th:if="${generalCoupons.getPageNum() >= generalCoupons.getTotalPageCount() - 1}">Next</span>
                         </li>
                     </div>
@@ -172,19 +184,19 @@
 
                 <div class="card">
                     <h3>책 쿠폰</h3>
-                    <table class="table table-striped">
+                    <table class="table tc table-striped">
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th>책 아이디</th>
-                            <th>쿠폰 이름</th>
-                            <th>할인타입</th>
-                            <th>할인금액</th>
-                            <th>최대할인금액</th>
-                            <th>최소구매금액</th>
-                            <th>시작일</th>
-                            <th>만료일</th>
-                            <th>사용가능기간</th>
+                            <th class="tc">#</th>
+                            <th class="tc">책 아이디</th>
+                            <th class="tc">쿠폰 이름</th>
+                            <th class="tc">할인타입</th>
+                            <th class="tc">할인금액</th>
+                            <th class="tc">최대할인금액</th>
+                            <th class="tc">최소구매금액</th>
+                            <th class="tc">시작일</th>
+                            <th class="tc">만료일</th>
+                            <th class="tc">사용가능기간</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -192,13 +204,18 @@
                             <td th:text="${coupon.id}">1</td>
                             <td th:text="${coupon.bookId}">1</td>
                             <td th:text="${coupon.name}">생일 쿠폰</td>
-                            <td th:text="${coupon.discountType}">상수</td>
-                            <td th:text="${coupon.discountAmount}">5000원</td>
-                            <td th:text="${coupon.maxDiscountAmount}">5000원</td>
-                            <td th:text="${coupon.minPurchaseAmount}">5000원</td>
-                            <td th:text="${coupon.startedAt}">2024.07.15</td>
-                            <td th:text="${coupon.expirationAt}">2024.07.22</td>
-                            <td th:text="${coupon.usePeriod}">2024.07.22</td>
+                            <td th:text="${coupon.discountType.name() == 'AMOUNT' ? '정액' : (coupon.discountType.name() == 'PERCENT' ? '비율' : '')}">
+                                상수
+                            </td>
+                            <td th:text="${coupon.discountType.name() == 'AMOUNT' ? coupon.discountAmount + '원' : (coupon.discountType.name() == 'PERCENT' ? coupon.discountAmount + '%' : '')}">
+                                5000원
+                            </td>
+                            <td th:text="${coupon.maxDiscountAmount}+'원'">5000원</td>
+                            <td th:text="${coupon.minPurchaseAmount}+'원'">5000원</td>
+                            <td th:text="${#temporals.format(coupon.startedAt, 'yyyy-MM-dd HH:mm')}">2024.07.15</td>
+                            <td th:text="${#temporals.format(coupon.expirationAt, 'yyyy-MM-dd HH:mm')}">2024.07.22</td>
+
+                            <td th:text="${coupon.usePeriod}+'시간'">2024.07.22</td>
                         </tr>
                         </tbody>
                     </table>
@@ -208,18 +225,23 @@
                         </a>
                         <!-- Previous button -->
                         <li class="page-item" th:classappend="${bookCoupons.getPageNum() == 0} ? 'disabled'">
-                            <a th:if="${bookCoupons.getPageNum() > 0}" th:href="@{/admin/coupons(bookPage=${bookCoupons.getPageNum() - 1})}">Previous</a>
+                            <a th:if="${bookCoupons.getPageNum() > 0}"
+                               th:href="@{/admin/coupons(bookPage=${bookCoupons.getPageNum() - 1})}">Previous</a>
                             <span th:if="${bookCoupons.getPageNum() == 0}">Previous</span>
                         </li>
 
                         <!-- Page numbers -->
-                        <li class="page-item" th:if="${bookCoupons.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, bookCoupons.getTotalPageCount() - 1)}">
-                            <a th:href="@{/admin/coupons(bookPage=${i})}" th:text="${i + 1}+'&nbsp;'" th:classappend="${i == bookCoupons.getPageNum()} ? 'active' : ''"></a>
+                        <li class="page-item" th:if="${bookCoupons.getTotalPageCount() > 0}"
+                            th:each="i : ${#numbers.sequence(0, bookCoupons.getTotalPageCount() - 1)}">
+                            <a th:href="@{/admin/coupons(bookPage=${i})}" th:text="${i + 1}+'&nbsp;'"
+                               th:classappend="${i == bookCoupons.getPageNum()} ? 'active' : ''"></a>
                         </li>
 
                         <!-- Next button -->
-                        <li class="page-item" th:classappend="${bookCoupons.getPageNum() >= bookCoupons.getTotalPageCount() - 1} ? 'disabled'">
-                            <a th:if="${bookCoupons.getPageNum() < bookCoupons.getTotalPageCount() - 1}" th:href="@{/admin/coupons(bookPage=${bookCoupons.getPageNum() + 1})}">Next</a>
+                        <li class="page-item"
+                            th:classappend="${bookCoupons.getPageNum() >= bookCoupons.getTotalPageCount() - 1} ? 'disabled'">
+                            <a th:if="${bookCoupons.getPageNum() < bookCoupons.getTotalPageCount() - 1}"
+                               th:href="@{/admin/coupons(bookPage=${bookCoupons.getPageNum() + 1})}">Next</a>
                             <span th:if="${bookCoupons.getPageNum() >= bookCoupons.getTotalPageCount() - 1}">Next</span>
                         </li>
                     </div>
@@ -228,19 +250,19 @@
                 <!--                카테고리 쿠폰-->
                 <div class="card">
                     <h3>카테고리 쿠폰</h3>
-                    <table class="table table-striped">
+                    <table class="table tc table-striped">
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th>카테고리 아이디</th>
-                            <th>쿠폰 이름</th>
-                            <th>할인타입</th>
-                            <th>할인금액</th>
-                            <th>최대할인금액</th>
-                            <th>최소구매금액</th>
-                            <th>시작일</th>
-                            <th>만료일</th>
-                            <th>사용가능기간</th>
+                            <th class="tc">#</th>
+                            <th class="tc">카테고리 아이디</th>
+                            <th class="tc">쿠폰 이름</th>
+                            <th class="tc">할인타입</th>
+                            <th class="tc">할인금액</th>
+                            <th class="tc">최대할인금액</th>
+                            <th class="tc">최소구매금액</th>
+                            <th class="tc">시작일</th>
+                            <th class="tc">만료일</th>
+                            <th class="tc">사용가능기간</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -248,13 +270,18 @@
                             <td th:text="${coupon.id}">1</td>
                             <td th:text="${coupon.categoryId}">1</td>
                             <td th:text="${coupon.name}">생일 쿠폰</td>
-                            <td th:text="${coupon.discountType}">상수</td>
-                            <td th:text="${coupon.discountAmount}">5000원</td>
-                            <td th:text="${coupon.maxDiscountAmount}">5000원</td>
-                            <td th:text="${coupon.minPurchaseAmount}">5000원</td>
-                            <td th:text="${coupon.startedAt}">2024.07.15</td>
-                            <td th:text="${coupon.expirationAt}">2024.07.22</td>
-                            <td th:text="${coupon.usePeriod}">2024.07.22</td>
+                            <td th:text="${coupon.discountType.name() == 'AMOUNT' ? '정액' : (coupon.discountType.name() == 'PERCENT' ? '비율' : '')}">
+                                상수
+                            </td>
+                            <td th:text="${coupon.discountType.name() == 'AMOUNT' ? coupon.discountAmount + '원' : (coupon.discountType.name() == 'PERCENT' ? coupon.discountAmount + '%' : '')}">
+                                5000원
+                            </td>
+                            <td th:text="${coupon.maxDiscountAmount}+'원'">5000원</td>
+                            <td th:text="${coupon.minPurchaseAmount}+'원'">5000원</td>
+                            <td th:text="${#temporals.format(coupon.startedAt, 'yyyy-MM-dd HH:mm')}">2024.07.15</td>
+                            <td th:text="${#temporals.format(coupon.expirationAt, 'yyyy-MM-dd HH:mm')}">2024.07.22</td>
+
+                            <td th:text="${coupon.usePeriod}+'시간'">2024.07.22</td>
                         </tr>
                         </tbody>
                     </table>
@@ -264,18 +291,23 @@
                         </a>
                         <!-- Previous button -->
                         <li class="page-item" th:classappend="${categoryCoupons.getPageNum() == 0} ? 'disabled'">
-                            <a th:if="${categoryCoupons.getPageNum() > 0}" th:href="@{/admin/coupons(categoryPage=${categoryCoupons.getPageNum() - 1})}">Previous</a>
+                            <a th:if="${categoryCoupons.getPageNum() > 0}"
+                               th:href="@{/admin/coupons(categoryPage=${categoryCoupons.getPageNum() - 1})}">Previous</a>
                             <span th:if="${categoryCoupons.getPageNum() == 0}">Previous</span>
                         </li>
 
                         <!-- Page numbers -->
-                        <li class="page-item" th:if="${categoryCoupons.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, categoryCoupons.getTotalPageCount() - 1)}">
-                            <a th:href="@{/admin/coupons(categoryPage=${i})}" th:text="${i + 1}+'&nbsp;'" th:classappend="${i == categoryCoupons.getPageNum()} ? 'active' : ''"></a>
+                        <li class="page-item" th:if="${categoryCoupons.getTotalPageCount() > 0}"
+                            th:each="i : ${#numbers.sequence(0, categoryCoupons.getTotalPageCount() - 1)}">
+                            <a th:href="@{/admin/coupons(categoryPage=${i})}" th:text="${i + 1}+'&nbsp;'"
+                               th:classappend="${i == categoryCoupons.getPageNum()} ? 'active' : ''"></a>
                         </li>
 
                         <!-- Next button -->
-                        <li class="page-item" th:classappend="${categoryCoupons.getPageNum() >= categoryCoupons.getTotalPageCount() - 1} ? 'disabled'">
-                            <a th:if="${categoryCoupons.getPageNum() < categoryCoupons.getTotalPageCount() - 1}" th:href="@{/admin/coupons(categoryPage=${categoryCoupons.getPageNum() + 1})}">Next</a>
+                        <li class="page-item"
+                            th:classappend="${categoryCoupons.getPageNum() >= categoryCoupons.getTotalPageCount() - 1} ? 'disabled'">
+                            <a th:if="${categoryCoupons.getPageNum() < categoryCoupons.getTotalPageCount() - 1}"
+                               th:href="@{/admin/coupons(categoryPage=${categoryCoupons.getPageNum() + 1})}">Next</a>
                             <span th:if="${categoryCoupons.getPageNum() >= categoryCoupons.getTotalPageCount() - 1}">Next</span>
                         </li>
                     </div>
@@ -284,32 +316,37 @@
                 <!-- 선착순 쿠폰-->
                 <div class="card">
                     <h3>선착순 쿠폰</h3>
-                    <table class="table table-striped">
+                    <table class="table tc table-striped">
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th>쿠폰 이름</th>
-                            <th>할인타입</th>
-                            <th>할인금액</th>
-                            <th>최대할인금액</th>
-                            <th>최소구매금액</th>
-                            <th>시작일</th>
-                            <th>만료일</th>
-                            <th>사용가능기간</th>
-                            <th>수량</th>
+                            <th class="tc">#</th>
+                            <th class="tc">쿠폰 이름</th>
+                            <th class="tc">할인타입</th>
+                            <th class="tc">할인금액</th>
+                            <th class="tc">최대할인금액</th>
+                            <th class="tc">최소구매금액</th>
+                            <th class="tc">시작일</th>
+                            <th class="tc">만료일</th>
+                            <th class="tc">사용가능기간</th>
+                            <th class="tc">수량</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="coupon: ${limitedCoupons.data}">
                             <td th:text="${coupon.id}">1</td>
                             <td th:text="${coupon.name}">선착순 쿠폰</td>
-                            <td th:text="${coupon.discountType}">상수</td>
-                            <td th:text="${coupon.discountAmount}">5000원</td>
-                            <td th:text="${coupon.maxDiscountAmount}">5000원</td>
-                            <td th:text="${coupon.minPurchaseAmount}">5000원</td>
-                            <td th:text="${coupon.startedAt}">2024.07.15</td>
-                            <td th:text="${coupon.expirationAt}">2024.07.22</td>
-                            <td th:text="${coupon.usePeriod}">2024.07.22</td>
+                            <td th:text="${coupon.discountType.name() == 'AMOUNT' ? '정액' : (coupon.discountType.name() == 'PERCENT' ? '비율' : '')}">
+                                상수
+                            </td>
+                            <td th:text="${coupon.discountType.name() == 'AMOUNT' ? coupon.discountAmount + '원' : (coupon.discountType.name() == 'PERCENT' ? coupon.discountAmount + '%' : '')}">
+                                5000원
+                            </td>
+                            <td th:text="${coupon.maxDiscountAmount}+'원'">5000원</td>
+                            <td th:text="${coupon.minPurchaseAmount}+'원'">5000원</td>
+                            <td th:text="${#temporals.format(coupon.startedAt, 'yyyy-MM-dd HH:mm')}">2024.07.15</td>
+                            <td th:text="${#temporals.format(coupon.expirationAt, 'yyyy-MM-dd HH:mm')}">2024.07.22</td>
+
+                            <td th:text="${coupon.usePeriod}+'시간'">2024.07.22</td>
                             <td th:text="${coupon.quantity()}">1</td>
                         </tr>
                         </tbody>
@@ -320,18 +357,23 @@
                         </a>
                         <!-- Previous button -->
                         <li class="page-item" th:classappend="${limitedCoupons.getPageNum() == 0} ? 'disabled'">
-                            <a th:if="${limitedCoupons.getPageNum() > 0}" th:href="@{/admin/coupons(limitedCoupons=${limitedCoupons.getPageNum() - 1})}">Previous</a>
+                            <a th:if="${limitedCoupons.getPageNum() > 0}"
+                               th:href="@{/admin/coupons(limitedCoupons=${limitedCoupons.getPageNum() - 1})}">Previous</a>
                             <span th:if="${limitedCoupons.getPageNum() == 0}">Previous</span>
                         </li>
 
                         <!-- Page numbers -->
-                        <li class="page-item" th:if="${limitedCoupons.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, limitedCoupons.getTotalPageCount() - 1)}">
-                            <a th:href="@{/admin/coupons(limitedCoupons=${i})}" th:text="${i + 1}+'&nbsp;'" th:classappend="${i == limitedCoupons.getPageNum()} ? 'active' : ''"></a>
+                        <li class="page-item" th:if="${limitedCoupons.getTotalPageCount() > 0}"
+                            th:each="i : ${#numbers.sequence(0, limitedCoupons.getTotalPageCount() - 1)}">
+                            <a th:href="@{/admin/coupons(limitedCoupons=${i})}" th:text="${i + 1}+'&nbsp;'"
+                               th:classappend="${i == limitedCoupons.getPageNum()} ? 'active' : ''"></a>
                         </li>
 
                         <!-- Next button -->
-                        <li class="page-item" th:classappend="${limitedCoupons.getPageNum() >= limitedCoupons.getTotalPageCount() - 1} ? 'disabled'">
-                            <a th:if="${limitedCoupons.getPageNum() < limitedCoupons.getTotalPageCount() - 1}" th:href="@{/admin/coupons(limitedCoupons=${limitedCoupons.getPageNum() + 1})}">Next</a>
+                        <li class="page-item"
+                            th:classappend="${limitedCoupons.getPageNum() >= limitedCoupons.getTotalPageCount() - 1} ? 'disabled'">
+                            <a th:if="${limitedCoupons.getPageNum() < limitedCoupons.getTotalPageCount() - 1}"
+                               th:href="@{/admin/coupons(limitedCoupons=${limitedCoupons.getPageNum() + 1})}">Next</a>
                             <span th:if="${limitedCoupons.getPageNum() >= limitedCoupons.getTotalPageCount() - 1}">Next</span>
                         </li>
                     </div>
@@ -342,31 +384,39 @@
 
                 <div class="card">
                     <h3>생일 쿠폰</h3>
-                    <table class="table table-striped">
+                    <table class="table tc table-striped">
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th>쿠폰 이름</th>
-                            <th>할인타입</th>
-                            <th>할인금액</th>
-                            <th>최대할인금액</th>
-                            <th>최소구매금액</th>
-                            <th>시작일</th>
-                            <th>만료일</th>
-                            <th>사용가능기간</th>
+                            <th class="tc">#</th>
+                            <th class="tc">쿠폰 이름</th>
+                            <th class="tc">할인타입</th>
+                            <th class="tc">할인금액</th>
+                            <th class="tc">최대할인금액</th>
+                            <th class="tc">최소구매금액</th>
+                            <th class="tc">시작일</th>
+                            <th class="tc">만료일</th>
+                            <th class="tc">사용가능기간</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="birthdayCoupon: ${birthdayCoupons.data}">
                             <td th:text="${birthdayCoupon.id}">1</td>
                             <td th:text="${birthdayCoupon.name}">생일 쿠폰</td>
-                            <td th:text="${birthdayCoupon.discountType}">상수</td>
-                            <td th:text="${birthdayCoupon.discountAmount}">5000원</td>
-                            <td th:text="${birthdayCoupon.maxDiscountAmount}">5000원</td>
-                            <td th:text="${birthdayCoupon.minPurchaseAmount}">5000원</td>
-                            <td th:text="${birthdayCoupon.startedAt}">2024.07.15</td>
-                            <td th:text="${birthdayCoupon.expirationAt}">2024.07.22</td>
-                            <td th:text="${birthdayCoupon.usePeriod}">2024.07.22</td>
+                            <td th:text="${birthdayCoupon.discountType.name() == 'AMOUNT' ? '정액' : (birthdayCoupon.discountType.name() == 'PERCENT' ? '비율' : '')}">
+                                상수
+                            </td>
+                            <td th:text="${birthdayCoupon.discountType.name() == 'AMOUNT' ? birthdayCoupon.discountAmount + '원' : (birthdayCoupon.discountType.name() == 'PERCENT' ? birthdayCoupon.discountAmount + '%' : '')}">
+                                5000원
+                            </td>
+                            <td th:text="${birthdayCoupon.maxDiscountAmount}+'원'">5000원</td>
+                            <td th:text="${birthdayCoupon.minPurchaseAmount}+'원'">5000원</td>
+                            <td th:text="${#temporals.format(birthdayCoupon.startedAt, 'yyyy-MM-dd HH:mm')}">
+                                2024.07.15
+                            </td>
+                            <td th:text="${#temporals.format(birthdayCoupon.expirationAt, 'yyyy-MM-dd HH:mm')}">
+                                2024.07.22
+                            </td>
+                            <td th:text="${birthdayCoupon.usePeriod}+'시간'">2024.07.22</td>
                         </tr>
                         </tbody>
                     </table>
@@ -376,18 +426,23 @@
                         </a>
                         <!-- Previous button -->
                         <li class="page-item" th:classappend="${birthdayCoupons.getPageNum() == 0} ? 'disabled'">
-                            <a th:if="${birthdayCoupons.getPageNum() > 0}" th:href="@{/admin/coupons(birthdayPage=${birthdayCoupons.getPageNum() - 1})}">Previous</a>
+                            <a th:if="${birthdayCoupons.getPageNum() > 0}"
+                               th:href="@{/admin/coupons(birthdayPage=${birthdayCoupons.getPageNum() - 1})}">Previous</a>
                             <span th:if="${birthdayCoupons.getPageNum() == 0}">Previous</span>
                         </li>
 
                         <!-- Page numbers -->
-                        <li class="page-item" th:if="${birthdayCoupons.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, birthdayCoupons.getTotalPageCount() - 1)}">
-                            <a th:href="@{/admin/coupons(birthdayPage=${i})}" th:text="${i + 1}+'&nbsp;'" th:classappend="${i == birthdayCoupons.getPageNum()} ? 'active' : ''"></a>
+                        <li class="page-item" th:if="${birthdayCoupons.getTotalPageCount() > 0}"
+                            th:each="i : ${#numbers.sequence(0, birthdayCoupons.getTotalPageCount() - 1)}">
+                            <a th:href="@{/admin/coupons(birthdayPage=${i})}" th:text="${i + 1}+'&nbsp;'"
+                               th:classappend="${i == birthdayCoupons.getPageNum()} ? 'active' : ''"></a>
                         </li>
 
                         <!-- Next button -->
-                        <li class="page-item" th:classappend="${birthdayCoupons.getPageNum() >= birthdayCoupons.getTotalPageCount() - 1} ? 'disabled'">
-                            <a th:if="${birthdayCoupons.getPageNum() < birthdayCoupons.getTotalPageCount() - 1}" th:href="@{/admin/coupons(birthdayPage=${birthdayCoupons.getPageNum() + 1})}">Next</a>
+                        <li class="page-item"
+                            th:classappend="${birthdayCoupons.getPageNum() >= birthdayCoupons.getTotalPageCount() - 1} ? 'disabled'">
+                            <a th:if="${birthdayCoupons.getPageNum() < birthdayCoupons.getTotalPageCount() - 1}"
+                               th:href="@{/admin/coupons(birthdayPage=${birthdayCoupons.getPageNum() + 1})}">Next</a>
                             <span th:if="${birthdayCoupons.getPageNum() >= birthdayCoupons.getTotalPageCount() - 1}">Next</span>
                         </li>
                     </div>
@@ -397,32 +452,36 @@
                 <!--                환영 쿠폰-->
 
                 <div class="card">
-                    <h3>환영 쿠폰</h3>
-                    <table class="table table-striped">
+                    <h3>Welcome 쿠폰</h3>
+                    <table class="table tc table-striped">
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th>쿠폰 이름</th>
-                            <th>할인타입</th>
-                            <th>할인금액</th>
-                            <th>최대할인금액</th>
-                            <th>최소구매금액</th>
-                            <th>시작일</th>
-                            <th>만료일</th>
-                            <th>사용가능기간</th>
+                            <th class="tc">#</th>
+                            <th class="tc">쿠폰 이름</th>
+                            <th class="tc">할인타입</th>
+                            <th class="tc">할인금액</th>
+                            <th class="tc">최대할인금액</th>
+                            <th class="tc">최소구매금액</th>
+                            <th class="tc">시작일</th>
+                            <th class="tc">만료일</th>
+                            <th class="tc">사용가능기간</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="coupon: ${welcomeCoupons.data}">
                             <td th:text="${coupon.id}">1</td>
                             <td th:text="${coupon.name}">생일 쿠폰</td>
-                            <td th:text="${coupon.discountType}">상수</td>
-                            <td th:text="${coupon.discountAmount}">5000원</td>
-                            <td th:text="${coupon.maxDiscountAmount}">5000원</td>
-                            <td th:text="${coupon.minPurchaseAmount}">5000원</td>
-                            <td th:text="${coupon.startedAt}">2024.07.15</td>
-                            <td th:text="${coupon.expirationAt}">2024.07.22</td>
-                            <td th:text="${coupon.usePeriod}">24</td>
+                            <td th:text="${coupon.discountType.name() == 'AMOUNT' ? '정액' : (coupon.discountType.name() == 'PERCENT' ? '비율' : '')}">
+                                상수
+                            </td>
+                            <td th:text="${coupon.discountType.name() == 'AMOUNT' ? coupon.discountAmount + '원' : (coupon.discountType.name() == 'PERCENT' ? coupon.discountAmount + '%' : '')}">
+                                5000원
+                            </td>
+                            <td th:text="${coupon.maxDiscountAmount}+'원'">5000원</td>
+                            <td th:text="${coupon.minPurchaseAmount}+'원'">5000원</td>
+                            <td th:text="${#temporals.format(coupon.startedAt, 'yyyy-MM-dd HH:mm')}">2024.07.15</td>
+                            <td th:text="${#temporals.format(coupon.expirationAt, 'yyyy-MM-dd HH:mm')}">2024.07.22</td>
+                            <td th:text="${coupon.usePeriod}+'시간'">2024.07.22</td>
                         </tr>
                         </tbody>
                     </table>
@@ -431,19 +490,24 @@
                             <button class="btn btn-primary">쿠폰 추가</button>
                         </a>
                         <!-- Previous button -->
-                        <li class="page-item"  th:classappend="${welcomeCoupons.getPageNum() == 0} ? 'disabled'">
-                            <a th:if="${welcomeCoupons.getPageNum() > 0}" th:href="@{/admin/coupons(welcomePage=${welcomeCoupons.getPageNum() - 1})}">Previous</a>
+                        <li class="page-item" th:classappend="${welcomeCoupons.getPageNum() == 0} ? 'disabled'">
+                            <a th:if="${welcomeCoupons.getPageNum() > 0}"
+                               th:href="@{/admin/coupons(welcomePage=${welcomeCoupons.getPageNum() - 1})}">Previous</a>
                             <span th:if="${welcomeCoupons.getPageNum() == 0}">Previous</span>
                         </li>
 
                         <!-- Page numbers -->
-                        <li class="page-item" th:if="${welcomeCoupons.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, welcomeCoupons.getTotalPageCount() - 1)}">
-                            <a th:href="@{/admin/coupons(welcomePage=${i})}" th:text="${i + 1}+'&nbsp;'" th:classappend="${i == welcomeCoupons.getPageNum()} ? 'active' : ''"></a>
+                        <li class="page-item" th:if="${welcomeCoupons.getTotalPageCount() > 0}"
+                            th:each="i : ${#numbers.sequence(0, welcomeCoupons.getTotalPageCount() - 1)}">
+                            <a th:href="@{/admin/coupons(welcomePage=${i})}" th:text="${i + 1}+'&nbsp;'"
+                               th:classappend="${i == welcomeCoupons.getPageNum()} ? 'active' : ''"></a>
                         </li>
 
                         <!-- Next button -->
-                        <li class="page-item" th:classappend="${welcomeCoupons.getPageNum() >= welcomeCoupons.getTotalPageCount() - 1} ? 'disabled'">
-                            <a th:if="${welcomeCoupons.getPageNum() < welcomeCoupons.getTotalPageCount() - 1}" th:href="@{/admin/coupons(welcomePage=${welcomeCoupons.getPageNum() + 1})}">Next</a>
+                        <li class="page-item"
+                            th:classappend="${welcomeCoupons.getPageNum() >= welcomeCoupons.getTotalPageCount() - 1} ? 'disabled'">
+                            <a th:if="${welcomeCoupons.getPageNum() < welcomeCoupons.getTotalPageCount() - 1}"
+                               th:href="@{/admin/coupons(welcomePage=${welcomeCoupons.getPageNum() + 1})}">Next</a>
                             <span th:if="${welcomeCoupons.getPageNum() >= welcomeCoupons.getTotalPageCount() - 1}">Next</span>
                         </li>
                     </div>
