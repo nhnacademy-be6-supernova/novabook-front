@@ -16,9 +16,7 @@ public class AdminIndexController {
 
 	@GetMapping
 	public String index() {
-
 		adminService.admin();
-
 		return "admin/admin_index";
 	}
 }

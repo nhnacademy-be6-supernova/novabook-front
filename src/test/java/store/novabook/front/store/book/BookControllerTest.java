@@ -1,8 +1,15 @@
 package store.novabook.front.store.book;
 
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -17,23 +24,12 @@ import store.novabook.front.api.book.likes.dto.LikeBookResponse;
 import store.novabook.front.api.book.likes.service.LikeBookRestService;
 import store.novabook.front.api.book.service.BookService;
 import store.novabook.front.api.book.service.ReviewService;
-import store.novabook.front.api.member.member.controller.MemberRestController;
 import store.novabook.front.api.member.member.service.MemberAuthClient;
 import store.novabook.front.common.exception.ErrorCode;
 import store.novabook.front.common.exception.ForbiddenException;
-import store.novabook.front.common.exception.NovaException;
 import store.novabook.front.common.response.ApiResponse;
-import store.novabook.front.common.security.aop.CurrentMembers;
 import store.novabook.front.common.security.aop.CurrentMembersArgumentResolver;
 import store.novabook.front.common.security.aop.dto.GetMembersTokenResponse;
-
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @WebMvcTest(BookController.class)
 public class BookControllerTest {

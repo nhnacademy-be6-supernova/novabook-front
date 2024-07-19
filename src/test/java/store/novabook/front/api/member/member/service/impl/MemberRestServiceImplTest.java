@@ -1,20 +1,21 @@
 package store.novabook.front.api.member.member.service.impl;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
 import store.novabook.front.api.member.member.dto.request.DuplicateEmailRequest;
 import store.novabook.front.api.member.member.dto.request.DuplicateLoginIdRequest;
 import store.novabook.front.api.member.member.dto.response.DuplicateResponse;
 import store.novabook.front.api.member.member.dto.response.MemberNameResponse;
 import store.novabook.front.api.member.member.service.MemberClient;
 import store.novabook.front.common.response.ApiResponse;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 class MemberRestServiceImplTest {
 

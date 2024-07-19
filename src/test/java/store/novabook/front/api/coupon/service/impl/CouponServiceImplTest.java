@@ -1,28 +1,34 @@
 package store.novabook.front.api.coupon.service.impl;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
-import store.novabook.front.api.book.dto.response.GetBookAllResponse;
-import store.novabook.front.api.coupon.client.CouponClient;
-import store.novabook.front.api.coupon.domain.DiscountType;
-import store.novabook.front.api.coupon.dto.request.*;
-import store.novabook.front.api.coupon.dto.response.*;
-import store.novabook.front.api.coupon.domain.CouponType;
-import store.novabook.front.common.response.ApiResponse;
-import store.novabook.front.common.response.PageResponse;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import store.novabook.front.api.coupon.client.CouponClient;
+import store.novabook.front.api.coupon.domain.CouponType;
+import store.novabook.front.api.coupon.domain.DiscountType;
+import store.novabook.front.api.coupon.dto.request.CreateBookCouponTemPlateRequest;
+import store.novabook.front.api.coupon.dto.request.CreateCategoryCouponTemplateRequest;
+import store.novabook.front.api.coupon.dto.request.CreateCouponTemplateRequest;
+import store.novabook.front.api.coupon.dto.request.CreateLimitedCouponTemplateRequest;
+import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateAllResponse;
+import store.novabook.front.api.coupon.dto.response.GetBookCouponTemplateResponse;
+import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateAllResponse;
+import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateResponse;
+import store.novabook.front.api.coupon.dto.response.GetCouponTemplateResponse;
+import store.novabook.front.api.coupon.dto.response.GetLimitedCouponTemplateResponse;
+import store.novabook.front.common.response.ApiResponse;
+import store.novabook.front.common.response.PageResponse;
 
 public class CouponServiceImplTest {
 

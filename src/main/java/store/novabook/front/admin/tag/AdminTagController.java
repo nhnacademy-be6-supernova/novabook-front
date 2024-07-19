@@ -35,11 +35,6 @@ public class AdminTagController {
 		return "redirect:/admin/tags";
 	}
 
-	@PostMapping("/tag/{tagId}/update")
-	public String createTag(@PathVariable Long tagId) {
-		return "redirect:/admin/tags";
-	}
-
 	@GetMapping("/tag/{tagId}/delete")
 	public String deleteTag(@PathVariable Long tagId) {
 		tagService.deleteTag(tagId);
