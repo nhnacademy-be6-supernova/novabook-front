@@ -27,7 +27,7 @@ import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.common.security.aop.CurrentMembersArgumentResolver;
 
 @WebMvcTest(AdminTagController.class)
-public class AdminTagControllerTest {
+class AdminTagControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -49,7 +49,7 @@ public class AdminTagControllerTest {
 	}
 
 	@Test
-	public void testGetTagAll() throws Exception {
+	void testGetTagAll() throws Exception {
 
 		Tag sampleTag = Tag.builder().id(1L).name("test").build();
 		GetTagResponse getTagResponse = GetTagResponse.fromEntity(sampleTag);
@@ -58,7 +58,6 @@ public class AdminTagControllerTest {
 
 		when(tagService.getTags(anyInt(), anyInt())).thenReturn(expectedResponse);
 
-		// Act and Assert
 		mockMvc.perform(get("/admin/tags")
 				.param("page", "0")
 				.param("size", "5"))
@@ -69,11 +68,9 @@ public class AdminTagControllerTest {
 	}
 
 	@Test
-	public void testCreateTag() throws Exception {
-		// Arrange
+	void testCreateTag() throws Exception {
 		CreateTagRequest request = new CreateTagRequest("New Tag");
 
-		// Act and Assert
 		mockMvc.perform(post("/admin/tags/register")
 				.contentType("application/x-www-form-urlencoded")
 				.param("name", request.name()))
@@ -81,20 +78,17 @@ public class AdminTagControllerTest {
 			.andExpect(redirectedUrl("/admin/tags"))
 			.andDo(MockMvcResultHandlers.print());
 
-		// Verify that createTags was called with the correct request
 		verify(tagService).createTags(any(CreateTagRequest.class));
 	}
 
 
 	@Test
-	public void testDeleteTag() throws Exception {
-		// Act and Assert
+	void testDeleteTag() throws Exception {
 		mockMvc.perform(get("/admin/tags/tag/1/delete"))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(redirectedUrl("/admin/tags"))
 			.andDo(MockMvcResultHandlers.print());
 
-		// Verify that deleteTag was called with the correct ID
 		verify(tagService).deleteTag(1L);
 	}
 }

@@ -32,7 +32,7 @@ import java.util.Collections;
 import java.util.List;
 
 @SpringJUnitConfig
-public class AdminBookControllerTest {
+class AdminBookControllerTest {
 
 	@Mock
 	private BookService bookService;
@@ -70,14 +70,11 @@ public class AdminBookControllerTest {
 		List<GetBookAllResponse> data = new ArrayList<>();
 		data.add(getBookAllResponse);
 
-		// Arrange
 		PageResponse<GetBookAllResponse> expectedResponse = new PageResponse<>(1, 10, 30, data);
 		when(bookService.getBookAll(anyInt(), anyInt())).thenReturn(expectedResponse);
 
-		// Act
 		String viewName = adminBookController.getBookAll(model, 0, 10);
 
-		// Assert
 		assertEquals("admin/book/book_list", viewName);
 	}
 
@@ -86,7 +83,7 @@ public class AdminBookControllerTest {
 
 		Category category = Category.builder()
 			.id(1L)
-			.topCategory(null) // Assuming this is a top-level category with no parent
+			.topCategory(null)
 			.name("Fiction")
 			.createdAt(LocalDateTime.now())
 			.updatedAt(LocalDateTime.now())
@@ -97,15 +94,12 @@ public class AdminBookControllerTest {
 		);
 
 		GetCategoryResponse getCategoryResponse = GetCategoryResponse.fromEntity(category, subCategories);
-		// Arrange
 		GetCategoryListResponse getCategoryListResponse = new GetCategoryListResponse(List.of(getCategoryResponse));
 		when(categoryService.getCategoryAll()).thenReturn(getCategoryListResponse);
 		when(tagService.getTagList()).thenReturn(Collections.emptyList());
 
-		// Act
 		String viewName = adminBookController.getBookForm(model);
 
-		// Assert
 		assertEquals("admin/book/book_form", viewName);
 	}
 
@@ -121,10 +115,8 @@ public class AdminBookControllerTest {
 			.isPackaged(true)
 			.build();
 
-		// Act
 		String viewName = adminBookController.updateBook(updateBookRequest);
 
-		// Assert
 		assertEquals("redirect:/admin/books", viewName);
 	}
 }

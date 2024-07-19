@@ -30,7 +30,7 @@ import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.common.security.aop.CurrentMembersArgumentResolver;
 
 @WebMvcTest(AdminDeliveryController.class)
-public class AdminDeliveryControllerTest {
+class AdminDeliveryControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -52,8 +52,7 @@ public class AdminDeliveryControllerTest {
 	}
 
 	@Test
-	public void testGetDeliveryForm() throws Exception {
-		// Arrange
+	void testGetDeliveryForm() throws Exception {
 		GetDeliveryFeeResponse getDeliveryFeeResponse = GetDeliveryFeeResponse.builder()
 			.id(1L)
 			.fee(5000L)
@@ -64,14 +63,11 @@ public class AdminDeliveryControllerTest {
 		List<GetDeliveryFeeResponse> data = new ArrayList<>();
 		data.add(getDeliveryFeeResponse);
 
-		// Given
 		PageResponse<GetDeliveryFeeResponse> expectedResponse = new PageResponse<>(1, 10, 30, data);
-		// Populate response object if needed
 
 		when(deliveryFeeService.getDeliveryFeeAllPage(anyInt(), anyInt()))
 			.thenReturn(expectedResponse);
 
-		// Act and Assert
 		mockMvc.perform(MockMvcRequestBuilders.get("/admin/deliveries/delivery/form")
 				.param("page", "0")
 				.param("size", "5"))
@@ -84,8 +80,7 @@ public class AdminDeliveryControllerTest {
 
 
 	@Test
-	public void testCreateDelivery() throws Exception {
-		// Arrange
+	void testCreateDelivery() throws Exception {
 		mockMvc.perform(post("/admin/deliveries/delivery"))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/admin/deliveries/delivery/form"))

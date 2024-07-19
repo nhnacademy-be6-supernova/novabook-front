@@ -1,11 +1,8 @@
 package store.novabook.front.admin.admin;
 
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,13 +14,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import store.novabook.front.admin.category.AdminCategoryController;
 import store.novabook.front.api.admin.service.AdminService;
 import store.novabook.front.api.member.member.service.MemberAuthClient;
 import store.novabook.front.common.security.aop.CurrentMembersArgumentResolver;
 
 @WebMvcTest(AdminIndexController.class)
-public class AdminIndexControllerTest {
+class AdminIndexControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -45,14 +41,12 @@ public class AdminIndexControllerTest {
 	}
 
 	@Test
-	public void testIndex() throws Exception {
-		// Act and Assert
+	void testIndex() throws Exception {
 		mockMvc.perform(get("/admin"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("admin/admin_index"))
 			.andDo(MockMvcResultHandlers.print());
 
-		// Verify that adminService.admin() is called
 		verify(adminService).admin();
 	}
 }

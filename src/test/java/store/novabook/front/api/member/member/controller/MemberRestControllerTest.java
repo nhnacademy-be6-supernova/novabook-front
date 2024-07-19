@@ -28,7 +28,7 @@ import store.novabook.front.common.security.aop.CurrentMembersArgumentResolver;
 import store.novabook.front.common.security.aop.dto.GetMembersTokenResponse;
 
 @WebMvcTest(controllers = MemberRestController.class)
-public class MemberRestControllerTest {
+class MemberRestControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;

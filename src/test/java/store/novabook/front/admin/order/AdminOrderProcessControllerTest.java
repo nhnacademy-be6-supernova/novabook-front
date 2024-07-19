@@ -35,7 +35,7 @@ import store.novabook.front.store.order.dto.OrderViewDTO;
 import store.novabook.front.store.order.dto.UpdateOrdersAdminRequest;
 
 @WebMvcTest(AdminOrderProcessController.class)
-public class AdminOrderProcessControllerTest {
+class AdminOrderProcessControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -45,8 +45,6 @@ public class AdminOrderProcessControllerTest {
 
 	@MockBean
 	private MemberAuthClient memberAuthClient;
-	@Autowired
-	private ObjectMapper jacksonObjectMapper;
 
 	@BeforeEach
 	void setup() {
@@ -59,8 +57,7 @@ public class AdminOrderProcessControllerTest {
 	}
 
 	@Test
-	public void testGetOrderAll() throws Exception {
-		// Arrange
+	void testGetOrderAll() throws Exception {
 
 		GetOrdersAdminResponse getOrdersAdminResponse = GetOrdersAdminResponse.builder()
 			.ordersId(1L)
@@ -75,7 +72,6 @@ public class AdminOrderProcessControllerTest {
 
 		when(orderService.getOrderAllAdmin(anyInt(), anyInt())).thenReturn(expectedResponse);
 
-		// Act and Assert
 		mockMvc.perform(get("/admin/orders")
 				.param("page", "0")
 				.param("size", "10"))
@@ -86,20 +82,17 @@ public class AdminOrderProcessControllerTest {
 	}
 
 	@Test
-	public void testUpdateOrder() throws Exception {
-		// Arrange
+	void testUpdateOrder() throws Exception {
 		UpdateOrdersAdminRequest request = new UpdateOrdersAdminRequest(1234L);
 		doNothing().when(orderService).update(anyLong(), any(UpdateOrdersAdminRequest.class));
 
-		// Act and Assert
 		mockMvc.perform(post("/admin/orders/1")
 					.contentType("application/x-www-form-urlencoded")
 					.param("ordersStatusId", String.valueOf(request.ordersStatusId()))
-			) // Add more fields as needed
+			)
 			.andExpect(status().isNoContent())
 			.andDo(MockMvcResultHandlers.print());
 
-		// Verify that the update method was called with any long ID and any UpdateOrdersAdminRequest
 		verify(orderService).update(anyLong(), any(UpdateOrdersAdminRequest.class));
 	}
 }
