@@ -30,13 +30,14 @@ public class NovaErrorDecoder implements ErrorDecoder {
 
 	@Override
 	public Exception decode(String methodKey, Response response) {
-		ErrorCode errorCode = getErrorCode(response);
 
 		String responseBody = getResponseBody(response);
 
 		if (responseBody != null) {
 			log.info("Response Body: {}", responseBody);
 		}
+
+		ErrorCode errorCode = getErrorCode(response);
 
 		return switch (HttpStatus.valueOf(response.status())) {
 			case UNAUTHORIZED -> new UnauthorizedException(errorCode);
@@ -50,16 +51,6 @@ public class NovaErrorDecoder implements ErrorDecoder {
 		};
 	}
 
-	private ErrorCode getErrorCode(Response response) {
-		try (InputStream bodyIs = response.body().asInputStream()) {
-			ApiResponse<ErrorResponse> apiResponse = objectMapper.readValue(bodyIs,
-				objectMapper.getTypeFactory().constructParametricType(ApiResponse.class, ErrorResponse.class));
-			return apiResponse.getBody().errorCode();
-		} catch (Exception e) {
-			return ErrorCode.DECODING_ERROR; // 에러 해석 실패 시 기본 에러 코드
-		}
-	}
-
 	private String getResponseBody(Response response) {
 		try (InputStream bodyIs = response.body().asInputStream()) {
 			return new String(bodyIs.readAllBytes(), StandardCharsets.UTF_8);
@@ -69,4 +60,13 @@ public class NovaErrorDecoder implements ErrorDecoder {
 		}
 	}
 
+	private ErrorCode getErrorCode(Response response) {
+		try (InputStream bodyIs = response.body().asInputStream()) {
+			ApiResponse<ErrorResponse> apiResponse = objectMapper.readValue(bodyIs,
+				objectMapper.getTypeFactory().constructParametricType(ApiResponse.class, ErrorResponse.class));
+			return apiResponse.getBody().errorCode();
+		} catch (Exception e) {
+			return ErrorCode.DECODING_ERROR; // 에러 해석 실패 시 기본 에러 코드
+		}
+	}
 }
