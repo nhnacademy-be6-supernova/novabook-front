@@ -98,13 +98,13 @@
             color: #777;
         }
 
-        .coupon-content{
+        .coupon-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .coupon-discount{
+        .coupon-discount {
             font-size: 2em; /* 할인 금액을 적당히 크게 표시 */
             font-weight: bold;
             margin-left: 20px;
@@ -133,12 +133,15 @@
                                         <h4 th:text="${coupon.name}">CUPON1234</h4>
                                         <p>
                                             <span th:text="${coupon.type()}">BIRTHDAY</span> |
-                                            <span th:text="'최소 ' + ${coupon.minPurchaseAmount} + '원 구매시'">최소 10000원 구매시</span> |
-                                            <span th:text="'최대 ' + ${coupon.maxDiscountAmount} + '원 할인'">최대 5000원 할인</span> |
+                                            <span th:text="'최소 ' + ${coupon.minPurchaseAmount} + '원 구매시'">최소 10000원 구매시</span>
+                                            |
+                                            <span th:text="'최대 ' + ${coupon.maxDiscountAmount} + '원 할인'">최대 5000원 할인</span>
+                                            |
                                             <span th:text="'유효기간: ' + ${coupon.createdAt} + ' ~ ' + ${coupon.expirationAt}">유효기간: 2024-01-01T00:00:00 ~ 2024-12-31T23:59:59</span>
                                         </p>
                                     </div>
-                                    <div class="coupon-discount" th:text="${coupon.discountAmount} + (coupon.discountType == 'PERCENT' ? '%' : '원')"></div>
+                                    <div class="coupon-discount"
+                                         th:text="${coupon.discountAmount} + (coupon.discountType == 'PERCENT' ? '%' : '원')"></div>
                                 </div>
                             </li>
                         </th:block>
@@ -227,7 +230,6 @@
 <div th:replace="~{layout/store/footer::footer}"></div>
 
 
-
 <script>
     let currentPage = {
         issue: 0,
@@ -248,7 +250,7 @@
 
     function loadCoupons(type, page) {
         let url = (type === 'issue') ? '/mypage/coupons/api/issued' : '/mypage/coupons/api/used';
-        $.get(url, { page: page, size: 5 }, function(data) {
+        $.get(url, {page: page, size: 5}, function (data) {
             let tableBody = (type === 'issue') ? '#issue-table tbody' : '#usage-table tbody';
             let pagination = (type === 'issue') ? '#issue-pagination' : '#usage-pagination';
             let content = data.content;
@@ -281,7 +283,7 @@
         $(paginationId).html(html);
     }
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         openTab('issue');
     });
 </script>

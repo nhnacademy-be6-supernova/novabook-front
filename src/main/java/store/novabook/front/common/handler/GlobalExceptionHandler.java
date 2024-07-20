@@ -20,6 +20,9 @@ import store.novabook.front.common.exception.UnauthorizedException;
 @Slf4j
 public class GlobalExceptionHandler {
 
+	private static final String EXCEPTION = "exception";
+	public static final String INTERNAL_SERVER_ERROR = "Internal server error :";
+
 	@ExceptionHandler(AlreadyLoginException.class)
 	public String handleAlreadyLoginException(AlreadyLoginException e) {
 		return "redirect:/";
@@ -32,28 +35,28 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(ForbiddenException.class)
 	public String handleForbiddenException(ForbiddenException exception, Model model) {
-		model.addAttribute("exception", exception);
+		model.addAttribute(EXCEPTION, exception);
 		return "error/403";
 	}
 
 	@ExceptionHandler(InternalServerException.class)
 	public String handleInternalServerException(InternalServerException e, Model model) {
-		log.error("Internal server error :", e);
-		model.addAttribute("exception", e);
+		log.error(INTERNAL_SERVER_ERROR, e);
+		model.addAttribute(EXCEPTION, e);
 		return "error/500";
 	}
 
 	@ExceptionHandler(BadGatewayException.class)
 	public String handleBadGatewayException(BadGatewayException e, Model model) {
-		log.error("Internal server error :", e);
-		model.addAttribute("exception", e);
+		log.error(INTERNAL_SERVER_ERROR, e);
+		model.addAttribute(EXCEPTION, e);
 		return "error/502";
 	}
 
 	@ExceptionHandler(NovaException.class)
 	public String handleFeignClientException(NovaException e, Model model) {
-		log.error("Internal server error :", e);
-		model.addAttribute("exception", e);
+		log.error(INTERNAL_SERVER_ERROR, e);
+		model.addAttribute(EXCEPTION, e);
 		return "error/nova_error";
 	}
 

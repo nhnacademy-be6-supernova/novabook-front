@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import store.novabook.front.api.member.member.dto.response.PaycoLoginApiResponse;
 import store.novabook.front.api.member.member.dto.response.PaycoLogoutResponse;
+import store.novabook.front.common.exception.ErrorCode;
+import store.novabook.front.common.exception.PaycoApiException;
 
 @Component
 public class PaycoResponseValidator {
@@ -26,7 +28,7 @@ public class PaycoResponseValidator {
 				return Optional.ofNullable(response.getData().getMember().getIdNo());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new PaycoApiException(ErrorCode.PAYCO_API_ERROR);
 		}
 		return Optional.empty();
 	}
@@ -36,8 +38,7 @@ public class PaycoResponseValidator {
 			PaycoLogoutResponse response = objectMapper.readValue(jsonResponse, PaycoLogoutResponse.class);
 			return "success".equalsIgnoreCase(response.getReturnMessage());
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new PaycoApiException(ErrorCode.PAYCO_API_ERROR);
 		}
-		return false;
 	}
 }

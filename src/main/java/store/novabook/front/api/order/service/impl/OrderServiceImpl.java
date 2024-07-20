@@ -72,9 +72,10 @@ public class OrderServiceImpl implements OrderService {
 
 	/**
 	 * 주문 페이지 정보를 가져오는 로직
-	 * @param bookDTOS
-	 * @param memberId
-	 * @return
+	 *
+	 * @param bookDTOS 책id 수량 포함
+	 * @param memberId 회원 식별번호
+	 * @return 주문 페이지에 선택지를 보여주기 위한 값들
 	 */
 	@Override
 	@Transactional(readOnly = true)
@@ -98,7 +99,6 @@ public class OrderServiceImpl implements OrderService {
 			categoryIdList.addAll(categoryIds);
 		});
 
-
 		List<GetWrappingPaperResponse> papers = wrappingPaperClient.getWrappingPaperAllList()
 			.getBody()
 			.getWrappingPaperResponse();
@@ -109,7 +109,6 @@ public class OrderServiceImpl implements OrderService {
 		for (int i = 0; i < 6; i++) {
 			dates.add(LocalDate.now().plusDays(i).format(DateTimeFormatter.ofPattern("M/d (E)")));
 		}
-
 
 		if (memberId != null) {
 			List<Long> couponIdList = memberCouponClient.getMemberCoupon().getBody().couponIds();
@@ -154,10 +153,10 @@ public class OrderServiceImpl implements OrderService {
 		}
 	}
 
-
 	/**
 	 * 분산락 매커니즘 사용
 	 * 여러번 주문 트랜잭션이 실행되는 것을 방지함
+	 *
 	 * @param request
 	 */
 	@Override
@@ -174,6 +173,7 @@ public class OrderServiceImpl implements OrderService {
 
 	/**
 	 * 주문서가 존재하는지 체크
+	 *
 	 * @param orderCode
 	 * @param orderMemberId
 	 * @return
@@ -199,7 +199,7 @@ public class OrderServiceImpl implements OrderService {
 	public MemberOrderNameReponse getSuccessView(String orderCode) {
 		// 비회원일때
 		MemberOrderNameReponse memberResponse;
-		if (memberClient.getMember().getBody() ==  null) {
+		if (memberClient.getMember().getBody() == null) {
 			memberResponse = MemberOrderNameReponse.builder()
 				.name("비회원")
 				.orderCode(orderCode)
@@ -212,7 +212,6 @@ public class OrderServiceImpl implements OrderService {
 		}
 		return memberResponse;
 	}
-
 
 	@Override
 	@Transactional
@@ -230,7 +229,6 @@ public class OrderServiceImpl implements OrderService {
 			.status("PROCESS_SEND_PAY_MESSAGE")
 			.build();
 
-
 		// 5L 주문 취소 환불 상태로 변경
 		orderClient.update(orderId, new UpdateOrdersAdminRequest(5L));
 		rabbitTemplate.convertAndSend(NOVA_ORDERS_SAGA_EXCHANGE, "pay.cancel.routing.key", message);
@@ -245,6 +243,5 @@ public class OrderServiceImpl implements OrderService {
 	public void update(Long id, UpdateOrdersAdminRequest request) {
 		orderClient.update(id, request);
 	}
-
 
 }

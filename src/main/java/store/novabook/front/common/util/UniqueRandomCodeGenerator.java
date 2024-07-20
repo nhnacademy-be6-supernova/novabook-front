@@ -4,7 +4,6 @@ import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +14,11 @@ public class UniqueRandomCodeGenerator {
 	private static final SecureRandom RANDOM = new SecureRandom();
 	private static final String REDIS_SET_KEY = "uniqueCodes";
 
-	@Autowired
-	private RedisTemplate<String, Object> redisTemplate;
+	private final RedisTemplate<String, Object> redisTemplate;
+
+	public UniqueRandomCodeGenerator(RedisTemplate<String, Object> redisTemplate) {
+		this.redisTemplate = redisTemplate;
+	}
 
 	public String generateUniqueRandomCode() {
 		String code;
@@ -29,7 +31,7 @@ public class UniqueRandomCodeGenerator {
 	}
 
 	private boolean isCodeExistsInRedis(String code) {
-		return redisTemplate.opsForSet().isMember(REDIS_SET_KEY, code);
+		return Boolean.TRUE.equals(redisTemplate.opsForSet().isMember(REDIS_SET_KEY, code));
 	}
 
 	private void addCodeToRedis(String code) {

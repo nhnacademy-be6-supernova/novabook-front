@@ -20,14 +20,12 @@ public class ApiResponse<T> implements Serializable {
 
 	/**
 	 * -- GETTER --
-	 *  응답의 헤더를 반환합니다.
-	 *
+	 * 응답의 헤더를 반환합니다.
 	 */
 	private final Map<String, Object> header = new HashMap<>();
 	/**
 	 * -- GETTER --
-	 *  응답 본문을 반환합니다.
-	 *
+	 * 응답 본문을 반환합니다.
 	 */
 	private final transient T body;
 

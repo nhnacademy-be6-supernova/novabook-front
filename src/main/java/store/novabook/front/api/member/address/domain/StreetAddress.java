@@ -10,7 +10,7 @@ import lombok.Getter;
 public class StreetAddress {
 	private Long id;
 	private String zipcode;
-	private String streetAddress;
+	private String streetAddresses;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 }

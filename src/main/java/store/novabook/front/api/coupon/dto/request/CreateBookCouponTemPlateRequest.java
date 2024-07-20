@@ -16,4 +16,4 @@ public record CreateBookCouponTemPlateRequest(
 	@NotNull(message = "시작 날짜는 필수 입력 항목입니다.") LocalDateTime startedAt,
 	@NotNull(message = "만료 날짜는 필수 입력 항목입니다.") LocalDateTime expirationAt,
 	@NotNull(message = "사용 가능일은 필수 입력 항목입니다.") Integer usePeriod) {
-	}
+}

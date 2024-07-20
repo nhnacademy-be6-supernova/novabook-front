@@ -1,18 +1,17 @@
 package store.novabook.front.api.member.member.dto.request;
 
+import static org.assertj.core.api.Assertions.*;
+
+import java.util.Set;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import store.novabook.front.api.member.address.dto.request.UpdateMemberAddressRequest;
-
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
-import java.util.Set;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class UpdateMemberAddressRequestTest {
 
@@ -29,7 +28,7 @@ class UpdateMemberAddressRequestTest {
 		UpdateMemberAddressRequest request = UpdateMemberAddressRequest.builder()
 			.nickname("Home")
 			.zipcode("12345")
-			.streetAddress("123 Main St")
+			.streetAddresses("123 Main St")
 			.memberAddressDetail("Apt 4B")
 			.build();
 
@@ -43,7 +42,7 @@ class UpdateMemberAddressRequestTest {
 		UpdateMemberAddressRequest request = UpdateMemberAddressRequest.builder()
 			.nickname("")
 			.zipcode("")
-			.streetAddress("")
+			.streetAddresses("")
 			.memberAddressDetail("")
 			.build();
 
@@ -57,7 +56,7 @@ class UpdateMemberAddressRequestTest {
 		UpdateMemberAddressRequest request = UpdateMemberAddressRequest.builder()
 			.nickname(null)
 			.zipcode(null)
-			.streetAddress(null)
+			.streetAddresses(null)
 			.memberAddressDetail(null)
 			.build();
 

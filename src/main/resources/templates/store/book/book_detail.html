@@ -41,7 +41,7 @@
         padding: 0;
     }
 
-    .review-size{
+    .review-size {
         min-height: 50px;
     }
 
@@ -160,9 +160,11 @@
                 <p>
                     <span class="strong-text" style="font-size: 16px;" th:text="#{book.detail.price}">판매가:</span>
                     <span th:text="${#numbers.formatInteger(book.discountPrice, 1, 'COMMA')} + '원'" class="price_real">12,600 원</span>
-                    <span style="margin-left: 16px; font-size: 16px;" class="strong-text" th:text="#{book.detail.originalPrice}">정가:</span>
+                    <span style="margin-left: 16px; font-size: 16px;" class="strong-text"
+                          th:text="#{book.detail.originalPrice}">정가:</span>
                     <span th:text="${#numbers.formatInteger(book.price, 1, 'COMMA')} + '원'" class="price_original">12,600 원</span>
-                    <span style="margin-left: 16px; font-size: 16px;" class="strong-text" th:text="#{book.detail.points}">적립 포인트:</span>
+                    <span style="margin-left: 16px; font-size: 16px;" class="strong-text"
+                          th:text="#{book.detail.points}">적립 포인트:</span>
                     <span th:text="${#numbers.formatInteger(400, 1, 'COMMA')} + '원'" class="price_point">400 원</span>
                     <span style="margin-left: 16px; font-size: 16px;" class="strong-text" th:if="${book.isPackaged}">포장 가능</span>
                     <span style="margin-left: 16px; font-size: 16px;" class="strong-text" th:if="${!book.isPackaged}">포장 불가</span>
@@ -171,7 +173,8 @@
                 <form class="purchase-form">
                     <div class="qt-area">
                         <i class="fa fa-minus"></i>
-                        <input id="bookQuantity" class="qt" value="1" th:disabled="${book.bookStatusId == 2 or book.bookStatusId == 3}">
+                        <input id="bookQuantity" class="qt" value="1"
+                               th:disabled="${book.bookStatusId == 2 or book.bookStatusId == 3}">
                         <i class="fa fa-plus"></i>
                     </div>
                     <button id="addCartButton" class="btn btn-theme" type="submit"
@@ -183,7 +186,8 @@
                 </form>
 
                 <button class="btn product-info-btn" type="button" onclick="toggleLike()">
-                    <i class="fa" th:classappend="${isLiked ? 'fa-heart' : 'fa-heart-o'}" th:style="${isLiked ? 'color: red;' : ''}"></i> 좋아요
+                    <i class="fa" th:classappend="${isLiked ? 'fa-heart' : 'fa-heart-o'}"
+                       th:style="${isLiked ? 'color: red;' : ''}"></i> 좋아요
                 </button>
                 <button type="button" class="btn btn-primary" style="color: white; background-color: #0e0e0e"
                         data-toggle="modal" data-target="#couponModal" th:data-book-id="${book.id}">
@@ -200,7 +204,8 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
                 <h4 class="modal-title" id="couponModalLabel" th:text="#{book.detail.couponDownload}">쿠폰 다운로드</h4>
             </div>
             <div class="modal-body">
@@ -222,7 +227,8 @@
     <div class="row">
         <div class="single-product-tabs">
             <ul class="nav nav-tabs nav-single-product-tabs">
-                <li class="active"><a href="#description" data-toggle="tab" th:text="#{book.detail.tabDescription}">Description</a></li>
+                <li class="active"><a href="#description" data-toggle="tab" th:text="#{book.detail.tabDescription}">Description</a>
+                </li>
                 <li><a href="#reviews" data-toggle="tab" th:text="#{book.detail.tabReviews}">Reviews</a></li>
             </ul>
 

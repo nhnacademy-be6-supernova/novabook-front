@@ -55,31 +55,38 @@
                         <tr>
                             <td class="col1" th:text="#{label.id}">아이디</td>
                             <td class="col2">
-                                <input type="text" id="loginId" name="loginId" maxlength="20" oninput="handleInputIdChange()">
-                                <input class="but1" type="button" th:value="#{button.checkDuplicate}" onclick="checkDuplicateId()">
+                                <input type="text" id="loginId" name="loginId" maxlength="20"
+                                       oninput="handleInputIdChange()">
+                                <input class="but1" type="button" th:value="#{button.checkDuplicate}"
+                                       onclick="checkDuplicateId()">
                                 <span id="idMessage" class="error-message"></span>
                             </td>
                         </tr>
                         <tr>
                             <td class="col1" th:text="#{label.password}">비밀번호</td>
                             <td class="col2">
-                                <input type="password" id="loginPassword" name="loginPassword" maxlength="16" th:placeholder="#{placeholder.password}">
-                                <p th:text="#{password.notice}">※비밀번호는 문자, 숫자, 특수문자(~!@#$%^&*)의 조합 10 ~ 16자리로 입력이 가능합니다.</p>
+                                <input type="password" id="loginPassword" name="loginPassword" maxlength="16"
+                                       th:placeholder="#{placeholder.password}">
+                                <p th:text="#{password.notice}">※비밀번호는 문자, 숫자, 특수문자(~!@#$%^&*)의 조합 10 ~ 16자리로 입력이
+                                    가능합니다.</p>
                             </td>
                         </tr>
                         <tr>
                             <td class="col1" th:text="#{label.password.confirm}">비밀번호 확인</td>
                             <td class="col2">
-                                <input type="password" id="loginPasswordConfirm" name="loginPasswordConfirm" maxlength="16">
+                                <input type="password" id="loginPasswordConfirm" name="loginPasswordConfirm"
+                                       maxlength="16">
                                 <span id="passwordMessage"></span>
                             </td>
                         </tr>
                         <tr>
                             <td class="col1" th:text="#{label.email}">이메일</td>
                             <td class="col2">
-                                <input type="text" id="email" name="email" oninput="handleInputEmailChange()" th:placeholder="#{placeholder.email}">
+                                <input type="text" id="email" name="email" oninput="handleInputEmailChange()"
+                                       th:placeholder="#{placeholder.email}">
                                 <span class="a">@</span>
-                                <input type="text" id="emailDomain" name="emailDomain" th:placeholder="#{placeholder.emailDomain}">
+                                <input type="text" id="emailDomain" name="emailDomain"
+                                       th:placeholder="#{placeholder.emailDomain}">
                                 <select name="mailslc" onchange="updateEmail()">
                                     <option value="self" selected>직접입력</option>
                                     <option value="naver">naver.com</option>
@@ -87,7 +94,8 @@
                                     <option value="da">daum.com</option>
                                     <option value="yah">yahoo.com</option>
                                 </select>
-                                <input class="but2" type="button" th:value="#{button.checkDuplicateEmail}" onclick="checkDuplicateEmail()">
+                                <input class="but2" type="button" th:value="#{button.checkDuplicateEmail}"
+                                       onclick="checkDuplicateEmail()">
                                 <span id="emailMessage" class="error-message"></span>
                             </td>
                         </tr>
@@ -97,19 +105,22 @@
                                 <select id="birth_year" name="birthYear" onchange="updateDays()">
                                     <option value="select" selected>선택</option>
                                     <!-- 1900년부터 2027년까지의 옵션 추가 -->
-                                    <option th:each="year : ${#numbers.sequence(1900, 2027)}" th:value="${year}" th:text="${year}"></option>
+                                    <option th:each="year : ${#numbers.sequence(1900, 2027)}" th:value="${year}"
+                                            th:text="${year}"></option>
                                 </select>
                                 <span class="label" th:text="#{year}">년</span>
                                 <select id="birth_month" name="birthMonth" onchange="updateDays()">
                                     <option value="select" selected>선택</option>
                                     <!-- 1월부터 12월까지의 옵션 추가 -->
-                                    <option th:each="month : ${#numbers.sequence(1, 12)}" th:value="${month}" th:text="${month}"></option>
+                                    <option th:each="month : ${#numbers.sequence(1, 12)}" th:value="${month}"
+                                            th:text="${month}"></option>
                                 </select>
                                 <span class="label" th:text="#{month}">월</span>
                                 <select id="birth_day" name="birthDay">
                                     <option value="select" selected>선택</option>
                                     <!-- 1일부터 31일까지의 옵션 추가 -->
-                                    <option th:each="day : ${#numbers.sequence(1, 31)}" th:value="${day}" th:text="${day}"></option>
+                                    <option th:each="day : ${#numbers.sequence(1, 31)}" th:value="${day}"
+                                            th:text="${day}"></option>
                                 </select>
                                 <span class="label" th:text="#{day}">일</span>
                             </td>
@@ -117,345 +128,351 @@
                         <tr>
                             <td class="col1" th:text="#{label.address}">주소</td>
                             <td class="col2">
-                                <input type="text" id="sample6_postcode" name="address" th:placeholder="#{placeholder.postcode}" required>
-                                <input class="but2" type="button" th:value="#{button.searchPostcode}" onclick="sample6_execDaumPostcode()"><br>
+                                <input type="text" id="sample6_postcode" name="address"
+                                       th:placeholder="#{placeholder.postcode}" required>
+                                <input class="but2" type="button" th:value="#{button.searchPostcode}"
+                                       onclick="sample6_execDaumPostcode()"><br>
                                 <input type="text" id="sample6_address" th:placeholder="#{placeholder.address}"><br>
-                                <input type="text" id="sample6_detailAddress" th:placeholder="#{placeholder.detailAddress}">
-                                <input type="text" id="sample6_extraAddress" th:placeholder="#{placeholder.extraAddress}">
+                                <input type="text" id="sample6_detailAddress"
+                                       th:placeholder="#{placeholder.detailAddress}">
+                                <input type="text" id="sample6_extraAddress"
+                                       th:placeholder="#{placeholder.extraAddress}">
                             </td>
                         </tr>
                         <tr>
                             <td class="col1" th:text="#{label.contact}">연락처</td>
                             <td class="col2">
-                                <input type="text" id="phone" name="number" pattern="[0-9]{11}" th:title="#{placeholder.phone}" required>
+                                <input type="text" id="phone" name="number" pattern="[0-9]{11}"
+                                       th:title="#{placeholder.phone}" required>
                             </td>
                         </tr>
                     </table>
                     <div class="button-container">
-                        <button type="submit" id="register-button" class="but4" th:text="#{button.register}">회원가입</button>
+                        <button type="submit" id="register-button" class="but4" th:text="#{button.register}">회원가입
+                        </button>
                         <input class="but3" type="button" th:value="#{button.cancel}" onclick="">
                     </div>
                 </form>
             </div>
         </div>
-<div th:replace="~{layout/store/footer::footer}"></div>
+        <div th:replace="~{layout/store/footer::footer}"></div>
 
 
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script th:inline="javascript">
-    /*<![CDATA[*/
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
 
-    // 중복 확인 상태 변수
-    let isIdChecked = false;
-    // let isIdDuplicate = true; // 초기값을 중복으로 설정
-    let isEmailChecked = false;
+            // 중복 확인 상태 변수
+            let isIdChecked = false;
+            // let isIdDuplicate = true; // 초기값을 중복으로 설정
+            let isEmailChecked = false;
 
-    // let isEmailDuplicate = true; // 초기값을 중복으로 설정
+            // let isEmailDuplicate = true; // 초기값을 중복으로 설정
 
-    function handleInputIdChange() {
-        isIdChecked = false;
-        console.log("isIdChecked set to false due to input change");
-        document.getElementById('idMessage').innerText = "";
+            function handleInputIdChange() {
+                isIdChecked = false;
+                console.log("isIdChecked set to false due to input change");
+                document.getElementById('idMessage').innerText = "";
 
-    }
-
-    function handleInputEmailChange() {
-        isEmailChecked = false;
-        console.log("isEmailChecked set to false due to input change");
-        document.getElementById('emailMessage').innerText = "";
-    }
-
-    function updateDays() {
-        var year = parseInt($('#birth_year').val());
-        var month = parseInt($('#birth_month').val());
-        var daySelect = $('#birth_day');
-
-        daySelect.empty().append('<option value="select" selected>선택</option>');
-        var daysInMonth = new Date(year, month, 0).getDate();
-
-        var today = new Date();
-        var currentYear = today.getFullYear();
-        var currentMonth = today.getMonth() + 1; // getMonth()는 0부터 시작하므로 +1 해줌
-        var currentDay = today.getDate();
-
-        for (var day = 1; day <= daysInMonth; day++) {
-            if (year < currentYear ||
-                (year === currentYear && month < currentMonth) ||
-                (year === currentYear && month === currentMonth && day <= currentDay)) {
-                daySelect.append($('<option></option>').attr('value', day).text(day));
             }
-        }
-    }
 
-    // formCheck 함수 정의
-    function formCheck(form) {
-
-        if (isIdChecked === false) {
-            alert("아이디 중복 확인을 해 주세요.")
-            return false;
-        }
-
-        if (isEmailChecked === false) {
-            alert("이메일 중복 확인을 해 주세요.")
-            return false;
-        }
-
-        // 생년월일 필드 검증
-        if (form.birthYear.value === "select") {
-            alert("생년월일을 모두 선택해주세요.");
-            form.birthYear.focus();
-            return false; // 폼 제출 방지
-        }
-
-        if (form.birthMonth.value === "select") {
-            alert("생년월일을 모두 입력해주세요.");
-            form.birthMonth.focus();
-            return false;
-        }
-
-        if (form.birthDay.value === "select") {
-            alert("생년월일을 모두 입력해주세요.")
-            form.birthDay.focus();
-            return false;
-        }
-
-        // 비밀번호 필드 검증
-        if (!isValidPassword(form.loginPassword.value)) {
-            alert("비밀번호는 문자, 숫자, 특수문자(~!@#$%^&*)의 조합 10 ~ 16자리여야 합니다.");
-            form.loginPassword.focus();
-            return false; // 폼 제출 방지
-        }
-
-        // 이름 필드 검증
-        if (form.name.value.trim() === "") {
-            alert("이름을 입력해주세요.");
-            form.name.focus();
-            return false; // 폼 제출 방지
-        }
-
-        // 아이디 필드 검증
-        if (form.loginId.value.trim() === "") {
-            alert("아이디를 입력해주세요.");
-            form.loginId.focus();
-            return false; // 폼 제출 방지
-        }
-
-        // 비밀번호 필드 검증
-        if (form.loginPassword.value === "") {
-            alert("비밀번호를 입력해주세요.");
-            form.loginPassword.focus();
-            return false; // 폼 제출 방지
-        }
-
-        // 비밀번호 확인 필드 검증
-        if (form.loginPasswordConfirm.value === "") {
-            alert("비밀번호 확인을 입력해주세요.");
-            form.loginPasswordConfirm.focus();
-            return false; // 폼 제출 방지
-        }
-
-        // 비밀번호와 비밀번호 확인 일치 여부 검증
-        if (form.loginPassword.value !== form.loginPasswordConfirm.value) {
-            alert("비밀번호가 일치하지 않습니다.");
-            form.loginPassword.focus();
-            return false; // 폼 제출 방지
-        }
-
-        // 이메일 필드 검증
-        var emailValue = form.email.value.trim();
-        if (emailValue === "" || !isValidEmail(emailValue)) {
-            alert("올바른 이메일 주소를 입력해주세요.");
-            form.email.focus();
-            return false; // 폼 제출 방지
-        }
-
-        // 주소 필드 검증
-        if (form.address.value.trim() === "") {
-            alert("주소를 입력해주세요.");
-            form.address.focus();
-            return false; // 폼 제출 방지
-        }
-
-        // 연락처 필드 검증
-        if (form.phone.value.trim() === "") {
-            alert("연락처를 입력해주세요.");
-            form.phone.focus();
-            return false; // 폼 제출 방지
-        }
-
-        // 모든 검증을 통과했을 때 폼 제출 가능
-        return true;
-    }
-
-    // 비밀번호 조건 확인 함수
-    function isValidPassword(password) {
-        // 비밀번호는 문자, 숫자, 특수문자(~!@#$%^&*)의 조합 10 ~ 16자리
-        var regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*])[A-Za-z\d~!@#$%^&*]{10,16}$/;
-        return regex.test(password);
-    }
-
-
-    // 아이디 중복 확인 함수
-    function checkDuplicateId() {
-        var loginId = document.getElementById('loginId').value.trim(); // 아이디 필드 값 가져오기
-
-        if (loginId === "") {
-            alert("아이디를 입력해주세요.");
-            return;
-        }
-
-        // AJAX request to check for duplicate ID
-        fetch('/api/v1/front/members/login-id/is-duplicate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ loginId: loginId })
-        })
-            .then(response => response.json())
-            .then(data => {
-                var messageElement = document.getElementById('idMessage');
-
-                console.log(data)
-                // 응답 데이터 구조가 변경됨에 따라 수정
-                isIdDuplicate = data.isDuplicate;
-
-                if (isIdDuplicate) {
-                    messageElement.innerText = "사용할 수 없는 아이디입니다.";
-                    messageElement.style.color = "red";
-                } else {
-                    messageElement.innerText = "사용할 수 있는 아이디입니다.";
-                    messageElement.style.color = "green";
-                    isIdChecked = true;
-                }
-            })
-            .catch(error => {
-                console.error('Error checking ID:', error);
-                alert(error.response.data)
-            });
-    }
-
-    // 이메일 도메인 자동 완성 함수
-    function updateEmail() {
-        var domain = document.getElementsByName("mailslc")[0].value;
-        var emailDomainInput = document.getElementById("emailDomain");
-
-        switch (domain) {
-            case "self":
-                emailDomainInput.value = "";
-                break;
-            case "naver":
-                emailDomainInput.value = "naver.com";
-                break;
-            case "gm":
-                emailDomainInput.value = "gmail.com";
-                break;
-            case "da":
-                emailDomainInput.value = "daum.net";
-                break;
-            case "yah":
-                emailDomainInput.value = "yahoo.com";
-                break;
-            default:
-                emailDomainInput.value = "";
-                break;
-        }
-    }
-
-    function checkDuplicateEmail() {
-        // 이메일 입력값 가져오기
-        var emailLocalPart = document.getElementById('email').value.trim();
-        var emailDomainPart = document.getElementById('emailDomain').value.trim();
-        var email = emailLocalPart + '@' + emailDomainPart; // 이메일 합치기
-
-        if (emailLocalPart === "" || emailDomainPart === "") {
-            alert("이메일을 입력해주세요.");
-            return;
-        }
-
-        fetch('/api/v1/front/members/email/is-duplicate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({email: email})
-        })
-            .then(response => response.json())
-            .then(data => {
-                var messageElement = document.getElementById('emailMessage'); // emailMessage 사용
-
-                isEmailChecked = true; // 이메일 중복 버튼 수행
-                isEmailDuplicate = data.isDuplicate;
-
-                if (isEmailDuplicate) {
-                    messageElement.innerText = "이미 사용 중인 이메일입니다.";
-                    messageElement.style.color = "red";
-                } else {
-                    messageElement.innerText = "사용할 수 있는 이메일입니다.";
-                    messageElement.style.color = "green";
-                    isEmailChecked = true;
-                }
-            })
-            .catch(error => {
-                console.error('Error checking email:', error);
-                alert(error.response.data)
-            });
-    }
-
-    function sample6_execDaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function (data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var addr = ''; // 주소 변수
-                var extraAddr = ''; // 참고항목 변수
-
-                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                    addr = data.roadAddress;
-                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                    addr = data.jibunAddress;
-                }
-
-                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-                if (data.userSelectedType === 'R') {
-                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                    if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-                        extraAddr += data.bname;
-                    }
-                    // 건물명이 있고, 공동주택일 경우 추가한다.
-                    if (data.buildingName !== '' && data.apartment === 'Y') {
-                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                    if (extraAddr !== '') {
-                        extraAddr = ' (' + extraAddr + ')';
-                    }
-                    // 조합된 참고항목을 해당 필드에 넣는다.
-                    document.getElementById("sample6_extraAddress").value = extraAddr;
-
-                } else {
-                    document.getElementById("sample6_extraAddress").value = '';
-                }
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('sample6_postcode').value = data.zonecode;
-                document.getElementById("sample6_address").value = addr;
-                // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("sample6_detailAddress").focus();
+            function handleInputEmailChange() {
+                isEmailChecked = false;
+                console.log("isEmailChecked set to false due to input change");
+                document.getElementById('emailMessage').innerText = "";
             }
-        }).open();
-    }
 
-    // 페이지 로드 시 초기화
-    $(document).ready(function () {
-        updateDays();
-    });
-    /*]]>*/
-</script>
+            function updateDays() {
+                var year = parseInt($('#birth_year').val());
+                var month = parseInt($('#birth_month').val());
+                var daySelect = $('#birth_day');
+
+                daySelect.empty().append('<option value="select" selected>선택</option>');
+                var daysInMonth = new Date(year, month, 0).getDate();
+
+                var today = new Date();
+                var currentYear = today.getFullYear();
+                var currentMonth = today.getMonth() + 1; // getMonth()는 0부터 시작하므로 +1 해줌
+                var currentDay = today.getDate();
+
+                for (var day = 1; day <= daysInMonth; day++) {
+                    if (year < currentYear ||
+                        (year === currentYear && month < currentMonth) ||
+                        (year === currentYear && month === currentMonth && day <= currentDay)) {
+                        daySelect.append($('<option></option>').attr('value', day).text(day));
+                    }
+                }
+            }
+
+            // formCheck 함수 정의
+            function formCheck(form) {
+
+                if (isIdChecked === false) {
+                    alert("아이디 중복 확인을 해 주세요.")
+                    return false;
+                }
+
+                if (isEmailChecked === false) {
+                    alert("이메일 중복 확인을 해 주세요.")
+                    return false;
+                }
+
+                // 생년월일 필드 검증
+                if (form.birthYear.value === "select") {
+                    alert("생년월일을 모두 선택해주세요.");
+                    form.birthYear.focus();
+                    return false; // 폼 제출 방지
+                }
+
+                if (form.birthMonth.value === "select") {
+                    alert("생년월일을 모두 입력해주세요.");
+                    form.birthMonth.focus();
+                    return false;
+                }
+
+                if (form.birthDay.value === "select") {
+                    alert("생년월일을 모두 입력해주세요.")
+                    form.birthDay.focus();
+                    return false;
+                }
+
+                // 비밀번호 필드 검증
+                if (!isValidPassword(form.loginPassword.value)) {
+                    alert("비밀번호는 문자, 숫자, 특수문자(~!@#$%^&*)의 조합 10 ~ 16자리여야 합니다.");
+                    form.loginPassword.focus();
+                    return false; // 폼 제출 방지
+                }
+
+                // 이름 필드 검증
+                if (form.name.value.trim() === "") {
+                    alert("이름을 입력해주세요.");
+                    form.name.focus();
+                    return false; // 폼 제출 방지
+                }
+
+                // 아이디 필드 검증
+                if (form.loginId.value.trim() === "") {
+                    alert("아이디를 입력해주세요.");
+                    form.loginId.focus();
+                    return false; // 폼 제출 방지
+                }
+
+                // 비밀번호 필드 검증
+                if (form.loginPassword.value === "") {
+                    alert("비밀번호를 입력해주세요.");
+                    form.loginPassword.focus();
+                    return false; // 폼 제출 방지
+                }
+
+                // 비밀번호 확인 필드 검증
+                if (form.loginPasswordConfirm.value === "") {
+                    alert("비밀번호 확인을 입력해주세요.");
+                    form.loginPasswordConfirm.focus();
+                    return false; // 폼 제출 방지
+                }
+
+                // 비밀번호와 비밀번호 확인 일치 여부 검증
+                if (form.loginPassword.value !== form.loginPasswordConfirm.value) {
+                    alert("비밀번호가 일치하지 않습니다.");
+                    form.loginPassword.focus();
+                    return false; // 폼 제출 방지
+                }
+
+                // 이메일 필드 검증
+                var emailValue = form.email.value.trim();
+                if (emailValue === "" || !isValidEmail(emailValue)) {
+                    alert("올바른 이메일 주소를 입력해주세요.");
+                    form.email.focus();
+                    return false; // 폼 제출 방지
+                }
+
+                // 주소 필드 검증
+                if (form.address.value.trim() === "") {
+                    alert("주소를 입력해주세요.");
+                    form.address.focus();
+                    return false; // 폼 제출 방지
+                }
+
+                // 연락처 필드 검증
+                if (form.phone.value.trim() === "") {
+                    alert("연락처를 입력해주세요.");
+                    form.phone.focus();
+                    return false; // 폼 제출 방지
+                }
+
+                // 모든 검증을 통과했을 때 폼 제출 가능
+                return true;
+            }
+
+            // 비밀번호 조건 확인 함수
+            function isValidPassword(password) {
+                // 비밀번호는 문자, 숫자, 특수문자(~!@#$%^&*)의 조합 10 ~ 16자리
+                var regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*])[A-Za-z\d~!@#$%^&*]{10,16}$/;
+                return regex.test(password);
+            }
+
+
+            // 아이디 중복 확인 함수
+            function checkDuplicateId() {
+                var loginId = document.getElementById('loginId').value.trim(); // 아이디 필드 값 가져오기
+
+                if (loginId === "") {
+                    alert("아이디를 입력해주세요.");
+                    return;
+                }
+
+                // AJAX request to check for duplicate ID
+                fetch('/api/v1/front/members/login-id/is-duplicate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({loginId: loginId})
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        var messageElement = document.getElementById('idMessage');
+
+                        console.log(data)
+                        // 응답 데이터 구조가 변경됨에 따라 수정
+                        isIdDuplicate = data.isDuplicate;
+
+                        if (isIdDuplicate) {
+                            messageElement.innerText = "사용할 수 없는 아이디입니다.";
+                            messageElement.style.color = "red";
+                        } else {
+                            messageElement.innerText = "사용할 수 있는 아이디입니다.";
+                            messageElement.style.color = "green";
+                            isIdChecked = true;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error checking ID:', error);
+                        alert("아이디 중복 확인 중 오류가 발생했습니다. " + error);
+                    });
+            }
+
+            // 이메일 도메인 자동 완성 함수
+            function updateEmail() {
+                var domain = document.getElementsByName("mailslc")[0].value;
+                var emailDomainInput = document.getElementById("emailDomain");
+
+                switch (domain) {
+                    case "self":
+                        emailDomainInput.value = "";
+                        break;
+                    case "naver":
+                        emailDomainInput.value = "naver.com";
+                        break;
+                    case "gm":
+                        emailDomainInput.value = "gmail.com";
+                        break;
+                    case "da":
+                        emailDomainInput.value = "daum.net";
+                        break;
+                    case "yah":
+                        emailDomainInput.value = "yahoo.com";
+                        break;
+                    default:
+                        emailDomainInput.value = "";
+                        break;
+                }
+            }
+
+            function checkDuplicateEmail() {
+                // 이메일 입력값 가져오기
+                var emailLocalPart = document.getElementById('email').value.trim();
+                var emailDomainPart = document.getElementById('emailDomain').value.trim();
+                var email = emailLocalPart + '@' + emailDomainPart; // 이메일 합치기
+
+                if (emailLocalPart === "" || emailDomainPart === "") {
+                    alert("이메일을 입력해주세요.");
+                    return;
+                }
+
+                fetch('/api/v1/front/members/email/is-duplicate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({email: email})
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        var messageElement = document.getElementById('emailMessage'); // emailMessage 사용
+
+                        isEmailChecked = true; // 이메일 중복 버튼 수행
+                        isEmailDuplicate = data.isDuplicate;
+
+                        if (isEmailDuplicate) {
+                            messageElement.innerText = "이미 사용 중인 이메일입니다.";
+                            messageElement.style.color = "red";
+                        } else {
+                            messageElement.innerText = "사용할 수 있는 이메일입니다.";
+                            messageElement.style.color = "green";
+                            isEmailChecked = true;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error checking email:', error);
+                        alert("이메일 중복 확인 중 오류가 발생했습니다." + error);
+                    });
+            }
+
+            function sample6_execDaumPostcode() {
+                new daum.Postcode({
+                    oncomplete: function (data) {
+                        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                        // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                        var addr = ''; // 주소 변수
+                        var extraAddr = ''; // 참고항목 변수
+
+                        //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                        if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                            addr = data.roadAddress;
+                        } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                            addr = data.jibunAddress;
+                        }
+
+                        // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                        if (data.userSelectedType === 'R') {
+                            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                            if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                                extraAddr += data.bname;
+                            }
+                            // 건물명이 있고, 공동주택일 경우 추가한다.
+                            if (data.buildingName !== '' && data.apartment === 'Y') {
+                                extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                            }
+                            // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                            if (extraAddr !== '') {
+                                extraAddr = ' (' + extraAddr + ')';
+                            }
+                            // 조합된 참고항목을 해당 필드에 넣는다.
+                            document.getElementById("sample6_extraAddress").value = extraAddr;
+
+                        } else {
+                            document.getElementById("sample6_extraAddress").value = '';
+                        }
+
+                        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                        document.getElementById('sample6_postcode').value = data.zonecode;
+                        document.getElementById("sample6_address").value = addr;
+                        // 커서를 상세주소 필드로 이동한다.
+                        document.getElementById("sample6_detailAddress").focus();
+                    }
+                }).open();
+            }
+
+            // 페이지 로드 시 초기화
+            $(document).ready(function () {
+                updateDays();
+            });
+            /*]]>*/
+        </script>
 </body>
 </html>

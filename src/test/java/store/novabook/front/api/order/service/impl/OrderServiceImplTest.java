@@ -173,11 +173,11 @@ class OrderServiceImplTest {
 
 		GetMemberAddressResponse getMemberAddressResponse = GetMemberAddressResponse.builder()
 			.id(1L)
-			.streetAddressId(101L)
+			.streetAddressesId(101L)
 			.memberId(501L)
 			.zipcode("12345")
 			.nickname("Home")
-			.streetAddress("123 Main St")
+			.streetAddresses("123 Main St")
 			.memberAddressDetail("Apt 101")
 			.build();
 		List<GetMemberAddressResponse> memberAddresses = List.of(getMemberAddressResponse);

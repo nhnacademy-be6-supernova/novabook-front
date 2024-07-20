@@ -13,36 +13,36 @@ class StreetAddressTest {
 	void testBuilder() {
 		Long id = 1L;
 		String zipcode = "12345";
-		String streetAddress = "123 Main St";
+		String streetAddresses = "123 Main St";
 		LocalDateTime createdAt = LocalDateTime.now();
 		LocalDateTime updatedAt = LocalDateTime.now().plusDays(1);
 
-		StreetAddress streetAddressObj = StreetAddress.builder()
+		StreetAddress streetAddressesObj = StreetAddress.builder()
 			.id(id)
 			.zipcode(zipcode)
-			.streetAddress(streetAddress)
+			.streetAddresses(streetAddresses)
 			.createdAt(createdAt)
 			.updatedAt(updatedAt)
 			.build();
 
-		assertThat(streetAddressObj).isNotNull();
-		assertThat(streetAddressObj.getId()).isEqualTo(id);
-		assertThat(streetAddressObj.getZipcode()).isEqualTo(zipcode);
-		assertThat(streetAddressObj.getStreetAddress()).isEqualTo(streetAddress);
-		assertThat(streetAddressObj.getCreatedAt()).isEqualTo(createdAt);
-		assertThat(streetAddressObj.getUpdatedAt()).isEqualTo(updatedAt);
+		assertThat(streetAddressesObj).isNotNull();
+		assertThat(streetAddressesObj.getId()).isEqualTo(id);
+		assertThat(streetAddressesObj.getZipcode()).isEqualTo(zipcode);
+		assertThat(streetAddressesObj.getStreetAddresses()).isEqualTo(streetAddresses);
+		assertThat(streetAddressesObj.getCreatedAt()).isEqualTo(createdAt);
+		assertThat(streetAddressesObj.getUpdatedAt()).isEqualTo(updatedAt);
 	}
 
 	@Test
 	void testBuilderWithDefaults() {
-		StreetAddress streetAddressObj = StreetAddress.builder()
+		StreetAddress streetAddressesObj = StreetAddress.builder()
 			.build();
 
-		assertThat(streetAddressObj).isNotNull();
-		assertThat(streetAddressObj.getId()).isNull();
-		assertThat(streetAddressObj.getZipcode()).isNull();
-		assertThat(streetAddressObj.getStreetAddress()).isNull();
-		assertThat(streetAddressObj.getCreatedAt()).isNull();
-		assertThat(streetAddressObj.getUpdatedAt()).isNull();
+		assertThat(streetAddressesObj).isNotNull();
+		assertThat(streetAddressesObj.getId()).isNull();
+		assertThat(streetAddressesObj.getZipcode()).isNull();
+		assertThat(streetAddressesObj.getStreetAddresses()).isNull();
+		assertThat(streetAddressesObj.getCreatedAt()).isNull();
+		assertThat(streetAddressesObj.getUpdatedAt()).isNull();
 	}
 }

@@ -36,15 +36,15 @@ class MemberAddressServiceImplTest {
 
 	@Test
 	void testCreateMemberAddress() {
-		StreetAddress streetAddress = StreetAddress.builder()
+		StreetAddress streetAddresses = StreetAddress.builder()
 			.id(1L)
 			.zipcode("12345")
-			.streetAddress("123 Main St")
+			.streetAddresses("123 Main St")
 			.createdAt(LocalDateTime.now())
 			.updatedAt(LocalDateTime.now())
 			.build();
 		CreateMemberAddressRequest request = new CreateMemberAddressRequest("John Doe", "123 Street", "City", "12345");
-		CreateMemberAddressResponse expectedResponse = new CreateMemberAddressResponse(1L, streetAddress, "detail");
+		CreateMemberAddressResponse expectedResponse = new CreateMemberAddressResponse(1L, streetAddresses, "detail");
 
 		ApiResponse<CreateMemberAddressResponse> apiResponse = new ApiResponse<>("SUCCESS", true, expectedResponse);
 		when(memberAddressClient.createMemberAddress(request)).thenReturn(apiResponse);
@@ -60,21 +60,21 @@ class MemberAddressServiceImplTest {
 
 		GetMemberAddressResponse response = GetMemberAddressResponse.builder()
 			.id(1L)
-			.streetAddressId(2L)
+			.streetAddressesId(2L)
 			.memberId(3L)
 			.zipcode("12345")
 			.nickname("John Doe")
-			.streetAddress("123 Street")
+			.streetAddresses("123 Street")
 			.memberAddressDetail("Apt 101")
 			.build();
 
 		GetMemberAddressResponse response2 = GetMemberAddressResponse.builder()
 			.id(2L)
-			.streetAddressId(3L)
+			.streetAddressesId(3L)
 			.memberId(4L)
 			.zipcode("555")
 			.nickname("John Doe2")
-			.streetAddress("123 Street")
+			.streetAddresses("123 Street")
 			.memberAddressDetail("Apt 101")
 			.build();
 		GetMemberAddressListResponse responseBody = new GetMemberAddressListResponse(List.of(
@@ -89,7 +89,7 @@ class MemberAddressServiceImplTest {
 		assertEquals(2, actualResponse.size());
 		assertEquals(1L, actualResponse.getFirst().id());
 		assertEquals("John Doe", actualResponse.getFirst().nickname());
-		assertEquals("123 Street", actualResponse.getFirst().streetAddress());
+		assertEquals("123 Street", actualResponse.getFirst().streetAddresses());
 		assertEquals("12345", actualResponse.getFirst().zipcode());
 
 

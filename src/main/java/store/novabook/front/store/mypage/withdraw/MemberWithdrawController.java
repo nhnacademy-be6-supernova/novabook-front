@@ -25,11 +25,11 @@ public class MemberWithdrawController {
 	}
 
 	@PostMapping("/withdraw")
-	public String memberUpdateToWithdraw(DeleteMemberRequest deleteMemberRequest, HttpServletRequest request, HttpServletResponse response) {
+	public String memberUpdateToWithdraw(DeleteMemberRequest deleteMemberRequest, HttpServletRequest request,
+		HttpServletResponse response) {
 		memberService.deleteMember(deleteMemberRequest);
 		memberService.logout(response);
 		return "redirect:/";
 	}
-
 
 }

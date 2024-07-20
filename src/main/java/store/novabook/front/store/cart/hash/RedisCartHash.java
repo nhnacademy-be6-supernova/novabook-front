@@ -55,11 +55,4 @@ public class RedisCartHash {
 		this.cartBookList = newCartBookList;
 	}
 
-	// public static Object redisName(Object cartId) {
-	// 	if (cartId instanceof Long) {
-	// 		return MEMBER_CART_PREFIX + cartId;
-	// 	}
-	// 	return GUEST_CART_PREFIX + cartId;
-	// }
-
 }

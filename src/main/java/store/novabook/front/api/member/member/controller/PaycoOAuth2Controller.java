@@ -6,8 +6,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Objects;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -173,12 +171,16 @@ public class PaycoOAuth2Controller {
 			String refreshToken = refresh.replace("Bearer ", "");
 
 			Cookie accessCookie = new Cookie("Authorization", accessToken);
-			accessCookie.setMaxAge(60 * 60);
+			accessCookie.setMaxAge(60 * 60 * 3);
 			accessCookie.setPath("/");
+			accessCookie.setSecure(true);
+			accessCookie.setHttpOnly(true);
 			response.addCookie(accessCookie);
 
 			Cookie refreshCookie = new Cookie("Refresh", refreshToken);
-			refreshCookie.setMaxAge(60 * 60 * 24);
+			refreshCookie.setMaxAge(60 * 60 * 72);
+			refreshCookie.setSecure(true);
+			refreshCookie.setHttpOnly(true);
 			refreshCookie.setPath("/");
 			response.addCookie(refreshCookie);
 

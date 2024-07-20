@@ -1,17 +1,17 @@
 package store.novabook.front.api.member.member.dto.request;
 
+import static org.assertj.core.api.Assertions.*;
+
+import java.util.Set;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import store.novabook.front.api.member.address.dto.request.CreateMemberAddressRequest;
-
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
-import java.util.Set;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class CreateMemberAddressRequestTest {
 
@@ -27,7 +27,7 @@ class CreateMemberAddressRequestTest {
 	void testCreateMemberAddressRequestBuilder_Success() {
 		CreateMemberAddressRequest request = CreateMemberAddressRequest.builder()
 			.zipcode("12345")
-			.streetAddress("123 Main St")
+			.streetAddresses("123 Main St")
 			.nickname("Home")
 			.memberAddressDetail("Apt 4B")
 			.build();
@@ -41,7 +41,7 @@ class CreateMemberAddressRequestTest {
 	void testCreateMemberAddressRequestBuilder_Failure() {
 		CreateMemberAddressRequest request = CreateMemberAddressRequest.builder()
 			.zipcode("")
-			.streetAddress("")
+			.streetAddresses("")
 			.nickname("")
 			.memberAddressDetail("")
 			.build();
@@ -55,7 +55,7 @@ class CreateMemberAddressRequestTest {
 	void testCreateMemberAddressRequestBuilder_NullValues() {
 		CreateMemberAddressRequest request = CreateMemberAddressRequest.builder()
 			.zipcode(null)
-			.streetAddress(null)
+			.streetAddresses(null)
 			.nickname(null)
 			.memberAddressDetail(null)
 			.build();

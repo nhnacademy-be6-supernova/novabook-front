@@ -24,4 +24,5 @@ public record GetOrdersResponse(
 	String receiverNumber,
 	LocalDateTime createdAt,
 	LocalDateTime updatedAt
-) { }
+) {
+}
