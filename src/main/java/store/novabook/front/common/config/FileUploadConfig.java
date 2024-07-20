@@ -9,8 +9,6 @@ import jakarta.servlet.MultipartConfigElement;
 
 @Configuration
 public class FileUploadConfig {
-	private static final int DEFAULT_MAX_FILE_SIZE = 10;
-	private static final int DEFAULT_MAX_REQUEST_SIZE = 10;
 
 	@Bean
 	public MultipartConfigElement multipartConfigElement() {
