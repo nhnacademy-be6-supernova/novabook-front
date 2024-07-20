@@ -58,8 +58,9 @@ public class TokenInterceptor implements HandlerInterceptor {
 
 			Cookie accessCookie = new Cookie("Authorization", getNewTokenResponse.accessToken());
 			accessCookie.setPath("/");
-			accessCookie.setMaxAge(60 * 60 * 24 * 7);
+			accessCookie.setMaxAge(60 * 60 * 3);
 			accessCookie.setHttpOnly(true);
+			accessCookie.setSecure(true);
 			response.addCookie(accessCookie);
 
 			request.setAttribute("reissuedAccessToken", getNewTokenResponse.accessToken());
