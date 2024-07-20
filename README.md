@@ -15,7 +15,7 @@
 
 |Home page|Admin page|
 |---|---|
-|<img src="https://github.com/user-attachments/assets/b248547b-e5ee-4997-85ff-0e2744a79c16">|<img src="https://github.com/user-attachments/assets/4e92d2ec-942f-470d-8420-fefa46d827d7">|
+|<img src="https://github.com/user-attachments/assets/e3e71aee-b488-417f-8de4-c15719dec3f0">|<img src="https://github.com/user-attachments/assets/9ac31392-893f-45b5-b8b4-b1804874fd2a">|
 
 <br>
 
