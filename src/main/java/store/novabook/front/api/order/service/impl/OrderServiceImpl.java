@@ -123,12 +123,8 @@ public class OrderServiceImpl implements OrderService {
 				.getBody()
 				.couponResponseList();
 
-			long myPoint = pointHistoryClient.getPointHistoryListByMemberId(new GetPointHistoryRequest(memberId))
-				.getBody()
-				.pointHistoryResponseList()
-				.stream()
-				.mapToLong(GetPointHistoryResponse::pointAmount)
-				.sum();
+			long myPoint = pointHistoryClient.getPointTotalByMemberId().getBody().pointAmount();
+
 
 			List<GetMemberAddressResponse> memberAddresses = memberAddressClient.getMemberAddressAll()
 				.getBody()

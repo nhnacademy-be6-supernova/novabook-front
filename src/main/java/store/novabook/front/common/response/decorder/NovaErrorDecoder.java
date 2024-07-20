@@ -1,8 +1,6 @@
 package store.novabook.front.common.response.decorder;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 
 import org.springframework.http.HttpStatus;
 
@@ -31,12 +29,6 @@ public class NovaErrorDecoder implements ErrorDecoder {
 	@Override
 	public Exception decode(String methodKey, Response response) {
 
-		String responseBody = getResponseBody(response);
-
-		if (responseBody != null) {
-			log.info("Response Body: {}", responseBody);
-		}
-
 		ErrorCode errorCode = getErrorCode(response);
 
 		return switch (HttpStatus.valueOf(response.status())) {
@@ -51,19 +43,11 @@ public class NovaErrorDecoder implements ErrorDecoder {
 		};
 	}
 
-	private String getResponseBody(Response response) {
-		try (InputStream bodyIs = response.body().asInputStream()) {
-			return new String(bodyIs.readAllBytes(), StandardCharsets.UTF_8);
-		} catch (IOException e) {
-			log.error("Error reading response body", e);
-			return null;
-		}
-	}
-
 	private ErrorCode getErrorCode(Response response) {
 		try (InputStream bodyIs = response.body().asInputStream()) {
 			ApiResponse<ErrorResponse> apiResponse = objectMapper.readValue(bodyIs,
 				objectMapper.getTypeFactory().constructParametricType(ApiResponse.class, ErrorResponse.class));
+			log.info("NovaErrorDecoder: {}", apiResponse.toString());
 			return apiResponse.getBody().errorCode();
 		} catch (Exception e) {
 			return ErrorCode.DECODING_ERROR; // 에러 해석 실패 시 기본 에러 코드
