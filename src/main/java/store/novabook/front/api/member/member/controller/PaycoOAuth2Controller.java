@@ -6,6 +6,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,9 +37,10 @@ import store.novabook.front.common.util.dto.Oauth2Dto;
 @Controller
 @RequestMapping("/oauth2/payco")
 public class PaycoOAuth2Controller {
+	private static final Logger log = LoggerFactory.getLogger(PaycoOAuth2Controller.class);
 	private final String clientId;
 	private final String clientSecret;
-	private final String redirectUri;
+	private String redirectUri;
 
 	private final PaycoLoginClient paycoLoginClient;
 	private final PaycoApiClient paycoApiClient;
@@ -96,8 +99,11 @@ public class PaycoOAuth2Controller {
 		@RequestParam(value = "serviceExtra", required = false) String serviceExtraEncoded,
 		HttpServletRequest request) {
 
+		redirectUri = "https://www.novabook.store/oauth2/payco/link/callback";
+		log.info("redirectUri : {} ", redirectUri);
 		Map<String, Object> authorizationCode = paycoApiClient.getAuthorizationToken("authorization_code", clientId,
 			clientSecret, code, redirectUri, state);
+		log.info("authorizationCode : {} ", authorizationCode);
 
 		String paycoAccessToken = (String)authorizationCode.get("access_token");
 		if (Objects.isNull(paycoAccessToken)) {
@@ -139,8 +145,11 @@ public class PaycoOAuth2Controller {
 		@RequestParam(value = "serviceExtra", required = false) String serviceExtraEncoded,
 		HttpServletResponse response) {
 
+		redirectUri = "https://www.novabook.store/oauth2/payco/callback";
+		log.info("redirectUri : {} ", redirectUri);
 		Map<String, Object> authorizationCode = paycoApiClient.getAuthorizationToken("authorization_code", clientId,
 			clientSecret, code, redirectUri, state);
+		log.info("authorizationCode : {} ", authorizationCode);
 
 		String paycoAccessToken = (String)authorizationCode.get("access_token");
 		if (Objects.isNull(paycoAccessToken)) {
