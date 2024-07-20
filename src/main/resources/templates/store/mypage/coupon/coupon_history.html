@@ -130,14 +130,14 @@
                             <li class="coupon-list-item">
                                 <div class="coupon-content">
                                     <div class="coupon-details">
-                                        <h4 th:text="${coupon.name}">CUPON1234</h4>
+                                        <h4 th:text="${coupon.name}">COUPON1234</h4>
                                         <p>
                                             <span th:text="${coupon.type()}">BIRTHDAY</span> |
                                             <span th:text="'최소 ' + ${coupon.minPurchaseAmount} + '원 구매시'">최소 10000원 구매시</span>
                                             |
                                             <span th:text="'최대 ' + ${coupon.maxDiscountAmount} + '원 할인'">최대 5000원 할인</span>
                                             |
-                                            <span th:text="'유효기간: ' + ${coupon.createdAt} + ' ~ ' + ${coupon.expirationAt}">유효기간: 2024-01-01T00:00:00 ~ 2024-12-31T23:59:59</span>
+                                            <span th:text="#{coupon.validity} + ${#temporals.format(coupon.createdAt, 'yyyy-MM-dd HH:mm')} + ' ~ ' + ${#temporals.format(coupon.expirationAt, 'yyyy-MM-dd HH:mm')}">유효기간: 2024년 1월 1일 ~ 2024년 12월 31일</span>
                                         </p>
                                     </div>
                                     <div class="coupon-discount"
