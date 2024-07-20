@@ -1,12 +1,15 @@
 package store.novabook.front.api.category.service.impl;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import java.util.Collections;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import store.novabook.front.api.category.dto.SubCategoryDTO;
 import store.novabook.front.api.category.dto.request.CreateCategoryRequest;
@@ -15,11 +18,6 @@ import store.novabook.front.api.category.dto.response.GetCategoryListResponse;
 import store.novabook.front.api.category.dto.response.GetCategoryResponse;
 import store.novabook.front.api.category.service.CategoryClient;
 import store.novabook.front.common.response.ApiResponse;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-
-import java.util.Collections;
 
 public class CategoryServiceImplTest {
 

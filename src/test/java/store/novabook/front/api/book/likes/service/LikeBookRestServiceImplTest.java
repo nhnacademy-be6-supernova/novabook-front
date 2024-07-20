@@ -1,18 +1,18 @@
 package store.novabook.front.api.book.likes.service;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
 import store.novabook.front.api.book.likes.dto.LikeBookResponse;
-import store.novabook.front.api.book.likes.service.LikeBookRestService;
 import store.novabook.front.api.book.likes.service.impl.LikeBookRestServiceImpl;
 import store.novabook.front.api.book.service.BookLikeClient;
 import store.novabook.front.common.response.ApiResponse;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 
 public class LikeBookRestServiceImplTest {
 

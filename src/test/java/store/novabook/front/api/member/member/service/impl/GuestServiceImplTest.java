@@ -1,7 +1,11 @@
 package store.novabook.front.api.member.member.service.impl;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,14 +14,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import store.novabook.front.api.member.member.service.GuestClient;
+import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.store.order.dto.GetGuestOrderHistoryRequest;
 import store.novabook.front.store.order.dto.GetOrderDetailResponse;
-import store.novabook.front.common.response.ApiResponse;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
 
 class GuestServiceImplTest {
 

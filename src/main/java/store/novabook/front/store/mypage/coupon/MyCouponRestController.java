@@ -22,13 +22,11 @@ public class MyCouponRestController {
 	private final MemberCouponService memberCouponService;
 
 	@GetMapping("/api/issued")
-
 	public Page<GetCouponHistoryResponse> getIssuedCouponsApi(@PageableDefault(size = 5) Pageable pageable) {
 		return memberCouponService.getMyCouponHistoryAll(pageable);
 	}
 
 	@GetMapping("/api/used")
-
 	public Page<GetUsedCouponHistoryResponse> getUsedCouponsApi(@PageableDefault(size = 5) Pageable pageable) {
 		return memberCouponService.getMyUsedCouponHistory(pageable);
 	}

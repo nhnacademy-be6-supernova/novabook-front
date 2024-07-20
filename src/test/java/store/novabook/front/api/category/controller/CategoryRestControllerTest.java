@@ -1,5 +1,10 @@
 package store.novabook.front.api.category.controller;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import java.util.Collections;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -14,11 +19,6 @@ import store.novabook.front.api.category.dto.response.GetCategoryListResponse;
 import store.novabook.front.api.category.dto.response.GetCategoryResponse;
 import store.novabook.front.api.category.service.CategoryRestService;
 import store.novabook.front.api.category.service.CategoryService;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-
-import java.util.Collections;
 
 public class CategoryRestControllerTest {
 

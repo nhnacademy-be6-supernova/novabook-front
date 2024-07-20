@@ -1,13 +1,14 @@
 package store.novabook.front.api.admin.service.impl;
 
+import static org.mockito.Mockito.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import store.novabook.front.api.admin.service.AdminClient;
 
-import static org.mockito.Mockito.*;
+import store.novabook.front.api.admin.service.AdminClient;
 
 public class AdminServiceImplTest {
 

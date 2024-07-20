@@ -1,24 +1,27 @@
 package store.novabook.front.api.book.service.impl;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import store.novabook.front.api.book.dto.request.CreateBookRequest;
-import store.novabook.front.api.book.dto.request.UpdateBookRequest;
-import store.novabook.front.api.book.dto.response.*;
-import store.novabook.front.api.book.service.BookClient;
-import store.novabook.front.api.book.service.BookSearchClient;
-import store.novabook.front.common.response.ApiResponse;
-import store.novabook.front.common.response.PageResponse;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import store.novabook.front.api.book.dto.request.CreateBookRequest;
+import store.novabook.front.api.book.dto.request.UpdateBookRequest;
+import store.novabook.front.api.book.dto.response.GetBookAllResponse;
+import store.novabook.front.api.book.dto.response.GetBookResponse;
+import store.novabook.front.api.book.dto.response.GetBookSearchResponse;
+import store.novabook.front.api.book.service.BookClient;
+import store.novabook.front.api.book.service.BookSearchClient;
+import store.novabook.front.common.response.ApiResponse;
+import store.novabook.front.common.response.PageResponse;
 
 public class BookServiceImplTest {
 
