@@ -28,6 +28,8 @@ import jakarta.servlet.http.Cookie;
 import store.novabook.front.api.cart.dto.CartBookListDTO;
 import store.novabook.front.api.cart.dto.response.CreateCartBookListResponse;
 import store.novabook.front.api.member.member.service.MemberAuthClient;
+import store.novabook.front.common.exception.ErrorCode;
+import store.novabook.front.common.exception.FeignClientException;
 import store.novabook.front.common.security.aop.CurrentMembersArgumentResolver;
 import store.novabook.front.common.util.CookieUtil;
 import store.novabook.front.store.cart.hash.RedisCartHash;
@@ -65,48 +67,6 @@ class CartControllerTest {
 	}
 
 	@Test
-	void testGetCartBookAllLoggedInWithoutGuestCookie() throws Exception {
-		Long memberId = 1L;
-		CartBookListDTO cartBookListDTO = new CartBookListDTO();
-		RedisCartHash redisCartHash = RedisCartHash.of(cartBookListDTO);
-
-		when(redisCartService.notExistCart(memberId)).thenReturn(true);
-		doNothing().when(redisCartService).createCart(memberId);
-		when(redisCartService.getCartList(memberId)).thenReturn(redisCartHash);
-
-		mockMvc.perform(get("/carts")
-				.cookie(new Cookie(CookieUtil.GUEST_COOKIE_NAME, null)))
-			.andExpect(status().isOk())
-			.andExpect(view().name(CartController.STORE_CART_CART_LIST));
-	}
-
-	@Test
-	void testGetCartBookAllLoggedInWithGuestCookie() throws Exception {
-		Long memberId = 1L;
-		String guestCookieValue = UUID.randomUUID().toString();
-		RedisCartHash redisCartHash = RedisCartHash.of(new CartBookListDTO());
-		CartBookListDTO cartBookListDTO = new CartBookListDTO();
-		CreateCartBookListResponse createCartBookListResponse = CreateCartBookListResponse.builder()
-			.ids(List.of(1L, 2L, 3L)) // 적절한 ids 값을 설정합니다.
-			.build();
-
-		when(redisCartService.getCartList(guestCookieValue)).thenReturn(redisCartHash);
-		when(redisCartService.notExistCart(memberId)).thenReturn(true);
-		doNothing().when(redisCartService).createCart(memberId);
-		doNothing().when(redisCartService).addCartBooks(any(), any());
-		doNothing().when(redisCartService).deleteCart(guestCookieValue);
-		when(cartService.addCartBooks(any())).thenReturn(createCartBookListResponse); // 수정된 부분
-		when(cartService.getCartList()).thenReturn(cartBookListDTO);
-
-		mockMvc.perform(get("/carts")
-				.cookie(new Cookie(CookieUtil.GUEST_COOKIE_NAME, guestCookieValue)))
-			.andExpect(status().isOk())
-			.andExpect(view().name(CartController.STORE_CART_CART_LIST));
-	}
-
-
-
-	@Test
 	void testGetCartBookAllGuestWithoutCookie() throws Exception {
 		MockHttpServletResponse response = mockMvc.perform(get("/carts"))
 			.andExpect(status().isOk())
@@ -118,6 +78,132 @@ class CartControllerTest {
 		assertNotNull(uuid); // UUID format 확인
 	}
 
+	@Test
+	void testGetCartBookAllGuestWithCookie() throws Exception {
+		String guestCookieValue = UUID.randomUUID().toString();
+		RedisCartHash redisCartHash = RedisCartHash.of(new CartBookListDTO());
+
+		when(redisCartService.getCartList(guestCookieValue)).thenReturn(redisCartHash);
+
+		mockMvc.perform(get("/carts")
+				.cookie(new Cookie(CookieUtil.GUEST_COOKIE_NAME, guestCookieValue)))
+			.andExpect(status().isOk())
+			.andExpect(view().name(CartController.STORE_CART_CART_LIST))
+			.andExpect(model().attributeExists("cart"));
+	}
+
+	@Test
+	void testRefreshCartLoggedIn() throws Exception {
+		Long memberId = 1L;
+		CartBookListDTO cartBookListDTO = new CartBookListDTO();
+
+		when(cartService.getCartList()).thenReturn(cartBookListDTO);
+		doNothing().when(redisCartService).deleteCart(memberId);
+		doNothing().when(redisCartService).createCart(memberId);
+		doNothing().when(redisCartService).addCartBooks(memberId, cartBookListDTO);
+
+		mockMvc.perform(get("/carts/refresh")
+				.cookie(new Cookie(CookieUtil.GUEST_COOKIE_NAME, null)))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(redirectedUrl("/carts"));
+	}
+
+	@Test
+	void testRefreshCartGuest() throws Exception {
+		String guestCookieValue = UUID.randomUUID().toString();
+		RedisCartHash redisCartHash = RedisCartHash.of(new CartBookListDTO());
+
+		when(redisCartService.getCartList(guestCookieValue)).thenReturn(redisCartHash);
+
+		mockMvc.perform(get("/carts/refresh")
+				.cookie(new Cookie(CookieUtil.GUEST_COOKIE_NAME, guestCookieValue)))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(redirectedUrl("/carts"));
+	}
+
+	@Test
+	void testDeleteCartBookLoggedIn() throws Exception {
+		Long memberId = 1L;
+		Long bookId = 1L;
+
+		doNothing().when(redisCartService).deleteCartBook(memberId, bookId);
+		doNothing().when(cartService).deleteCartBook(bookId);
+
+		mockMvc.perform(get("/carts/delete/{bookId}", bookId)
+				.cookie(new Cookie(CookieUtil.GUEST_COOKIE_NAME, null)))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(redirectedUrl("/carts"));
+	}
+
+	@Test
+	void testDeleteCartBookGuest() throws Exception {
+		String guestCookieValue = UUID.randomUUID().toString();
+		Long bookId = 1L;
+
+		doNothing().when(redisCartService).deleteCartBook(guestCookieValue, bookId);
+
+		mockMvc.perform(get("/carts/delete/{bookId}", bookId)
+				.cookie(new Cookie(CookieUtil.GUEST_COOKIE_NAME, guestCookieValue)))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(redirectedUrl("/carts"));
+	}
+
+	@Test
+	void testGetCartBookAllLoggedInWithGuestCookieAndException() throws Exception {
+		Long memberId = 1L;
+		String guestCookieValue = UUID.randomUUID().toString();
+		RedisCartHash redisCartHash = RedisCartHash.of(new CartBookListDTO());
+
+		when(redisCartService.getCartList(guestCookieValue)).thenReturn(redisCartHash);
+		when(redisCartService.notExistCart(memberId)).thenReturn(true);
+		doNothing().when(redisCartService).createCart(memberId);
+		doNothing().when(redisCartService).addCartBooks(any(), any());
+		doNothing().when(redisCartService).deleteCart(guestCookieValue);
+		doThrow(new FeignClientException(500, ErrorCode.INTERNAL_SERVER_ERROR)).when(cartService).addCartBooks(any());
+		when(redisCartService.getCartList(memberId)).thenReturn(redisCartHash);
+
+		mockMvc.perform(get("/carts")
+				.cookie(new Cookie(CookieUtil.GUEST_COOKIE_NAME, guestCookieValue)))
+			.andExpect(status().isOk())
+			.andExpect(view().name(CartController.STORE_CART_CART_LIST))
+			.andExpect(model().attributeExists("cart"));
+	}
+
+	@Test
+	void testGetCartBookAllLoggedInWithGuestCookieWithoutException() throws Exception {
+		Long memberId = 1L;
+		String guestCookieValue = UUID.randomUUID().toString();
+		RedisCartHash redisCartHash = RedisCartHash.of(new CartBookListDTO());
+		CartBookListDTO cartBookListDTO = new CartBookListDTO();
+
+		when(redisCartService.getCartList(guestCookieValue)).thenReturn(redisCartHash);
+		when(redisCartService.notExistCart(memberId)).thenReturn(true);
+		doNothing().when(redisCartService).createCart(memberId);
+		doNothing().when(redisCartService).addCartBooks(any(), any());
+		doNothing().when(redisCartService).deleteCart(guestCookieValue);
+		when(cartService.addCartBooks(any())).thenReturn(new CreateCartBookListResponse(List.of(1L, 2L, 3L)));
+		when(cartService.getCartList()).thenReturn(cartBookListDTO);
+
+		mockMvc.perform(get("/carts")
+				.cookie(new Cookie(CookieUtil.GUEST_COOKIE_NAME, guestCookieValue)))
+			.andExpect(status().isOk())
+			.andExpect(view().name(CartController.STORE_CART_CART_LIST))
+			.andExpect(model().attribute("cart", redisCartHash));
+	}
+
+	@Test
+	void testGetCartBookAllGuestWithoutCookieAndWithExistingCart() throws Exception {
+		String guestCookieValue = UUID.randomUUID().toString();
+		RedisCartHash redisCartHash = RedisCartHash.of(new CartBookListDTO());
+
+		when(redisCartService.getCartList(guestCookieValue)).thenReturn(redisCartHash);
+
+		mockMvc.perform(get("/carts")
+				.cookie(new Cookie(CookieUtil.GUEST_COOKIE_NAME, guestCookieValue)))
+			.andExpect(status().isOk())
+			.andExpect(view().name(CartController.STORE_CART_CART_LIST))
+			.andExpect(model().attribute("cart", redisCartHash));
+	}
 
 
 }
