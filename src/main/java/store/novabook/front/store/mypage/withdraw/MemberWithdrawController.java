@@ -20,17 +20,16 @@ public class MemberWithdrawController {
 
 	@GetMapping
 	public String memberWithdraw(Model model) {
-		memberService.getMemberById();
 		model.addAttribute("member", memberService.getMemberById());
 		return "store/mypage/withdraw/withdraw";
 	}
 
 	@PostMapping("/withdraw")
-	public String memberUpdateToWithdraw(DeleteMemberRequest deleteMemberRequest, HttpServletRequest request, HttpServletResponse response) {
+	public String memberUpdateToWithdraw(DeleteMemberRequest deleteMemberRequest, HttpServletRequest request,
+		HttpServletResponse response) {
 		memberService.deleteMember(deleteMemberRequest);
 		memberService.logout(response);
 		return "redirect:/";
 	}
-
 
 }

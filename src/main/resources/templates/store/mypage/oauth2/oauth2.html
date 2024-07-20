@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>NovaBook</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
@@ -104,7 +105,9 @@
                     </div>
                     <div class="panel-body">
                         <form method="get" action="/oauth2/payco/link">
-                            <button class="btn btn-primary btn-block" type="submit" th:text="#{button.payco_link}">PAYCO 연동</button>
+                            <button class="btn btn-primary btn-block" type="submit" th:text="#{button.payco_link}">PAYCO
+                                연동
+                            </button>
                         </form>
                     </div>
                 </div>

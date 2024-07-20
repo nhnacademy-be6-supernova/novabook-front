@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>NovaBook - 나의 좋아요 리스트</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
@@ -25,6 +26,7 @@
             vertical-align: middle;
             text-align: center;
         }
+
         .tc {
             text-align: center;
         }
@@ -61,7 +63,9 @@
                                 <td th:text="${likesBook.publisher}">출판사 1</td>
                                 <td>
                                     <a th:href="@{'/books/book/' + ${likesBook.bookId}}">
-                                        <button class="btn btn-primary" th:text="#{button.details}" data-book-id="1">자세히보기</button>
+                                        <button class="btn btn-primary" th:text="#{button.details}" data-book-id="1">
+                                            자세히보기
+                                        </button>
                                     </a>
                                 </td>
                             </tr>
@@ -72,19 +76,28 @@
                             <a href="/mypage" class="btn btn-primary" th:text="#{button.back}">돌아가기</a>
                             <!-- Previous button -->
                             <li class="page-item" th:classappend="${LikeBooks.getPageNum() == 0} ? 'disabled'">
-                                <a th:if="${LikeBooks.getPageNum() > 0}" th:href="@{/mypage/like(page=${LikeBooks.getPageNum() - 1})}" th:text="#{button.previous}">Previous</a>
-                                <span th:if="${LikeBooks.getPageNum() == 0}" th:text="#{button.previous}">Previous</span>
+                                <a th:if="${LikeBooks.getPageNum() > 0}"
+                                   th:href="@{/mypage/like(page=${LikeBooks.getPageNum() - 1})}"
+                                   th:text="#{button.previous}">Previous</a>
+                                <span th:if="${LikeBooks.getPageNum() == 0}"
+                                      th:text="#{button.previous}">Previous</span>
                             </li>
 
                             <!-- Page numbers -->
-                            <li class="page-item" th:if="${LikeBooks.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, LikeBooks.getTotalPageCount() - 1)}">
-                                <a th:href="@{/mypage/like(page=${i})}" th:text="${i + 1} + '&nbsp;'" th:classappend="${i == LikeBooks.getPageNum()} ? 'active' : ''"></a>
+                            <li class="page-item" th:if="${LikeBooks.getTotalPageCount() > 0}"
+                                th:each="i : ${#numbers.sequence(0, LikeBooks.getTotalPageCount() - 1)}">
+                                <a th:href="@{/mypage/like(page=${i})}" th:text="${i + 1} + '&nbsp;'"
+                                   th:classappend="${i == LikeBooks.getPageNum()} ? 'active' : ''"></a>
                             </li>
 
                             <!-- Next button -->
-                            <li class="page-item" th:classappend="${LikeBooks.getPageNum() >= LikeBooks.getTotalPageCount() - 1} ? 'disabled'">
-                                <a th:if="${LikeBooks.getPageNum() < LikeBooks.getTotalPageCount() - 1}" th:href="@{/mypage/like(page=${LikeBooks.getPageNum() + 1})}" th:text="#{button.next}">Next</a>
-                                <span th:if="${LikeBooks.getPageNum() >= LikeBooks.getTotalPageCount() - 1}" th:text="#{button.next}">Next</span>
+                            <li class="page-item"
+                                th:classappend="${LikeBooks.getPageNum() >= LikeBooks.getTotalPageCount() - 1} ? 'disabled'">
+                                <a th:if="${LikeBooks.getPageNum() < LikeBooks.getTotalPageCount() - 1}"
+                                   th:href="@{/mypage/like(page=${LikeBooks.getPageNum() + 1})}"
+                                   th:text="#{button.next}">Next</a>
+                                <span th:if="${LikeBooks.getPageNum() >= LikeBooks.getTotalPageCount() - 1}"
+                                      th:text="#{button.next}">Next</span>
                             </li>
                         </div>
                     </div>

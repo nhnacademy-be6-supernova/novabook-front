@@ -16,5 +16,3 @@ public class CartBookListDTO {
 		this.cartBookList = cartBookList;
 	}
 }
-
-

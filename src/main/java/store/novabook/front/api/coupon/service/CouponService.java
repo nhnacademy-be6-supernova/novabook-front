@@ -20,9 +20,11 @@ public interface CouponService {
 
 	PageResponse<GetCategoryCouponTemplateResponse> getCategoryCouponTemplateAll(Boolean isValid, int page, int size);
 
-	PageResponse<GetCouponTemplateResponse> getCouponTemplateAll(CouponType type, Boolean isValid, int page, int size);
+	PageResponse<GetCouponTemplateResponse> getCouponTemplateAll(CouponType type, Boolean isValid, int page,
+		int size, String sort);
 
-	PageResponse<GetLimitedCouponTemplateResponse> getLimitedCouponTemplateAll(boolean isValid, int page, int size);
+	PageResponse<GetLimitedCouponTemplateResponse> getLimitedCouponTemplateAll(boolean isValid, int page,
+		int size);
 
 	void createGeneralTemplateCoupon(CreateCouponTemplateRequest request);
 

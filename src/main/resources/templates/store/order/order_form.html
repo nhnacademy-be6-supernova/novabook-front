@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NovaBook📕</title>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>NovaBook</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
@@ -14,6 +15,9 @@
           type="text/css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="icon" href="/images/favicon.png" type="image/png">
+    <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
     <script src="https://js.tosspayments.com/v2/standard"></script>
     <script src="/js/order_form.js"></script>
     <style>
@@ -236,9 +240,12 @@
 
             <div class="section">
                 <!--   받는 사람        -->
-                <h2 class="section-header">받는 사람 정보 <th:block th:if="${memberId != null}"> <input type="button" class="btn btn-primary"
-                                                           onclick="openMyaddress()" value="내 주소"
-                                                           style="margin-left: 10px;"></th:block></h2> <br>
+                <h2 class="section-header">받는 사람 정보
+                    <th:block th:if="${memberId != null}"><input type="button" class="btn btn-primary"
+                                                                 onclick="openMyaddress()" value="내 주소"
+                                                                 style="margin-left: 10px;"></th:block>
+                </h2>
+                <br>
                 <div class="form-group full-width">
                     <label for="receiver_name">이름</label>
                     <input type="text" id="receiver_name" name="name" class="form-control" style="width: 20%;"
@@ -505,10 +512,10 @@
                     <tr th:each="address, iterStat : ${orderDTO.memberAddresses()}">
                         <td th:text="${iterStat.index + 1}">1</td> <!-- 인덱스 추가 -->
                         <td th:text="${address.memberAddressDetail()}">30%</td>
-                        <td th:text="${address.streetAddress() + ' ' + address.memberAddressDetail()}">5000원</td>
+                        <td th:text="${address.streetAddresses() + ' ' + address.memberAddressDetail()}">5000원</td>
                         <td>
                             <button type="button" class="btn btn-primary"
-                                    th:attr="data-street-address=${address.streetAddress()}, data-detail-address=${address.memberAddressDetail()}, data-zipcode=${address.zipcode()}"
+                                    th:attr="data-street-address=${address.streetAddresses()}, data-detail-address=${address.memberAddressDetail()}, data-zipcode=${address.zipcode()}"
                                     onclick="selectAddress(this)">선택
                             </button>
                         </td>

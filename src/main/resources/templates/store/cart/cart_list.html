@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>NovaBook- 장바구니</title>
-    <title th:text="'NovaBook📕 -' + #{cart.list.title}">장바구니</title>
+    <title th:text="#{cart.list.title}">장바구니</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
@@ -93,6 +93,7 @@
         .total-value.final {
             color: #d9534f;
         }
+
         .delete-btn {
             width: 60%;
             height: 40%;
@@ -192,8 +193,10 @@
 
     <div style="display: flex; align-items: center; margin-bottom: 10px;">
         <input type="checkbox" id="selectAllItems" style="margin-right: 10px;">
-        <label for="selectAllItems" style="margin-right: auto; margin-top: auto" th:text="#{cart.list.selectAll}">전체 선택/해제</label>
-        <button id="refreshCarts" onclick="refresh()" class="btn btn-primary" th:text="#{cart.list.refresh}">새로고침</button>
+        <label for="selectAllItems" style="margin-right: auto; margin-top: auto" th:text="#{cart.list.selectAll}">전체
+            선택/해제</label>
+        <button id="refreshCarts" onclick="refresh()" class="btn btn-primary" th:text="#{cart.list.refresh}">새로고침
+        </button>
         <button id="deleteSelectedItems" class="btn btn-danger" th:text="#{cart.list.deleteSelected}">선택 상품 삭제</button>
     </div>
 
@@ -213,96 +216,107 @@
             <td colspan="6" style="text-align: center; padding: 20px;" th:text="#{cart.list.empty}">장바구니가 비었습니다</td>
         </tr>
         <th:block th:if="${cart != null}">
-        <tr th:each="item : ${cart.getCartBookList}">
-            <td style="text-align: center; vertical-align: middle;">
-                <input type="checkbox" name="selectedItems" class="item-checkbox" th:disabled="${item.bookStatusId != 1}">
-            </td>
-            <td style="padding: 10px; border-bottom: 1px solid #ddd;">
-                <div style="display: flex; align-items: center;">
-                    <input type="hidden" class="item-id" th:value="${item.bookId}">
-                    <input type="hidden" class="item-image" th:value="${item.image}">
-                    <input type="hidden" class="item-title" th:value="${item.title}">
-                    <input type="hidden" class="item-price" th:value="${item.price}">
-                    <input type="hidden" class="item-quantity" th:value="${item.quantity}">
-                    <input type="hidden" class="item-discount" th:value="${item.discountPrice}">
-                    <input type="hidden" class="item-isPackage" th:value="${item.isPackaged}">
-                    <img th:src="${item.image}" alt="책 이미지" class="img-responsive" style="width: 80px; height: 120px; object-fit: cover; margin-right: 15px; border: 1px solid #ccc; padding: 5px;">
-                    <div style="padding-left: 50px;">
-                        <a style="margin: 0;" th:text="${item.title}" th:href="@{/books/book/{id}(id=${item.bookId})}">더미 책 제목</a>
+            <tr th:each="item : ${cart.getCartBookList}">
+                <td style="text-align: center; vertical-align: middle;">
+                    <input type="checkbox" name="selectedItems" class="item-checkbox"
+                           th:disabled="${item.bookStatusId != 1}">
+                </td>
+                <td style="padding: 10px; border-bottom: 1px solid #ddd;">
+                    <div style="display: flex; align-items: center;">
+                        <input type="hidden" class="item-id" th:value="${item.bookId}">
+                        <input type="hidden" class="item-image" th:value="${item.image}">
+                        <input type="hidden" class="item-title" th:value="${item.title}">
+                        <input type="hidden" class="item-price" th:value="${item.price}">
+                        <input type="hidden" class="item-quantity" th:value="${item.quantity}">
+                        <input type="hidden" class="item-discount" th:value="${item.discountPrice}">
+                        <input type="hidden" class="item-isPackage" th:value="${item.isPackaged}">
+                        <img th:src="${item.image}" alt="책 이미지" class="img-responsive"
+                             style="width: 80px; height: 120px; object-fit: cover; margin-right: 15px; border: 1px solid #ccc; padding: 5px;">
+                        <div style="padding-left: 50px;">
+                            <a style="margin: 0;" th:text="${item.title}"
+                               th:href="@{/books/book/{id}(id=${item.bookId})}">더미 책 제목</a>
+                        </div>
                     </div>
-                </div>
-            </td>
-            <td class="item-price">
-                <div style="margin-top: 5px;">
-                    <p style="margin: 0;">
-                        <del style="color: #999;" th:text="'₩' + ${item.price}">₩15,000</del><br>
-                        <span style="font-weight: bold; color: #333;" th:text="'₩' + ${item.discountPrice}"> ₩13,500</span><br>
-                        <!--                        <span style="color: #999;" th:text="'(' + (100 - (item.discountPrice * 100 / item.price)) + '% 할인)'"> (10% 할인)</span>-->
-                    </p>
-                    <!--                    <p style="margin: 0; color: #999;" th:text="'할인액: ₩' + (${item.price - item.discountPrice})">할인액: ₩1,500</p>-->
-                </div>
-            </td>
-            <td th:text="#{cart.list.item.packaging}">포장 가능</td>
-            <td style="text-align: center; vertical-align: middle;">
-                <form style="display: flex; flex-direction: column; align-items: center;">
-                    <input type="number" name="quantity" th:value="${item.quantity}" min="1" class="form-control input-sm item-quantity" style="width: 60px; height: 30px; text-align: center; margin-bottom: 5px;">
-                    <input type="hidden" name="bookId" th:value="${item.bookId}">
-                    <button type="submit" class="btn btn-default btn-sm change-item-btn" th:text="#{cart.list.item.update}" onclick="update()" style="width: 60px; height: 30px;">변경</button>
-                </form>
-            </td>
-            <td style="text-align: center; vertical-align: middle;">
-                <div style="display: flex; flex-direction: column; align-items: center;">
+                </td>
+                <td class="item-price">
+                    <div style="margin-top: 5px;">
+                        <p style="margin: 0;">
+                            <del style="color: #999;" th:text="'₩' + ${item.price}">₩15,000</del>
+                            <br>
+                            <span style="font-weight: bold; color: #333;"
+                                  th:text="'₩' + ${item.discountPrice}"> ₩13,500</span><br>
+                            <!--                        <span style="color: #999;" th:text="'(' + (100 - (item.discountPrice * 100 / item.price)) + '% 할인)'"> (10% 할인)</span>-->
+                        </p>
+                        <!--                    <p style="margin: 0; color: #999;" th:text="'할인액: ₩' + (${item.price - item.discountPrice})">할인액: ₩1,500</p>-->
+                    </div>
+                </td>
+                <td th:text="#{cart.list.item.packaging}">포장 가능</td>
+                <td style="text-align: center; vertical-align: middle;">
+                    <form style="display: flex; flex-direction: column; align-items: center;">
+                        <input type="number" name="quantity" th:value="${item.quantity}" min="1"
+                               class="form-control input-sm item-quantity"
+                               style="width: 60px; height: 30px; text-align: center; margin-bottom: 5px;">
+                        <input type="hidden" name="bookId" th:value="${item.bookId}">
+                        <button type="submit" class="btn btn-default btn-sm change-item-btn"
+                                th:text="#{cart.list.item.update}" onclick="update()"
+                                style="width: 60px; height: 30px;">변경
+                        </button>
+                    </form>
+                </td>
+                <td style="text-align: center; vertical-align: middle;">
+                    <div style="display: flex; flex-direction: column; align-items: center;">
                     <span class="out-of-stock"
                           th:if="${item.bookStatusId != 1}"
                           th:text="#{cart.list.item.outOfStock}">
                           th:text="${item.bookStatusId == 2 || item.bookStatusId == 3 ? '품절' : '판매종료'}">
                         판매할 수 없습니다
                     </span>
-                    <a type="submit" th:href="@{/carts/delete/{bookId}(bookId=${item.bookId})}" class="btn btn-danger delete-btn" th:text="#{cart.list.item.delete}">
-                        삭제
-                    </a>
-                </div>
-            </td>
+                        <a type="submit" th:href="@{/carts/delete/{bookId}(bookId=${item.bookId})}"
+                           class="btn btn-danger delete-btn" th:text="#{cart.list.item.delete}">
+                            삭제
+                        </a>
+                    </div>
+                </td>
 
-<!--        </tr>-->
-<!--            &lt;!&ndash;더미 2 - 품절 상품&ndash;&gt;-->
-<!--            <tr class="out-of-stock-item">-->
-<!--                <td style="text-align: center; vertical-align: middle;">-->
-<!--                    <input type="checkbox" name="selectedItems" class="item-checkbox" disabled>-->
-<!--                </td>-->
-<!--                <td style="padding: 10px; border-bottom: 1px solid #ddd;">-->
-<!--                    <div style="display: flex; align-items: center;">-->
-<!--                        <img src="https://dummyimage.com/100x150/000/fff&text=책+이미지2" alt="책 이미지2" class="img-responsive" style="width: 80px; height: 120px; object-fit: cover; margin-right: 15px; border: 1px solid #ccc; padding: 5px;">-->
-<!--                        <div style="padding-left: 50px;">-->
-<!--                            <h4 style="margin: 0;">더미 책 제목 2</h4>-->
-<!--                            <div style="margin-top: 5px;">-->
-<!--                                <p style="margin: 0;">-->
-<!--                                    <del style="color: #999;">₩20,000</del>-->
-<!--                                    <span style="font-weight: bold; color: #333;"> ₩18,000</span>-->
-<!--                                    <span style="color: #999;"> (10% 할인)</span>-->
-<!--                                </p>-->
-<!--                                <p style="margin: 0; color: #999;">할인액: ₩2,000</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </td>-->
-<!--                <td style="text-align: center; vertical-align: middle;">-->
-<!--                    <form method="post" action="/cart/update" style="display: flex; flex-direction: column; align-items: center;">-->
-<!--                        <input type="number" name="quantity" th:value="${quantity != null ? quantity : '1'}" min="1" class="form-control input-sm item-quantity" style="width: 60px; height: 30px; text-align: center; margin-bottom: 5px;" disabled>-->
-<!--                        <input type="hidden" name="itemId" value="2">-->
-<!--                        <button type="submit" class="btn btn-default btn-sm" style="width: 60px; height: 30px;" disabled>변경</button>-->
-<!--                    </form>-->
-<!--                </td>-->
-<!--                <td class="item-price">₩18,000</td>-->
-<!--                <td>포장 가능</td>-->
-<!--                <td style="text-align: center; vertical-align: middle;">-->
-<!--                    <div style="display: flex; flex-direction: column; align-items: center;">-->
-<!--                        <span class="out-of-stock">판매할 수 없습니다</span>-->
-<!--                        <button class="btn btn-info" style="width: 120px; height: 40px; margin-bottom: 5px;" disabled><i class="fa fa-heart"></i></button>-->
-<!--                        <button type="submit" formaction="/cart/delete" class="btn btn-danger" style="width: 120px; height: 40px;">삭제</button>-->
-<!--                    </div>-->
-<!--                </td>-->
-<!--            </tr>-->
+                <!--        </tr>-->
+                <!--            &lt;!&ndash;더미 2 - 품절 상품&ndash;&gt;-->
+                <!--            <tr class="out-of-stock-item">-->
+                <!--                <td style="text-align: center; vertical-align: middle;">-->
+                <!--                    <input type="checkbox" name="selectedItems" class="item-checkbox" disabled>-->
+                <!--                </td>-->
+                <!--                <td style="padding: 10px; border-bottom: 1px solid #ddd;">-->
+                <!--                    <div style="display: flex; align-items: center;">-->
+                <!--                        <img src="https://dummyimage.com/100x150/000/fff&text=책+이미지2" alt="책 이미지2" class="img-responsive" style="width: 80px; height: 120px; object-fit: cover; margin-right: 15px; border: 1px solid #ccc; padding: 5px;">-->
+                <!--                        <div style="padding-left: 50px;">-->
+                <!--                            <h4 style="margin: 0;">더미 책 제목 2</h4>-->
+                <!--                            <div style="margin-top: 5px;">-->
+                <!--                                <p style="margin: 0;">-->
+                <!--                                    <del style="color: #999;">₩20,000</del>-->
+                <!--                                    <span style="font-weight: bold; color: #333;"> ₩18,000</span>-->
+                <!--                                    <span style="color: #999;"> (10% 할인)</span>-->
+                <!--                                </p>-->
+                <!--                                <p style="margin: 0; color: #999;">할인액: ₩2,000</p>-->
+                <!--                            </div>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                </td>-->
+                <!--                <td style="text-align: center; vertical-align: middle;">-->
+                <!--                    <form method="post" action="/cart/update" style="display: flex; flex-direction: column; align-items: center;">-->
+                <!--                        <input type="number" name="quantity" th:value="${quantity != null ? quantity : '1'}" min="1" class="form-control input-sm item-quantity" style="width: 60px; height: 30px; text-align: center; margin-bottom: 5px;" disabled>-->
+                <!--                        <input type="hidden" name="itemId" value="2">-->
+                <!--                        <button type="submit" class="btn btn-default btn-sm" style="width: 60px; height: 30px;" disabled>변경</button>-->
+                <!--                    </form>-->
+                <!--                </td>-->
+                <!--                <td class="item-price">₩18,000</td>-->
+                <!--                <td>포장 가능</td>-->
+                <!--                <td style="text-align: center; vertical-align: middle;">-->
+                <!--                    <div style="display: flex; flex-direction: column; align-items: center;">-->
+                <!--                        <span class="out-of-stock">판매할 수 없습니다</span>-->
+                <!--                        <button class="btn btn-info" style="width: 120px; height: 40px; margin-bottom: 5px;" disabled><i class="fa fa-heart"></i></button>-->
+                <!--                        <button type="submit" formaction="/cart/delete" class="btn btn-danger" style="width: 120px; height: 40px;">삭제</button>-->
+                <!--                    </div>-->
+                <!--                </td>-->
+                <!--            </tr>-->
         </th:block>
         </tbody>
     </table>
@@ -313,13 +327,17 @@
                 <td style="padding: 10px; border-bottom: 1px solid #ddd;">
                     <span class="total-label" th:text="#{cart.list.totalPrice}">총 상품금액</span>
                 </td>
-                <td class="total-value" id="totalPriceValue" style="padding: 10px; border-bottom: 1px solid #ddd; text-align: right;">₩0</td>
+                <td class="total-value" id="totalPriceValue"
+                    style="padding: 10px; border-bottom: 1px solid #ddd; text-align: right;">₩0
+                </td>
             </tr>
             <tr>
                 <td style="padding: 10px; border-bottom: 1px solid #ddd;">
                     <span class="total-label" th:text="#{cart.list.shippingFee}">배송비</span>
                 </td>
-                <td class="total-value additional-price" style="padding: 10px; border-bottom: 1px solid #ddd; text-align: right;">₩0</td>
+                <td class="total-value additional-price"
+                    style="padding: 10px; border-bottom: 1px solid #ddd; text-align: right;">₩0
+                </td>
             </tr>
             <tr>
                 <td style="padding: 10px;">
@@ -343,13 +361,13 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         // 전체 선택, 해제 기능
-        $('#selectAllItems').change(function() {
+        $('#selectAllItems').change(function () {
             var isChecked = $(this).prop('checked');
 
-            $('input[name="selectedItems"]').each(function() {
+            $('input[name="selectedItems"]').each(function () {
                 if (!$(this).prop('disabled')) {
                     $(this).prop('checked', isChecked);
                 }
@@ -359,7 +377,7 @@
         });
 
         // 개별 상품 선택, 해제 기능 , 체크박스
-        $('input[name="selectedItems"]').change(function() {
+        $('input[name="selectedItems"]').change(function () {
             var anyUnchecked = $('input[name="selectedItems"]:not(:checked)').length > 0;
             $('#selectAllItems').prop('checked', !anyUnchecked);
             calculateSelectedItemsTotal();
@@ -399,7 +417,7 @@
         }
 
         // 선택된 아이템의 체크박스 감지
-        $('input[name="selectedItems"]').change(function() {
+        $('input[name="selectedItems"]').change(function () {
             calculateSelectedItemsTotal();
 
             var anyChecked = $('input[name="selectedItems"]:checked').length > 0;
@@ -411,7 +429,7 @@
         });
 
         // 삭제 버튼에 대한 이벤트 리스너
-        $('.btn-danger').click(function() {
+        $('.btn-danger').click(function () {
             // 클릭된 삭제 버튼에 가장 가까운 <tr> 요소를 찾아서 삭제합니다.
             $(this).closest('tr').remove();
 
@@ -420,15 +438,15 @@
         });
 
         // 좋아요 버튼에 대한 이벤트 리스너
-        $('.btn-info').click(function() {
+        $('.btn-info').click(function () {
             alert('좋아요 리스트에 추가되었습니다!');
         });
 
         // 선택 상품 삭제
-        $('#deleteSelectedItems').click(function() {
+        $('#deleteSelectedItems').click(function () {
             var selectedItems = [];
 
-            $('input[name="selectedItems"]:checked').each(function() {
+            $('input[name="selectedItems"]:checked').each(function () {
                 var row = $(this).closest('tr');
                 selectedItems.push(row.find('.item-id').val());
             });
@@ -452,18 +470,18 @@
             }).then(response => {
                 location.reload();
             })
-            .catch(error => {
-                console.error('실패 : ', error.response.data);
-                // alert(error.response.data);
-                // location.reload();
-            });
+                .catch(error => {
+                    console.error('실패 : ', error.response.data);
+                    // alert(error.response.data);
+                    // location.reload();
+                });
         });
 
     });
 
     function checkOut() {
         var selectedItems = [];
-        $('input[name="selectedItems"]:checked').each(function() {
+        $('input[name="selectedItems"]:checked').each(function () {
             var row = $(this).closest('tr');
             var item = {
                 id: row.find('.item-id').val(),
@@ -485,14 +503,13 @@
         var input = $('<input>', {
             type: 'hidden',
             name: 'order',
-            value: JSON.stringify({ bookDTOS: selectedItems })
+            value: JSON.stringify({bookDTOS: selectedItems})
         });
 
         form.append(input);
         $('body').append(form);
         form.submit();
     }
-
 
 
     function update() {
@@ -519,7 +536,7 @@
             headers: {
                 'Content-Type': 'application/json'
             }
-            })
+        })
             .then(response => {
                 location.reload();
             })
@@ -530,11 +547,11 @@
             });
     }
 
-    function refresh(){
+    function refresh() {
         var cartItems = [];
         var itemsExist = false;
 
-        $('table.cart-table tbody tr').each(function() {
+        $('table.cart-table tbody tr').each(function () {
             var row = $(this);
             if (row.find(".item-quantity").val() === undefined) {
                 return;
@@ -545,7 +562,7 @@
 
             // parseInt()의 NaN 체크
             if (!isNaN(bookId) && !isNaN(quantity)) {
-                cartItems.push({ bookId: bookId, quantity: quantity });
+                cartItems.push({bookId: bookId, quantity: quantity});
             }
         });
 
@@ -558,7 +575,7 @@
             bookIdsAndQuantity: {}
         };
 
-        cartItems.forEach(function(item) {
+        cartItems.forEach(function (item) {
             cartBookIdDTO.bookIdsAndQuantity[item.bookId] = item.quantity;
         });
 

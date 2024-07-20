@@ -20,6 +20,7 @@ package store.novabook.front.common.exception;
  */
 public enum ErrorCode {
 
+	PAYCO_API_ERROR("페이코 API 오류"),
 	ALREADY_LOGIN("이미 로그인 되어 있습니다."),
 
 	SEE_OTHER("SEE OTHER"),
@@ -80,7 +81,6 @@ public enum ErrorCode {
 	UNEXPECTED_RESPONSE_BODY_TYPE("키매니저의 response body가 예상치못한 값입니다."),
 	MISSING_BODY_KEY("응답 본문에 \"body\" 키가 누락되었습니다."),
 	MISSING_SECRET_KEY("응답 본문에 \"secret\" 키가 누락되었습니다."),
-
 
 	// Coupon
 	// 400

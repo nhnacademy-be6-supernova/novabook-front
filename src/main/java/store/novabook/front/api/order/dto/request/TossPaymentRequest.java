@@ -7,4 +7,5 @@ public record TossPaymentRequest(
 	// 주문자 ID
 	@Positive long amount,
 	@NotNull String paymentKey
-) {}
+) {
+}

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>NovaBook - 회원 탈퇴</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
@@ -22,14 +23,17 @@
             height: 100%;
             margin: 0;
         }
+
         .wrapper {
             display: flex;
             flex-direction: column;
             min-height: 100%;
         }
+
         .content {
             flex: 1;
         }
+
         .withdraw-container {
             width: 90%;
             max-width: 600px;
@@ -126,7 +130,8 @@
                     <tr>
                         <th><strong th:text="#{withdraw.password}">비밀번호</strong></th>
                         <td>
-                            <input type="password" class="form-control" id="password" name="loginPassword" th:placeholder="#{withdraw.passwordPlaceholder}" required>
+                            <input type="password" class="form-control" id="password" name="loginPassword"
+                                   th:placeholder="#{withdraw.passwordPlaceholder}" required>
                             <p class="help-block" th:text="#{withdraw.passwordHelp}">정확한 본인 확인을 위해 비밀번호를 입력하세요.</p>
                         </td>
                     </tr>
@@ -134,7 +139,8 @@
 
                 <!-- 회원 탈퇴 버튼 -->
                 <div style="text-align: center;">
-                    <button type="submit" class="btn btn-danger btn-lg" th:text="#{withdraw.submitButton}">회원 탈퇴</button>
+                    <button type="submit" class="btn btn-danger btn-lg" th:text="#{withdraw.submitButton}">회원 탈퇴
+                    </button>
                 </div>
             </div>
         </form>

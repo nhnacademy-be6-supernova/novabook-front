@@ -13,4 +13,5 @@ public record PaymentRequest(
 	@NotNull
 	String orderCode,
 	Object paymentInfo
-) implements Serializable {}
+) implements Serializable {
+}

@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NovaBook📕</title>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>NovaBook</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
@@ -12,8 +13,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
           type="text/css">
     <!-- Theme Stylesheet -->
+    <link rel="icon" href="/images/favicon.png" type="image/png">
+    <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
+
     <style>
         .order-completion {
             font-size: 24px;
@@ -59,7 +64,8 @@
 <div class="layout">
     <div class="container tc">
         <h1 class="order-completion"><span th:text="${memberDto.name()}">사용자</span>님, 항상 NovaBook을 이용해주셔서 감사합니다!</h1>
-        <p class="order-details">[주문번호 : <span th:text="${memberDto.orderCode()}">Y0336944502</span>] 결제가 안전하게 처리되었습니다.</p>
+        <p class="order-details">[주문번호 : <span th:text="${memberDto.orderCode()}">Y0336944502</span>] 결제가 안전하게 처리되었습니다.
+        </p>
     </div>
 
     <div class="tc">

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>NovaBook</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
@@ -115,7 +116,9 @@
                             <!-- 백엔드에서 전달받은 memberId를 hidden 필드로 추가 -->
                             <input type="hidden" name="uuid" id="uuid" th:value="${uuid}">
                         </div>
-                        <button id="confirmBtn" type="button" class="btn btn-primary btn-block" th:text="#{dormant.confirmBtn}">확인</button>
+                        <button id="confirmBtn" type="button" class="btn btn-primary btn-block"
+                                th:text="#{dormant.confirmBtn}">확인
+                        </button>
                         <div id="timer" class="timer"></div>
                     </div>
                 </div>

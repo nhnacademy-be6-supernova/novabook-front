@@ -30,7 +30,7 @@ public record CreateReviewRequest(
 				.fileName(reviewImage.getOriginalFilename())
 				.fileType(reviewImage.getContentType())
 				.data(Base64.getEncoder().encodeToString(reviewImage.getBytes()))
-			.build();
+				.build();
 		} catch (IOException e) {
 			throw new ImageProcessingException(ErrorCode.IMAGE_FILE_SAVE_FAIL);
 		}

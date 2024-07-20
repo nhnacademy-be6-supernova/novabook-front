@@ -1,7 +1,6 @@
 package store.novabook.front.store.cart.controller;
 
 import static store.novabook.front.common.util.CookieUtil.*;
-import static store.novabook.front.store.cart.hash.RedisCartHash.*;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -30,8 +29,11 @@ import store.novabook.front.store.cart.service.RedisCartService;
 @RequiredArgsConstructor
 @Slf4j
 public class CartController {
+
+	public static final String STORE_CART_CART_LIST = "store/cart/cart_list";
 	private final CartService cartService;
 	private final RedisCartService redisCartService;
+
 	//장바구니 버튼 클릭했을 때
 	@GetMapping
 	public String getCartBookAll(@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie,
@@ -43,7 +45,7 @@ public class CartController {
 				redisCartService.createCart(memberId);
 			}
 			model.addAttribute("cart", redisCartService.getCartList(memberId));
-			return "store/cart/cart_list";
+			return STORE_CART_CART_LIST;
 		}
 
 		// 로그인 되어있는데 비회원 쿠키가 존재할 경우
@@ -65,7 +67,7 @@ public class CartController {
 			redisCartService.deleteCart(guestCookie.getValue());
 			CookieUtil.deleteGuestCookie(response);
 			model.addAttribute("cart", cartService.getCartList());
-			return "store/cart/cart_list";
+			return STORE_CART_CART_LIST;
 		}
 
 		// 비회원이면서 장바구니에 어떤 상품도 담겨있지 않은 상태라면 비회원용 장바구니 UUID를 발급해서 넣어준다.
@@ -77,7 +79,7 @@ public class CartController {
 			model.addAttribute("cart", redisCartService.getCartList(uuid));
 		}
 
-		return "store/cart/cart_list";
+		return STORE_CART_CART_LIST;
 	}
 
 	@GetMapping("/refresh")

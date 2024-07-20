@@ -24,7 +24,7 @@ public class CouponController {
 		@RequestParam(defaultValue = DEFAULT_PAGE) int categoryPage,
 		@RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int size, Model model) {
 		model.addAttribute("generalCouponList",
-			couponService.getCouponTemplateAll(CouponType.GENERAL, true, generalPage, size));
+			couponService.getCouponTemplateAll(CouponType.GENERAL, true, generalPage, size, null));
 		model.addAttribute("categoryCouponList", couponService.getCategoryCouponTemplateAll(true, categoryPage, size));
 		return "store/coupon/coupon_book";
 	}

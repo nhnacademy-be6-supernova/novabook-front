@@ -114,8 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const price = document.getElementById('discount');
         const bookLink = document.getElementById('book_link');
         const tags = $("#tagSelect").val();
-        const detailDescription =  content;
-
+        const detailDescription = content;
 
 
         if (!bookDiscount || bookDiscount.value === null || bookDiscount.value < 1 || bookDiscount.value > 10000000) {
@@ -123,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
             throw new Error('Invalid discount value');
         }
 
-        if(bookDiscount.value > price.value){
+        if (bookDiscount.value > price.value) {
             alert('정가보다 할인가가 더 큽니다.')
             throw new Error('Invalid discount value');
         }
@@ -136,17 +135,17 @@ document.addEventListener('DOMContentLoaded', function () {
             publisher.textContent = "작가 정보가 없습니다.";
         }
 
-        if (!stock || stock.value==="" || stock.value < 0 || stock.value > 1000) {
+        if (!stock || stock.value === "" || stock.value < 0 || stock.value > 1000) {
             alert('재고 수량은 0개에서 1000개 사이여야 합니다.');
             throw new Error('Invalid stock value');
         }
 
-        if(!title) {
+        if (!title) {
             alert('책을 선택해주세요.');
             throw new Error('Invalid book ');
         }
 
-        if(category.length > 10){
+        if (category.length > 10) {
             alert('카테고리는 최대 10개까지 선택할 수 있습니다.');
             throw new Error('Invalid categoty ');
         }
@@ -157,15 +156,15 @@ document.addEventListener('DOMContentLoaded', function () {
             bookStatusId: statusSelect.value,
             isbn: isbn.textContent,
             title: title.textContent,
-            description:description.textContent,
+            description: description.textContent,
             descriptionDetail: detailDescription,
             author: author.textContent,
             publisher: publisher.textContent,
             publicationDate: formattedDate,
-            inventory:stock.value,
-            price:price.textContent,
-            discountPrice:bookDiscount.value,
-            isPackaged:isPackaging.value,
+            inventory: stock.value,
+            price: price.textContent,
+            discountPrice: bookDiscount.value,
+            isPackaged: isPackaging.value,
             image: bookLink.value,
             tags: tags,
             categories: category,
@@ -193,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 제출 버튼에 클릭 이벤트 리스너 추가
     const submitBtn = document.querySelector('#submitBtn');
-    submitBtn.addEventListener('click', function(event) {
+    submitBtn.addEventListener('click', function (event) {
         event.preventDefault(); // 기본 동작 방지
         savePost(); // savePost 함수 호출
     });

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>NovaBook - 포인트 내역</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
@@ -35,7 +36,8 @@
                         <div class="card border-primary">
                             <div class="card-body text-center">
                                 <h2 class="card-title" th:text="#{point.section.title}">보유 포인트</h2>
-                                <p class="card-text font-weight-bold text-primary" style="font-size: 3rem;" th:text="${point}">1500</p>
+                                <p class="card-text font-weight-bold text-primary" style="font-size: 3rem;"
+                                   th:text="${point}">1500</p>
                             </div>
                         </div>
                     </div>
@@ -57,8 +59,10 @@
                                 <td th:text="${pointHistory.createdAt}">2024-06-15</td>
                                 <td th:text="${pointHistory.pointContent}">구매 포인트 적립</td>
                                 <td>
-                                    <span th:if="${pointHistory.pointAmount > 0}" th:text="'+' + ${pointHistory.pointAmount}" style="color: blue;"></span>
-                                    <span th:unless="${pointHistory.pointAmount > 0}" th:text="${pointHistory.pointAmount}" style="color: gray;"></span>
+                                    <span th:if="${pointHistory.pointAmount > 0}"
+                                          th:text="'+' + ${pointHistory.pointAmount}" style="color: blue;"></span>
+                                    <span th:unless="${pointHistory.pointAmount > 0}"
+                                          th:text="${pointHistory.pointAmount}" style="color: gray;"></span>
                                 </td>
                             </tr>
                             </tbody>
@@ -67,19 +71,27 @@
                         <div class="pagination">
                             <!-- Previous button -->
                             <li class="page-item" th:classappend="${pointHistories.getPageNum() == 0} ? 'disabled'">
-                                <a th:if="${pointHistories.getPageNum() > 0}" th:href="@{/mypage/points(page=${pointHistories.getPageNum() - 1})}" th:text="#{pagination.previous}">Previous</a>
+                                <a th:if="${pointHistories.getPageNum() > 0}"
+                                   th:href="@{/mypage/points(page=${pointHistories.getPageNum() - 1})}"
+                                   th:text="#{pagination.previous}">Previous</a>
                                 <span th:if="${pointHistories.getPageNum() == 0}" th:text="#{pagination.previous}">Previous</span>
                             </li>
 
                             <!-- Page numbers -->
-                            <li class="page-item" th:if="${pointHistories.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, pointHistories.getTotalPageCount() - 1)}">
-                                <a th:href="@{/mypage/points(page=${i})}" th:text="${i + 1} + '&nbsp;'" th:classappend="${i == pointHistories.getPageNum()} ? 'active' : ''"></a>
+                            <li class="page-item" th:if="${pointHistories.getTotalPageCount() > 0}"
+                                th:each="i : ${#numbers.sequence(0, pointHistories.getTotalPageCount() - 1)}">
+                                <a th:href="@{/mypage/points(page=${i})}" th:text="${i + 1} + '&nbsp;'"
+                                   th:classappend="${i == pointHistories.getPageNum()} ? 'active' : ''"></a>
                             </li>
 
                             <!-- Next button -->
-                            <li class="page-item" th:classappend="${pointHistories.getPageNum() >= pointHistories.getTotalPageCount() - 1} ? 'disabled'">
-                                <a th:if="${pointHistories.getPageNum() < pointHistories.getTotalPageCount() - 1}" th:href="@{/mypage/points(page=${pointHistories.getPageNum() + 1})}" th:text="#{pagination.next}">Next</a>
-                                <span th:if="${pointHistories.getPageNum() >= pointHistories.getTotalPageCount() - 1}" th:text="#{pagination.next}">Next</span>
+                            <li class="page-item"
+                                th:classappend="${pointHistories.getPageNum() >= pointHistories.getTotalPageCount() - 1} ? 'disabled'">
+                                <a th:if="${pointHistories.getPageNum() < pointHistories.getTotalPageCount() - 1}"
+                                   th:href="@{/mypage/points(page=${pointHistories.getPageNum() + 1})}"
+                                   th:text="#{pagination.next}">Next</a>
+                                <span th:if="${pointHistories.getPageNum() >= pointHistories.getTotalPageCount() - 1}"
+                                      th:text="#{pagination.next}">Next</span>
                             </li>
                         </div>
                     </div>

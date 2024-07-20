@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>Admin Page - NovaBook</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
@@ -127,17 +128,20 @@
 
                             <div class="form-group full-width">
                                 <label for="basic-point-input">기본 적립금:</label>
-                                <input type="text" class="form-control" id="basic-point-input" name="basicPoint" required>
+                                <input type="text" class="form-control" id="basic-point-input" name="basicPoint"
+                                       required>
                             </div>
 
                             <div class="form-group full-width">
                                 <label for="register-point-input">회원가입 적립금:</label>
-                                <input type="text" class="form-control" id="register-point-input" name="registerPoint" required>
+                                <input type="text" class="form-control" id="register-point-input" name="registerPoint"
+                                       required>
                             </div>
 
                             <div class="form-group full-width">
                                 <label for="review-point-input">리뷰 작성 적립금:</label>
-                                <input type="text" class="form-control" id="review-point-input" name="reviewPointRate" required>
+                                <input type="text" class="form-control" id="review-point-input" name="reviewPointRate"
+                                       required>
                             </div>
 
                             <button style="width: 100px; height: 50px;" type="submit" class="btn btn-primary">제출
@@ -167,12 +171,14 @@
                     <div class="pagination">
                         <!-- Previous button -->
                         <li class="page-item" th:classappend="${pointPolicies.getPageNum() == 0} ? 'disabled'">
-                            <a th:if="${pointPolicies.getPageNum() > 0}" th:href="@{/admin/points/point/form(page=${pointPolicies.getPageNum() - 1})}">Previous</a>
+                            <a th:if="${pointPolicies.getPageNum() > 0}"
+                               th:href="@{/admin/points/point/form(page=${pointPolicies.getPageNum() - 1})}">Previous</a>
                             <span th:if="${pointPolicies.getPageNum() == 0}">Previous</span>
                         </li>
 
                         <!-- Page numbers -->
-                        <li class="page-item" th:if="${pointPolicies.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, pointPolicies.getTotalPageCount() - 1)}">
+                        <li class="page-item" th:if="${pointPolicies.getTotalPageCount() > 0}"
+                            th:each="i : ${#numbers.sequence(0, pointPolicies.getTotalPageCount() - 1)}">
                             <a th:href="@{/admin/points/point/form(page=${i})}" th:text="${i + 1}+'&nbsp;'"
                                th:classappend="${i == pointPolicies.getPageNum()} ? 'active' : ''"></a>
                         </li>

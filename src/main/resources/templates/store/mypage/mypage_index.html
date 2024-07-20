@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>NovaBook</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
@@ -79,8 +80,10 @@
                                 <td th:text="${pointHistory.createdAt}">2024-06-15</td>
                                 <td th:text="${pointHistory.pointContent}">구매 포인트 적립</td>
                                 <td>
-                                    <span th:if="${pointHistory.pointAmount > 0}" th:text="'+' + ${pointHistory.pointAmount}" style="color: blue;"></span>
-                                    <span th:unless="${pointHistory.pointAmount > 0}" th:text="${pointHistory.pointAmount}" style="color: gray;"></span>
+                                    <span th:if="${pointHistory.pointAmount > 0}"
+                                          th:text="'+' + ${pointHistory.pointAmount}" style="color: blue;"></span>
+                                    <span th:unless="${pointHistory.pointAmount > 0}"
+                                          th:text="${pointHistory.pointAmount}" style="color: gray;"></span>
                                 </td>
                             </tr>
                             <!-- 추가적인 포인트 내역을 여기에 추가하세요 -->
@@ -108,7 +111,9 @@
                             <tr th:each="coupon : ${coupons}">
                                 <td th:text="${coupon.name}">쿠폰 명</td>
                                 <td th:text="${coupon.type}">쿠폰 타입</td>
-                                <td th:text="${coupon.discountType == 'PERCENT' ? coupon.discountAmount + '%' : coupon.discountAmount + '원'}">할인 금액</td>
+                                <td th:text="${coupon.discountType == 'PERCENT' ? coupon.discountAmount + '%' : coupon.discountAmount + '원'}">
+                                    할인 금액
+                                </td>
                             </tr>
                             <!-- 추가적인 쿠폰내역을 여기에 추가하세요 -->
                             </tbody>

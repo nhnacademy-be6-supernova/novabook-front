@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>Admin Page - NovaBook</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
@@ -163,7 +164,8 @@
                         </li>
 
                         <!-- Page numbers -->
-                        <li class="page-item" th:if="${deliveries.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, deliveries.getTotalPageCount() - 1)}">
+                        <li class="page-item" th:if="${deliveries.getTotalPageCount() > 0}"
+                            th:each="i : ${#numbers.sequence(0, deliveries.getTotalPageCount() - 1)}">
                             <a th:href="@{/admin/deliveries/delivery/form(page=${i})}" th:text="${i + 1}+'&nbsp;'"
                                th:classappend="${i == deliveries.getPageNum()} ? 'active' : ''"></a>
                         </li>

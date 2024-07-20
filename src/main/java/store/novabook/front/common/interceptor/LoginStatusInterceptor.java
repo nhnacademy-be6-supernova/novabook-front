@@ -13,7 +13,8 @@ import store.novabook.front.common.util.CookieUtil;
 public class LoginStatusInterceptor implements HandlerInterceptor {
 
 	@Override
-	public boolean preHandle(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler) throws Exception {
+	public boolean preHandle(HttpServletRequest request, @NotNull HttpServletResponse response,
+		@NotNull Object handler) throws Exception {
 		Cookie[] cookies = request.getCookies();
 		boolean hasAuthorization = false;
 		boolean hasRefresh = false;

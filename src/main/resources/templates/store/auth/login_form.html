@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>NovaBook</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
@@ -231,8 +232,10 @@
         <div class="form-wrapper">
             <div class="tabs-wrapper">
                 <ul class="nav login-tabs">
-                    <li class="active"><a data-toggle="tab" href="#login-tab" th:text="#{login_form.title}">Login</a></li>
-                    <li><a data-toggle="tab" href="#guest-order-tab" th:text="#{login_form.guest.title}">비회원 주문 확인</a></li>
+                    <li class="active"><a data-toggle="tab" href="#login-tab" th:text="#{login_form.title}">Login</a>
+                    </li>
+                    <li><a data-toggle="tab" href="#guest-order-tab" th:text="#{login_form.guest.title}">비회원 주문 확인</a>
+                    </li>
                 </ul>
 
                 <div class="tab-content">
@@ -243,7 +246,8 @@
                                 <input type="text" name="loginId" th:placeholder="#{login_form.id.placeholder}">
                             </label>
                             <label>
-                                <input type="password" name="loginPassword" th:placeholder="#{login_form.password.placeholder}">
+                                <input type="password" name="loginPassword"
+                                       th:placeholder="#{login_form.password.placeholder}">
                             </label>
                             <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
                             <button type="submit" th:text="#{login_form.button}">Login</button>
@@ -261,9 +265,12 @@
                         <h2 th:text="#{login_form.guest.title}">비회원 주문 확인</h2>
 
                         <form method="post" th:action="@{/guest/login}" id="guest-form">
-                            <input type="text" name="code" th:placeholder="#{login_form.guest.order.number.placeholder}">
-                            <input type="text" name="senderNumber" th:placeholder="#{login_form.guest.phone.number.placeholder}">
-                            <div th:if="${guestError}" class="alert alert-danger" role="alert" th:text="${guestError}"></div>
+                            <input type="text" name="code"
+                                   th:placeholder="#{login_form.guest.order.number.placeholder}">
+                            <input type="text" name="senderNumber"
+                                   th:placeholder="#{login_form.guest.phone.number.placeholder}">
+                            <div th:if="${guestError}" class="alert alert-danger" role="alert"
+                                 th:text="${guestError}"></div>
                             <button type="submit" th:text="#{login_form.guest.confirm.button}">Confirm</button>
                         </form>
                     </div>

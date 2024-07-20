@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>NovaBook - 리뷰 수정</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <!-- Google Font -->
@@ -23,14 +24,17 @@
             border-color: #6c757d;
             color: #fff;
         }
+
         .star-rating {
             direction: rtl;
             display: inline-block;
             padding: 20px;
         }
+
         .star-rating input[type="radio"] {
             display: none;
         }
+
         .star-rating label {
             color: #bbb;
             font-size: 18px;
@@ -39,6 +43,7 @@
             -webkit-transition: all 0.3s ease-in-out;
             transition: all 0.3s ease-in-out;
         }
+
         .star-rating input[type="radio"]:checked ~ label,
         .star-rating input[type="radio"]:hover ~ label {
             color: #f2b600;
@@ -58,11 +63,13 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h2 th:text="#{section.title}">리뷰 수정</h2>
-                        <form id="reviewForm" th:action="@{'/mypage/reviews/' + ${review.reviewId} + '/update'}" method="post">
+                        <form id="reviewForm" th:action="@{'/mypage/reviews/' + ${review.reviewId} + '/update'}"
+                              method="post">
                             <input type="hidden" id="ordersBookId" name="ordersBookId" th:value="${review.orderBookId}">
                             <div class="form-group">
                                 <label for="reviewText" th:text="#{form.label.reviewText}">리뷰 내용</label>
-                                <textarea class="form-control" id="reviewText" name="content" th:text="${review.content}" rows="3"></textarea>
+                                <textarea class="form-control" id="reviewText" name="content"
+                                          th:text="${review.content}" rows="3"></textarea>
                             </div>
                             <div class="form-group">
                                 <label th:text="#{form.label.rating}">별점</label>
@@ -108,13 +115,13 @@
 
 <div th:replace="layout/store/footer :: footer"></div>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         var reviewForm = document.getElementById("reviewForm");
         var reviewText = document.getElementById("reviewText");
         var reviewStars = document.getElementsByName("score");
 
 
-        reviewForm.addEventListener("submit", function(event) {
+        reviewForm.addEventListener("submit", function (event) {
             var reviewContent = reviewText.value.trim();
             var selectedStar = Array.from(reviewStars).find(star => star.checked);
 

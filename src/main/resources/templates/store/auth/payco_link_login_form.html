@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>NovaBook</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
@@ -220,7 +221,6 @@
                         </form>
 
 
-
                     </div>
                     <div id="guest-order-tab" class="tab-pane fade">
                         <h2>비회원 주문 확인</h2>
@@ -246,8 +246,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $('.login-tabs a').click(function(e) {
+    $(document).ready(function () {
+        $('.login-tabs a').click(function (e) {
             e.preventDefault();
             $(this).tab('show');
         });
