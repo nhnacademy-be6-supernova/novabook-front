@@ -3,7 +3,7 @@
 <img src="https://github.com/user-attachments/assets/1f211f5a-e038-4029-aecf-619227273bfd" width=300px; >
 
 
-> Novabook Front는 사용자의 웹 애플리케이션 이용에 필요한 정보를 각 Server에 요청하고, 응답 받은 정보를 UI를 통해 제공합니다.
+> Novabook Front는 사용자의 웹 애플리케이션 이용에 필요한 정보를 각 Server에 요청하고, 응답 받은 정보를 UI를 통해 제공합니다. <br>
 > 개발 기간: 2024.06 ~ 2024.08
 
 
