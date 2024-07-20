@@ -19,12 +19,13 @@ import lombok.Getter;
 public class ApiResponse<T> implements Serializable {
 
 	/**
-	 * -- GETTER --
+	 *
 	 * 응답의 헤더를 반환합니다.
 	 */
 	private final Map<String, Object> header = new HashMap<>();
+
 	/**
-	 * -- GETTER --
+	 *
 	 * 응답 본문을 반환합니다.
 	 */
 	private final transient T body;
@@ -66,4 +67,8 @@ public class ApiResponse<T> implements Serializable {
 		return new ApiResponse<>("FAIL", false, body);
 	}
 
+	@Override
+	public String toString() {
+		return "ApiResponse{" + "header=" + header + ", body=" + body + '}';
+	}
 }
