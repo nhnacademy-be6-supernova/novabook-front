@@ -1,9 +1,10 @@
 package store.novabook.front.api.member.member.dto.response;
 
-import org.junit.jupiter.api.Test;
-import store.novabook.front.api.member.member.domain.Member;
+import static org.assertj.core.api.Assertions.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
+
+import store.novabook.front.api.member.member.domain.Member;
 
 class CreateMemberResponseTest {
 

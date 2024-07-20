@@ -72,9 +72,9 @@ public class OrderServiceImpl implements OrderService {
 
 	/**
 	 * 주문 페이지 정보를 가져오는 로직
-	 * @param bookDTOS
-	 * @param memberId
-	 * @return
+	 * @param bookDTOS 책id 수량 포함
+	 * @param memberId 회원 식별번호
+	 * @return 주문 페이지에 선택지를 보여주기 위한 값들
 	 */
 	@Override
 	@Transactional(readOnly = true)
