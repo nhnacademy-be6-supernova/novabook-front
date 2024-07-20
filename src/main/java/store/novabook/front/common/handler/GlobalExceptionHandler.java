@@ -5,12 +5,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import lombok.extern.slf4j.Slf4j;
+import store.novabook.front.common.exception.AlreadyLoginException;
 import store.novabook.front.common.exception.BadGatewayException;
 import store.novabook.front.common.exception.ForbiddenException;
 import store.novabook.front.common.exception.InternalServerException;
 import store.novabook.front.common.exception.NovaException;
 import store.novabook.front.common.exception.UnauthorizedException;
-import store.novabook.front.common.security.exception.AlreadyLoginException;
 
 /**
  * {@code GlobalExceptionHandler} 클래스는 애플리케이션 전역에서 발생하는 예외를 처리하는 핸들러입니다.

@@ -14,7 +14,7 @@ import store.novabook.front.api.book.likes.service.impl.LikeBookRestServiceImpl;
 import store.novabook.front.api.book.service.BookLikeClient;
 import store.novabook.front.common.response.ApiResponse;
 
-public class LikeBookRestServiceImplTest {
+class LikeBookRestServiceImplTest {
 
 	@Mock
 	private BookLikeClient bookLikeClient;
@@ -29,34 +29,26 @@ public class LikeBookRestServiceImplTest {
 
 	@Test
 	void testGetBookLikes() {
-		// Given
 		Long bookId = 1L;
 		LikeBookResponse expectedResponse = new LikeBookResponse(true);
 
-		// Mocking the client's behavior
 		when(bookLikeClient.getBookLike(bookId)).thenReturn(new ApiResponse<>("SUCCESS", true, expectedResponse));
 
-		// When
 		LikeBookResponse actualResponse = likeBookRestService.getBookLikes(bookId);
 
-		// Then
 		assertEquals(expectedResponse, actualResponse);
 		verify(bookLikeClient, times(1)).getBookLike(bookId);
 	}
 
 	@Test
 	void testLikeButton() {
-		// Given
 		Long bookId = 1L;
-		LikeBookResponse expectedResponse = new LikeBookResponse(true); // Assuming like count increases by 1
+		LikeBookResponse expectedResponse = new LikeBookResponse(true);
 
-		// Mocking the client's behavior
 		when(bookLikeClient.buttonLikes(bookId)).thenReturn(new ApiResponse<>("SUCCESS", true, expectedResponse));
 
-		// When
 		LikeBookResponse actualResponse = likeBookRestService.likeButton(bookId);
 
-		// Then
 		assertEquals(expectedResponse, actualResponse);
 		verify(bookLikeClient, times(1)).buttonLikes(bookId);
 	}

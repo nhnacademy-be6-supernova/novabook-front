@@ -6,6 +6,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +28,7 @@ import store.novabook.front.api.member.member.service.MemberAuthClient;
 import store.novabook.front.api.member.member.service.PaycoApiClient;
 import store.novabook.front.api.member.member.service.PaycoLoginClient;
 import store.novabook.front.common.exception.ErrorCode;
+import store.novabook.front.common.exception.PaycoApiException;
 import store.novabook.front.common.exception.UnauthorizedException;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.util.KeyManagerUtil;
@@ -42,6 +45,8 @@ public class PaycoOAuth2Controller {
 	private final PaycoApiClient paycoApiClient;
 	private final PaycoResponseValidator paycoResponseValidator;
 	private final MemberAuthClient memberAuthClient;
+
+	private static final String REDRIRECT_LOGIN = "redirect:/login";
 
 	public PaycoOAuth2Controller(PaycoLoginClient paycoLoginClient, PaycoApiClient paycoApiClient,
 		PaycoResponseValidator paycoResponseValidator, MemberAuthClient memberAuthClient, Environment environment) {
@@ -67,7 +72,7 @@ public class PaycoOAuth2Controller {
 				+ "&userLocale=ko_KR";
 			response.sendRedirect(redirectUrl);
 		} catch (IOException e) {
-			throw new RuntimeException("Redirection to OAuth2 provider failed", e);
+			throw new PaycoApiException(ErrorCode.PAYCO_API_ERROR);
 		}
 	}
 
@@ -83,7 +88,7 @@ public class PaycoOAuth2Controller {
 				+ "&userLocale=ko_KR";
 			response.sendRedirect(redirectUrl);
 		} catch (IOException e) {
-			throw new RuntimeException("Redirection to OAuth2 provider failed", e);
+			throw new PaycoApiException(ErrorCode.PAYCO_API_ERROR);
 		}
 	}
 
@@ -98,13 +103,13 @@ public class PaycoOAuth2Controller {
 
 		String paycoAccessToken = (String)authorizationCode.get("access_token");
 		if (Objects.isNull(paycoAccessToken)) {
-			throw new RuntimeException("Failed to get Payco access token");
+			throw new PaycoApiException(ErrorCode.PAYCO_API_ERROR);
 		}
 
 		String paycoId = getPaycoId(paycoAccessToken);
 
 		if (!logout(paycoAccessToken)) {
-			throw new RuntimeException("Failed to logout");
+			throw new PaycoApiException(ErrorCode.PAYCO_API_ERROR);
 		}
 
 		Cookie[] cookies = request.getCookies();
@@ -124,7 +129,7 @@ public class PaycoOAuth2Controller {
 		ApiResponse<Void> paycoLinkResponse = memberAuthClient.paycoLink(linkPaycoMembersUUIDRequest);
 
 		if (paycoLinkResponse == null) {
-			return "redirect:/login";
+			return REDRIRECT_LOGIN;
 		}
 
 		return "redirect:/mypage";
@@ -141,13 +146,13 @@ public class PaycoOAuth2Controller {
 
 		String paycoAccessToken = (String)authorizationCode.get("access_token");
 		if (Objects.isNull(paycoAccessToken)) {
-			throw new RuntimeException("Failed to get Payco access token");
+			throw new PaycoApiException(ErrorCode.PAYCO_API_ERROR);
 		}
 
 		String paycoId = getPaycoId(paycoAccessToken);
 
 		if (!logout(paycoAccessToken)) {
-			throw new RuntimeException("Failed to logout");
+			throw new PaycoApiException(ErrorCode.PAYCO_API_ERROR);
 		}
 
 		GetPaycoMembersRequest getPaycoMembersRequest = GetPaycoMembersRequest.builder()
@@ -157,7 +162,7 @@ public class PaycoOAuth2Controller {
 			getPaycoMembersRequest);
 
 		if (paycoMembersResponse.getBody() == null) {
-			return "redirect:/login";
+			return REDRIRECT_LOGIN;
 		}
 
 		String authorization = paycoMembersResponse.getBody().accessToken();
@@ -178,7 +183,7 @@ public class PaycoOAuth2Controller {
 			response.addCookie(refreshCookie);
 
 		} else {
-			return "redirect:/login";
+			return REDRIRECT_LOGIN;
 		}
 
 		return "redirect:/";

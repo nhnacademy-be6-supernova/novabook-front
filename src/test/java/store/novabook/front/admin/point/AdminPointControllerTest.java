@@ -25,7 +25,7 @@ import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.common.security.aop.CurrentMembersArgumentResolver;
 
 @WebMvcTest(AdminPointController.class)
-public class AdminPointControllerTest {
+class AdminPointControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -46,7 +46,7 @@ public class AdminPointControllerTest {
 	}
 
 	@Test
-	public void testGetPointForm() throws Exception {
+	void testGetPointForm() throws Exception {
 
 		GetPointPolicyResponse getPointPolicyResponse = GetPointPolicyResponse.builder()
 			.reviewPointRate(10L)
@@ -58,7 +58,6 @@ public class AdminPointControllerTest {
 
 		when(pointPolicyService.getPointPolicyAllPage(anyInt(), anyInt())).thenReturn(expectedResponse);
 
-		// Act and Assert
 		mockMvc.perform(get("/admin/points/point/form")
 				.param("page", "0")
 				.param("size", "10"))
@@ -69,15 +68,12 @@ public class AdminPointControllerTest {
 	}
 
 	@Test
-	public void testCreatePointPolicy() throws Exception {
-		// Arrange
+	void testCreatePointPolicy() throws Exception {
 		CreatePointPolicyRequest request = CreatePointPolicyRequest.builder()
 			.reviewPointRate(10L)
 			.basicPoint(100L)
 			.registerPoint(50L)
 			.build();
-//
-		// Act and Assert
 		mockMvc.perform(post("/admin/points/point")
 				.contentType("application/x-www-form-urlencoded")
 				.param("reviewPointRate", String.valueOf(request.reviewPointRate()))
@@ -87,7 +83,6 @@ public class AdminPointControllerTest {
 			.andExpect(redirectedUrl("/admin/points/point/form"))
 			.andDo(MockMvcResultHandlers.print());
 
-		// Verify that createPointPolicy was called with the correct request
 		verify(pointPolicyService).createPointPolicy(any(CreatePointPolicyRequest.class));
 	}
 }

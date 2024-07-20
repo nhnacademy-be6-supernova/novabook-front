@@ -47,12 +47,12 @@ class MypageOrderControllerTest {
 	void testGetOrderAll() throws Exception {
 
 		GetOrdersBookResponse getOrdersBookResponse = new GetOrdersBookResponse(
-			1L, // ordersId
-			"The Pragmatic Programmer", // firstBookTitle
-			2L, // extraBookCount
-			5000L, // totalAmount
-			"Shipped", // orderStatus
-			LocalDateTime.now() // createdAt
+			1L,
+			"The Pragmatic Programmer",
+			2L,
+			5000L,
+			"Shipped",
+			LocalDateTime.now()
 		);
 		List<GetOrdersBookResponse> data = new ArrayList<>();
 		data.add(getOrdersBookResponse);

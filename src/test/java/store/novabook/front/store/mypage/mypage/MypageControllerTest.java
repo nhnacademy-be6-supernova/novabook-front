@@ -75,12 +75,12 @@ class MypageControllerTest {
 		PageResponse<GetPointHistoryResponse> expectedResponse = new PageResponse<>(1, 10, 30, data);
 
 		GetOrdersBookResponse getOrdersBookResponse = new GetOrdersBookResponse(
-			1L, // ordersId
-			"The Pragmatic Programmer", // firstBookTitle
-			2L, // extraBookCount
-			5000L, // totalAmount
-			"Shipped", // orderStatus
-			LocalDateTime.now() // createdAt
+			1L,
+			"The Pragmatic Programmer",
+			2L,
+			5000L,
+			"Shipped",
+			LocalDateTime.now()
 		);
 		List<GetOrdersBookResponse> data2 = new ArrayList<>();
 		data2.add(getOrdersBookResponse);
@@ -95,24 +95,21 @@ class MypageControllerTest {
 			.discountType(DiscountType.AMOUNT)
 			.build();
 
-		// Mock data
 		when(pointService.getPointHistories(page, size)).thenReturn(expectedResponse);
 		when(ordersBookService.getOrdersBookAll(page, size)).thenReturn(expectedResponse2);
 		when(memberCouponService.getMyCouponHistoryAll(pageable)).thenReturn(
 			new PageImpl<>(Collections.singletonList(getCouponHistoryResponse)));
 		when(memberGradeService.getMemberGrade()).thenReturn(new GetMemberGradeResponse("Gold"));
 
-		// Perform GET request to "/mypage"
 		mockMvc.perform(get("/mypage"))
-			.andExpect(status().isOk()) // Expect HTTP 200 OK status
-			.andExpect(view().name("store/mypage/mypage_index")) // Expect view name
-			.andExpect(model().attributeExists("pointHistories")) // Expect "pointHistories" attribute in the model
-			.andExpect(model().attributeExists("orders")) // Expect "orders" attribute in the model
-			.andExpect(model().attributeExists("coupons")) // Expect "coupons" attribute in the model
-			.andExpect(model().attributeExists("grade")) // Expect "grade" attribute in the model
+			.andExpect(status().isOk())
+			.andExpect(view().name("store/mypage/mypage_index"))
+			.andExpect(model().attributeExists("pointHistories"))
+			.andExpect(model().attributeExists("orders"))
+			.andExpect(model().attributeExists("coupons"))
+			.andExpect(model().attributeExists("grade"))
 			.andExpect(model().attribute("grade", new GetMemberGradeResponse("Gold")));
 
-		// Verify that the service methods were called with correct arguments
 		verify(pointService).getPointHistories(page, size);
 		verify(ordersBookService).getOrdersBookAll(page, size);
 		verify(memberCouponService).getMyCouponHistoryAll(pageable);

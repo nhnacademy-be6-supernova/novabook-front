@@ -6,31 +6,29 @@ import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
-public class CategoryTest {
+class CategoryTest {
 
 	@Test
 	void testCategoryConstructorAndGetters() {
-		// Given
 		Long id = 1L;
 		LocalDateTime createdAt = LocalDateTime.now();
 		LocalDateTime updatedAt = LocalDateTime.now();
 
 		Category topCategory = Category.builder()
 			.id(2L)
-			.topCategory(null) // Assuming null for a top-level category, adjust as needed
+			.topCategory(null)
 			.name("Category Top")
-			.createdAt(createdAt) // Use actual creation time if available
-			.updatedAt(updatedAt) // Use actual update time if available
+			.createdAt(createdAt)
+			.updatedAt(updatedAt)
 			.build();
 		String name = "Category Top";
 		Category category = Category.builder()
 			.id(1L)
-			.topCategory(topCategory) // Assuming null for a top-level category, adjust as needed
+			.topCategory(topCategory)
 			.name("Category Top")
-			.createdAt(createdAt) // Use actual creation time if available
-			.updatedAt(updatedAt) // Use actual update time if available
+			.createdAt(createdAt)
+			.updatedAt(updatedAt)
 			.build();
-		// Then
 		assertThat(category.getId()).isEqualTo(id);
 		assertThat(category.getTopCategory()).isEqualTo(topCategory);
 		assertThat(category.getName()).isEqualTo(name);

@@ -18,7 +18,7 @@ import store.novabook.front.api.delivery.dto.request.CreateDeliveryFeeRequest;
 import store.novabook.front.api.delivery.dto.response.GetDeliveryFeeResponse;
 import store.novabook.front.common.response.PageResponse;
 
-public class DeliveryFeeServiceImplTest {
+class DeliveryFeeServiceImplTest {
 
 	@Mock
 	private DeliveryFeeClient deliveryFeeClient;
@@ -33,13 +33,10 @@ public class DeliveryFeeServiceImplTest {
 
 	@Test
 	void testCreateDeliveryFee() {
-		// Given
 		CreateDeliveryFeeRequest request = new CreateDeliveryFeeRequest(1000L);
 
-		// When
 		deliveryFeeService.createDeliveryFee(request);
 
-		// Then
 		verify(deliveryFeeClient, times(1)).createDeliveryFee(request);
 	}
 
@@ -55,16 +52,13 @@ public class DeliveryFeeServiceImplTest {
 		List<GetDeliveryFeeResponse> data = new ArrayList<>();
 		data.add(deliveryFeeResponse);
 
-		// Given
 		int page = 0;
 		int size = 10;
 		PageResponse<GetDeliveryFeeResponse> expectedResponse = new PageResponse<>(1, 10, 30, data);
 		when(deliveryFeeClient.getDeliveryAllPage(page, size)).thenReturn(expectedResponse);
 
-		// When
 		PageResponse<GetDeliveryFeeResponse> actualResponse = deliveryFeeService.getDeliveryFeeAllPage(page, size);
 
-		// Then
 		assertEquals(expectedResponse, actualResponse);
 		verify(deliveryFeeClient, times(1)).getDeliveryAllPage(page, size);
 	}

@@ -33,7 +33,6 @@ class GuestServiceImplTest {
 
 	@Test
 	void login_ShouldReturnOrderDetailResponse() {
-		// Arrange
 		GetGuestOrderHistoryRequest request = new GetGuestOrderHistoryRequest("code", "010-1234-1234");
 		GetOrderDetailResponse response = GetOrderDetailResponse.builder()
 			.ordersId(12345L)
@@ -57,10 +56,8 @@ class GuestServiceImplTest {
 
 		when(guestClient.getOrder(any(GetGuestOrderHistoryRequest.class))).thenReturn(apiResponse);
 
-		// Act
 		GetOrderDetailResponse actualResponse = guestService.login(request);
 
-		// Assert
 		assertNotNull(actualResponse);
 		assertEquals(response, actualResponse);
 		verify(guestClient, times(1)).getOrder(any(GetGuestOrderHistoryRequest.class));

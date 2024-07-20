@@ -13,8 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import store.novabook.front.api.member.member.dto.response.MemberOrderNameReponse;
 import store.novabook.front.api.order.dto.PaymentType;
 import store.novabook.front.api.order.dto.request.PaymentRequest;
@@ -39,7 +37,7 @@ class OrderControllerTest {
 	}
 
 	@Test
-	public void testGetTossOrderSuccessPage() throws Exception {
+	void testGetTossOrderSuccessPage() throws Exception {
 
 		MemberOrderNameReponse memberOrderNameReponse = MemberOrderNameReponse.builder()
 			.name("Alice Johnson")
@@ -53,7 +51,7 @@ class OrderControllerTest {
 		TossPaymentRequest tossPaymentRequest = new TossPaymentRequest(5000L, "paymentKey123");
 
 		when(orderService.isInvalidAccess(memberId, orderCode, orderMemberId)).thenReturn(false);
-		when(orderService.getSuccessView(orderCode)).thenReturn(memberOrderNameReponse); // Mock return value
+		when(orderService.getSuccessView(orderCode)).thenReturn(memberOrderNameReponse);
 
 		mockMvc.perform(get("/orders/order/toss/success")
 				.param("memberId", String.valueOf(orderMemberId))
@@ -70,7 +68,7 @@ class OrderControllerTest {
 	}
 
 	@Test
-	public void testGetOrderFailPage() throws Exception {
+	void testGetOrderFailPage() throws Exception {
 		mockMvc.perform(get("/orders/order/toss/fail"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("store/order/order_fail"));
