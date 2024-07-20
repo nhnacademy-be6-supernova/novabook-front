@@ -16,10 +16,16 @@ import store.novabook.front.store.order.dto.UpdateOrdersAdminRequest;
 
 public interface OrderService {
 	OrderViewDTO getOrder(List<BookDTO> bookDTOS, Long memberId);
+
 	void sendRequestPayCancel(Long orderId);
+
 	PageResponse<GetOrdersAdminResponse> getOrderAllAdmin(int page, int size);
+
 	void update(@PathVariable Long id, @Valid @RequestBody UpdateOrdersAdminRequest request);
+
 	void createOrder(PaymentRequest request);
+
 	boolean isInvalidAccess(Long memberId, String orderCode, Long orderMemberId);
+
 	MemberOrderNameReponse getSuccessView(String orderCode);
 }

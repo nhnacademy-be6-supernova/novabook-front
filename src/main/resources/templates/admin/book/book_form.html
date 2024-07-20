@@ -9,17 +9,19 @@
     <title>Admin Page - NovaBook</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- Google Font -->
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
     <!-- Theme Stylesheet -->
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.css"/>
 
     <!-- 선택박스 제작 -->
-    <link rel="stylesheet" href="/css/docsupport/style.css" />
-    <link rel="stylesheet" href="/css/chosen.css" />
-    <link rel="stylesheet" href="/css/docsupport/prism.css" />
+    <link rel="stylesheet" href="/css/docsupport/style.css"/>
+    <link rel="stylesheet" href="/css/chosen.css"/>
+    <link rel="stylesheet" href="/css/docsupport/prism.css"/>
     <link rel="icon" href="/images/favicon.png" type="image/png">
     <link rel="icon" href="/images/favicon.png" type="image/x-icon">
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
@@ -216,6 +218,7 @@
             font-size: 16px;
             cursor: pointer;
         }
+
         /* Adjust Chosen.js select box for responsiveness */
         .chosen-container-multi .chosen-choices {
             height: 40px; /* Adjust height as needed */
@@ -281,7 +284,8 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" id="inputTitle" name="query" required>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default btn-search" id="book_search" type="button" ><i class="fa fa-search"></i></button>
+                                    <button class="btn btn-default btn-search" id="book_search" type="button"><i
+                                            class="fa fa-search"></i></button>
                                 </span>
                             </div>
                         </div>
@@ -297,15 +301,18 @@
                         </div>
                         <div class="form-group">
                             <label for="categorySelect">책 카테고리:</label>
-                            <select id="categorySelect" class="chosen-select form-control chosen-choices" multiple data-placeholder="태그를 선택하세요">
+                            <select id="categorySelect" class="chosen-select form-control chosen-choices" multiple
+                                    data-placeholder="태그를 선택하세요">
                                 <!-- Iterate over categories -->
                                 <th:block th:each="category : ${categories.categories}">
                                     <!-- Display top category -->
-                                    <option th:if="${#lists.isEmpty(category.sub)}" th:value="${category.id}" th:text="${category.name}"></option>
+                                    <option th:if="${#lists.isEmpty(category.sub)}" th:value="${category.id}"
+                                            th:text="${category.name}"></option>
                                     <!-- Iterate over subcategories -->
                                     <th:block th:each="subCategory : ${category.sub}">
                                         <!-- Display subcategory -->
-                                        <option th:value="${subCategory.id}" th:text="${category.name} + ' > ' + ${subCategory.name}"></option>
+                                        <option th:value="${subCategory.id}"
+                                                th:text="${category.name} + ' > ' + ${subCategory.name}"></option>
                                     </th:block>
                                 </th:block>
                             </select>
@@ -313,10 +320,10 @@
                         </div>
 
 
-
                         <div class="form-group">
                             <label for="tagSelect">책 태그:</label>
-                            <select id="tagSelect" class="chosen-select form-control chosen-choices" multiple data-placeholder="태그를 선택하세요">
+                            <select id="tagSelect" class="chosen-select form-control chosen-choices" multiple
+                                    data-placeholder="태그를 선택하세요">
                                 <option th:each="tag : ${tags}" th:value="${tag.id}" th:text="${tag.name}"></option>
                             </select>
                         </div>
@@ -325,7 +332,8 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="inputDiscountPrice">할인가:</label>
-                            <input type="number" class="form-control" id="inputDiscountPrice" name="discountPrice" required>
+                            <input type="number" class="form-control" id="inputDiscountPrice" name="discountPrice"
+                                   required>
                         </div>
                         <div class="form-group">
                             <label for="inputStock">재고:</label>

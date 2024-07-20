@@ -50,39 +50,35 @@ class MypageAddressControllerTest {
 
 		GetMemberAddressResponse getMemberAddressResponse = GetMemberAddressResponse.builder()
 			.id(1L)
-			.streetAddressId(10L)
+			.streetAddressesId(10L)
 			.memberId(100L)
 			.zipcode("12345")
 			.nickname("JohnDoe")
-			.streetAddress("123 Main St")
+			.streetAddresses("123 Main St")
 			.memberAddressDetail("Apt 101")
 			.build();
 		GetMemberAddressResponse getMemberAddressResponse2 = GetMemberAddressResponse.builder()
 			.id(1L)
-			.streetAddressId(10L)
+			.streetAddressesId(10L)
 			.memberId(100L)
 			.zipcode("12345")
 			.nickname("JohnDoe")
-			.streetAddress("123 Main St")
+			.streetAddresses("123 Main St")
 			.memberAddressDetail("Apt 101")
 			.build();
-		// Mock data
 		List<GetMemberAddressResponse> addressList = Arrays.asList(getMemberAddressResponse,
 			getMemberAddressResponse2
 		);
 		when(memberAddressService.getMemberAddressAll()).thenReturn(addressList);
-		// Mock grade service
 		when(memberGradeService.getMemberGrade()).thenReturn(new GetMemberGradeResponse("JohnDoe"));
 
-		// Set up MockMvc
 		mockMvc = MockMvcBuilders.standaloneSetup(mypageAddressController).build();
 
-		// Perform GET request to "/mypage/addresses"
 		mockMvc.perform(get("/mypage/addresses"))
-			.andExpect(status().isOk()) // Expect HTTP 200 OK status
-			.andExpect(view().name("store/mypage/address/address_list")) // Expect view name
-			.andExpect(model().attributeExists("grade")) // Expect "grade" attribute in the model
-			.andExpect(model().attributeExists("addressList")); // Expect "addressList" attribute in the model
+			.andExpect(status().isOk())
+			.andExpect(view().name("store/mypage/address/address_list"))
+			.andExpect(model().attributeExists("grade"))
+			.andExpect(model().attributeExists("addressList"));
 	}
 
 	@Test
@@ -90,20 +86,17 @@ class MypageAddressControllerTest {
 		Long addressId = 1L;
 		UpdateMemberAddressRequest request = new UpdateMemberAddressRequest("John Doe", "12345", "456 Main St", "Apt 202");
 
-		// Set up MockMvc
 		mockMvc = MockMvcBuilders.standaloneSetup(mypageAddressController).build();
 
-		// Perform POST request to "/mypage/addresses/address/{addressId}/update"
 		mockMvc.perform(post("/mypage/addresses/address/{addressId}/update", addressId)
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("nickname", request.nickname())
 				.param("zipcode", request.zipcode())
-				.param("streetAddress", request.streetAddress())
+				.param("streetAddresses", request.streetAddresses())
 				.param("memberAddressDetail", request.memberAddressDetail()))
-			.andExpect(status().is3xxRedirection()) // Expect HTTP redirect status
-			.andExpect(redirectedUrl("/mypage/addresses")); // Expect redirect URL
+			.andExpect(status().is3xxRedirection())
+			.andExpect(redirectedUrl("/mypage/addresses"));
 
-		// Verify that memberAddressService.updateMemberAddress() was called with correct arguments
 		verify(memberAddressService).updateMemberAddress(addressId, request);
 	}
 
@@ -111,17 +104,15 @@ class MypageAddressControllerTest {
 	void testRegister() throws Exception {
 		CreateMemberAddressRequest request = new CreateMemberAddressRequest("John Doe", "12345", "456 Main St", "Apt 202");
 
-		// Perform POST request to "/mypage/addresses"
 		mockMvc.perform(post("/mypage/addresses")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("nickname", request.nickname())
 				.param("zipcode", request.zipcode())
-				.param("streetAddress", request.streetAddress())
+				.param("streetAddresses", request.streetAddresses())
 				.param("memberAddressDetail", request.memberAddressDetail()))
-			.andExpect(status().is3xxRedirection()) // Expect HTTP redirect status
-			.andExpect(redirectedUrl("/mypage/addresses")); // Expect redirect URL
+			.andExpect(status().is3xxRedirection())
+			.andExpect(redirectedUrl("/mypage/addresses"));
 
-		// Verify that memberAddressService.createMemberAddress() was called with correct arguments
 		verify(memberAddressService).createMemberAddress(request);
 	}
 
@@ -129,12 +120,10 @@ class MypageAddressControllerTest {
 	void testDeleteAddress() throws Exception {
 		Long addressId = 1L;
 
-		// Perform GET request to "/mypage/addresses/address/{addressId}/delete"
 		mockMvc.perform(get("/mypage/addresses/address/{addressId}/delete", addressId))
-			.andExpect(status().is3xxRedirection()) // Expect HTTP redirect status
-			.andExpect(redirectedUrl("/mypage/addresses")); // Expect redirect URL
+			.andExpect(status().is3xxRedirection())
+			.andExpect(redirectedUrl("/mypage/addresses"));
 
-		// Verify that memberAddressService.deleteMemberAddress() was called with correct argument
 		verify(memberAddressService).deleteMemberAddress(addressId);
 	}
 

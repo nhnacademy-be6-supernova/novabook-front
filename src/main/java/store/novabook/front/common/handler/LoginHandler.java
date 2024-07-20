@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LoginHandler {
 
-
 	//nav.html login, logout
 	@ModelAttribute
 	public void addAttributes(Model model, HttpServletRequest request) {

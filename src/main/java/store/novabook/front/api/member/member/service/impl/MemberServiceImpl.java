@@ -50,7 +50,7 @@ public class MemberServiceImpl implements MemberService {
 			.birthDay(createMemberRequest.birthDay())
 			.address(createMemberRequest.address())
 			.build();
-  		ApiResponse<CreateMemberResponse> createMemberResponse = memberClient.createMember(newMemberRequest);
+		ApiResponse<CreateMemberResponse> createMemberResponse = memberClient.createMember(newMemberRequest);
 		return createMemberResponse.getBody();
 	}
 
@@ -64,11 +64,13 @@ public class MemberServiceImpl implements MemberService {
 
 		if (status.getBody().memberStatusId() == 2) {
 			Cookie uuidCookie = new Cookie("UUID", status.getBody().uuid());
-			uuidCookie.setMaxAge(60 * 60 * 24 * 7);
+			uuidCookie.setMaxAge(60 * 60 * 3);
+			uuidCookie.setSecure(true);
+			uuidCookie.setHttpOnly(true);
 			uuidCookie.setPath("/");
 			response.addCookie(uuidCookie);
 			return "redirect:/dormant";
-		} else if(status.getBody().memberStatusId() == 3) {
+		} else if (status.getBody().memberStatusId() == 3) {
 			return "redirect:/";
 		}
 
@@ -80,13 +82,16 @@ public class MemberServiceImpl implements MemberService {
 			String refreshToken = refresh.replace("Bearer ", "");
 
 			Cookie accessCookie = new Cookie("Authorization", accessToken);
-			accessCookie.setMaxAge(60 * 60 * 24 * 7);
+			accessCookie.setMaxAge(60 * 60 * 3);
+			accessCookie.setHttpOnly(true);
+			accessCookie.setSecure(true);
 			accessCookie.setPath("/");
-
 			response.addCookie(accessCookie);
 
 			Cookie refreshCookie = new Cookie("Refresh", refreshToken);
-			refreshCookie.setMaxAge(60 * 60 * 24 * 7);
+			refreshCookie.setMaxAge(60 * 60 * 72);
+			refreshCookie.setSecure(true);
+			refreshCookie.setHttpOnly(true);
 			refreshCookie.setPath("/");
 			response.addCookie(refreshCookie);
 
@@ -105,7 +110,8 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public IsExpireAccessTokenResponse isExpireAccessToken(IsExpireAccessTokenRequest isExpireAccessTokenRequest) {
-		ApiResponse<IsExpireAccessTokenResponse> isExpireAccessTokenResponse = memberAuthClient.expire(isExpireAccessTokenRequest);
+		ApiResponse<IsExpireAccessTokenResponse> isExpireAccessTokenResponse = memberAuthClient.expire(
+			isExpireAccessTokenRequest);
 		return isExpireAccessTokenResponse.getBody();
 	}
 

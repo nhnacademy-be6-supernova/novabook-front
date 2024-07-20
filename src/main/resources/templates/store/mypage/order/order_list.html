@@ -50,7 +50,8 @@
                                 </td>
                                 <td th:text="${order.totalAmount}">10,000원</td>
                                 <td th:text="${order.orderStatus}">배송 중</td>
-                                <td><a th:href="@{'/mypage/orders/detail/' + ${order.ordersId}}" th:text="#{button.details}">상세보기</a></td>
+                                <td><a th:href="@{'/mypage/orders/detail/' + ${order.ordersId}}"
+                                       th:text="#{button.details}">상세보기</a></td>
                             </tr>
                             </tbody>
                         </table>

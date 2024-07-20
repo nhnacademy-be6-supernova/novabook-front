@@ -10,7 +10,7 @@ import org.mockito.MockitoAnnotations;
 
 import store.novabook.front.api.admin.service.AdminClient;
 
-public class AdminServiceImplTest {
+class AdminServiceImplTest {
 
 	@Mock
 	private AdminClient adminClient;
@@ -25,12 +25,9 @@ public class AdminServiceImplTest {
 
 	@Test
 	void testAdmin() {
-		// Given - No specific setup needed as we are not expecting a return value
 
-		// When
 		adminService.admin();
 
-		// Then
 		verify(adminClient, times(1)).admin();
 	}
 }

@@ -1,5 +1,5 @@
 // 페이지가 로드 되면 총 금액을 업데이트 한다.
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const totalDiscount = calculateTotalDiscount();
     $('#totalAmount').text(totalDiscount + "원");
     updateFinalAmount();
@@ -8,11 +8,11 @@ document.addEventListener('DOMContentLoaded', function() {
 // 내 주소지 선택 시 내용을 채움
 function selectAddress(button) {
 
-    var streetAddress = button.getAttribute('data-street-address');
+    var streetAddresses = button.getAttribute('data-street-address');
     var detailAddress = button.getAttribute('data-detail-address');
     var postcode = button.getAttribute('data-zipcode');
 
-    document.getElementById('sample6_address').value = streetAddress;
+    document.getElementById('sample6_address').value = streetAddresses;
     document.getElementById('sample6_detailAddress').value = detailAddress;
     document.getElementById('sample6_postcode').value = postcode;
 
@@ -77,10 +77,10 @@ function selectCoupon(button) {
     const discount = button.getAttribute('data-discount');
     let totalDiscount = 0;
 
-    if(discount.endsWith('%')) {
+    if (discount.endsWith('%')) {
         const discountPercentage = parseFloat(discount.slice(0, -1));
         totalDiscount = calculateTotalDiscount() * (discountPercentage / 100);
-    } else if(discount.endsWith('원')) {
+    } else if (discount.endsWith('원')) {
         totalDiscount = parseFloat(discount.slice(0, -1));
     }
 
@@ -115,11 +115,11 @@ function applyPoints() {
     const currentPoints = parseInt($('#currentPoints').text().replace('포인트', '').replace(',', ''), 10);
     const pointsInput = parseInt($('#pointsInput').val(), 10);
 
-    if(!pointsInput) {
+    if (!pointsInput) {
         alert("포인트 값을 넣어주세요!")
         return;
     }
-    if(pointsInput < 0) {
+    if (pointsInput < 0) {
         alert("포인트는 0보다 작을 수 없습니다.")
         return;
     }
@@ -145,17 +145,15 @@ function applyPoints() {
     alert("포인트가 적용되었습니다!");
 
 
-
     updateFinalAmount();
 }
 
 // 포장지 가격 업데이트
 function updatePackagingPrice(selectElement) {
     const price = parseInt($(selectElement).find('option:selected').data('price'), 10);
-        $('#additionalAmount').text(price + "원");
-        updateFinalAmount();
+    $('#additionalAmount').text(price + "원");
+    updateFinalAmount();
 }
-
 
 
 function isValidEmail(email) {
@@ -191,11 +189,12 @@ function selectDeliveryDate(element) {
 let globalItemSize;
 let globalFirstItemName;
 var selectedDate;
+
 function processPayment() {
     var items = [];
     var itemsNames = [];
 
-    $(".item-row").each(function(){
+    $(".item-row").each(function () {
         var itemName = $(this).find(".item-name").text();
         var itemId = $(this).find(".item-id").val();
         var itemQuantity = $(this).find(".item-quantity").text();
@@ -242,11 +241,11 @@ function processPayment() {
         var receiverPhone = $("#receiver_phone").val();
         var receiverEmail = $("#receiver_email").val();
         var zipCode = $("#sample6_postcode").val();
-        var streetAddress = $("#sample6_address").val() + " " + $("#sample6_extraAddress").val();
+        var streetAddresses = $("#sample6_address").val() + " " + $("#sample6_extraAddress").val();
         var detailAddress = $("#sample6_detailAddress").val();
 
         // Check required fields in nested objects
-        if (!senderName || !senderPhone || !receiverName || !receiverPhone || !receiverEmail || !zipCode || !streetAddress || !detailAddress || !deliveryId) {
+        if (!senderName || !senderPhone || !receiverName || !receiverPhone || !receiverEmail || !zipCode || !streetAddresses || !detailAddress || !deliveryId) {
             alert("모든 필드를 채워주세요.");
             throw new Error("Missing nested required fields");
         }
@@ -265,14 +264,14 @@ function processPayment() {
 
         var memberID = $('#login_member_id').val();
 
-        if(!memberID) {
+        if (!memberID) {
             memberID = null;
         }
 
-        if(!couponId) {
+        if (!couponId) {
             couponId = null;
         }
-        if(!pointAmount) {
+        if (!pointAmount) {
             pointAmount = 0;
         }
 
@@ -296,7 +295,7 @@ function processPayment() {
                 email: receiverEmail,
                 orderAddressInfo: {
                     zipCode: zipCode,
-                    streetAddress: streetAddress,
+                    streetAddresses: streetAddresses,
                     detailAddress: detailAddress
                 }
             }
@@ -337,7 +336,7 @@ function sendOrderData(formData) {
 const clientKey = "test_ck_Z1aOwX7K8mzlogY57AQj3yQxzvNP";
 const customerKey = "3z5vQX5-gKl9yu91pPpr-";
 const tossPayments = TossPayments(clientKey);
-const payment = tossPayments.payment({ customerKey });
+const payment = tossPayments.payment({customerKey});
 
 
 async function requestPayment(orderCode) {
@@ -358,7 +357,7 @@ async function requestPayment(orderCode) {
         },
         orderId: orderCode, // 고유 주문번호
         orderName: orderName,
-        successUrl: 'https://www.novabook.store/orders/order/toss/success?memberId='+memberID , // 결제 성공 시 이동할 페이지(이 주소는 예시입니다. 상점에서 직접 만들어주세요.)
+        successUrl: 'https://www.novabook.store/orders/order/toss/success?memberId=' + memberID, // 결제 성공 시 이동할 페이지(이 주소는 예시입니다. 상점에서 직접 만들어주세요.)
         failUrl: 'https://www.novabook.store/orders/order/toss/fail',
     });
 }

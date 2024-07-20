@@ -1,4 +1,4 @@
-package store.novabook.front.api.member.grade.service.impl;
+package store.novabook.front.api.member.grade;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -9,11 +9,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import store.novabook.front.api.member.grade.MemberGradeClient;
 import store.novabook.front.api.member.grade.dto.GetMemberGradeResponse;
+import store.novabook.front.api.member.grade.service.impl.MemberGradeServiceImpl;
 import store.novabook.front.common.response.ApiResponse;
 
-public class MemberGradeServiceImplTest {
+class MemberGradeServiceImplTest {
 
 	@Mock
 	private MemberGradeClient memberGradeClient;
@@ -28,16 +28,12 @@ public class MemberGradeServiceImplTest {
 
 	@Test
 	void testGetMemberGrade() {
-		// Given
 		GetMemberGradeResponse expectedResponse = new GetMemberGradeResponse("Gold");
 
-		// Mocking Service Call
 		when(memberGradeClient.getMemberGrade()).thenReturn(new ApiResponse<>("SUCCESS", true, expectedResponse));
 
-		// When
 		GetMemberGradeResponse actualResponse = memberGradeService.getMemberGrade();
 
-		// Then
 		assertEquals(expectedResponse, actualResponse);
 		verify(memberGradeClient, times(1)).getMemberGrade();
 	}

@@ -20,25 +20,26 @@ public class MypageOrderController {
 	private final OrdersBookService ordersBookService;
 	private static final String DEFAULT_PAGE_SIZE = "10";
 	private static final String DEFAULT_PAGE_PAGE = "0";
+	private static final String GRADE = "grade";
 
 	@GetMapping
-	public String getOrderAll(Model model,@RequestParam(defaultValue = DEFAULT_PAGE_PAGE) int page,
+	public String getOrderAll(Model model, @RequestParam(defaultValue = DEFAULT_PAGE_PAGE) int page,
 		@RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int size) {
 		model.addAttribute("orders", ordersBookService.getOrdersBookAll(page, size));
-		model.addAttribute("grade", memberGradeService.getMemberGrade());
+		model.addAttribute(GRADE, memberGradeService.getMemberGrade());
 		return "store/mypage/order/order_list";
 	}
 
 	@GetMapping("/detail/{ordersId}")
 	public String getOrderDetail(@PathVariable Long ordersId, Model model) {
-		model.addAttribute("grade", memberGradeService.getMemberGrade());
+		model.addAttribute(GRADE, memberGradeService.getMemberGrade());
 		model.addAttribute("ordersDetail", ordersBookService.getOrderDetail(ordersId));
 		return "store/mypage/order/order_list_detail";
 	}
 
 	@GetMapping("/cancel")
 	public String getOrderCancelAll(Model model) {
-		model.addAttribute("grade", memberGradeService.getMemberGrade());
+		model.addAttribute(GRADE, memberGradeService.getMemberGrade());
 		return "store/mypage/order/order_cancel_list";
 	}
 

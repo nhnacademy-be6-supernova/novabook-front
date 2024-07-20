@@ -11,6 +11,8 @@ import store.novabook.front.api.category.dto.response.GetCategoryResponse;
 public interface CategoryService {
 
 	CreateCategoryResponse createCategory(@RequestBody CreateCategoryRequest category);
+
 	GetCategoryResponse getCategory(@PathVariable Long id);
+
 	GetCategoryListResponse getCategoryAll();
 }

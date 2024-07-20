@@ -43,7 +43,6 @@ class MypageLikeBookControllerTest {
 
 	@Test
 	void testGetLikeBookAll() throws Exception {
-		// Mock data
 		int page = 0;
 		int size = 10;
 		GetBookLikeResponse getBookLikeResponse = GetBookLikeResponse.builder()
@@ -62,18 +61,16 @@ class MypageLikeBookControllerTest {
 		when(likeService.getBookLikeAllPage(page, size)).thenReturn(expectedResponse);
 		when(memberGradeService.getMemberGrade()).thenReturn(new GetMemberGradeResponse("Gold"));
 
-		// Perform GET request to "/mypage/like"
 		mockMvc.perform(get("/mypage/like")
 				.param("page", String.valueOf(page))
 				.param("size", String.valueOf(size)))
-			.andExpect(status().isOk()) // Expect HTTP 200 OK status
-			.andExpect(view().name("store/mypage/likebook/like_book_list")) // Expect view name
-			.andExpect(model().attributeExists("grade")) // Expect "grade" attribute in the model
-			.andExpect(model().attributeExists("LikeBooks")) // Expect "LikeBooks" attribute in the model
+			.andExpect(status().isOk())
+			.andExpect(view().name("store/mypage/likebook/like_book_list"))
+			.andExpect(model().attributeExists("grade"))
+			.andExpect(model().attributeExists("LikeBooks"))
 			.andExpect(model().attribute("grade", new GetMemberGradeResponse("Gold")))
 			.andExpect(model().attribute("LikeBooks", expectedResponse));
 
-		// Verify that the service methods were called with correct arguments
 		verify(likeService).getBookLikeAllPage(page, size);
 		verify(memberGradeService).getMemberGrade();
 	}

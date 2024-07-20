@@ -7,4 +7,5 @@ import lombok.Builder;
 @Builder
 public record BookListDTO(
 	List<BookDTO> bookDTOS
-) {}
+) {
+}

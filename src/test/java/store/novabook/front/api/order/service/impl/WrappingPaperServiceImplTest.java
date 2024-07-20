@@ -21,7 +21,7 @@ import store.novabook.front.api.order.dto.response.GetWrappingPaperResponse;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
 
-public class WrappingPaperServiceImplTest {
+class WrappingPaperServiceImplTest {
 
 	@Mock
 	private WrappingPaperClient wrappingPaperClient;
@@ -36,17 +36,14 @@ public class WrappingPaperServiceImplTest {
 
 	@Test
 	void testGetWrappingPaperAllList() {
-		// Given
 		List<GetWrappingPaperResponse> wrappingPaperList = new ArrayList<>();
 		GetWrappingPaperAllResponse expectedResponse = new GetWrappingPaperAllResponse(wrappingPaperList);
 
 		when(wrappingPaperClient.getWrappingPaperAllList()).thenReturn(
 			new ApiResponse<>("SUCCESS", true, expectedResponse));
 
-		// When
 		List<GetWrappingPaperResponse> actualResponse = wrappingPaperService.getWrappingPaperAllList();
 
-		// Then
 		assertEquals(wrappingPaperList, actualResponse);
 		verify(wrappingPaperClient, times(1)).getWrappingPaperAllList();
 	}
@@ -64,17 +61,14 @@ public class WrappingPaperServiceImplTest {
 			.build();
 		List<GetWrappingPaperResponse> data = new ArrayList<>();
 		data.add(wrappingPaperResponse);
-		// Given
 		int page = 0;
 		int size = 10;
 		PageResponse<GetWrappingPaperResponse> expectedResponse = new PageResponse<>(1, 10, 30, data);
 		when(wrappingPaperClient.getWrappingPaperAllPage(page, size)).thenReturn(expectedResponse);
 
-		// When
 		PageResponse<GetWrappingPaperResponse> actualResponse = wrappingPaperService.getWrappingPaperAllPage(page,
 			size);
 
-		// Then
 		assertEquals(expectedResponse, actualResponse);
 		verify(wrappingPaperClient, times(1)).getWrappingPaperAllPage(page, size);
 	}
@@ -89,15 +83,12 @@ public class WrappingPaperServiceImplTest {
 			.createdAt(LocalDateTime.of(2023, 10, 1, 0, 0))
 			.updatedAt(LocalDateTime.of(2023, 10, 5, 0, 0))
 			.build();
-		// Given
 		Long id = 1L;
 		when(wrappingPaperClient.getWrappingPaper(id)).thenReturn(
 			new ApiResponse<>("SUCCESS", true, wrappingPaperResponse));
 
-		// When
 		GetWrappingPaperResponse actualResponse = wrappingPaperService.getWrappingPaper(id);
 
-		// Then
 		assertEquals(wrappingPaperResponse, actualResponse);
 		verify(wrappingPaperClient, times(1)).getWrappingPaper(id);
 	}
@@ -111,16 +102,13 @@ public class WrappingPaperServiceImplTest {
 			.status("Available")
 			.build();
 
-		// When
 		wrappingPaperService.createWrappingPaper(request);
 
-		// Then
 		verify(wrappingPaperClient, times(1)).createWrappingPaper(request);
 	}
 
 	@Test
 	void testUpdateWrappingPaper() {
-		// Given
 		Long id = 1L;
 		UpdateWrappingPaperRequest request = UpdateWrappingPaperRequest.builder()
 			.price(2500L)
@@ -128,10 +116,8 @@ public class WrappingPaperServiceImplTest {
 			.status("In Stock")
 			.build();
 
-		// When
 		wrappingPaperService.updateWrappingPaper(id, request);
 
-		// Then
 		verify(wrappingPaperClient, times(1)).putWrappingPaper(request, id);
 	}
 }

@@ -34,7 +34,6 @@ class PointPolicyServiceImplTest {
 
 	@Test
 	void testCreatePointPolicy() {
-		// Given
 		CreatePointPolicyRequest request = CreatePointPolicyRequest.builder()
 			.reviewPointRate(10L)
 			.basicPoint(100L)
@@ -45,17 +44,14 @@ class PointPolicyServiceImplTest {
 
 		when(pointPolicyClient.createPointPolicy(request)).thenReturn(new ApiResponse<>("SUCCESS", true, expectedResponse));
 
-		// When
 		pointPolicyService.createPointPolicy(request);
 
-		// Then
 		verify(pointPolicyClient, times(1)).createPointPolicy(request);
 	}
 
 
 	@Test
 	void testGetPointPolicyAllPage() {
-
 		GetPointPolicyResponse getPointPolicyResponse = GetPointPolicyResponse.builder()
 			.reviewPointRate(20L)
 			.basicPoint(200L)
@@ -64,17 +60,13 @@ class PointPolicyServiceImplTest {
 
 		List<GetPointPolicyResponse> data = new ArrayList<>();
 		data.add(getPointPolicyResponse);
-		// Given
 		int page = 1;
 		int size = 10;
 
 		PageResponse<GetPointPolicyResponse> expectedResponse = new PageResponse<>(1, 10, 30, data);
 		when(pointPolicyClient.getPointPolicyAll(page, size)).thenReturn(expectedResponse);
-		// new PageResponse<>(1, 10, 30, data);
-		// When
 		PageResponse<GetPointPolicyResponse> actualResponse = pointPolicyService.getPointPolicyAllPage(page, size);
 
-		// Then
 		assertEquals(expectedResponse, actualResponse);
 		verify(pointPolicyClient, times(1)).getPointPolicyAll(page, size);
 	}
@@ -86,13 +78,10 @@ class PointPolicyServiceImplTest {
 			.basicPoint(200L)
 			.registerPoint(100L)
 			.build();
-		// Given
 		when(pointPolicyClient.getLatestPoint()).thenReturn(new ApiResponse<>("SUCCESS", true, expectedResponse));
 
-		// When
 		GetPointPolicyResponse actualResponse = pointPolicyService.getLatestPointPolicy();
 
-		// Then
 		assertEquals(expectedResponse, actualResponse);
 		verify(pointPolicyClient, times(1)).getLatestPoint();
 	}

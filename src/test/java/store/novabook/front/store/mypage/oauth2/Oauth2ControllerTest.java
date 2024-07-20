@@ -26,9 +26,8 @@ class Oauth2ControllerTest {
 
 	@Test
 	void testOauth2() throws Exception {
-		// Perform GET request to "/mypage/oauth2"
 		mockMvc.perform(get("/mypage/oauth2"))
-			.andExpect(status().isOk()) // Expect HTTP 200 OK status
-			.andExpect(view().name("store/mypage/oauth2/oauth2")); // Expect view name
+			.andExpect(status().isOk())
+			.andExpect(view().name("store/mypage/oauth2/oauth2"));
 	}
 }

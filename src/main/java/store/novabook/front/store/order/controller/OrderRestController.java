@@ -27,9 +27,10 @@ public class OrderRestController {
 	}
 
 	@PostMapping("/order/form/submit")
-	public ResponseEntity<String> createOrderForm(@Valid @RequestBody OrderTemporaryFormRequest orderTemporaryFormRequest,
+	public ResponseEntity<String> createOrderForm(
+		@Valid @RequestBody OrderTemporaryFormRequest orderTemporaryFormRequest,
 		@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie
-		) {
+	) {
 		String guestCookieValue = (guestCookie != null) ? guestCookie.getValue() : null;
 		String orderCode = orderService.createOrderForm(orderTemporaryFormRequest, guestCookieValue);
 		return ResponseEntity.status(HttpStatus.CREATED).body(orderCode);

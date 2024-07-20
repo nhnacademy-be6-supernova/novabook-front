@@ -59,8 +59,10 @@
                                     <a th:value="${book.reviewId}"
                                        th:class="${book.reviewId != null ? 'btn btn-secondary' : 'btn btn-primary'}"
                                        th:href="@{'/mypage/reviews/' + ${book.reviewId != null ? book.reviewId + '/update' : book.ordersBookId}}">
-                                    <span th:if="${book.reviewId != null}" th:text="#{button.editReview}">리뷰 수정</span>
-                                    <span th:unless="${book.reviewId != null}" th:text="#{button.writeReview}">리뷰 쓰기</span>
+                                        <span th:if="${book.reviewId != null}"
+                                              th:text="#{button.editReview}">리뷰 수정</span>
+                                        <span th:unless="${book.reviewId != null}"
+                                              th:text="#{button.writeReview}">리뷰 쓰기</span>
                                     </a>
                                 </td>
                             </tr>
@@ -72,12 +74,14 @@
                         <div class="pagination">
                             <!-- Previous button -->
                             <li class="page-item" th:classappend="${ordersBook.getPageNum() == 0} ? 'disabled'">
-                                <a th:if="${ordersBook.getPageNum() > 0}" th:href="@{/mypage/reviews(page=${ordersBook.getPageNum() - 1})}">Previous</a>
+                                <a th:if="${ordersBook.getPageNum() > 0}"
+                                   th:href="@{/mypage/reviews(page=${ordersBook.getPageNum() - 1})}">Previous</a>
                                 <span th:if="${ordersBook.getPageNum() == 0}">Previous</span>
                             </li>
 
                             <!-- Page numbers -->
-                            <li class="page-item" th:if="${ordersBook.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, ordersBook.getTotalPageCount() - 1)}">
+                            <li class="page-item" th:if="${ordersBook.getTotalPageCount() > 0}"
+                                th:each="i : ${#numbers.sequence(0, ordersBook.getTotalPageCount() - 1)}">
                                 <a th:href="@{/mypage/reviews(page=${i})}" th:text="${i + 1}+'&nbsp;'"
                                    th:classappend="${i == ordersBook.getPageNum()} ? 'active' : ''"></a>
                             </li>
@@ -96,7 +100,6 @@
         </div>
     </div>
 </div>
-
 
 
 <div th:replace="~{layout/store/footer::footer}"></div>

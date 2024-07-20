@@ -32,7 +32,7 @@ import store.novabook.front.common.security.aop.CurrentMembersArgumentResolver;
 import store.novabook.front.common.security.aop.dto.GetMembersTokenResponse;
 
 @WebMvcTest(BookController.class)
-public class BookControllerTest {
+class BookControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -83,8 +83,7 @@ public class BookControllerTest {
 			.bookStatusId(2L)
 			.build();
 
-		// Mocking book service response
-		when(bookService.getBookClient(anyLong())).thenReturn(getBookResponse); // Replace with actual mocked response
+		when(bookService.getBookClient(anyLong())).thenReturn(getBookResponse);
 
 		GetReviewResponse mockReviewResponse = GetReviewResponse.builder()
 			.nickName("User123")
@@ -106,31 +105,27 @@ public class BookControllerTest {
 			new GetMembersTokenResponse(1L));
 		when(memberAuthClient.token()).thenReturn(apiResponse);
 
-		// Mocking like book service response
-		LikeBookResponse mockLikeResponse = new LikeBookResponse(false); // Replace with actual mocked response
+		LikeBookResponse mockLikeResponse = new LikeBookResponse(false);
 		when(likeBookRestService.getBookLikes(anyLong())).thenReturn(mockLikeResponse);
 
-		// Perform GET request to "/books/book/{bookId}" endpoint and validate the response
 		mockMvc.perform(get("/books/book/{bookId}", bookId).cookie(new Cookie("Authorization", "token"))
 				.param("memberId", String.valueOf(memberId)))
-			.andExpect(status().isOk()) // Expect HTTP 200 OK status
-			.andExpect(view().name("store/book/book_detail")) // Expect view name to be "store/book/book_detail"
-			.andExpect(model().attributeExists("book")) // Expect "book" attribute in the model
-			.andExpect(model().attributeExists("reviews")) // Expect "reviews" attribute in the model
-			.andExpect(model().attributeExists("isLiked")) // Expect "isLiked" attribute in the model
-			.andExpect(model().attribute("isLiked", mockLikeResponse.isLiked())); // Verify value of "isLiked" attribute
+			.andExpect(status().isOk())
+			.andExpect(view().name("store/book/book_detail"))
+			.andExpect(model().attributeExists("book"))
+			.andExpect(model().attributeExists("reviews"))
+			.andExpect(model().attributeExists("isLiked"))
+			.andExpect(model().attribute("isLiked", mockLikeResponse.isLiked()));
 	}
 
 	@Test
 	void testGetBookNotFound() throws Exception {
 		Long bookId = 1L;
 
-		// Mocking book service to throw NovaException
 		when(bookService.getBookClient(anyLong())).thenThrow(new ForbiddenException(ErrorCode.FORBIDDEN));
 
-		// Perform GET request to "/books/book/{bookId}" endpoint and validate the response for not found scenario
 		mockMvc.perform(get("/books/book/{bookId}", bookId))
-			.andExpect(status().isOk()) // Expect HTTP 200 OK status (as error handling is within the controller)
-			.andExpect(view().name("error/404")); // Expect view name to be "error/404"
+			.andExpect(status().isOk())
+			.andExpect(view().name("error/404"));
 	}
 }
