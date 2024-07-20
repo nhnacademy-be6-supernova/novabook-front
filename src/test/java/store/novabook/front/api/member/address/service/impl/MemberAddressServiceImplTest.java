@@ -87,10 +87,10 @@ class MemberAddressServiceImplTest {
 		List<GetMemberAddressResponse> actualResponse = memberAddressService.getMemberAddressAll();
 
 		assertEquals(2, actualResponse.size());
-		assertEquals(1L, actualResponse.get(0).id());
-		assertEquals("John Doe", actualResponse.get(0).nickname());
-		assertEquals("123 Street", actualResponse.get(0).streetAddress());
-		assertEquals("12345", actualResponse.get(0).zipcode());
+		assertEquals(1L, actualResponse.getFirst().id());
+		assertEquals("John Doe", actualResponse.getFirst().nickname());
+		assertEquals("123 Street", actualResponse.getFirst().streetAddress());
+		assertEquals("12345", actualResponse.getFirst().zipcode());
 
 
 		verify(memberAddressClient, times(1)).getMemberAddressAll();

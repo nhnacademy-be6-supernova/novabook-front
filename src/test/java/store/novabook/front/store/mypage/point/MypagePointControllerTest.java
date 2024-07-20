@@ -45,7 +45,6 @@ class MypagePointControllerTest {
 
 	@Test
 	void testGetPointAll() throws Exception {
-
 		GetPointHistoryResponse getPointHistoryResponse = GetPointHistoryResponse.builder()
 			.pointContent("Points for purchase")
 			.pointAmount(500L)

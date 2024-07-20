@@ -1,4 +1,4 @@
-package store.novabook.front.api.member.dooray.service.impl;
+package store.novabook.front.api.member.dooray.service;
 
 import static org.mockito.Mockito.*;
 
@@ -10,7 +10,7 @@ import org.mockito.MockitoAnnotations;
 
 import store.novabook.front.api.member.dooray.dto.DoorayAuthCodeRequest;
 import store.novabook.front.api.member.dooray.dto.DoorayAuthRequest;
-import store.novabook.front.api.member.dooray.service.DoorayHookClient;
+import store.novabook.front.api.member.dooray.service.impl.DoorayServiceImpl;
 
 class DoorayServiceImplTest {
 

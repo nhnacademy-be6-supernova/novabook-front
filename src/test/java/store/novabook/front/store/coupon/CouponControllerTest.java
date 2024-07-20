@@ -20,9 +20,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import store.novabook.front.api.coupon.domain.CouponType;
-import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateResponse;
-import store.novabook.front.api.coupon.dto.response.GetCouponTemplateResponse;
 import store.novabook.front.api.coupon.dto.response.GetLimitedCouponTemplateResponse;
 import store.novabook.front.api.coupon.service.CouponService;
 import store.novabook.front.api.member.member.service.MemberAuthClient;
@@ -54,21 +51,17 @@ class CouponControllerTest {
 
 	@Test
 	void testGetLimitedCouponAll() throws Exception {
-		// Mock data
 		List<GetLimitedCouponTemplateResponse> mockLimitedCouponList = Collections.emptyList();
 		PageResponse<GetLimitedCouponTemplateResponse> mockLimitedPageResponse = PageResponse.success(0, 5, 10, mockLimitedCouponList);
 
-		// Mock couponService method
 		when(couponService.getLimitedCouponTemplateAll(eq(true), anyInt(), anyInt()))
 			.thenReturn(mockLimitedPageResponse);
 
-		// Perform GET request to "/coupons/limited"
 		mockMvc.perform(get("/coupons/limited"))
-			.andExpect(status().isOk()) // Expect HTTP 200 OK status
-			.andExpect(view().name("store/coupon/limited_coupon_list")) // Expect view name to be "store/coupon/limited_coupon_list"
-			.andExpect(model().attributeExists("limitedCouponList")); // Expect "limitedCouponList" attribute in the model
+			.andExpect(status().isOk())
+			.andExpect(view().name("store/coupon/limited_coupon_list"))
+			.andExpect(model().attributeExists("limitedCouponList"));
 
-		// Verify interactions with couponService
 		verify(couponService, times(1)).getLimitedCouponTemplateAll(eq(true), anyInt(), anyInt());
 		verifyNoMoreInteractions(couponService);
 	}

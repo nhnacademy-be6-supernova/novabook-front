@@ -30,7 +30,6 @@ class UpdateCartBookQuantityRequestTest {
 
 	@Test
 	void testUpdateCartBookQuantityRequestWithNullQuantity() {
-		// Act & Assert
 		try {
 			new UpdateCartBookQuantityRequest(1L, null);
 		} catch (Exception e) {

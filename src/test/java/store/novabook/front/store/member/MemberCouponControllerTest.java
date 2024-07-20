@@ -61,7 +61,6 @@ class MemberCouponControllerTest {
 	@Test
 	void testDownloadLimited() throws Exception {
 		DownloadCouponMessageRequest request = new DownloadCouponMessageRequest("uuid", CouponType.GENERAL, 1L);
-
 		mockMvc.perform(post("/coupons/download/limited")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(request)))
@@ -71,7 +70,6 @@ class MemberCouponControllerTest {
 	@Test
 	void testGetCouponAllForBook() throws Exception {
 		Long bookId = 1L;
-
 		mockMvc.perform(get("/coupons/book/{bookId}", bookId))
 			.andExpect(status().isOk());
 	}

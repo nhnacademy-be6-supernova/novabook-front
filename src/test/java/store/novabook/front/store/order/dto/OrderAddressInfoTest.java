@@ -9,19 +9,16 @@ class OrderAddressInfoTest {
 
 	@Test
 	void testOrderAddressInfoValid() {
-		// Arrange
 		String zipCode = "12345";
 		String streetAddress = "123 Main St";
 		String detailAddress = "Apt 4B";
 
-		// Act
 		OrderAddressInfo orderAddressInfo = OrderAddressInfo.builder()
 			.zipCode(zipCode)
 			.streetAddress(streetAddress)
 			.detailAddress(detailAddress)
 			.build();
 
-		// Assert
 		assertThat(orderAddressInfo).isNotNull();
 		assertThat(orderAddressInfo.zipCode()).isEqualTo(zipCode);
 		assertThat(orderAddressInfo.streetAddress()).isEqualTo(streetAddress);

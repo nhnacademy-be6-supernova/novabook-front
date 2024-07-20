@@ -52,7 +52,6 @@ class PointPolicyServiceImplTest {
 
 	@Test
 	void testGetPointPolicyAllPage() {
-
 		GetPointPolicyResponse getPointPolicyResponse = GetPointPolicyResponse.builder()
 			.reviewPointRate(20L)
 			.basicPoint(200L)
@@ -61,7 +60,6 @@ class PointPolicyServiceImplTest {
 
 		List<GetPointPolicyResponse> data = new ArrayList<>();
 		data.add(getPointPolicyResponse);
-		// Given
 		int page = 1;
 		int size = 10;
 

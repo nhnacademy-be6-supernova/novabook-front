@@ -20,16 +20,13 @@ class OrderSenderInfoTest {
 
 	@Test
 	void testOrderSenderInfoValid() {
-		// Arrange
 		OrderSenderInfo orderSenderInfo = new OrderSenderInfo(
 			"Alice",
 			"01012345678"
 		);
 
-		// Act
 		var violations = validator.validate(orderSenderInfo);
 
-		// Assert
 		assertThat(violations).isEmpty();
 	}
 

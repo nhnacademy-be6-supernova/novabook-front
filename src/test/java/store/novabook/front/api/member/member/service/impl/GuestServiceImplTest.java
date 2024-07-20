@@ -33,7 +33,6 @@ class GuestServiceImplTest {
 
 	@Test
 	void login_ShouldReturnOrderDetailResponse() {
-		// Arrange
 		GetGuestOrderHistoryRequest request = new GetGuestOrderHistoryRequest("code", "010-1234-1234");
 		GetOrderDetailResponse response = GetOrderDetailResponse.builder()
 			.ordersId(12345L)

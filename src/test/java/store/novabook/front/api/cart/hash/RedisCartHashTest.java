@@ -1,12 +1,12 @@
 package store.novabook.front.api.cart.hash;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+
 import store.novabook.front.api.cart.dto.CartBookDTO;
 import store.novabook.front.api.cart.dto.CartBookListDTO;
 import store.novabook.front.store.cart.hash.RedisCartHash;
