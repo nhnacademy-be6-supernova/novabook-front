@@ -130,7 +130,7 @@
                             <div class="coupon-name" th:text="${coupon.name()}">쿠폰 이름</div>
                             <div class="coupon-meta">
                                 <span th:text="#{limited.coupon.minPurchaseAmount} + ${coupon.minPurchaseAmount} + '원'">최소구매금액: 10000원</span>
-                                 |
+                                |
                                 <span th:text="#{limited.coupon.maxDiscountAmount} + ${coupon.maxDiscountAmount} + '원'">최대할인금액: 5000원</span>
                                 <br>
                                 <span th:text="#{coupon.validity} + ${#temporals.format(coupon.startedAt, 'yyyy-MM-dd HH:mm')} + ' ~ ' + ${#temporals.format(coupon.expirationAt, 'yyyy-MM-dd HH:mm')}">유효기간: 2024년 1월 1일 ~ 2024년 12월 31일</span>

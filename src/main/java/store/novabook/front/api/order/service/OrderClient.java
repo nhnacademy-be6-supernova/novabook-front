@@ -27,5 +27,5 @@ public interface OrderClient {
 	ApiResponse<Void> update(@PathVariable Long id, @Valid @RequestBody UpdateOrdersAdminRequest request);
 
 	@GetMapping("/guest/{ordersId}")
-	ApiResponse <GetOrderDetailResponse> getOrdersGuest(@PathVariable Long ordersId);
+	ApiResponse<GetOrderDetailResponse> getOrdersGuest(@PathVariable Long ordersId);
 }

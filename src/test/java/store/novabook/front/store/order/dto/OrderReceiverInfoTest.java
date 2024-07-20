@@ -22,7 +22,7 @@ class OrderReceiverInfoTest {
 	void testOrderReceiverInfoValid() {
 		OrderAddressInfo addressInfo = OrderAddressInfo.builder()
 			.zipCode("12345")
-			.streetAddress("123 Main St")
+			.streetAddresses("123 Main St")
 			.detailAddress("Apt 4B")
 			.build();
 

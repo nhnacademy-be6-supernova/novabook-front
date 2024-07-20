@@ -22,6 +22,8 @@ import store.novabook.front.api.coupon.service.CouponService;
 @Controller
 @RequiredArgsConstructor
 public class AdminCouponController {
+
+	public static final String REDIRECT_ADMIN_COUPONS = "redirect:/admin/coupons";
 	private final CouponService couponService;
 	private final CategoryService categoryService;
 	private static final String PAGE = "0";
@@ -34,9 +36,9 @@ public class AdminCouponController {
 		@RequestParam(defaultValue = PAGE) int categoryPage, @RequestParam(defaultValue = PAGE_SIZE) int size) {
 
 		model.addAttribute("birthdayCoupons",
-			couponService.getCouponTemplateAll(CouponType.BIRTHDAY, false, birthdayPage, size,"createdAt,desc"));
+			couponService.getCouponTemplateAll(CouponType.BIRTHDAY, false, birthdayPage, size, "createdAt,desc"));
 		model.addAttribute("welcomeCoupons",
-			couponService.getCouponTemplateAll(CouponType.WELCOME, false, welcomePage, size,"createdAt,desc"));
+			couponService.getCouponTemplateAll(CouponType.WELCOME, false, welcomePage, size, "createdAt,desc"));
 		model.addAttribute("generalCoupons",
 			couponService.getCouponTemplateAll(CouponType.GENERAL, false, generalPage, size, "startedAt,desc"));
 		model.addAttribute("bookCoupons", couponService.getBookCouponTemplateAll(bookPage, size));
@@ -72,25 +74,25 @@ public class AdminCouponController {
 	@PostMapping("/common/create")
 	public String createCouponTemplateCommon(@Valid @ModelAttribute CreateCouponTemplateRequest couponRequest) {
 		couponService.createGeneralTemplateCoupon(couponRequest);
-		return "redirect:/admin/coupons";
+		return REDIRECT_ADMIN_COUPONS;
 	}
 
 	@PostMapping("/book/create")
 	public String createCouponTemplateBook(@Valid @ModelAttribute CreateBookCouponTemPlateRequest bookCouponRequest) {
 		couponService.createBookTemplateCoupon(bookCouponRequest);
-		return "redirect:/admin/coupons";
+		return REDIRECT_ADMIN_COUPONS;
 	}
 
 	@PostMapping("/category/create")
 	public String createCouponTemplateCategory(@Valid @ModelAttribute CreateCategoryCouponTemplateRequest request) {
 		couponService.createCategoryTemplateCoupon(request);
-		return "redirect:/admin/coupons";
+		return REDIRECT_ADMIN_COUPONS;
 	}
 
 	@PostMapping("/limited/create")
 	public String createCouponTemplateLimited(@Valid @ModelAttribute CreateLimitedCouponTemplateRequest request) {
 		couponService.createLimitedTemplateCoupon(request);
-		return "redirect:/admin/coupons";
+		return REDIRECT_ADMIN_COUPONS;
 	}
 
 }

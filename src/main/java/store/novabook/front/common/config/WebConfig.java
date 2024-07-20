@@ -24,7 +24,6 @@ public class WebConfig implements WebMvcConfigurer {
 	private final ObjectProvider<MemberAuthClient> memberAuthClientProvider;
 	private final ObjectProvider<MemberService> memberServices;
 
-
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 
@@ -56,7 +55,9 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping(("/**"))
-			.allowedOrigins("*")
+			.allowedOrigins("http://localhost:8080")
+			.allowedOrigins("https://novabook.store")
+			.allowedOrigins("https://www.novabook.store")
 			.allowedMethods(
 				HttpMethod.GET.name(),
 				HttpMethod.HEAD.name(),

@@ -26,10 +26,12 @@
             vertical-align: middle;
             text-align: center;
         }
+
         .table-striped thead th {
             text-align: center;
             vertical-align: middle;
         }
+
         .table-striped tbody tr td:last-child,
         .table-striped tbody tr th:last-child {
             border-right: none;
@@ -111,7 +113,8 @@
                         <a id="review" href="#" th:text="#{sortOption.review}">리뷰 순</a>
                     </div>
                     <div class="pull-right">
-                        <label for="itemsPerPage" class="control-label" th:text="#{book.list.itemsPerPage}">페이지당 항목 수:</label>
+                        <label for="itemsPerPage" class="control-label" th:text="#{book.list.itemsPerPage}">페이지당 항목
+                            수:</label>
                         <select id="itemsPerPage" class="form-control" style="display:inline-block; width:auto;">
                             <option value="10">10개</option>
                             <option value="20">20개</option>
@@ -141,7 +144,8 @@
                             <td><img th:src="@{${book.image}}" alt="책 사진" style="width:100px;"></td>
                             <td>
                                 <div class="book-info">
-                                    <a class="book-title" th:href="@{/books/book/{id}(id=${book.id})}" th:text="${book.title}" >책 제목</a>
+                                    <a class="book-title" th:href="@{/books/book/{id}(id=${book.id})}"
+                                       th:text="${book.title}">책 제목</a>
                                     <div class="book-author-publisher">
                                         <span class="book-author" th:text="${book.author}">저자</span><br>
                                         <span class="book-publisher" th:text="${book.publisher}">출판사</span>
@@ -159,16 +163,20 @@
                                 </div>
                             </td>
                             <td>
-                                <span style="font-size: 16px;" class="strong-text" th:if="${book.isPackaged}">포장 가능</span>
-                                <span style="font-size: 16px;" class="strong-text" th:if="${!book.isPackaged}">포장 불가</span>
+                                <span style="font-size: 16px;" class="strong-text"
+                                      th:if="${book.isPackaged}">포장 가능</span>
+                                <span style="font-size: 16px;" class="strong-text"
+                                      th:if="${!book.isPackaged}">포장 불가</span>
                             </td>
                             <td>
                                 <div class="btn-group-vertical">
-<!--                                    <a onclick="" class="btn btn-primary" th:text="#{book.list.addToCart}">장바구니에 넣기</a>-->
-                                    <a  th:attr="onclick='addToCart(' + ${book.id} + ', \'' + ${book.title} + '\', \'' + ${book.image} + '\', ' + ${book.price} + ', ' + ${book.discountPrice} + ', ' + ${book.isPackaged} + ')'"   th:text="#{book.list.addToCart}" class="btn btn-primary">장바구니에 넣기</a>
+                                    <!--                                    <a onclick="" class="btn btn-primary" th:text="#{book.list.addToCart}">장바구니에 넣기</a>-->
+                                    <a th:attr="onclick='addToCart(' + ${book.id} + ', \'' + ${book.title} + '\', \'' + ${book.image} + '\', ' + ${book.price} + ', ' + ${book.discountPrice} + ', ' + ${book.isPackaged} + ')'"
+                                       th:text="#{book.list.addToCart}" class="btn btn-primary">장바구니에 넣기</a>
 
                                     <a href="#" class="btn btn-success" th:text="#{book.list.buyNow}">바로 구매</a>
-                                    <a th:href="@{/books/book/{id}(id=${book.id})}" class="btn btn-info" th:text="#{book.list.viewProduct}">상품 보기</a>
+                                    <a th:href="@{/books/book/{id}(id=${book.id})}" class="btn btn-info"
+                                       th:text="#{book.list.viewProduct}">상품 보기</a>
                                 </div>
                             </td>
                         </tr>
@@ -180,19 +188,25 @@
                 <div class="pagination">
                     <!-- 이전 버튼 -->
                     <li class="page-item" th:classappend="${bookSearches.pageNum == 0} ? 'disabled'">
-                        <a th:if="${bookSearches.pageNum > 0}" th:href="@{${prevPageUrl}}" onclick="return false;" th:text="#{pagination.previous}">Previous</a>
+                        <a th:if="${bookSearches.pageNum > 0}" th:href="@{${prevPageUrl}}" onclick="return false;"
+                           th:text="#{pagination.previous}">Previous</a>
                         <span th:if="${bookSearches.pageNum == 0}" th:text="#{pagination.previous}">Previous</span>
                     </li>
 
                     <!-- 페이지 번호 -->
-                    <li class="page-item" th:if="${bookSearches.getTotalPageCount() > 0}" th:each="i : ${#numbers.sequence(0, bookSearches.getTotalPageCount() - 1)}">
-                        <a th:href="@{${currentPageUrl}}" th:text="${i + 1}" th:classappend="${i == bookSearches.pageNum} ? 'active' : ''"></a>
+                    <li class="page-item" th:if="${bookSearches.getTotalPageCount() > 0}"
+                        th:each="i : ${#numbers.sequence(0, bookSearches.getTotalPageCount() - 1)}">
+                        <a th:href="@{${currentPageUrl}}" th:text="${i + 1}"
+                           th:classappend="${i == bookSearches.pageNum} ? 'active' : ''"></a>
                     </li>
 
                     <!-- 다음 버튼 -->
-                    <li class="page-item" th:classappend="${bookSearches.pageNum >= bookSearches.getTotalPageCount() - 1} ? 'disabled'">
-                        <a th:if="${bookSearches.pageNum < bookSearches.getTotalPageCount() - 1}" th:href="@{${nextPageUrl}}" onclick="return false;" th:text="#{pagination.next}">Next</a>
-                        <span th:if="${bookSearches.pageNum >= bookSearches.getTotalPageCount() - 1}" th:text="#{pagination.next}">Next</span>
+                    <li class="page-item"
+                        th:classappend="${bookSearches.pageNum >= bookSearches.getTotalPageCount() - 1} ? 'disabled'">
+                        <a th:if="${bookSearches.pageNum < bookSearches.getTotalPageCount() - 1}"
+                           th:href="@{${nextPageUrl}}" onclick="return false;" th:text="#{pagination.next}">Next</a>
+                        <span th:if="${bookSearches.pageNum >= bookSearches.getTotalPageCount() - 1}"
+                              th:text="#{pagination.next}">Next</span>
                     </li>
                 </div>
             </div>
@@ -227,7 +241,7 @@
         $('.pagination .page-item:last-child a').attr('href', nextPageUrl);
 
         // 각 페이지 번호 링크 설정
-        $('.pagination .page-item:not(:first-child):not(:last-child) a').each(function(index) {
+        $('.pagination .page-item:not(:first-child):not(:last-child) a').each(function (index) {
             $(this).attr('href', createPaginationLink(searchType, keyword, index));
 
         });
@@ -243,21 +257,20 @@
         //     window.location.href = sortLink;
         // });
 
-        $('#lowest_price').on('click', function() {
+        $('#lowest_price').on('click', function () {
             var sortLink = createSortLink(searchType, keyword, 'discountPrice');
             window.location.href = sortLink;
         });
 
-        $('#rating').on('click', function() {
+        $('#rating').on('click', function () {
             var sortLink = createSortLink(searchType, keyword, 'score');
             window.location.href = sortLink;
         });
 
-        $('#review').on('click', function() {
+        $('#review').on('click', function () {
             var sortLink = createSortLink(searchType, keyword, 'review');
             window.location.href = sortLink;
         });
-
 
 
         // 선택된 모든 책 체크박스
@@ -283,6 +296,7 @@
             return '#';
         }
     }
+
     function createPaginationLink(searchType, keyword, pageNum) {
         if (searchType === 'category') {
             return '/search/category?category=' + keyword + '&page=' + pageNum;
@@ -292,6 +306,7 @@
             return '#';
         }
     }
+
     function addToCart(bookId, bookTitle, bookImage, bookPrice, bookDiscountPrice, bookIsPackaged) {
 
         axios.request({
@@ -305,7 +320,7 @@
                 discountPrice: bookDiscountPrice,
                 quantity: 1,
                 isPackaged: bookIsPackaged,
-                bookStatusId:1
+                bookStatusId: 1
 
             }),
             headers: {

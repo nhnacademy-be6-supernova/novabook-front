@@ -13,6 +13,7 @@ import store.novabook.front.api.member.grade.service.MemberGradeService;
 @RequiredArgsConstructor
 public class MypageRefundController {
 	private final MemberGradeService memberGradeService;
+
 	@GetMapping
 	public String getRefundAll(Model model) {
 		model.addAttribute("grade", memberGradeService.getMemberGrade());

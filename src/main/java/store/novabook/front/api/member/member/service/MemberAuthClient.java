@@ -28,7 +28,8 @@ public interface MemberAuthClient {
 	ApiResponse<GetNewTokenResponse> newToken(@Valid @RequestBody GetNewTokenRequest getNewTokenRequest);
 
 	@PostMapping("/expire")
-	ApiResponse<IsExpireAccessTokenResponse> expire(@Valid @RequestBody IsExpireAccessTokenRequest isExpireAccessTokenRequest);
+	ApiResponse<IsExpireAccessTokenResponse> expire(
+		@Valid @RequestBody IsExpireAccessTokenRequest isExpireAccessTokenRequest);
 
 	@PostMapping("/members/token")
 	ApiResponse<GetMembersTokenResponse> token();

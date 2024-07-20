@@ -1,9 +1,9 @@
 (function ($) {
-	"use strict";
+    "use strict";
 
     jQuery(document).ready(function ($) {
-        
-        $(".thumb-image").find('img').bind("click", function() {
+
+        $(".thumb-image").find('img').bind("click", function () {
             var src = $(this).attr("src");
             // Check the beginning of the src attribute  
             var state = (src.indexOf("bw_") === 0) ? 'bw' : 'clr';
@@ -14,35 +14,39 @@
 
             // This is just for demo visibility
             $('.thumb-main-image img').attr("src", src);
-            
-            $('.thumb-image li.active').removeClass('active');
-            
-            $(this).parent().parent().addClass('active');
-            
-            
 
-          return false;
+            $('.thumb-image li.active').removeClass('active');
+
+            $(this).parent().parent().addClass('active');
+
+
+            return false;
         });
-        
+
         var spins = document.getElementsByClassName("qt-area");
         for (var i = 0, len = spins.length; i < len; i++) {
             var spin = spins[i],
                 span = spin.getElementsByTagName("i"),
                 input = spin.getElementsByTagName("input")[0];
 
-            input.onchange = function() { input.value = +input.value || 0; };
-            span[0].onclick = function() { input.value = Math.max(0, input.value - 1); };
-            span[1].onclick = function() { input.value -= -1; };
+            input.onchange = function () {
+                input.value = +input.value || 0;
+            };
+            span[0].onclick = function () {
+                input.value = Math.max(0, input.value - 1);
+            };
+            span[1].onclick = function () {
+                input.value -= -1;
+            };
         }
-
 
 
     });
 
 
-    jQuery(window).load(function(){
+    jQuery(window).load(function () {
 
-        
+
     });
 
 

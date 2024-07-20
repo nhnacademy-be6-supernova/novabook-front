@@ -9,14 +9,11 @@ import jakarta.servlet.MultipartConfigElement;
 
 @Configuration
 public class FileUploadConfig {
-	private static final int DEFAULT_MAX_FILE_SIZE = 10;
-	private static final int DEFAULT_MAX_REQUEST_SIZE = 10;
-
 	@Bean
 	public MultipartConfigElement multipartConfigElement() {
 		MultipartConfigFactory factory = new MultipartConfigFactory();
-		factory.setMaxFileSize(DataSize.ofMegabytes(DEFAULT_MAX_FILE_SIZE)); // 최대 파일 크기
-		factory.setMaxRequestSize(DataSize.ofMegabytes(DEFAULT_MAX_REQUEST_SIZE)); // 최대 요청 크기
+		factory.setMaxFileSize(DataSize.ofBytes(8388608));
+		factory.setMaxRequestSize(DataSize.ofBytes(8388608));
 		return factory.createMultipartConfig();
 	}
 }

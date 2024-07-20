@@ -16,6 +16,7 @@ import store.novabook.front.common.response.PageResponse;
 @Controller
 @RequiredArgsConstructor
 public class BookSearchController {
+	public static final String KEYWORD = "keyword";
 	private final BookService bookService;
 	public static final String DEFAULT_PAGE = "0";
 	private static final String DEFAULT_SIZE = "20";
@@ -29,8 +30,8 @@ public class BookSearchController {
 			PageResponse<GetBookSearchResponse> bookSearches = bookService.getBookSearchAllPage(keyword, page, size,
 				sort);
 			model.addAttribute("bookSearches", bookSearches);
-			model.addAttribute("searchType", "keyword");
-			model.addAttribute("keyword", keyword);
+			model.addAttribute("searchType", KEYWORD);
+			model.addAttribute(KEYWORD, keyword);
 		} catch (NovaException e) {
 			return "error/404";
 		}
@@ -48,7 +49,7 @@ public class BookSearchController {
 				sort);
 			model.addAttribute("bookSearches", bookSearches);
 			model.addAttribute("searchType", "category");
-			model.addAttribute("keyword", category);
+			model.addAttribute(KEYWORD, category);
 		} catch (NovaException e) {
 			return "error/404";
 		}

@@ -22,6 +22,7 @@ import store.novabook.front.api.member.grade.service.MemberGradeService;
 @Controller
 @RequiredArgsConstructor
 public class MypageAddressController {
+	public static final String REDIRECT_MYPAGE_ADDRESSES = "redirect:/mypage/addresses";
 	private final MemberAddressService memberAddressService;
 	private final MemberGradeService memberGradeService;
 
@@ -36,18 +37,18 @@ public class MypageAddressController {
 	@PostMapping("/address/{addressId}/update")
 	public String updateAddress(@PathVariable Long addressId, @Valid UpdateMemberAddressRequest request) {
 		memberAddressService.updateMemberAddress(addressId, request);
-		return "redirect:/mypage/addresses";
+		return REDIRECT_MYPAGE_ADDRESSES;
 	}
 
 	@PostMapping
 	public String register(@Valid @ModelAttribute CreateMemberAddressRequest createMemberAddressRequest) {
 		memberAddressService.createMemberAddress(createMemberAddressRequest);
-		return "redirect:/mypage/addresses";
+		return REDIRECT_MYPAGE_ADDRESSES;
 	}
 
 	@GetMapping("/address/{addressId}/delete")
 	public String deleteAddress(@PathVariable Long addressId) {
 		memberAddressService.deleteMemberAddress(addressId);
-		return "redirect:/mypage/addresses";
+		return REDIRECT_MYPAGE_ADDRESSES;
 	}
 }

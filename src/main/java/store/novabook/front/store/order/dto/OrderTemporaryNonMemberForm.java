@@ -7,7 +7,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -38,4 +37,5 @@ public record OrderTemporaryNonMemberForm(
 	@Valid
 	@NotNull
 	OrderReceiverInfo orderReceiverInfo
-) {}
+) {
+}

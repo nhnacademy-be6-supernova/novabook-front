@@ -111,7 +111,8 @@
                         <tr>
                             <th th:text="#{table.product.name}">상품 이름</th>
                             <td>
-                                <p th:each="title : ${ordersDetail.bookTitle}" class="circle-bullet" th:text="${title}"></p>
+                                <p th:each="title : ${ordersDetail.bookTitle}" class="circle-bullet"
+                                   th:text="${title}"></p>
                             </td>
                         </tr>
                         <tr>
@@ -240,6 +241,7 @@
                 });
         }
     }
+
     function confirmRefund(orderId) {
         if (confirm('정말로 환불하시겠습니까?')) {
             axios.post('/orders/' + orderId + '/cancel')

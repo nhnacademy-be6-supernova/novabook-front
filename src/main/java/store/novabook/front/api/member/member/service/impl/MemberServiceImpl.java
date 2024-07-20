@@ -50,7 +50,7 @@ public class MemberServiceImpl implements MemberService {
 			.birthDay(createMemberRequest.birthDay())
 			.address(createMemberRequest.address())
 			.build();
-  		ApiResponse<CreateMemberResponse> createMemberResponse = memberClient.createMember(newMemberRequest);
+		ApiResponse<CreateMemberResponse> createMemberResponse = memberClient.createMember(newMemberRequest);
 		return createMemberResponse.getBody();
 	}
 
@@ -70,7 +70,7 @@ public class MemberServiceImpl implements MemberService {
 			uuidCookie.setPath("/");
 			response.addCookie(uuidCookie);
 			return "redirect:/dormant";
-		} else if(status.getBody().memberStatusId() == 3) {
+		} else if (status.getBody().memberStatusId() == 3) {
 			return "redirect:/";
 		}
 
@@ -110,7 +110,8 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public IsExpireAccessTokenResponse isExpireAccessToken(IsExpireAccessTokenRequest isExpireAccessTokenRequest) {
-		ApiResponse<IsExpireAccessTokenResponse> isExpireAccessTokenResponse = memberAuthClient.expire(isExpireAccessTokenRequest);
+		ApiResponse<IsExpireAccessTokenResponse> isExpireAccessTokenResponse = memberAuthClient.expire(
+			isExpireAccessTokenRequest);
 		return isExpireAccessTokenResponse.getBody();
 	}
 

@@ -10,18 +10,18 @@ class OrderAddressInfoTest {
 	@Test
 	void testOrderAddressInfoValid() {
 		String zipCode = "12345";
-		String streetAddress = "123 Main St";
+		String streetAddresses = "123 Main St";
 		String detailAddress = "Apt 4B";
 
 		OrderAddressInfo orderAddressInfo = OrderAddressInfo.builder()
 			.zipCode(zipCode)
-			.streetAddress(streetAddress)
+			.streetAddresses(streetAddresses)
 			.detailAddress(detailAddress)
 			.build();
 
 		assertThat(orderAddressInfo).isNotNull();
 		assertThat(orderAddressInfo.zipCode()).isEqualTo(zipCode);
-		assertThat(orderAddressInfo.streetAddress()).isEqualTo(streetAddress);
+		assertThat(orderAddressInfo.streetAddresses()).isEqualTo(streetAddresses);
 		assertThat(orderAddressInfo.detailAddress()).isEqualTo(detailAddress);
 	}
 

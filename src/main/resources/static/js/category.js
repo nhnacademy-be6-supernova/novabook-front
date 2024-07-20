@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     axios.get("/api/v1/front/categories", {
         headers: {
             'Content-Type': 'application/json'
@@ -40,13 +40,13 @@ $(document).ready(function() {
                 });
 
                 // 카테고리 링크 클릭 이벤트 처리
-                $('.category-link').on('click', function(e) {
+                $('.category-link').on('click', function (e) {
                     e.stopPropagation(); // 이벤트 전파 중지
                     window.location.href = $(this).attr('href'); // 링크로 이동
                 });
 
                 // 드롭다운 토글 처리
-                $('.dropdown-submenu > a').on("click", function(e) {
+                $('.dropdown-submenu > a').on("click", function (e) {
                     var submenu = $(this).next('.dropdown-menu');
                     $('.dropdown-menu').not(submenu).hide(); // 다른 서브메뉴 숨기기
                     submenu.toggle();

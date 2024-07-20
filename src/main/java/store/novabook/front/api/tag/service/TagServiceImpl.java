@@ -13,7 +13,6 @@ import store.novabook.front.api.tag.dto.response.GetTagResponse;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
 
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
