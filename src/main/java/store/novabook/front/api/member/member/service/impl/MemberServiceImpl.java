@@ -83,12 +83,15 @@ public class MemberServiceImpl implements MemberService {
 
 			Cookie accessCookie = new Cookie("Authorization", accessToken);
 			accessCookie.setMaxAge(60 * 60 * 3);
+			accessCookie.setHttpOnly(true);
+			accessCookie.setSecure(true);
 			accessCookie.setPath("/");
-
 			response.addCookie(accessCookie);
 
 			Cookie refreshCookie = new Cookie("Refresh", refreshToken);
 			refreshCookie.setMaxAge(60 * 60 * 72);
+			refreshCookie.setSecure(true);
+			refreshCookie.setHttpOnly(true);
 			refreshCookie.setPath("/");
 			response.addCookie(refreshCookie);
 
