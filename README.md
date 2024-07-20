@@ -13,7 +13,7 @@
 
 ## 미리 보기 👀
 
-|Home page|Tree page|
+|Home page|Admin page|
 |---|---|
 |<img src="https://github.com/user-attachments/assets/1b31969c-9521-49cb-9c7b-6b098b5fb524">|<img src="https://github.com/user-attachments/assets/4e92d2ec-942f-470d-8420-fefa46d827d7">|
 
