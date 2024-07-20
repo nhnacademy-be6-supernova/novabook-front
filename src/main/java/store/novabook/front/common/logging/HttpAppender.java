@@ -31,7 +31,6 @@ public class HttpAppender extends AppenderBase<ILoggingEvent> {
 	private String logLevel;
 	private String platform;
 
-
 	@Override
 	protected void append(ILoggingEvent eventObject) {
 		Response response = null;

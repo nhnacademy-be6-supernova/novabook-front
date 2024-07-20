@@ -11,4 +11,5 @@ public record OrderAddressInfo(
 	@NotBlank
 	String streetAddresses,
 	String detailAddress
-) {}
+) {
+}

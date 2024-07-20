@@ -164,24 +164,25 @@
                     <h3>카테고리 쿠폰 추가</h3>
                     <div class="container">
                         <form id="couponForm" action="/admin/coupons/category/create" method="post">
-                        <!-- 카테고리 추가 부분-->
-                        <div class="form-group">
-                            <label for="inputCategory">책 카테고리:</label>
-                            <select class="form-control" id="inputCategory" name="categoryId" required>
-                                <!-- Iterate over categories -->
-                                <th:block th:each="category : ${categories.categories}">
-                                    <!-- Display top category -->
-                                    <option th:value="${category.id}" th:text="${category.name}"></option>
-                                    <!-- Iterate over subcategories -->
-                                    <th:block th:each="subCategory : ${category.sub}">
-                                        <!-- Display subcategory -->
-                                        <option th:value="${subCategory.id}" th:text="${category.name} + ' > ' + ${subCategory.name}"></option>
+                            <!-- 카테고리 추가 부분-->
+                            <div class="form-group">
+                                <label for="inputCategory">책 카테고리:</label>
+                                <select class="form-control" id="inputCategory" name="categoryId" required>
+                                    <!-- Iterate over categories -->
+                                    <th:block th:each="category : ${categories.categories}">
+                                        <!-- Display top category -->
+                                        <option th:value="${category.id}" th:text="${category.name}"></option>
+                                        <!-- Iterate over subcategories -->
+                                        <th:block th:each="subCategory : ${category.sub}">
+                                            <!-- Display subcategory -->
+                                            <option th:value="${subCategory.id}"
+                                                    th:text="${category.name} + ' > ' + ${subCategory.name}"></option>
+                                        </th:block>
                                     </th:block>
-                                </th:block>
-                            </select>
-                        </div>
+                                </select>
+                            </div>
 
-                        <!-- 쿠폰 설정 부분 -->
+                            <!-- 쿠폰 설정 부분 -->
 
                             <div class="form-group">
                                 <label for="name">쿠폰 이름:</label>

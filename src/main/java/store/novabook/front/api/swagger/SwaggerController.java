@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 public class SwaggerController {
 
 	private final RestTemplate restTemplate;
+
 	@GetMapping("/swagger/store/json")
 	public ResponseEntity<String> getStoreSwaggerHTML() {
 		String url = "http://localhost:8090/api-docs";
@@ -28,12 +29,11 @@ public class SwaggerController {
 		return ResponseEntity.ok(response);
 	}
 
-
 	@GetMapping("/swagger/{serviceName}")
 	public String getSwaggerHTML(@PathVariable String serviceName, Model model) {
-		if(serviceName.equals("store")) {
+		if (serviceName.equals("store")) {
 			model.addAttribute("path", "/swagger/store/json");
-		} else if(serviceName.equals("coupon")) {
+		} else if (serviceName.equals("coupon")) {
 			model.addAttribute("path", "/swagger/coupon/json");
 		}
 		return "common/swagger";

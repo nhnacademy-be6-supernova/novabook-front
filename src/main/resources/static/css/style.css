@@ -65,7 +65,7 @@
     height: 350px;
     padding: 40px;
     box-sizing: border-box;
-    margin:auto;
+    margin: auto;
 }
 
 .login-wrapper > h2 {
@@ -120,7 +120,7 @@
 
 
 /*회원가입 CSS*/
-div.create{
+div.create {
     width: 800px;
     text-align: center;
     padding: 30px;
@@ -128,7 +128,7 @@ div.create{
     margin: auto;
 }
 
-table{
+table {
     /*height: 300px;*/
     width: 900px;
     border-top: 3px solid #017DC1;
@@ -136,11 +136,11 @@ table{
     margin-left: auto;
 }
 
-td{
+td {
     border-bottom: 1px dotted #017DC1;
 }
 
-caption{
+caption {
     text-align: left;
 }
 
@@ -180,7 +180,7 @@ caption{
     border: 2px solid #017DC1;
 }
 
-.but4{
+.but4 {
     height: 35px;
     width: 150px;
     background-color: white;
@@ -210,8 +210,6 @@ caption{
     color: white;
     border: 2px solid #017DC1;
 }
-
-
 
 
 /* 페이징 처리 */
@@ -270,18 +268,20 @@ caption{
 }
 
 
-
 /*기존 코드*/
 body {
     font-family: 'Open Sans', sans-serif;
 }
+
 a {
     text-decoration: none;
     transition: .3s all ease-in-out;
 }
+
 a:hover {
     text-decoration: none;
 }
+
 /* 추가 */
 .product-block > img {
     height: 340px;
@@ -295,9 +295,11 @@ img {
 .raleway {
     font-family: 'raleway', sans-serif;
 }
+
 .raleway span {
     font-family: 'Open Sans', sans-serif;
 }
+
 .btn-theme {
     background: #017DC1;
     border-radius: 0px;
@@ -309,36 +311,41 @@ img {
 .btn-theme:hover {
     background: #494949;
 }
+
 .top-bar {
     background-color: #191919;
     min-height: 58px;
 }
+
 .social,
 .action {
 
 }
+
 .social ul,
 .action ul {
     list-style: none;
     padding: 0px;
     margin: 0px;
 }
+
 .social ul li,
 .action ul li {
-    float:left;
+    float: left;
     padding: 20px 10px;
 }
+
 .social ul li a,
 .action ul li a {
     color: #fff;
     transition: .2s all ease-in-out;
-    
+
 }
 
 .social ul li a:hover,
 .action ul li a:hover {
     color: #666;
-    
+
 }
 
 .header {
@@ -368,25 +375,28 @@ form.navbar-form input {
     padding: 20px;
     font-size: 10pt;
 }
+
 form.navbar-form button {
     border: 0px;
     border-radius: 0px;
     background-color: #494949;
     color: #fff;
     padding: 12px 15px;
-    font-size:10pt;
+    font-size: 10pt;
     margin-left: -5px;
     max-height: 42px;
     transition: .2s all ease-in-out;
 }
+
 .cart {
     padding-top: 80px;
     display: inline-block;
     width: 100%;
 }
+
 .cart-icon {
     background-color: #017DC1;
-    color:#fff;
+    color: #fff;
     padding: 10px 15px;
     width: 40px;
     float: left;
@@ -396,6 +406,7 @@ form.navbar-form button {
 .cart-icon a {
     color: #ffffff
 }
+
 .cart-text {
     width: 115px;
     text-align: center;
@@ -407,6 +418,7 @@ form.navbar-form button {
 .navigation {
     background: #017DC1;
 }
+
 .navigation nav {
     border: none;
 }
@@ -431,29 +443,31 @@ form.navbar-form button {
     color: #fff;
     border: 1px solid #fff;
     border-radius: 0px;
-    padding:6px 40px;
+    padding: 6px 40px;
     text-transform: uppercase;
     font-size: 10pt;
     box-shadow: none !important;
 }
+
 .shop-category ul.dropdown-menu {
     background: #017DC1;
     border-radius: 0px;
-    border:0px;
+    border: 0px;
     padding-top: 17px;
 }
+
 ul.dropdown-menu li {
     padding: 0px;
     margin: 0px;
-    position: relative;  /* 자식 메뉴의 위치를 조정하기 위해 추가 */
+    position: relative; /* 자식 메뉴의 위치를 조정하기 위해 추가 */
 }
+
 ul.dropdown-menu li a {
     padding: 10px 20px;
     min-width: 220px;
     color: #ffffff;
     text-transform: uppercase;
 }
-
 
 
 /* 상위 카테고리 추가 - 이세희 */
@@ -485,12 +499,6 @@ ul.dropdown-menu .dropdown-submenu:hover > .dropdown-menu {
 }
 
 
-
-
-
-
-
-
 .slider .item {
     height: 390px;
     background-size: contain;
@@ -509,11 +517,13 @@ ul.dropdown-menu .dropdown-submenu:hover > .dropdown-menu {
     color: #595959;
     text-shadow: none;
 }
+
 .carousel-caption .btn-theme {
     position: absolute;
     bottom: 0;
     left: 0;
 }
+
 .carousel-caption h1,
 .carousel-caption h2,
 .carousel-caption h3,
@@ -524,16 +534,20 @@ ul.dropdown-menu .dropdown-submenu:hover > .dropdown-menu {
 .carousel-caption a {
     margin: 0px;
 }
+
 ol.carousel-indicators li {
     background: #494949;
     border: none;
 }
+
 ol.carousel-indicators li.active {
     background: #017DC1;
 }
+
 .small-slider .carousel-caption {
     text-align: left;
 }
+
 .big-slider .carousel-caption {
     top: 25%;
 }
@@ -548,7 +562,7 @@ ol.carousel-indicators li.active {
     background-color: #f5f5f5;
     background-repeat: no-repeat;
     background-position: right;
-    background-size: 40%; 
+    background-size: 40%;
     background-origin: content-box;
     background-position: 200px;
 }
@@ -561,27 +575,32 @@ ol.carousel-indicators li.active {
     padding: 50px 10px 0px;
     position: relative;
 }
+
 .banner-caption h3 {
     font-family: 'raleway', sans-serif;
     text-transform: uppercase;
     font-weight: 400;
     font-size: 16pt;
 }
+
 .banner-caption .btn {
     bottom: 20px;
     left: 20px;
     position: absolute;
 }
+
 .shopping-process {
     background: #f6f6f6;
     padding: 65px 0px;
 }
+
 .single-process h3 {
     font-family: 'raleway', sans-serif;
     text-transform: uppercase;
     font-weight: 400;
     font-size: 15pt;
 }
+
 .single-process i.fa {
     color: #fff;
     font-size: 35px;
@@ -590,26 +609,31 @@ ol.carousel-indicators li.active {
     padding: 20px;
     background: #017DC1;
 }
+
 .single-process:hover i.fa {
     background: #fff;
-    color:#40bea7;
+    color: #40bea7;
 }
+
 .featured-items {
     padding: 60px 0px;
 }
+
 .nav.nav-tabs {
     background: #017DC1;
     border: none;
-    text-transform: uppercase;  
+    text-transform: uppercase;
     margin: 0px 15px 30px;
     overflow: hidden;
     font-family: 'raleway', sans-serif;
 }
+
 .nav.nav-tabs li.active a {
     background: #017DC1;
     border: none;
     border-radius: 0px;
 }
+
 .nav.nav-tabs li a {
     color: #fff;
     font-size: 12pt;
@@ -618,12 +642,14 @@ ol.carousel-indicators li.active {
     border-radius: 0px;
     padding: 10px 20px;
 }
+
 .nav.nav-tabs li:hover a {
     border: 0px;
     border-radius: 0px;
     background: #017DC1;
     color: #fff;
 }
+
 .nav.nav-tabs li.collection-url a {
     font-size: 10pt;
     padding: 11px;
@@ -631,7 +657,7 @@ ol.carousel-indicators li.active {
 
 .single-product {
     box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2);
-    border:3px solid #f5f5f5;
+    border: 3px solid #f5f5f5;
     margin-bottom: 30px;
     position: relative;
     transition: .2s all ease-in-out;
@@ -647,7 +673,7 @@ ol.carousel-indicators li.active {
     border-radius: 0px;
     margin: 0px;
     padding: 4px;
-    border:0px;
+    border: 0px;
 }
 
 .thumbnail {
@@ -655,7 +681,7 @@ ol.carousel-indicators li.active {
 }
 
 .product-hover {
-    opacity:0;
+    opacity: 0;
     position: absolute;
     top: 0;
     left: 0;
@@ -663,23 +689,28 @@ ol.carousel-indicators li.active {
     height: 1px;
     transition: .2s all ease-in-out;
 }
+
 .product-description {
     background: #f5f5f5;
 }
+
 .product-description p {
     margin: 0px;
-    color:black;
-    padding-top:10px;
+    color: black;
+    padding-top: 10px;
     font-weight: 600;
 }
+
 .product-description p.price {
     padding-top: 0px;
     padding-bottom: 10px;
 }
+
 .single-product:hover .product-hover {
-    opacity:1;
-    height:50%       
+    opacity: 1;
+    height: 50%
 }
+
 .product-hover ul {
     margin: 0px;
     padding: 0px;
@@ -689,23 +720,28 @@ ol.carousel-indicators li.active {
     width: 100%;
     text-align: center;
 }
+
 .product-hover ul li {
     display: inline-block;
-    margin:0px 5px;
+    margin: 0px 5px;
 }
+
 .product-hover ul li a {
     color: #fff;
     background: #017DC1;
     padding: 8px;
     font-size: 15pt;
 }
+
 .product-hover ul li a:hover {
     color: #017DC1;
     background: #fff;
 }
+
 .blog {
-    
+
 }
+
 .blog-title {
     background: #017DC1;
     height: 45px;
@@ -713,6 +749,7 @@ ol.carousel-indicators li.active {
     padding: 2px 15px;
     font-family: 'raleway', sans-serif;
 }
+
 .blog-title h2, .blog-title a {
     color: #fff;
     text-transform: uppercase;
@@ -720,26 +757,33 @@ ol.carousel-indicators li.active {
     padding: 0px;
     font-weight: 600;
 }
+
 .blog-title h2 {
     padding: 10px 0px;
     font-size: 15pt
 }
+
 .blog-title a {
     padding: 10px 0px;
-    font-size: 10pt;    
+    font-size: 10pt;
 }
+
 .blog-title a:hover {
     color: #666;
 }
+
 .single-post {
-    
+
 }
+
 .post-thumbnail {
     position: relative;
 }
+
 .post-thumbnail img {
     width: 100%;
 }
+
 .post-thumbnail .date {
     position: absolute;
     bottom: 0;
@@ -751,6 +795,7 @@ ol.carousel-indicators li.active {
     font-weight: 600;
     color: #fff;
 }
+
 .post-thumbnail a.read-more {
     position: absolute;
     bottom: 0;
@@ -762,20 +807,24 @@ ol.carousel-indicators li.active {
     font-weight: 600;
     color: #fff;
 }
+
 .single-post h4.post-title {
     font-weight: 600;
     font-family: 'raleway', sans-serif;
 }
+
 .footer {
     background: #191919;
     padding: 50px 0px;
     color: #fff;
     margin-top: 20px;
 }
+
 .single-widget {
     position: relative;
     padding-right: 20px;
-} 
+}
+
 .single-widget:after {
     position: absolute;
     right: 0;
@@ -786,9 +835,11 @@ ol.carousel-indicators li.active {
     height: 100%;
     min-height: 230px;
 }
+
 .footer .col-md-3:last-child .single-widget:after {
     width: 0px;
 }
+
 .single-widget h2.widget-title {
     font-size: 18pt;
     text-transform: uppercase;
@@ -796,20 +847,25 @@ ol.carousel-indicators li.active {
     padding-bottom: 10px;
     font-family: 'raleway', sans-serif;
 }
+
 .widget-inner, .widget-inner a {
     color: #d5d5d5;
 }
+
 .widget-inner img {
     padding: 15px 0px;
 }
+
 .single-widget ul {
     list-style: none;
     margin: 0px;
     padding: 0px;
 }
+
 .single-widget ul li {
     padding: 5px 0px;
 }
+
 .copyright {
     background: #0e0e0e;
     padding: 30px 0px;
@@ -818,43 +874,52 @@ ol.carousel-indicators li.active {
 }
 
 
-
 .short-description {
     margin: 20px 0px;
 }
+
 .nav-single-product-tabs {
     margin: 15px !important;
 }
+
 .product-desc {
     margin: 0px 15px;
 }
+
 .product-thumbnail {
     margin: 0px;
     padding: 0px;
-    
+
 }
+
 .thumb-image {
     list-style: none;
     margin: 0px;
     padding: 0px;
 }
+
 .thumb-image li {
     margin-bottom: 20px;
 }
+
 .thumb-image li:last-child {
     margin-bottom: 0px;
 }
+
 .thumb-image img {
     width: 100%;
     border: 3px solid #ebebeb;
 }
+
 .thumb-image li.active img {
     border-color: #017DC1;
 }
+
 .short-description .col-md-6, .short-description .col-md-2, .short-description .col-md-10 {
     padding-left: 0px;
     color: #323232;
 }
+
 .thumb-main-image img {
     width: 100%;
 }
@@ -873,9 +938,10 @@ h1.product-title {
     padding-bottom: 10px;
 }
 
-.ratings{
+.ratings {
     margin: 5px 0px;
 }
+
 .ratings > i.fa-star {
     color: #ffd11a;
 }
@@ -887,9 +953,11 @@ h1.product-title {
 span.strong-text {
     font-weight: 800;
 }
+
 span.product-id {
     margin-right: 20px;
 }
+
 p.short-info {
     padding: 10px 0px;
     margin: 0px;
@@ -922,6 +990,7 @@ p.short-info {
     padding-right: 30px;
     z-index: 9;
 }
+
 .price:after {
     content: '';
     position: absolute;
@@ -932,29 +1001,36 @@ p.short-info {
     background: #bebebe;
     z-index: -9;
 }
+
 .purchase-form {
     padding: 15px 0px 25px;
     margin-bottom: 20px;
     border-bottom: 2px solid #bebebe;
 }
+
 .purchase-form input.qt {
-    
+
 }
+
 .qt-area {
     display: inline-block;
     border: 1px solid #d5d5d5;
 }
+
 .qt-area i.fa:first-child {
     border-right: 1px solid #d5d5d5;
 }
+
 .qt-area i.fa:last-child {
     border-left: 1px solid #d5d5d5;
 }
+
 .qt-area i.fa {
     color: #d5d5d5;
     padding: 12px;
     margin: 0px;
 }
+
 .qt-area input.qt {
     padding: 8px;
     margin: -5px;
@@ -968,47 +1044,59 @@ p.short-info {
     box-shadow: none;
     overflow: hidden;
 }
+
 .social-share {
     display: inline-block
 }
+
 .social-share ul {
     list-style: none;
     margin: 0px;
     padding: 0px;
 }
+
 .social-share ul li {
     display: inline-block;
     padding: 0px 3px;
 }
+
 .social-share ul li a {
     color: #6d6d6d;
 }
+
 .social-share ul li a:hover {
     color: #017DC1;
 }
+
 .purchase-form button.btn-theme {
     text-transform: uppercase;
     margin: 0px 15px;
 }
+
 ul.product-info-btn {
     padding: 0px;
     margin: 20px 0px;
     list-style: none;
 }
+
 ul.product-info-btn li {
     display: inline-block;
 }
+
 ul.product-info-btn li a {
     padding: 10px;
     border-right: 2px solid #ebebeb;
     color: #6d6d6d;
 }
+
 ul.product-info-btn li a:hover {
     color: #323232;
 }
+
 ul.product-info-btn li:first-child a {
     padding-left: 0px;
 }
+
 ul.product-info-btn li:last-child a {
     border: none;
 }

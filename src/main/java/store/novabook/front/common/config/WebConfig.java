@@ -24,7 +24,6 @@ public class WebConfig implements WebMvcConfigurer {
 	private final ObjectProvider<MemberAuthClient> memberAuthClientProvider;
 	private final ObjectProvider<MemberService> memberServices;
 
-
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 

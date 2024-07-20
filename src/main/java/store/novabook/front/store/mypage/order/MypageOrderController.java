@@ -23,7 +23,7 @@ public class MypageOrderController {
 	private static final String GRADE = "grade";
 
 	@GetMapping
-	public String getOrderAll(Model model,@RequestParam(defaultValue = DEFAULT_PAGE_PAGE) int page,
+	public String getOrderAll(Model model, @RequestParam(defaultValue = DEFAULT_PAGE_PAGE) int page,
 		@RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int size) {
 		model.addAttribute("orders", ordersBookService.getOrdersBookAll(page, size));
 		model.addAttribute(GRADE, memberGradeService.getMemberGrade());

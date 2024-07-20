@@ -27,15 +27,17 @@ import store.novabook.front.store.book.dto.BookListDTO;
 @Controller
 public class OrderController {
 	private final OrderService orderService;
+
 	@PostMapping("/order/form")
-	public String getOrderForm(@CurrentMembers(required = false) Long memberId, @RequestParam("order") String orderJson, Model model) {
+	public String getOrderForm(@CurrentMembers(required = false) Long memberId, @RequestParam("order") String orderJson,
+		Model model) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		BookListDTO bookListDTO;
 
 		try {
 			bookListDTO = objectMapper.readValue(orderJson, BookListDTO.class);
 		} catch (JsonProcessingException e) {
-			log.error("",e);
+			log.error("", e);
 			return "error/500";
 		}
 
@@ -48,9 +50,10 @@ public class OrderController {
 
 	/**
 	 * 실제 트랜잭션을 시작하기 위한 로직
+	 *
 	 * @param tossPaymentRequest 토스페이먼츠에서 전달해주는 내용 저장
-	 * @param orderMemberId 주문자 memberId 검증을 위해 필요
-	 * @param orderCode order 를 구분하기 위한 고유한 번호
+	 * @param orderMemberId      주문자 memberId 검증을 위해 필요
+	 * @param orderCode          order 를 구분하기 위한 고유한 번호
 	 * @return 주문 성공페이지 이동, 주문번호, 이름 전달
 	 */
 	@GetMapping("/order/toss/success")
@@ -67,13 +70,14 @@ public class OrderController {
 
 		// 전달받은 orderCode, orderMemberId는 가주문서와 검증용으로 사용
 		orderService.createOrder(new PaymentRequest(PaymentType.TOSS, orderMemberId, orderCode, tossPaymentRequest));
-		model.addAttribute("memberDto",orderService.getSuccessView(orderCode));
+		model.addAttribute("memberDto", orderService.getSuccessView(orderCode));
 
 		return "store/order/order_success";
 	}
 
 	/**
 	 * 토스 결제 실패 시 fail url 리다이렉션
+	 *
 	 * @return
 	 */
 	@GetMapping("/order/toss/fail")

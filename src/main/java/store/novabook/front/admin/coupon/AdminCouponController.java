@@ -36,9 +36,9 @@ public class AdminCouponController {
 		@RequestParam(defaultValue = PAGE) int categoryPage, @RequestParam(defaultValue = PAGE_SIZE) int size) {
 
 		model.addAttribute("birthdayCoupons",
-			couponService.getCouponTemplateAll(CouponType.BIRTHDAY, false, birthdayPage, size,"createdAt,desc"));
+			couponService.getCouponTemplateAll(CouponType.BIRTHDAY, false, birthdayPage, size, "createdAt,desc"));
 		model.addAttribute("welcomeCoupons",
-			couponService.getCouponTemplateAll(CouponType.WELCOME, false, welcomePage, size,"createdAt,desc"));
+			couponService.getCouponTemplateAll(CouponType.WELCOME, false, welcomePage, size, "createdAt,desc"));
 		model.addAttribute("generalCoupons",
 			couponService.getCouponTemplateAll(CouponType.GENERAL, false, generalPage, size, "startedAt,desc"));
 		model.addAttribute("bookCoupons", couponService.getBookCouponTemplateAll(bookPage, size));

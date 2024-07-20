@@ -240,9 +240,12 @@
 
             <div class="section">
                 <!--   받는 사람        -->
-                <h2 class="section-header">받는 사람 정보 <th:block th:if="${memberId != null}"> <input type="button" class="btn btn-primary"
-                                                           onclick="openMyaddress()" value="내 주소"
-                                                           style="margin-left: 10px;"></th:block></h2> <br>
+                <h2 class="section-header">받는 사람 정보
+                    <th:block th:if="${memberId != null}"><input type="button" class="btn btn-primary"
+                                                                 onclick="openMyaddress()" value="내 주소"
+                                                                 style="margin-left: 10px;"></th:block>
+                </h2>
+                <br>
                 <div class="form-group full-width">
                     <label for="receiver_name">이름</label>
                     <input type="text" id="receiver_name" name="name" class="form-control" style="width: 20%;"

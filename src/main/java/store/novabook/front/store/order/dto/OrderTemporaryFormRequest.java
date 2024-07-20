@@ -30,4 +30,5 @@ public record OrderTemporaryFormRequest(
 	@Valid
 	@NotNull
 	OrderReceiverInfo orderReceiverInfo
-) {}
+) {
+}

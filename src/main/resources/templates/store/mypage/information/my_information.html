@@ -138,24 +138,32 @@
             <th th:text="#{label.name}">이름</th>
             <td>
                 <span class="info-text" th:text="${member.name}" id="name">MemberName</span>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#nameModal" th:text="#{button.change_name}">이름 변경</button>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#nameModal"
+                        th:text="#{button.change_name}">이름 변경
+                </button>
             </td>
         </tr>
         <tr>
             <th th:text="#{label.birthdate}">생년월일</th>
-            <td th:text="${member.birthYear} + '년 ' + ${member.birthMonth} + '월 ' + ${member.birthDay} + '일'">1980년 01월 01일</td>
+            <td th:text="${member.birthYear} + '년 ' + ${member.birthMonth} + '월 ' + ${member.birthDay} + '일'">1980년 01월
+                01일
+            </td>
         </tr>
         <tr>
             <th th:text="#{label.password}">비밀번호</th>
             <td>
-                <button type="button" name="loginPassword" class="btn btn-default" data-toggle="modal" data-target="#passwordModal" th:text="#{button.change_password}">비밀번호 변경</button>
+                <button type="button" name="loginPassword" class="btn btn-default" data-toggle="modal"
+                        data-target="#passwordModal" th:text="#{button.change_password}">비밀번호 변경
+                </button>
             </td>
         </tr>
         <tr>
             <th th:text="#{label.phone}">전화번호</th>
             <td>
                 <span class="info-text" th:text="${member.number}" id="number">MemberNumber</span>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#phoneModal" th:text="#{button.edit}">수정</button>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#phoneModal"
+                        th:text="#{button.edit}">수정
+                </button>
                 <p class="help-block" th:text="#{help.phone_number}">휴대폰 번호도 입력 가능합니다.</p>
             </td>
         </tr>
@@ -178,11 +186,14 @@
                     <h4 class="modal-title" th:text="#{modal.title.change_name}">이름 변경</h4>
                 </div>
                 <div class="modal-body">
-                    <input type="text" id="newName" class="form-control" name="name" th:placeholder="#{placeholder.new_name}">
+                    <input type="text" id="newName" class="form-control" name="name"
+                           th:placeholder="#{placeholder.new_name}">
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" onclick="saveName()" th:text="#{button.save}">저장</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{button.close}">닫기</button>
+                    <button type="submit" class="btn btn-primary" onclick="saveName()" th:text="#{button.save}">저장
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{button.close}">닫기
+                    </button>
                 </div>
             </div>
         </div>
@@ -203,19 +214,27 @@
                         <input type="password" id="newPassword" class="form-control" name="loginPassword"
                                onkeyup="validatePassword()" th:placeholder="#{placeholder.new_password}">
                     </div>
-                    <p th:text="#{password.note}">※비밀번호는 <span class="num">문자, 숫자, 특수문자(~!@#$%^&*)의 조합 10 ~ 16자리</span>로 입력이 가능합니다.</p>
+                    <p th:text="#{password.note}">※비밀번호는 <span class="num">문자, 숫자, 특수문자(~!@#$%^&*)의 조합 10 ~ 16자리</span>로
+                        입력이 가능합니다.</p>
                     <br>
                     <div class="form-group">
                         <label for="confirmPassword" th:text="#{label.confirm_password}">새 비밀번호 확인</label>
                         <input type="password" id="confirmPassword" class="form-control" name="loginPasswordConfirm"
                                onkeyup="validatePassword()" th:placeholder="#{placeholder.confirm_password}">
                     </div>
-                    <div id="passwordError" style="color: red; display: none;" th:text="#{password.error.mismatch}">비밀번호가 일치하지 않습니다.</div>
-                    <div id="passwordPatternError" style="color: red; display: none;" th:text="#{password.error.pattern}">비밀번호는 문자, 숫자, 특수문자(~!@#$%^&*)의 조합 10 ~ 16자리로 입력이 가능합니다.</div>
+                    <div id="passwordError" style="color: red; display: none;" th:text="#{password.error.mismatch}">
+                        비밀번호가 일치하지 않습니다.
+                    </div>
+                    <div id="passwordPatternError" style="color: red; display: none;"
+                         th:text="#{password.error.pattern}">비밀번호는 문자, 숫자, 특수문자(~!@#$%^&*)의 조합 10 ~ 16자리로 입력이 가능합니다.
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" onclick="savePassword(event)" th:text="#{button.save}">저장</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{button.close}">닫기</button>
+                    <button type="submit" class="btn btn-primary" onclick="savePassword(event)"
+                            th:text="#{button.save}">저장
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{button.close}">닫기
+                    </button>
                 </div>
             </div>
         </div>
@@ -231,11 +250,15 @@
                     <h4 class="modal-title" th:text="#{modal.title.edit_phone}">전화번호 수정</h4>
                 </div>
                 <div class="modal-body">
-                    <input type="text" id="newPhone" class="form-control" name="number" th:placeholder="#{placeholder.new_phone}" pattern="[0-9]{11}" th:title="#{phone.error.pattern}">
+                    <input type="text" id="newPhone" class="form-control" name="number"
+                           th:placeholder="#{placeholder.new_phone}" pattern="[0-9]{11}"
+                           th:title="#{phone.error.pattern}">
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" onclick="savePhone()" th:text="#{button.save}">저장</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{button.close}">닫기</button>
+                    <button type="submit" class="btn btn-primary" onclick="savePhone()" th:text="#{button.save}">저장
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{button.close}">닫기
+                    </button>
                 </div>
             </div>
         </div>
