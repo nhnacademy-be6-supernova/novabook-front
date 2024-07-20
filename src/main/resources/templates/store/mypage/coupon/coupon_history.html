@@ -231,6 +231,11 @@
 
 
 <script>
+    const couponStatusDescriptions = {
+        USED: "사용",
+        UNUSED: "미사용"
+    };
+
     let currentPage = {
         issue: 0,
         usage: 0
@@ -259,11 +264,12 @@
 
             content.forEach(coupon => {
                 let date = coupon.createdAt ? new Date(coupon.createdAt).toLocaleDateString('ko-KR') : new Date(coupon.usedAt).toLocaleDateString('ko-KR');
+                let couponStatusDescription = couponStatusDescriptions[coupon.status];
                 html += `<tr>
                 <td>${date}</td>
                 <td>${coupon.name}</td>
                 <td>${coupon.type}</td>
-                <td>${coupon.status}</td>
+                <td>${couponStatusDescription}</td>
                 <td>${coupon.discountType === 'PERCENT' ? coupon.discountAmount + '%' : coupon.discountAmount + '원'}</td>
             </tr>`;
             });
