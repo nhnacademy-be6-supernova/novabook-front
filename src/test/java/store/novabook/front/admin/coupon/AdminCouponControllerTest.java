@@ -154,8 +154,7 @@ class AdminCouponControllerTest {
 
 
 	@Test
-	public void testCreateCouponTemplateCategory() throws Exception {
-		// Arrange
+	void testCreateCouponTemplateCategory() throws Exception {
 		mockMvc.perform(post("/admin/coupons/category/create")
 				.param("categoryId", "1")
 				.param("name", "Category-Wide Discount")
@@ -174,7 +173,7 @@ class AdminCouponControllerTest {
 	}
 
 	@Test
-	public void testCreateCouponTemplateLimited() throws Exception {
+	void testCreateCouponTemplateLimited() throws Exception {
 		mockMvc.perform(post("/admin/coupons/limited/create")
 				.param("quantity", "50")
 				.param("name", "Flash Sale 50% Off")
