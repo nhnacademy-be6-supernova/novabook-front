@@ -6,6 +6,8 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,6 +22,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import store.novabook.front.api.coupon.domain.CouponType;
+import store.novabook.front.api.coupon.domain.DiscountType;
+import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateResponse;
+import store.novabook.front.api.coupon.dto.response.GetCouponTemplateResponse;
 import store.novabook.front.api.coupon.dto.response.GetLimitedCouponTemplateResponse;
 import store.novabook.front.api.coupon.service.CouponService;
 import store.novabook.front.api.member.member.service.MemberAuthClient;
@@ -48,6 +54,54 @@ class CouponControllerTest {
 			.setCustomArgumentResolvers(currentMembersArgumentResolver)
 			.build();
 	}
+
+	@Test
+	void testGetCouponAll() throws Exception {
+		List<GetCouponTemplateResponse> mockGeneralCouponList = Collections.emptyList();
+		PageResponse<GetCouponTemplateResponse> mockGeneralPageResponse = PageResponse.success(0, 5, 10, mockGeneralCouponList);
+
+		GetCategoryCouponTemplateResponse categoryCouponTemplateResponse = new GetCategoryCouponTemplateResponse(
+			1L,
+			2L,
+			CouponType.GENERAL,
+			"Back to School Sale",
+			200,
+			DiscountType.PERCENT,
+			1000,
+			3000,
+			LocalDateTime.now(),
+			LocalDateTime.now().plusDays(30),
+			30
+		);
+
+		List<GetCategoryCouponTemplateResponse> data = new ArrayList<>();
+		data.add(categoryCouponTemplateResponse);
+
+		PageResponse<GetCategoryCouponTemplateResponse> expectedResponse = new PageResponse<>(1, 10, 30, data);
+
+		when(couponService.getCouponTemplateAll(eq(CouponType.GENERAL), eq(true), anyInt(), anyInt(), isNull()))
+			.thenReturn(mockGeneralPageResponse);
+
+		when(couponService.getCategoryCouponTemplateAll(anyBoolean(), anyInt(), anyInt()))
+			.thenReturn(expectedResponse);
+
+		mockMvc.perform(get("/coupons")
+				.param("generalPage", "0")
+				.param("categoryPage", "0")
+				.param("size", "5"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("store/coupon/coupon_book"))
+			.andExpect(model().attributeExists("generalCouponList"))
+			.andExpect(model().attributeExists("categoryCouponList"));
+
+		verify(couponService, times(1))
+			.getCouponTemplateAll(eq(CouponType.GENERAL), eq(true), eq(0), eq(5), isNull());
+		verify(couponService, times(1))
+			.getCategoryCouponTemplateAll(anyBoolean(), anyInt(), anyInt());
+		verifyNoMoreInteractions(couponService);
+	}
+
+
 
 	@Test
 	void testGetLimitedCouponAll() throws Exception {
