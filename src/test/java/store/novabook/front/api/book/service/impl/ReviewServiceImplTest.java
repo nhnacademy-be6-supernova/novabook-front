@@ -22,7 +22,7 @@ import store.novabook.front.api.book.dto.response.GetReviewResponse;
 import store.novabook.front.api.book.service.ReviewClient;
 import store.novabook.front.common.response.ApiResponse;
 
-public class ReviewServiceImplTest {
+class ReviewServiceImplTest {
 
 	@Mock
 	private ReviewClient reviewClient;
@@ -37,7 +37,6 @@ public class ReviewServiceImplTest {
 
 	@Test
 	void testCreateReview() {
-		// Given
 		String content = "Great book!";
 		int score = 5;
 		Long ordersBookId = 1L;
@@ -49,7 +48,6 @@ public class ReviewServiceImplTest {
 		reviewImages2.add(file4);
 
 
-
 		CreateReviewRequest expectedRequest = CreateReviewRequest.builder()
 			.content(content)
 			.score(score)
@@ -58,17 +56,13 @@ public class ReviewServiceImplTest {
 		expectedRequest.setReviewImageDTOs(reviewImages2);
 
 
-
-		// When
 		reviewService.createReview(content, score, reviewImages2, ordersBookId);
 
-		// Then
 		verify(reviewClient, times(1)).createReview(expectedRequest, ordersBookId);
 	}
 
 	@Test
 	void testGetReviewById() {
-		// Given
 		Long reviewId = 1L;
 		GetReviewResponse expectedResponse = GetReviewResponse.builder()
 			.nickName("User123")
@@ -80,20 +74,16 @@ public class ReviewServiceImplTest {
 			.score(5)
 			.build();
 
-		// Mocking the client's behavior
 		when(reviewClient.getReviewByReviewId(reviewId)).thenReturn(new ApiResponse<>("SUCCESS", true, expectedResponse));
 
-		// When
 		GetReviewResponse actualResponse = reviewService.getReviewById(reviewId);
 
-		// Then
 		assertEquals(expectedResponse, actualResponse);
 		verify(reviewClient, times(1)).getReviewByReviewId(reviewId);
 	}
 
 	@Test
 	void testGetReviewsByBookId() {
-		// Given
 
 		GetReviewResponse reviewResponse = GetReviewResponse.builder()
 			.nickName("User123")
@@ -107,13 +97,10 @@ public class ReviewServiceImplTest {
 		Long bookId = 1L;
 		GetReviewListResponse expectedResponse = new GetReviewListResponse(List.of(reviewResponse));
 
-		// Mocking the client's behavior
 		when(reviewClient.getReviewListByBookId(bookId)).thenReturn(new ApiResponse<>("SUCCESS", true, expectedResponse));
 
-		// When
 		GetReviewListResponse actualResponse = reviewService.getReviewsByBookId(bookId);
 
-		// Then
 		assertEquals(expectedResponse, actualResponse);
 		verify(reviewClient, times(1)).getReviewListByBookId(bookId);
 	}
@@ -126,13 +113,10 @@ public class ReviewServiceImplTest {
 			.content("Updated review content here.")
 			.score(4)
 			.build();
-		// Given
 		Long reviewId = 1L;
 
-		// When
 		reviewService.updateReview(request, reviewId);
 
-		// Then
 		verify(reviewClient, times(1)).updateReview(reviewId, request);
 	}
 }

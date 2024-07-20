@@ -19,7 +19,7 @@ import store.novabook.front.api.category.dto.response.GetCategoryResponse;
 import store.novabook.front.api.category.service.CategoryClient;
 import store.novabook.front.common.response.ApiResponse;
 
-public class CategoryServiceImplTest {
+class CategoryServiceImplTest {
 
 	@Mock
 	private CategoryClient categoryClient;
@@ -38,20 +38,15 @@ public class CategoryServiceImplTest {
 		GetCategoryResponse getCategoryResponse = new GetCategoryResponse(1L, "Category Name",
 			Collections.singletonList(subCategoryDTO));
 
-		// Given
 		GetCategoryListResponse expectedResponse = new GetCategoryListResponse(
-			Collections.singletonList(getCategoryResponse)); // Adjust as per your response structure
+			Collections.singletonList(getCategoryResponse));
 
-		// Mocking the service method
 		when(categoryClient.getCategoryAll()).thenReturn(new ApiResponse<>("SUCCESS", true, expectedResponse));
 
-		// When
 		GetCategoryListResponse actualResponse = categoryService.getCategoryAll();
 
-		// Then
 		assertEquals(expectedResponse, actualResponse);
 
-		// Verify that getCategoryAll method of categoryClient is called exactly once
 		verify(categoryClient, times(1)).getCategoryAll();
 	}
 
@@ -64,36 +59,27 @@ public class CategoryServiceImplTest {
 			.build();
 		CreateCategoryResponse expectedResponse = new CreateCategoryResponse(1L);
 
-		// Mocking the service method
 		when(categoryClient.createCategory(request)).thenReturn(new ApiResponse<>("SUCCESS", true, expectedResponse));
 
-		// When
 		CreateCategoryResponse actualResponse = categoryService.createCategory(request);
 
-		// Then
 		assertEquals(expectedResponse, actualResponse);
 
-		// Verify that createCategory method of categoryClient is called exactly once with the request object
 		verify(categoryClient, times(1)).createCategory(request);
 	}
 
 	@Test
 	void testGetCategory() {
-		// Given
 		Long categoryId = 1L;
 		SubCategoryDTO subCategoryDTO = new SubCategoryDTO(1L, "Sub Category Name");
 		GetCategoryResponse getCategoryResponse = new GetCategoryResponse(1L, "Category Name",
 			Collections.singletonList(subCategoryDTO));
-		// Mocking the service method
 		when(categoryClient.getCategory(categoryId)).thenReturn(new ApiResponse<>("SUCCESS", true, getCategoryResponse));
 
-		// When
 		GetCategoryResponse actualResponse = categoryService.getCategory(categoryId);
 
-		// Then
 		assertEquals(getCategoryResponse, actualResponse);
 
-		// Verify that getCategory method of categoryClient is called exactly once with the categoryId
 		verify(categoryClient, times(1)).getCategory(categoryId);
 	}
 }

@@ -48,7 +48,6 @@ class MemberCouponServiceImplTest {
 
 	@Test
 	void getMyCouponAllWithValid_ShouldReturnResponse() {
-		// Given
 		List<GetCouponResponse> couponResponseList = new ArrayList<>();
 		GetCouponResponse couponResponse = GetCouponResponse.builder()
 			.id(1L)
@@ -67,69 +66,55 @@ class MemberCouponServiceImplTest {
 		GetCouponAllResponse expectedResponse = new GetCouponAllResponse(couponResponseList);
 		when(memberCouponClient.getMemberCouponValidByMemberId()).thenReturn(new ApiResponse<>("SUCCESS", true, expectedResponse));
 
-		// When
 		GetCouponAllResponse actualResponse = memberCouponService.getMyCouponAllWithValid();
 
-		// Then
 		assertEquals(expectedResponse, actualResponse);
 		verify(memberCouponClient).getMemberCouponValidByMemberId();
 	}
 
 	@Test
 	void getMyCouponHistoryAll_ShouldReturnPageOfResponse() {
-		// Given
 		List<GetCouponHistoryResponse> expectedList = new ArrayList<>();
 		PageResponse<GetCouponHistoryResponse> pageResponse = PageResponse.success(0, 10, expectedList.size(), expectedList);
 		Page<GetCouponHistoryResponse> expectedPage = pageResponse.toPage();
 		when(memberCouponClient.getMemberCouponHistoryByMemberId(anyInt(), anyInt())).thenReturn(pageResponse);
 
-		// When
 		Pageable pageable = PageRequest.of(0, 10);
 		Page<GetCouponHistoryResponse> actualPage = memberCouponService.getMyCouponHistoryAll(pageable);
 
-		// Then
 		assertEquals(expectedPage, actualPage);
 		verify(memberCouponClient).getMemberCouponHistoryByMemberId(0, 10);
 	}
 
 	@Test
 	void getMyUsedCouponHistory_ShouldReturnPageOfResponse() {
-		// Given
 		List<GetUsedCouponHistoryResponse> expectedList = new ArrayList<>();
 		PageResponse<GetUsedCouponHistoryResponse> pageResponse = PageResponse.success(0, 10, expectedList.size(), expectedList);
 		Page<GetUsedCouponHistoryResponse> expectedPage = pageResponse.toPage();
 		when(memberCouponClient.getMemberUsedCouponHistoryByMemberId(anyInt(), anyInt())).thenReturn(pageResponse);
 
-		// When
 		Pageable pageable = PageRequest.of(0, 10);
 		Page<GetUsedCouponHistoryResponse> actualPage = memberCouponService.getMyUsedCouponHistory(pageable);
 
-		// Then
 		assertEquals(expectedPage, actualPage);
 		verify(memberCouponClient).getMemberUsedCouponHistoryByMemberId(0, 10);
 	}
 
 	@Test
 	void downloadCoupon_ShouldInvokeClientMethod() {
-		// Given
 		DownloadCouponRequest request = new DownloadCouponRequest(1L);
 
-		// When
 		memberCouponService.downloadCoupon(request);
 
-		// Then
 		verify(memberCouponClient).downloadCoupon(request);
 	}
 
 	@Test
 	void downloadLimitedCoupon_ShouldInvokeClientMethod() {
-		// Given
 		DownloadCouponMessageRequest request = new DownloadCouponMessageRequest("coupon_code", CouponType.LIMITED, 1L);
 
-		// When
 		memberCouponService.downloadLimitedCoupon(request);
 
-		// Then
 		verify(memberCouponClient).downloadLimitedCoupon(request);
 	}
 }

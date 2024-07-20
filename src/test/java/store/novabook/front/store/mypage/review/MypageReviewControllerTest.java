@@ -53,12 +53,12 @@ class MypageReviewControllerTest {
 	void testGetReviewAll() throws Exception {
 
 		GetOrdersBookReviewIdResponse getOrdersBookReviewIdResponse = new GetOrdersBookReviewIdResponse(
-			1L, // ordersBookId
-			2L, // reviewId
-			3L, // ordersId
-			4L, // bookId
-			"Clean Architecture", // bookTitle
-			LocalDateTime.now() // orderAt
+			1L,
+			2L,
+			3L,
+			4L,
+			"Clean Architecture",
+			LocalDateTime.now()
 		);
 		List<GetOrdersBookReviewIdResponse> data = new ArrayList<>();
 		data.add(getOrdersBookReviewIdResponse);

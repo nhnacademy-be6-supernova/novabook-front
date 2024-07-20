@@ -21,7 +21,7 @@ import store.novabook.front.api.member.member.service.MemberService;
 import store.novabook.front.common.exception.ErrorCode;
 import store.novabook.front.common.exception.ForbiddenException;
 
-public class MemberControllerTest {
+class MemberControllerTest {
 
 	@Mock
 	private MemberService memberService;

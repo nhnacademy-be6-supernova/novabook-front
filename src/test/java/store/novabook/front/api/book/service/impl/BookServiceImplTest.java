@@ -23,7 +23,7 @@ import store.novabook.front.api.book.service.BookSearchClient;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
 
-public class BookServiceImplTest {
+class BookServiceImplTest {
 
 	@Mock
 	private BookClient bookClient;
@@ -64,66 +64,55 @@ public class BookServiceImplTest {
 			.bookStatusId(2L)
 			.build();
 
-		// Mocking the client's behavior
 		when(bookClient.getBook(id)).thenReturn(new ApiResponse<>("SUCCESS", true, expectedResponse));
 
-		// When
 		GetBookResponse actualResponse = bookService.getBookClient(id);
 
-		// Then
 		assertEquals(expectedResponse, actualResponse);
 		verify(bookClient, times(1)).getBook(id);
 	}
 
 	@Test
 	void testCreateBook() {
-		// Given
 		CreateBookRequest createBookRequest = new CreateBookRequest(
-			1L, // bookStatusId
-			"978-3-16-148410-0", // isbn
-			"The Art of Computer Programming", // title
-			"A comprehensive computer programming book covering various aspects of algorithm analysis and complexity.", // description
-			"This book is considered one of the best works in the field of computer science, providing a wide range of algorithms and discussing their analysis.", // descriptionDetail
-			"Donald E. Knuth", // author
-			"Addison-Wesley", // publisher
-			LocalDateTime.of(2023, 10, 1, 0, 0), // publicationDate
-			100, // inventory
-			50000L, // price
-			45000L, // discountPrice
-			true, // isPackaged
-			List.of(1L, 2L), // tags
-			List.of(3L, 4L), // categories
-			"the_art_of_computer_programming_cover.jpg" // image
+			1L,
+			"978-3-16-148410-0",
+			"The Art of Computer Programming",
+			"A comprehensive computer programming book covering various aspects of algorithm analysis and complexity.",
+			"This book is considered one of the best works in the field of computer science, providing a wide range of algorithms and discussing their analysis.",
+			"Donald E. Knuth",
+			"Addison-Wesley",
+			LocalDateTime.of(2023, 10, 1, 0, 0),
+			100,
+			50000L,
+			45000L,
+			true,
+			List.of(1L, 2L),
+			List.of(3L, 4L),
+			"the_art_of_computer_programming_cover.jpg"
 		);
 
-		// When
 		bookService.createBook(createBookRequest);
 
-		// Then
 		verify(bookClient, times(1)).createBook(createBookRequest);
 	}
 
 	@Test
 	void testGetBookAll() {
-		// Given
 		int page = 1;
 		int size = 10;
 		PageResponse<GetBookAllResponse> expectedResponse = createMockPageResponse();
 
-		// Mocking the client's behavior
 		when(bookClient.getBookAll(page, size)).thenReturn(expectedResponse);
 
-		// When
 		PageResponse<GetBookAllResponse> actualResponse = bookService.getBookAll(page, size);
 
-		// Then
 		assertEquals(expectedResponse, actualResponse);
 		verify(bookClient, times(1)).getBookAll(page, size);
 	}
 
 	@Test
 	void testUpdateBook() {
-		// Given
 		UpdateBookRequest updateBookRequest = UpdateBookRequest.builder()
 			.id(1L)
 			.bookStatusId(2L)
@@ -133,16 +122,13 @@ public class BookServiceImplTest {
 			.isPackaged(true)
 			.build();
 
-		// When
 		bookService.updateBook(updateBookRequest);
 
-		// Then
 		verify(bookClient, times(1)).updateBook(updateBookRequest);
 	}
 
 	@Test
 	void testGetBookSearchAllPage() {
-		// Given
 		String keyword = "Java";
 		int page = 1;
 		int size = 10;
@@ -150,20 +136,16 @@ public class BookServiceImplTest {
 
 		PageResponse<GetBookSearchResponse> expectedResponse = createMockSearchPageResponse();
 
-		// Mocking the client's behavior
 		when(bookSearchClient.searchByKeyword(keyword, page, size, sort)).thenReturn(expectedResponse);
 
-		// When
 		PageResponse<GetBookSearchResponse> actualResponse = bookService.getBookSearchAllPage(keyword, page, size, sort);
 
-		// Then
 		assertEquals(expectedResponse, actualResponse);
 		verify(bookSearchClient, times(1)).searchByKeyword(keyword, page, size, sort);
 	}
 
 	@Test
 	void testGetBookSearchCategory() {
-		// Given
 		String category = "Programming";
 		int page = 1;
 		int size = 10;
@@ -171,20 +153,15 @@ public class BookServiceImplTest {
 
 		PageResponse<GetBookSearchResponse> expectedResponse = createMockSearchPageResponse();
 
-		// Mocking the client's behavior
 		when(bookSearchClient.searchByCategory(category, page, size, sort)).thenReturn(expectedResponse);
 
-		// When
 		PageResponse<GetBookSearchResponse> actualResponse = bookService.getBookSearchCategory(category, page, size, sort);
 
-		// Then
 		assertEquals(expectedResponse, actualResponse);
 		verify(bookSearchClient, times(1)).searchByCategory(category, page, size, sort);
 	}
 
 	private PageResponse<GetBookAllResponse> createMockPageResponse() {
-		// This method creates a mock PageResponse<GetBookAllResponse> for testing purposes
-		// You can customize this method to create different mock responses as needed
 		List<GetBookAllResponse> data = new ArrayList<>();
 		data.add( GetBookAllResponse.builder()
 			.id(1L)
@@ -217,8 +194,6 @@ public class BookServiceImplTest {
 	}
 
 	private PageResponse<GetBookSearchResponse> createMockSearchPageResponse() {
-		// This method creates a mock PageResponse<GetBookSearchResponse> for testing purposes
-		// You can customize this method to create different mock responses as needed
 		List<GetBookSearchResponse> data = new ArrayList<>();
 		data.add(GetBookSearchResponse.builder()
 			.id(1L)

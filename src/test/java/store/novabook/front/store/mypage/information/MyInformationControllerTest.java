@@ -14,11 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import store.novabook.front.api.member.grade.dto.GetMemberGradeResponse;
 import store.novabook.front.api.member.grade.service.MemberGradeService;
-import store.novabook.front.api.member.member.dto.request.UpdateMemberRequest;
 import store.novabook.front.api.member.member.dto.response.GetMemberResponse;
 import store.novabook.front.api.member.member.service.MemberService;
 
@@ -36,7 +33,6 @@ class MyInformationControllerTest {
 
 	private MockMvc mockMvc;
 
-	private ObjectMapper objectMapper = new ObjectMapper();
 
 	@BeforeEach
 	void setup() {
@@ -45,67 +41,57 @@ class MyInformationControllerTest {
 
 	@Test
 	void testGetMyInformation() throws Exception {
-		// Mock data
-		UpdateMemberRequest member = new UpdateMemberRequest("John Doe", "johndoe@example.com");
 		GetMemberGradeResponse grade = new GetMemberGradeResponse("Gold");
 		GetMemberResponse getMemberResponse = new GetMemberResponse(
-			1L, // id
-			"userLoginId", // loginId
-			1980, // birthYear
-			12, // birthMonth
-			25, // birthDay
-			"010-1234-5678", // number
-			"John Doe", // name
-			"johndoe@example.com" // email
+			1L,
+			"userLoginId",
+			1980,
+			12,
+			25,
+			"010-1234-5678",
+			"John Doe",
+			"johndoe@example.com"
 		);
-		// Mock service methods
 		when(memberService.getMemberById()).thenReturn(getMemberResponse);
 		when(memberGradeService.getMemberGrade()).thenReturn(grade);
 
-		// Perform GET request to "/mypage/information"
 		mockMvc.perform(get("/mypage/information"))
-			.andExpect(status().isOk()) // Expect HTTP 200 OK status
-			.andExpect(view().name("store/mypage/information/my_information")) // Expect view name
-			.andExpect(model().attributeExists("grade")) // Expect "grade" attribute in the model
-			.andExpect(model().attribute("grade", grade)) // Expect correct member grade in the model
-			.andExpect(model().attributeExists("member")) // Expect "member" attribute in the model
-			.andExpect(model().attribute("member", getMemberResponse)); // Expect correct member information in the model
+			.andExpect(status().isOk())
+			.andExpect(view().name("store/mypage/information/my_information"))
+			.andExpect(model().attributeExists("grade"))
+			.andExpect(model().attribute("grade", grade))
+			.andExpect(model().attributeExists("member"))
+			.andExpect(model().attribute("member", getMemberResponse));
 	}
 
 	@Test
 	void testUpdateMember() throws Exception {
-		// Mock data
 		String name = "김김김";
 		String number = "12345678901";
 
-		// Perform POST request to "/mypage/information/update"
 		mockMvc.perform(post("/mypage/information/update")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("name", name)
 				.param("number", number))
-			.andExpect(status().is3xxRedirection()) // Expect HTTP redirect status
-			.andExpect(redirectedUrl("/mypage/information")); // Expect redirect URL
+			.andExpect(status().is3xxRedirection())
+			.andExpect(redirectedUrl("/mypage/information"));
 
-		// Verify that memberService.updateMember() was called with correct arguments
 		verify(memberService).updateMember(argThat(request ->
 			request.name().equals(name) && request.number().equals(number)));
 	}
 
 	@Test
 	void testUpdateMemberPassword() throws Exception {
-		// Mock data
 		String loginPassword = "!@#123Password";
 		String loginPasswordConfirm = "!@#123Password";
 
-		// Perform POST request to "/mypage/information/password"
 		mockMvc.perform(post("/mypage/information/password")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("loginPassword", loginPassword)
 				.param("loginPasswordConfirm", loginPasswordConfirm))
-			.andExpect(status().is3xxRedirection()) // Expect HTTP redirect status
-			.andExpect(redirectedUrl("/mypage/information")); // Expect redirect URL
+			.andExpect(status().is3xxRedirection())
+			.andExpect(redirectedUrl("/mypage/information"));
 
-		// Verify that memberService.updateMemberPassword() was called with correct arguments
 		verify(memberService).updateMemberPassword(argThat(request ->
 			request.loginPassword().equals(loginPassword) && request.loginPasswordConfirm().equals(loginPasswordConfirm)));
 	}

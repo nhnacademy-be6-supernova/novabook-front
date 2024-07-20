@@ -20,7 +20,7 @@ import store.novabook.front.api.category.dto.response.GetCategoryResponse;
 import store.novabook.front.api.category.service.CategoryRestService;
 import store.novabook.front.api.category.service.CategoryService;
 
-public class CategoryRestControllerTest {
+class CategoryRestControllerTest {
 
 	@Mock
 	private CategoryRestService categoryRestService;
@@ -38,45 +38,35 @@ public class CategoryRestControllerTest {
 
 	@Test
 	void testIsRegistered() {
-		// Given
 		Long categoryId = 1L;
 		DeleteResponse expectedResponse = new DeleteResponse(true);
 
-		// Mocking the service method
 		when(categoryRestService.delete(categoryId)).thenReturn(expectedResponse);
 
-		// When
 		ResponseEntity<DeleteResponse> responseEntity = categoryRestController.isRegistered(categoryId);
 
-		// Then
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertEquals(expectedResponse, responseEntity.getBody());
 
-		// Verify that delete method of categoryRestService is called exactly once with categoryId
 		verify(categoryRestService, times(1)).delete(categoryId);
 	}
 
 	@Test
 	void testGetCategory() {
-		// Given
 		SubCategoryDTO subCategoryDTO = new SubCategoryDTO(1L, "Sub Category Name");
 		GetCategoryResponse getCategoryResponse = new GetCategoryResponse(1L, "Category Name",
 			Collections.singletonList(subCategoryDTO));
 
 		GetCategoryListResponse expectedResponse = new GetCategoryListResponse(
-			Collections.singletonList(getCategoryResponse)); // Adjust as per your response structure
+			Collections.singletonList(getCategoryResponse));
 
-		// Mocking the service method
 		when(categoryService.getCategoryAll()).thenReturn(expectedResponse);
 
-		// When
 		ResponseEntity<Object> responseEntity = categoryRestController.getCategory();
 
-		// Then
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 		assertEquals(expectedResponse, responseEntity.getBody());
 
-		// Verify that getCategoryAll method of categoryService is called exactly once
 		verify(categoryService, times(1)).getCategoryAll();
 	}
 }

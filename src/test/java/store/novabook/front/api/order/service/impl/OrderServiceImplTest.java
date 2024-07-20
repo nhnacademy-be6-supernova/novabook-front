@@ -107,7 +107,6 @@ class OrderServiceImplTest {
 
 	@Test
 	void testGetOrder() {
-		// Given
 		List<BookDTO> bookDTOS = new ArrayList<>();
 		BookDTO bookDTO = BookDTO.builder()
 			.id(1L)
@@ -158,7 +157,7 @@ class OrderServiceImplTest {
 			.minPurchaseAmount(10000L)
 			.createdAt(LocalDateTime.of(2023, 6, 1, 0, 0))
 			.expirationAt(LocalDateTime.of(2023, 9, 1, 0, 0))
-			.usedAt(null) // Assuming the coupon hasn't been used yet.
+			.usedAt(null)
 			.build();
 		List<GetCouponResponse> couponResponseList = List.of(couponResponse);
 		GetCouponAllResponse getCouponAllResponse = new GetCouponAllResponse(couponResponseList);
@@ -198,10 +197,8 @@ class OrderServiceImplTest {
 		when(memberAddressClient.getMemberAddressAll()).thenReturn(
 			new ApiResponse<>("SUCCESS", true, getMemberAddressListResponse));
 
-		// When
 		OrderViewDTO result = orderService.getOrder(bookDTOS, memberId);
 
-		// Then
 		assertNotNull(result);
 		verify(categoryClient, times(2)).getCategoryByBId(anyLong());
 		verify(wrappingPaperClient, times(1)).getWrappingPaperAllList();
@@ -214,7 +211,6 @@ class OrderServiceImplTest {
 
 	@Test
 	void testSendRequestPayCancel() {
-		// Given
 		Long orderId = 1L;
 
 		GetOrdersResponse getOrdersResponse = GetOrdersResponse.builder()
@@ -239,10 +235,8 @@ class OrderServiceImplTest {
 			.build();
 		when(orderClient.getOrders(anyLong())).thenReturn(new ApiResponse<>("SUCCESS", true, getOrdersResponse));
 
-		// When
 		orderService.sendRequestPayCancel(orderId);
 
-		// Then
 		verify(orderClient, times(1)).getOrders(anyLong());
 		verify(orderClient, times(1)).update(anyLong(), any(UpdateOrdersAdminRequest.class));
 		verify(rabbitTemplate, times(1)).convertAndSend(anyString(), anyString(), any(RequestPayCancelMessage.class));
@@ -260,30 +254,24 @@ class OrderServiceImplTest {
 			.build();
 		List<GetOrdersAdminResponse> data = new ArrayList<>();
 		data.add(getOrdersAdminResponse);
-		// Given
 		int page = 0;
 		int size = 10;
 		PageResponse<GetOrdersAdminResponse> response = new PageResponse<>(1, 10, 30, data);
 		when(orderClient.getOrdersAdmin(anyInt(), anyInt())).thenReturn(response);
 
-		// When
 		PageResponse<GetOrdersAdminResponse> result = orderService.getOrderAllAdmin(page, size);
 
-		// Then
 		assertEquals(response, result);
 		verify(orderClient, times(1)).getOrdersAdmin(anyInt(), anyInt());
 	}
 
 	@Test
 	void testUpdate() {
-		// Given
 		Long id = 1L;
 		UpdateOrdersAdminRequest request = new UpdateOrdersAdminRequest(1L);
 
-		// When
 		orderService.update(id, request);
 
-		// Then
 		verify(orderClient, times(1)).update(id, request);
 	}
 }

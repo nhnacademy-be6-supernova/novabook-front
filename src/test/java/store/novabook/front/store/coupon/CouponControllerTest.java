@@ -6,6 +6,8 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,6 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import store.novabook.front.api.coupon.domain.CouponType;
+import store.novabook.front.api.coupon.domain.DiscountType;
 import store.novabook.front.api.coupon.dto.response.GetCategoryCouponTemplateResponse;
 import store.novabook.front.api.coupon.dto.response.GetCouponTemplateResponse;
 import store.novabook.front.api.coupon.dto.response.GetLimitedCouponTemplateResponse;
@@ -52,50 +55,67 @@ class CouponControllerTest {
 			.build();
 	}
 
-	// @Test
-	// void testGetCouponAll() throws Exception {
-	// 	// Mock data
-	// 	List<GetCouponTemplateResponse> mockCouponList = Collections.emptyList();
-	// 	PageResponse<GetCouponTemplateResponse> mockGeneralPageResponse = PageResponse.success(0, 5, 10, mockCouponList);
-	// 	List<GetCategoryCouponTemplateResponse> mockCouponList2 = Collections.emptyList();
-	// 	PageResponse<GetCategoryCouponTemplateResponse> mockCategoryPageResponse = PageResponse.success(0, 5, 10, mockCouponList2);
-	//
-	// 	// Mock couponService methods
-	// 	when(couponService.getCouponTemplateAll(eq(CouponType.GENERAL), eq(true), anyInt(), anyInt(), null))
-	// 		.thenReturn(mockGeneralPageResponse);
-	// 	when(couponService.getCategoryCouponTemplateAll(eq(true), anyInt(), anyInt()))
-	// 		.thenReturn(mockCategoryPageResponse);
-	//
-	// 	// Perform GET request to "/coupons"
-	// 	mockMvc.perform(get("/coupons"))
-	// 		.andExpect(status().isOk()) // Expect HTTP 200 OK status
-	// 		.andExpect(view().name("store/coupon/coupon_book")) // Expect view name to be "store/coupon/coupon_book"
-	// 		.andExpect(model().attributeExists("generalCouponList")) // Expect "generalCouponList" attribute in the model
-	// 		.andExpect(model().attributeExists("categoryCouponList")); // Expect "categoryCouponList" attribute in the model
-	//
-	// 	// Verify interactions with couponService
-	// 	verify(couponService, times(1)).getCouponTemplateAll(eq(CouponType.GENERAL), eq(true), anyInt(), anyInt(), null);
-	// 	verify(couponService, times(1)).getCategoryCouponTemplateAll(eq(true), anyInt(), anyInt());
-	// 	verifyNoMoreInteractions(couponService);
-	// }
+	@Test
+	void testGetCouponAll() throws Exception {
+		List<GetCouponTemplateResponse> mockGeneralCouponList = Collections.emptyList();
+		PageResponse<GetCouponTemplateResponse> mockGeneralPageResponse = PageResponse.success(0, 5, 10, mockGeneralCouponList);
+
+		GetCategoryCouponTemplateResponse categoryCouponTemplateResponse = new GetCategoryCouponTemplateResponse(
+			1L,
+			2L,
+			CouponType.GENERAL,
+			"Back to School Sale",
+			200,
+			DiscountType.PERCENT,
+			1000,
+			3000,
+			LocalDateTime.now(),
+			LocalDateTime.now().plusDays(30),
+			30
+		);
+
+		List<GetCategoryCouponTemplateResponse> data = new ArrayList<>();
+		data.add(categoryCouponTemplateResponse);
+
+		PageResponse<GetCategoryCouponTemplateResponse> expectedResponse = new PageResponse<>(1, 10, 30, data);
+
+		when(couponService.getCouponTemplateAll(eq(CouponType.GENERAL), eq(true), anyInt(), anyInt(), isNull()))
+			.thenReturn(mockGeneralPageResponse);
+
+		when(couponService.getCategoryCouponTemplateAll(anyBoolean(), anyInt(), anyInt()))
+			.thenReturn(expectedResponse);
+
+		mockMvc.perform(get("/coupons")
+				.param("generalPage", "0")
+				.param("categoryPage", "0")
+				.param("size", "5"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("store/coupon/coupon_book"))
+			.andExpect(model().attributeExists("generalCouponList"))
+			.andExpect(model().attributeExists("categoryCouponList"));
+
+		verify(couponService, times(1))
+			.getCouponTemplateAll(eq(CouponType.GENERAL), eq(true), eq(0), eq(5), isNull());
+		verify(couponService, times(1))
+			.getCategoryCouponTemplateAll(anyBoolean(), anyInt(), anyInt());
+		verifyNoMoreInteractions(couponService);
+	}
+
+
 
 	@Test
 	void testGetLimitedCouponAll() throws Exception {
-		// Mock data
 		List<GetLimitedCouponTemplateResponse> mockLimitedCouponList = Collections.emptyList();
 		PageResponse<GetLimitedCouponTemplateResponse> mockLimitedPageResponse = PageResponse.success(0, 5, 10, mockLimitedCouponList);
 
-		// Mock couponService method
 		when(couponService.getLimitedCouponTemplateAll(eq(true), anyInt(), anyInt()))
 			.thenReturn(mockLimitedPageResponse);
 
-		// Perform GET request to "/coupons/limited"
 		mockMvc.perform(get("/coupons/limited"))
-			.andExpect(status().isOk()) // Expect HTTP 200 OK status
-			.andExpect(view().name("store/coupon/limited_coupon_list")) // Expect view name to be "store/coupon/limited_coupon_list"
-			.andExpect(model().attributeExists("limitedCouponList")); // Expect "limitedCouponList" attribute in the model
+			.andExpect(status().isOk())
+			.andExpect(view().name("store/coupon/limited_coupon_list"))
+			.andExpect(model().attributeExists("limitedCouponList"));
 
-		// Verify interactions with couponService
 		verify(couponService, times(1)).getLimitedCouponTemplateAll(eq(true), anyInt(), anyInt());
 		verifyNoMoreInteractions(couponService);
 	}
