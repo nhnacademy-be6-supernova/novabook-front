@@ -17,7 +17,7 @@ public class MemberAddress {
 
 	private LocalDateTime updatedAt;
 
-	private Long streetAddressId;
+	private Long streetAddressesId;
 
 	private Long memberId;
 }

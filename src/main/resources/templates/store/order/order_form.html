@@ -509,10 +509,10 @@
                     <tr th:each="address, iterStat : ${orderDTO.memberAddresses()}">
                         <td th:text="${iterStat.index + 1}">1</td> <!-- 인덱스 추가 -->
                         <td th:text="${address.memberAddressDetail()}">30%</td>
-                        <td th:text="${address.streetAddress() + ' ' + address.memberAddressDetail()}">5000원</td>
+                        <td th:text="${address.streetAddresses() + ' ' + address.memberAddressDetail()}">5000원</td>
                         <td>
                             <button type="button" class="btn btn-primary"
-                                    th:attr="data-street-address=${address.streetAddress()}, data-detail-address=${address.memberAddressDetail()}, data-zipcode=${address.zipcode()}"
+                                    th:attr="data-street-address=${address.streetAddresses()}, data-detail-address=${address.memberAddressDetail()}, data-zipcode=${address.zipcode()}"
                                     onclick="selectAddress(this)">선택
                             </button>
                         </td>

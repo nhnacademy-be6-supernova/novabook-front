@@ -29,7 +29,7 @@ public class UniqueRandomCodeGenerator {
 	}
 
 	private boolean isCodeExistsInRedis(String code) {
-		return redisTemplate.opsForSet().isMember(REDIS_SET_KEY, code);
+		return Boolean.TRUE.equals(redisTemplate.opsForSet().isMember(REDIS_SET_KEY, code));
 	}
 
 	private void addCodeToRedis(String code) {

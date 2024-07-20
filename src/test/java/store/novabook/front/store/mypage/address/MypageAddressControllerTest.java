@@ -50,20 +50,20 @@ class MypageAddressControllerTest {
 
 		GetMemberAddressResponse getMemberAddressResponse = GetMemberAddressResponse.builder()
 			.id(1L)
-			.streetAddressId(10L)
+			.streetAddressesId(10L)
 			.memberId(100L)
 			.zipcode("12345")
 			.nickname("JohnDoe")
-			.streetAddress("123 Main St")
+			.streetAddresses("123 Main St")
 			.memberAddressDetail("Apt 101")
 			.build();
 		GetMemberAddressResponse getMemberAddressResponse2 = GetMemberAddressResponse.builder()
 			.id(1L)
-			.streetAddressId(10L)
+			.streetAddressesId(10L)
 			.memberId(100L)
 			.zipcode("12345")
 			.nickname("JohnDoe")
-			.streetAddress("123 Main St")
+			.streetAddresses("123 Main St")
 			.memberAddressDetail("Apt 101")
 			.build();
 		List<GetMemberAddressResponse> addressList = Arrays.asList(getMemberAddressResponse,
@@ -92,7 +92,7 @@ class MypageAddressControllerTest {
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("nickname", request.nickname())
 				.param("zipcode", request.zipcode())
-				.param("streetAddress", request.streetAddress())
+				.param("streetAddresses", request.streetAddresses())
 				.param("memberAddressDetail", request.memberAddressDetail()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(redirectedUrl("/mypage/addresses"));
@@ -108,7 +108,7 @@ class MypageAddressControllerTest {
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("nickname", request.nickname())
 				.param("zipcode", request.zipcode())
-				.param("streetAddress", request.streetAddress())
+				.param("streetAddresses", request.streetAddresses())
 				.param("memberAddressDetail", request.memberAddressDetail()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(redirectedUrl("/mypage/addresses"));

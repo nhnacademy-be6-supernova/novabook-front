@@ -9,6 +9,6 @@ public record OrderAddressInfo(
 	@Pattern(regexp = "\\d+", message = "우편번호는 숫자만 작성해야합니다.")
 	String zipCode,
 	@NotBlank
-	String streetAddress,
+	String streetAddresses,
 	String detailAddress
 ) {}

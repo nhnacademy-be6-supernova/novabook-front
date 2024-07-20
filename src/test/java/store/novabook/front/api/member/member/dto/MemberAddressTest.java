@@ -18,7 +18,7 @@ class MemberAddressTest {
 		String memberAddressDetail = "123 Main St, Apt 4";
 		LocalDateTime createdAt = LocalDateTime.now();
 		LocalDateTime updatedAt = LocalDateTime.now();
-		Long streetAddressId = 10L;
+		Long streetAddressesId = 10L;
 		Long memberId = 100L;
 
 		MemberAddress memberAddress = Mockito.spy(new MemberAddress());
@@ -27,7 +27,7 @@ class MemberAddressTest {
 		Mockito.doReturn(memberAddressDetail).when(memberAddress).getMemberAddressDetail();
 		Mockito.doReturn(createdAt).when(memberAddress).getCreatedAt();
 		Mockito.doReturn(updatedAt).when(memberAddress).getUpdatedAt();
-		Mockito.doReturn(streetAddressId).when(memberAddress).getStreetAddressId();
+		Mockito.doReturn(streetAddressesId).when(memberAddress).getStreetAddressesId();
 		Mockito.doReturn(memberId).when(memberAddress).getMemberId();
 
 		assertThat(memberAddress.getId()).isEqualTo(id);
@@ -35,7 +35,7 @@ class MemberAddressTest {
 		assertThat(memberAddress.getMemberAddressDetail()).isEqualTo(memberAddressDetail);
 		assertThat(memberAddress.getCreatedAt()).isEqualTo(createdAt);
 		assertThat(memberAddress.getUpdatedAt()).isEqualTo(updatedAt);
-		assertThat(memberAddress.getStreetAddressId()).isEqualTo(streetAddressId);
+		assertThat(memberAddress.getStreetAddressesId()).isEqualTo(streetAddressesId);
 		assertThat(memberAddress.getMemberId()).isEqualTo(memberId);
 	}
 }

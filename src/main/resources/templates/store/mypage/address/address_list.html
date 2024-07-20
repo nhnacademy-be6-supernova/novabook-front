@@ -55,10 +55,10 @@
                                 <td th:text="${addressStat.index + 1}"></td>
                                 <td th:text="${address.nickname}"></td>
                                 <td th:text="${address.zipcode}"></td>
-                                <td th:text="${address.streetAddress} + '&nbsp' + ${address.memberAddressDetail}"></td>
+                                <td th:text="${address.streetAddresses} + '&nbsp' + ${address.memberAddressDetail}"></td>
                                 <td>
                                     <button class="btn btn-info btn-sm edit-btn" th:value="${address.id}"
-                                            th:attr="onclick='openEditModal(\'' + ${address.nickname} + '\', \'' + ${address.zipcode} + '\', \'' + ${address.streetAddress} + '\', \'' + ${address.memberAddressDetail} + '\', \'' + ${address.id} + '\', \'' + ${address.id} + '\' )'" th:text="#{table.edit}">Edit</button>
+                                            th:attr="onclick='openEditModal(\'' + ${address.nickname} + '\', \'' + ${address.zipcode} + '\', \'' + ${address.streetAddresses} + '\', \'' + ${address.memberAddressDetail} + '\', \'' + ${address.id} + '\', \'' + ${address.id} + '\' )'" th:text="#{table.edit}">Edit</button>
                                 </td>
                                 <td>
                                     <a th:href="@{/mypage/addresses/address/{id}/delete(id=${address.id})}" class="btn btn-danger btn-sm" th:text="#{table.delete}">Delete</a>
@@ -101,7 +101,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="sample6_address" th:text="#{table.address}">주소</label>
-                                <input type="text" class="form-control" id="sample6_address" name="streetAddress" th:attr="placeholder=#{table.address}" readonly required>
+                                <input type="text" class="form-control" id="sample6_address" name="streetAddresses" th:attr="placeholder=#{table.address}" readonly required>
                             </div>
                             <div class="form-group">
                                 <label for="sample6_detailAddress" th:text="#{detailed.address}">상세주소</label>
@@ -150,7 +150,7 @@
                         </div>
                         <div class="form-group">
                             <label for="edit_sample6_address" th:text="#{table.address}">Address</label>
-                            <input type="text" class="form-control" id="edit_sample6_address" name="streetAddress"
+                            <input type="text" class="form-control" id="edit_sample6_address" name="streetAddresses"
                                    placeholder="Address" readonly required>
                         </div>
                         <div class="form-group">
@@ -269,10 +269,10 @@
         return true;
     }
 
-    function openEditModal(nickname, zipcode, streetAddress, detailAddress, extraAddress, id) {
+    function openEditModal(nickname, zipcode, streetAddresses, detailAddress, extraAddress, id) {
         $('#edit_address').val(nickname);
         $('#edit_sample6_postcode').val(zipcode);
-        $('#edit_sample6_address').val(streetAddress);
+        $('#edit_sample6_address').val(streetAddresses);
         $('#edit_sample6_detailAddress').val(detailAddress);
         $('#edit_sample6_extraAddress').val(extraAddress);
         $('#edit_id').val(id); // addressId를 hidden input에 설정

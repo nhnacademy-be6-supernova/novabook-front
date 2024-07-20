@@ -8,11 +8,11 @@ document.addEventListener('DOMContentLoaded', function() {
 // 내 주소지 선택 시 내용을 채움
 function selectAddress(button) {
 
-    var streetAddress = button.getAttribute('data-street-address');
+    var streetAddresses = button.getAttribute('data-street-address');
     var detailAddress = button.getAttribute('data-detail-address');
     var postcode = button.getAttribute('data-zipcode');
 
-    document.getElementById('sample6_address').value = streetAddress;
+    document.getElementById('sample6_address').value = streetAddresses;
     document.getElementById('sample6_detailAddress').value = detailAddress;
     document.getElementById('sample6_postcode').value = postcode;
 
@@ -242,11 +242,11 @@ function processPayment() {
         var receiverPhone = $("#receiver_phone").val();
         var receiverEmail = $("#receiver_email").val();
         var zipCode = $("#sample6_postcode").val();
-        var streetAddress = $("#sample6_address").val() + " " + $("#sample6_extraAddress").val();
+        var streetAddresses = $("#sample6_address").val() + " " + $("#sample6_extraAddress").val();
         var detailAddress = $("#sample6_detailAddress").val();
 
         // Check required fields in nested objects
-        if (!senderName || !senderPhone || !receiverName || !receiverPhone || !receiverEmail || !zipCode || !streetAddress || !detailAddress || !deliveryId) {
+        if (!senderName || !senderPhone || !receiverName || !receiverPhone || !receiverEmail || !zipCode || !streetAddresses || !detailAddress || !deliveryId) {
             alert("모든 필드를 채워주세요.");
             throw new Error("Missing nested required fields");
         }
@@ -296,7 +296,7 @@ function processPayment() {
                 email: receiverEmail,
                 orderAddressInfo: {
                     zipCode: zipCode,
-                    streetAddress: streetAddress,
+                    streetAddresses: streetAddresses,
                     detailAddress: detailAddress
                 }
             }

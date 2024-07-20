@@ -5,11 +5,11 @@ import lombok.Builder;
 @Builder
 public record GetMemberAddressResponse(
 	Long id,
-	Long streetAddressId,
+	Long streetAddressesId,
 	Long memberId,
 	String zipcode,
 	String nickname,
-	String streetAddress,
+	String streetAddresses,
 	String memberAddressDetail
 ) {
 

@@ -28,7 +28,7 @@ class UpdateMemberAddressRequestTest {
 		UpdateMemberAddressRequest request = UpdateMemberAddressRequest.builder()
 			.nickname("Home")
 			.zipcode("12345")
-			.streetAddress("123 Main St")
+			.streetAddresses("123 Main St")
 			.memberAddressDetail("Apt 4B")
 			.build();
 
@@ -42,7 +42,7 @@ class UpdateMemberAddressRequestTest {
 		UpdateMemberAddressRequest request = UpdateMemberAddressRequest.builder()
 			.nickname("")
 			.zipcode("")
-			.streetAddress("")
+			.streetAddresses("")
 			.memberAddressDetail("")
 			.build();
 
@@ -56,7 +56,7 @@ class UpdateMemberAddressRequestTest {
 		UpdateMemberAddressRequest request = UpdateMemberAddressRequest.builder()
 			.nickname(null)
 			.zipcode(null)
-			.streetAddress(null)
+			.streetAddresses(null)
 			.memberAddressDetail(null)
 			.build();
 
