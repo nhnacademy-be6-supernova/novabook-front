@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import store.novabook.front.api.order.dto.PaymentType;
 import store.novabook.front.api.order.dto.request.PaymentRequest;
 import store.novabook.front.api.order.dto.request.TossPaymentRequest;
@@ -20,6 +21,7 @@ import store.novabook.front.api.order.service.OrderService;
 import store.novabook.front.common.security.aop.CurrentMembers;
 import store.novabook.front.store.book.dto.BookListDTO;
 
+@Slf4j
 @RequestMapping("/orders")
 @RequiredArgsConstructor
 @Controller
@@ -33,8 +35,8 @@ public class OrderController {
 		try {
 			bookListDTO = objectMapper.readValue(orderJson, BookListDTO.class);
 		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-			return "error"; // 오류 처리
+			log.error("",e);
+			return "error/500";
 		}
 
 		model.addAttribute("memberId", memberId);

@@ -15,8 +15,11 @@ public class UniqueRandomCodeGenerator {
 	private static final SecureRandom RANDOM = new SecureRandom();
 	private static final String REDIS_SET_KEY = "uniqueCodes";
 
-	@Autowired
-	private RedisTemplate<String, Object> redisTemplate;
+	private final RedisTemplate<String, Object> redisTemplate;
+
+	public UniqueRandomCodeGenerator(RedisTemplate<String, Object> redisTemplate) {
+		this.redisTemplate = redisTemplate;
+	}
 
 	public String generateUniqueRandomCode() {
 		String code;
