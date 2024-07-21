@@ -3,6 +3,9 @@ package store.novabook.front.common.util;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -17,6 +20,20 @@ class CookieUtilTest {
 	@BeforeEach
 	void setUp() {
 		response = mock(HttpServletResponse.class);
+	}
+
+	@Test
+	void constructor_throwsUnsupportedOperationException() {
+		InvocationTargetException exception = assertThrows(InvocationTargetException.class, () -> {
+			Constructor<CookieUtil> constructor = CookieUtil.class.getDeclaredConstructor();
+			constructor.setAccessible(true); // private 생성자 접근 허용
+			constructor.newInstance();
+		});
+
+		// Check the actual cause of the exception
+		assertThrows(UnsupportedOperationException.class, () -> {
+			throw exception.getCause();
+		});
 	}
 
 	@Test
