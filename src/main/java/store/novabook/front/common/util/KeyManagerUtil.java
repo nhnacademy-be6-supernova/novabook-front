@@ -5,7 +5,6 @@ import static store.novabook.front.common.exception.ErrorCode.*;
 import java.util.Map;
 import java.util.Objects;
 
-import org.jetbrains.annotations.NotNull;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
@@ -32,13 +31,12 @@ public class KeyManagerUtil {
 	}
 
 	@SuppressWarnings("checkstyle:LeftCurly")
-	private static String getDataSource(Environment environment, String keyid) {
+	static String getDataSource(Environment environment, String keyid, RestTemplate restTemplate) {
 
 		String appkey = environment.getProperty("nhn.cloud.keyManager.appkey");
 		String userId = environment.getProperty("nhn.cloud.keyManager.userAccessKey");
 		String secretKey = environment.getProperty("nhn.cloud.keyManager.secretAccessKey");
 
-		RestTemplate restTemplate = new RestTemplate();
 		String baseUrl = "https://api-keymanager.nhncloudservice.com/keymanager/v1.2/appkey/{appkey}/secrets/{keyid}";
 		String url = baseUrl.replace("{appkey}", Objects.requireNonNull(appkey)).replace("{keyid}", keyid);
 		HttpHeaders headers = new HttpHeaders();
@@ -51,19 +49,10 @@ public class KeyManagerUtil {
 			new ParameterizedTypeReference<>() {
 			});
 
-		var body = getStringObjectMap(response);
-
-		String result = (String)body.get("secret");
-		if (result.isEmpty()) {
-			log.error("\"secret\" key is missing in responsxcle body");
-			log.error("{}", body);
-			throw new KeyManagerException(MISSING_BODY_KEY);
-		}
-
-		return result;
+		return getStringObjectMap(response);
 	}
 
-	private static @NotNull Map<String, Object> getStringObjectMap(ResponseEntity<Map<String, Object>> response) {
+	private static String getStringObjectMap(ResponseEntity<Map<String, Object>> response) {
 		if (response.getBody() == null) {
 			throw new KeyManagerException(RESPONSE_BODY_IS_NULL);
 		}
@@ -83,14 +72,14 @@ public class KeyManagerUtil {
 			throw new KeyManagerException(MISSING_SECRET_KEY);
 		}
 
-		return body;
+		return result;
 	}
 
-	public static RedisConfigDto getRedisConfig(Environment environment) {
+	public static RedisConfigDto getRedisConfig(Environment environment, RestTemplate restTemplate) {
 		try {
 			String keyid = environment.getProperty("nhn.cloud.keyManager.redisKey");
 			log.info("getRedisConfig, keyid: {}", keyid);
-			return objectMapper.readValue(getDataSource(environment, keyid), RedisConfigDto.class);
+			return objectMapper.readValue(getDataSource(environment, keyid, restTemplate), RedisConfigDto.class);
 		} catch (JsonProcessingException e) {
 			//오류처리
 			log.error("RedisConfig{}", FAILED_CONVERSION.getMessage());
@@ -98,10 +87,10 @@ public class KeyManagerUtil {
 		}
 	}
 
-	public static NaverSearchDto getNaverConfig(Environment environment) {
+	public static NaverSearchDto getNaverConfig(Environment environment, RestTemplate restTemplate) {
 		try {
 			String keyid = environment.getProperty("nhn.cloud.keyManager.naverBookKey");
-			return objectMapper.readValue(getDataSource(environment, keyid), NaverSearchDto.class);
+			return objectMapper.readValue(getDataSource(environment, keyid, restTemplate), NaverSearchDto.class);
 		} catch (JsonProcessingException e) {
 			//오류처리
 			log.error("NaverSearch{}", FAILED_CONVERSION.getMessage());
@@ -109,20 +98,20 @@ public class KeyManagerUtil {
 		}
 	}
 
-	public static Oauth2Dto getOauth2Config(Environment environment) {
+	public static Oauth2Dto getOauth2Config(Environment environment, RestTemplate restTemplate) {
 		try {
 			String keyid = environment.getProperty("nhn.cloud.keyManager.oauth2Key");
-			return objectMapper.readValue(getDataSource(environment, keyid), Oauth2Dto.class);
+			return objectMapper.readValue(getDataSource(environment, keyid, restTemplate), Oauth2Dto.class);
 		} catch (JsonProcessingException e) {
 			log.error("Oauth2{}", FAILED_CONVERSION.getMessage());
 			throw new KeyManagerException(FAILED_CONVERSION);
 		}
 	}
 
-	public static RabbitMQConfigDto getRabbitMQConfig(Environment environment) {
+	public static RabbitMQConfigDto getRabbitMQConfig(Environment environment, RestTemplate restTemplate) {
 		try {
 			String keyid = environment.getProperty("nhn.cloud.keyManager.rabbitMQKey");
-			return objectMapper.readValue(getDataSource(environment, keyid), RabbitMQConfigDto.class);
+			return objectMapper.readValue(getDataSource(environment, keyid, restTemplate), RabbitMQConfigDto.class);
 		} catch (JsonProcessingException e) {
 			//오류처리
 			log.error("RabbitMQConfig{}", FAILED_CONVERSION.getMessage());
