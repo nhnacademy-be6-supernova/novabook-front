@@ -57,7 +57,7 @@ public class GlobalExceptionHandler {
 	public String handleFeignClientException(NovaException e, Model model) {
 		log.error(INTERNAL_SERVER_ERROR, e);
 		model.addAttribute(EXCEPTION, e);
-		return "error/nova_error";
+		return "error/error";
 	}
 
 }
