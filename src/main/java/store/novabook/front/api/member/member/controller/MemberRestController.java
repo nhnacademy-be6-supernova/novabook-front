@@ -14,8 +14,10 @@ import store.novabook.front.api.member.member.dto.request.DuplicateLoginIdReques
 import store.novabook.front.api.member.member.dto.response.DuplicateResponse;
 import store.novabook.front.api.member.member.dto.response.MemberNameResponse;
 import store.novabook.front.api.member.member.service.MemberRestService;
+import store.novabook.front.common.handler.HandleWithAlert;
 import store.novabook.front.common.security.aop.CurrentMembers;
 
+@HandleWithAlert
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/front/members")

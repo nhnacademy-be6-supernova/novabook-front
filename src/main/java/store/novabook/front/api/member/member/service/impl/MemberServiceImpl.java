@@ -65,8 +65,8 @@ public class MemberServiceImpl implements MemberService {
 		if (status.getBody().memberStatusId() == 2) {
 			Cookie uuidCookie = new Cookie("UUID", status.getBody().uuid());
 			uuidCookie.setMaxAge(60 * 60 * 3);
-			uuidCookie.setSecure(true);
-			uuidCookie.setHttpOnly(true);
+			uuidCookie.setSecure(false);
+			uuidCookie.setHttpOnly(false);
 			uuidCookie.setPath("/");
 			response.addCookie(uuidCookie);
 			return "redirect:/dormant";
