@@ -13,6 +13,7 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.web.client.RestTemplate;
 
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.common.util.KeyManagerUtil;
@@ -27,8 +28,9 @@ public class RedisConfig {
 
 	@Bean
 	public RedisConnectionFactory redisConnectionFactory() {
+		RestTemplate restTemplate = new RestTemplate();
 
-		RedisConfigDto redisConfig = KeyManagerUtil.getRedisConfig(environment);
+		RedisConfigDto redisConfig = KeyManagerUtil.getRedisConfig(environment, restTemplate);
 
 		RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
 		redisStandaloneConfiguration.setHostName(redisConfig.host());

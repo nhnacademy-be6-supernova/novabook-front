@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.web.client.RestTemplate;
 
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.common.util.KeyManagerUtil;
@@ -72,7 +73,8 @@ public class RabbitMQConfig {
 
 	@Bean
 	public ConnectionFactory connectionFactory() {
-		RabbitMQConfigDto config = KeyManagerUtil.getRabbitMQConfig(environment);
+		RestTemplate restTemplate = new RestTemplate();
+		RabbitMQConfigDto config = KeyManagerUtil.getRabbitMQConfig(environment, restTemplate);
 		CachingConnectionFactory connectionFactory = new CachingConnectionFactory(config.host());
 		connectionFactory.setPort(config.port());
 		connectionFactory.setUsername(config.username());

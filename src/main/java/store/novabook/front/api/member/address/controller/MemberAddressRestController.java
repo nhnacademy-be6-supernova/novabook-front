@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.address.dto.response.ExceedResponse;
 import store.novabook.front.api.member.address.service.MemberAddressRestService;
+import store.novabook.front.common.handler.HandleWithAlert;
 
+@HandleWithAlert
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/front/addresses")
