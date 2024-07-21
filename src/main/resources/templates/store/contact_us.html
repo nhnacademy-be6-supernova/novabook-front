@@ -53,10 +53,23 @@
             background-color: #0056b3;
         }
 
+        .btn-theme:disabled {
+            background-color: #6a88a2;
+            opacity: 0.6;
+            color: #ffffff;
+        }
+
         #responseMessage {
             margin-top: 20px;
             font-size: 1.1em;
             color: #28a745;
+            text-align: center;
+        }
+
+        .info-text {
+            margin-bottom: 50px;
+            text-align: center;
+            color: #555;
         }
     </style>
 </head>
@@ -71,30 +84,29 @@
             고객 서비스 팀의 응답은 일반적으로 영업일 기준 2~5일이 소요됩니다. 가능한 한 많은 정보를 제공해 주시면 팀이 더 잘 도와드릴 수 있습니다!
         </div>
         <br>
-
-        <form id="contactForm" action="/contact-us/sendEmail" method="post">
+        <form id="contactForm">
             <div class="form-group">
-                <label for="name"></label><input type="text" class="form-control" id="name" name="name"
-                                                 placeholder="이름을 입력하세요" required>
+                <label for="name"></label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="이름을 입력하세요" required>
             </div>
             <div class="form-group">
-                <label for="email"></label><input type="email" class="form-control" id="email" name="email"
-                                                  placeholder="이메일 주소를 입력하세요" required>
+                <label for="email"></label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="이메일 주소를 입력하세요" required>
             </div>
             <div class="form-group">
-                <label for="orderNumber"></label><input type="text" class="form-control" id="orderNumber"
-                                                        name="orderNumber" placeholder="주문 번호를 입력하세요">
+                <label for="orderNumber"></label>
+                <input type="text" class="form-control" id="orderNumber" name="orderNumber" placeholder="주문 번호를 입력하세요">
             </div>
             <div class="form-group">
-                <label for="subject"></label><input type="text" class="form-control" id="subject" name="subject"
-                                                    placeholder="주제를 입력하세요" required>
+                <label for="subject"></label>
+                <input type="text" class="form-control" id="subject" name="subject" placeholder="주제를 입력하세요" required>
             </div>
             <div class="form-group">
-                <label for="message"></label><textarea id="message" class="form-control" name="message" rows="4"
-                                                       placeholder="메시지를 입력하세요"
-                                                       required></textarea>
+                <label for="message"></label>
+                <textarea id="message" class="form-control" name="message" rows="4" placeholder="메시지를 입력하세요"
+                          required></textarea>
             </div>
-            <button type="button" onclick="handleFormSubmit(this)" class="btn btn-theme">제출</button>
+            <button type="button" id="submitButton" onclick="handleFormSubmit()" class="btn btn-theme">제출</button>
         </form>
         <div>
             <p id="responseMessage"></p>
@@ -103,25 +115,30 @@
 </div>
 <div th:replace="~{layout/store/footer::footer}"></div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    function handleFormSubmit(button) {
+    function handleFormSubmit() {
         const form = document.getElementById('contactForm');
         const responseMessage = document.getElementById('responseMessage');
+        const submitButton = document.getElementById('submitButton');
 
-        // 이메일 전송 요청
-        fetch(form.action, {
-            method: 'POST',
-            body: new URLSearchParams(new FormData(form))
-        })
-            .then(response => response.text())
-            .then(data => {
-                responseMessage.textContent = '메시지가 성공적으로 전송되었습니다!';
-                button.disabled = true; // 이메일 전송 후 버튼 비활성화
-            })
-            .catch(error => {
-                responseMessage.textContent = '메시지 전송 중 오류가 발생했습니다. 나중에 다시 시도해 주세요.';
-                responseMessage.style.color = 'red';
-            });
+        const formData = new FormData(form);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        axios.post('/contact-us/sendEmail', data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            alert("메일이 성공적으로 전송되었습니다 📬");
+            submitButton.disabled = true;
+            submitButton.classList.add('btn-theme:disabled');
+        }).catch(error => {
+            alert(error.response.data);
+        });
     }
 </script>
 </html>

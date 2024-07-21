@@ -15,4 +15,5 @@ public class ContactController {
 	public String contact() {
 		return "store/contact_us";
 	}
+
 }
