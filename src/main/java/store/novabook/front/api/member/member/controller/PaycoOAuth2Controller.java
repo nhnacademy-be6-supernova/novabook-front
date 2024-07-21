@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,11 +49,12 @@ public class PaycoOAuth2Controller {
 
 	public PaycoOAuth2Controller(PaycoLoginClient paycoLoginClient, PaycoApiClient paycoApiClient,
 		PaycoResponseValidator paycoResponseValidator, MemberAuthClient memberAuthClient, Environment environment) {
+		RestTemplate restTemplate = new RestTemplate();
 		this.paycoLoginClient = paycoLoginClient;
 		this.paycoApiClient = paycoApiClient;
 		this.paycoResponseValidator = paycoResponseValidator;
 		this.memberAuthClient = memberAuthClient;
-		Oauth2Dto oauth2Dto = KeyManagerUtil.getOauth2Config(environment);
+		Oauth2Dto oauth2Dto = KeyManagerUtil.getOauth2Config(environment, restTemplate);
 		this.clientId = oauth2Dto.clientId();
 		this.clientSecret = oauth2Dto.clientSecret();
 		this.redirectUri = oauth2Dto.redirectUri();
