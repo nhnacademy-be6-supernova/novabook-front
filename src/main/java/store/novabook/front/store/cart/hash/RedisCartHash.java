@@ -1,5 +1,6 @@
 package store.novabook.front.store.cart.hash;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,27 +33,27 @@ public class RedisCartHash {
 	public static RedisCartHash of(Object cartId) {
 		return RedisCartHash.builder()
 			.cartId(cartId)
-			.cartBookList(Collections.emptyList())
+			.cartBookList(new ArrayList<>())
 			.build();
 	}
 
 	public static RedisCartHash of(Object cartId, CartBookDTO request) {
+		List<CartBookDTO> cartBookList = new ArrayList<>();
+		cartBookList.add(request);
 		return RedisCartHash.builder()
 			.cartId(cartId)
-			.cartBookList(List.of(request))
+			.cartBookList(cartBookList)
 			.build();
 	}
 
 	public static RedisCartHash of(Object cartId, CartBookListDTO request) {
 		return RedisCartHash.builder()
 			.cartId(cartId)
-			.cartBookList(request.getCartBookList())
+			.cartBookList(new ArrayList<>(request.getCartBookList()))
 			.build();
-
 	}
 
 	public void update(List<CartBookDTO> newCartBookList) {
 		this.cartBookList = newCartBookList;
 	}
-
 }
