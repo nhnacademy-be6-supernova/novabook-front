@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.member.member.dto.PaycoResponseValidator;
 import store.novabook.front.api.member.member.dto.request.GetPaycoMembersRequest;
 import store.novabook.front.api.member.member.dto.request.LinkPaycoMembersUUIDRequest;
@@ -37,10 +39,11 @@ import store.novabook.front.common.util.dto.Oauth2Dto;
 
 @Controller
 @RequestMapping("/oauth2/payco")
-public class PaycoOAuth2Controller {
+@RequiredArgsConstructor
+public class PaycoOAuth2Controller implements InitializingBean {
 	private static final Logger log = LoggerFactory.getLogger(PaycoOAuth2Controller.class);
-	private final String clientId;
-	private final String clientSecret;
+	private final Environment environment;
+	private Oauth2Dto oauth2Dto;
 	private String redirectUri;
 
 	private final PaycoLoginClient paycoLoginClient;
@@ -50,17 +53,10 @@ public class PaycoOAuth2Controller {
 
 	private static final String REDRIRECT_LOGIN = "redirect:/login";
 
-	public PaycoOAuth2Controller(PaycoLoginClient paycoLoginClient, PaycoApiClient paycoApiClient,
-		PaycoResponseValidator paycoResponseValidator, MemberAuthClient memberAuthClient, Environment environment) {
+	@Override
+	public void afterPropertiesSet() {
 		RestTemplate restTemplate = new RestTemplate();
-		this.paycoLoginClient = paycoLoginClient;
-		this.paycoApiClient = paycoApiClient;
-		this.paycoResponseValidator = paycoResponseValidator;
-		this.memberAuthClient = memberAuthClient;
-		Oauth2Dto oauth2Dto = KeyManagerUtil.getOauth2Config(environment, restTemplate);
-		this.clientId = oauth2Dto.clientId();
-		this.clientSecret = oauth2Dto.clientSecret();
-		this.redirectUri = oauth2Dto.redirectUri();
+		this.oauth2Dto = KeyManagerUtil.getOauth2Config(environment, restTemplate);
 	}
 
 	@GetMapping
@@ -103,8 +99,8 @@ public class PaycoOAuth2Controller {
 
 		redirectUri = "https://www.novabook.store/oauth2/payco/link/callback";
 		log.info("redirectUri : {} ", redirectUri);
-		Map<String, Object> authorizationCode = paycoApiClient.getAuthorizationToken("authorization_code", clientId,
-			clientSecret, code, redirectUri, state);
+		Map<String, Object> authorizationCode = paycoApiClient.getAuthorizationToken("authorization_code", oauth2Dto.clientId(),
+			oauth2Dto.clientSecret(), code, redirectUri, state);
 		log.info("authorizationCode : {} ", authorizationCode);
 
 		String paycoAccessToken = (String)authorizationCode.get("access_token");
@@ -149,8 +145,8 @@ public class PaycoOAuth2Controller {
 
 		redirectUri = "https://www.novabook.store/oauth2/payco/callback";
 		log.info("redirectUri : {} ", redirectUri);
-		Map<String, Object> authorizationCode = paycoApiClient.getAuthorizationToken("authorization_code", clientId,
-			clientSecret, code, redirectUri, state);
+		Map<String, Object> authorizationCode = paycoApiClient.getAuthorizationToken("authorization_code", oauth2Dto.clientId(),
+			oauth2Dto.clientSecret(), code, redirectUri, state);
 		log.info("authorizationCode : {} ", authorizationCode);
 
 		String paycoAccessToken = (String)authorizationCode.get("access_token");
@@ -210,7 +206,7 @@ public class PaycoOAuth2Controller {
 	}
 
 	private String getPaycoId(String paycoAccessToken) {
-		String response = paycoLoginClient.login(clientId, paycoAccessToken);
+		String response = paycoLoginClient.login(oauth2Dto.clientId(), paycoAccessToken);
 		return paycoResponseValidator.validateGetPaycoId(response).orElseThrow();
 	}
 
@@ -219,8 +215,7 @@ public class PaycoOAuth2Controller {
 		String encodedToken = "";
 		encodedToken = URLEncoder.encode(token, StandardCharsets.UTF_8);
 
-		String response = paycoApiClient.logout(clientId, clientSecret, encodedToken);
+		String response = paycoApiClient.logout(oauth2Dto.clientId(), oauth2Dto.clientSecret(), encodedToken);
 		return paycoResponseValidator.validateLogout(response);
 	}
-
 }

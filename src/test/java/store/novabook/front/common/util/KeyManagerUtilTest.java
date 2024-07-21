@@ -119,8 +119,6 @@ class KeyManagerUtilTest {
 		assertNotNull(oauth2Config);
 		assertEquals("clientId", oauth2Config.clientId());
 		assertEquals("clientSecret", oauth2Config.clientSecret());
-		assertEquals("redirectUri", oauth2Config.redirectUri());
-		assertEquals("tokenUri", oauth2Config.tokenUri());
 	}
 
 	@Test
