@@ -106,7 +106,7 @@ class KeyManagerUtilTest {
 
 		// 가짜 응답 데이터 설정
 		Map<String, Object> bodyMap = new HashMap<>();
-		bodyMap.put("body", Map.of("secret", "{\"clientId\":\"clientId\",\"clientSecret\":\"clientSecret\",\"redirectUri\":\"redirectUri\",\"tokenUri\":\"tokenUri\"}"));
+		bodyMap.put("body", Map.of("secret", "{\"clientId\":\"clientId\",\"clientSecret\":\"clientSecret\"}"));
 		ResponseEntity<Map<String, Object>> responseEntity = new ResponseEntity<>(bodyMap, HttpStatus.OK);
 		given(restTemplate.exchange(any(String.class), eq(HttpMethod.GET), any(HttpEntity.class),
 			eq(new ParameterizedTypeReference<Map<String, Object>>() {})))
