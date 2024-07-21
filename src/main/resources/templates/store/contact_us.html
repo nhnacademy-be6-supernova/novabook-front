@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .layout {
+            margin: auto;
+            padding-top: 50px;
+            max-width: 800px;
+        }
+
+        .card {
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .btn-theme {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-theme:hover {
+            background-color: #0056b3;
+        }
+
+        #responseMessage {
+            margin-top: 20px;
+            font-size: 1.1em;
+            color: #28a745;
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{layout/store/nav::nav}"></div>
+<div class="layout">
+    <div class="card contact-section">
+        <h1>CONTACT US</h1>
+        <br>
+        <div class="info-text">
+            고객 서비스 팀의 응답은 일반적으로 영업일 기준 2~5일이 소요됩니다. 가능한 한 많은 정보를 제공해 주시면 팀이 더 잘 도와드릴 수 있습니다!
+        </div>
+        <br>
+
+        <form id="contactForm" action="/contact-us/sendEmail" method="post">
+            <div class="form-group">
+                <label for="name"></label><input type="text" class="form-control" id="name" name="name"
+                                                 placeholder="이름을 입력하세요" required>
+            </div>
+            <div class="form-group">
+                <label for="email"></label><input type="email" class="form-control" id="email" name="email"
+                                                  placeholder="이메일 주소를 입력하세요" required>
+            </div>
+            <div class="form-group">
+                <label for="orderNumber"></label><input type="text" class="form-control" id="orderNumber"
+                                                        name="orderNumber" placeholder="주문 번호를 입력하세요">
+            </div>
+            <div class="form-group">
+                <label for="subject"></label><input type="text" class="form-control" id="subject" name="subject"
+                                                    placeholder="주제를 입력하세요" required>
+            </div>
+            <div class="form-group">
+                <label for="message"></label><textarea id="message" class="form-control" name="message" rows="4"
+                                                       placeholder="메시지를 입력하세요"
+                                                       required></textarea>
+            </div>
+            <button type="button" onclick="handleFormSubmit(this)" class="btn btn-theme">제출</button>
+        </form>
+        <div>
+            <p id="responseMessage"></p>
+        </div>
+    </div>
+</div>
+<div th:replace="~{layout/store/footer::footer}"></div>
+</body>
+<script>
+    function handleFormSubmit(button) {
+        const form = document.getElementById('contactForm');
+        const responseMessage = document.getElementById('responseMessage');
+
+        // 이메일 전송 요청
+        fetch(form.action, {
+            method: 'POST',
+            body: new URLSearchParams(new FormData(form))
+        })
+            .then(response => response.text())
+            .then(data => {
+                responseMessage.textContent = '메시지가 성공적으로 전송되었습니다!';
+                button.disabled = true; // 이메일 전송 후 버튼 비활성화
+            })
+            .catch(error => {
+                responseMessage.textContent = '메시지 전송 중 오류가 발생했습니다. 나중에 다시 시도해 주세요.';
+                responseMessage.style.color = 'red';
+            });
+    }
+</script>
+</html>
