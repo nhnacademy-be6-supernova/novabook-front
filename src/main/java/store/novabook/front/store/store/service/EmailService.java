@@ -31,7 +31,7 @@ public class EmailService {
 				"[#" + request.orderNumber() + "] " + request.subject() : request.subject();
 
 			message.setSubject(emailSubject);
-			String fullMessage = "주문 번호: " + request.orderNumber() + "\n\n메시지:\n" + request.message();
+			String fullMessage = "보낸 사람: " + request.email() + "\n\n주문 번호: " + request.orderNumber() + "\n\n메시지:\n" + request.message();
 			message.setText(fullMessage);
 			mailSender.send(message);
 		} catch (MessagingException | UnsupportedEncodingException e) {
