@@ -38,6 +38,7 @@ import store.novabook.front.api.order.dto.response.GetWrappingPaperAllResponse;
 import store.novabook.front.api.order.dto.response.GetWrappingPaperResponse;
 import store.novabook.front.api.order.service.OrderClient;
 import store.novabook.front.api.order.service.OrdersSagaClient;
+import store.novabook.front.api.point.dto.GetMemberPointResponse;
 import store.novabook.front.api.point.dto.request.GetPointHistoryRequest;
 import store.novabook.front.api.point.dto.response.GetPointHistoryListResponse;
 import store.novabook.front.api.point.dto.response.GetPointHistoryResponse;
@@ -162,15 +163,6 @@ class OrderServiceImplTest {
 		List<GetCouponResponse> couponResponseList = List.of(couponResponse);
 		GetCouponAllResponse getCouponAllResponse = new GetCouponAllResponse(couponResponseList);
 
-		GetPointHistoryResponse getPointHistoryResponse = GetPointHistoryResponse.builder()
-			.pointContent("Purchase Reward")
-			.pointAmount(500L)
-			.createdAt(LocalDateTime.of(2023, 10, 15, 12, 0))
-			.build();
-		List<GetPointHistoryResponse> pointHistoryResponseList = List.of(getPointHistoryResponse);
-		GetPointHistoryListResponse getPointHistoryListResponse = new GetPointHistoryListResponse(
-			pointHistoryResponseList);
-
 		GetMemberAddressResponse getMemberAddressResponse = GetMemberAddressResponse.builder()
 			.id(1L)
 			.streetAddressesId(101L)
@@ -183,6 +175,8 @@ class OrderServiceImplTest {
 		List<GetMemberAddressResponse> memberAddresses = List.of(getMemberAddressResponse);
 		GetMemberAddressListResponse getMemberAddressListResponse = new GetMemberAddressListResponse(memberAddresses);
 
+		GetMemberPointResponse pointResponse = GetMemberPointResponse.builder().pointAmount(1000L).build();
+
 		when(categoryClient.getCategoryByBId(anyLong())).thenReturn(
 			new ApiResponse<>("SUCCESS", true, getCategoryIdsByBookIdResponse));
 		when(wrappingPaperClient.getWrappingPaperAllList()).thenReturn(
@@ -192,8 +186,7 @@ class OrderServiceImplTest {
 		when(memberCouponClient.getMemberCoupon()).thenReturn(new ApiResponse<>("SUCCESS", true, couponIdsResponse));
 		when(couponClient.getSufficientCouponAll(any(GetCouponAllRequest.class))).thenReturn(
 			new ApiResponse<>("SUCCESS", true, getCouponAllResponse));
-		when(pointHistoryClient.getPointHistoryListByMemberId(any(GetPointHistoryRequest.class))).thenReturn(
-			new ApiResponse<>("SUCCESS", true, getPointHistoryListResponse));
+		when(pointHistoryClient.getPointTotalByMemberId()).thenReturn(new ApiResponse<>("SUCCESS", true, pointResponse));
 		when(memberAddressClient.getMemberAddressAll()).thenReturn(
 			new ApiResponse<>("SUCCESS", true, getMemberAddressListResponse));
 
@@ -205,7 +198,7 @@ class OrderServiceImplTest {
 		verify(deliveryFeeClient, times(1)).getRecentDeliveryFee();
 		verify(memberCouponClient, times(1)).getMemberCoupon();
 		verify(couponClient, times(1)).getSufficientCouponAll(any(GetCouponAllRequest.class));
-		verify(pointHistoryClient, times(1)).getPointHistoryListByMemberId(any(GetPointHistoryRequest.class));
+		verify(pointHistoryClient, times(1)).getPointTotalByMemberId();
 		verify(memberAddressClient, times(1)).getMemberAddressAll();
 	}
 
