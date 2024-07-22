@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Media - NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .layout {
+            margin: auto;
+            padding-top: 50px;
+            max-width: 800px;
+        }
+
+        .card {
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .contact-section h2 {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-left: 5px solid #007bff;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+<h1>미디어 페이지</h1>
+<div th:replace="~{layout/store/nav::nav}"></div>
+
+<div class="layout">
+    <div class="card contact-section">
+        <h2>Nova Book Store 소개 영상</h2>
+        <div>
+            <!-- YouTube 영상 임베드 코드 -->
+            <iframe width="700" height="400" src="https://www.youtube.com/embed/31e1Urt1E3w?si=GZg4c-XKFeX-IdED"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/store/footer::footer}"></div>
+</body>
+</html>
