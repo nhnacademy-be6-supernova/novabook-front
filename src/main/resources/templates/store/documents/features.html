@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Features - NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .layout {
+            margin: auto;
+            padding-top: 50px;
+            max-width: 800px;
+        }
+
+        .card {
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .feature-section {
+            margin-bottom: 30px;
+        }
+
+        .feature-section h2 {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-left: 5px solid #007bff;
+            font-size: 1.5em;
+        }
+
+        .feature-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .feature-section ul li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .feature-section ul li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{layout/store/nav::nav}"></div>
+
+<div class="layout container">
+    <div class="card contact-section">
+        <h1 class="text-center">주요 기능</h1>
+        <hr>
+
+        <div class="feature-section">
+
+
+            <h2>회원 기능</h2>
+            <ul>
+                <li><strong>회원 관리:</strong> 회원 가입, 로그인, 정보 수정, 탈퇴</li>
+                <li><strong>포인트 관리:</strong> 포인트 적립 및 사용</li>
+            </ul>
+        </div>
+
+        <div class="feature-section">
+            <h2>상품 및 카테고리 관리</h2>
+            <ul>
+                <li><strong>도서 관리:</strong> 도서 등록, 수정, 삭제</li>
+                <li><strong>카테고리 관리:</strong> 카테고리 추가, 수정, 삭제</li>
+                <li><strong>태그 관리:</strong> 태그 추가, 수정, 삭제</li>
+            </ul>
+        </div>
+
+        <div class="feature-section">
+            <h2>주문 및 결제</h2>
+            <ul>
+                <li><strong>장바구니:</strong> 상품 추가, 수정, 삭제</li>
+                <li><strong>주문:</strong> 주문 생성, 조회, 취소</li>
+                <li><strong>결제:</strong> 결제 처리, 결제 내역 조회</li>
+                <li><strong>배송비 관리:</strong> 배송비 설정 및 수정</li>
+            </ul>
+        </div>
+
+        <div class="feature-section">
+            <h2>리뷰 관리</h2>
+            <ul>
+                <li><strong>리뷰 작성:</strong> 리뷰 작성, 수정, 삭제</li>
+                <li><strong>리뷰 조회:</strong> 리뷰 조회</li>
+            </ul>
+        </div>
+
+        <div class="feature-section">
+            <h2>검색</h2>
+            <ul>
+                <li><strong>상품 검색:</strong> Elasticsearch를 이용한 상품 검색 기능</li>
+            </ul>
+        </div>
+
+        <div class="feature-section">
+            <h2>관리자 기능</h2>
+            <ul>
+                <li><strong>주문 관리:</strong> 주문 상태 관리, 주문 내역 조회</li>
+                <li><strong>쿠폰 관리:</strong> 쿠폰 발급, 수정, 삭제</li>
+                <li><strong>카테고리 관리:</strong> 카테고리 추가, 수정, 삭제</li>
+                <li><strong>태그 관리:</strong> 태그 추가, 수정, 삭제</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/store/footer::footer}"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>
