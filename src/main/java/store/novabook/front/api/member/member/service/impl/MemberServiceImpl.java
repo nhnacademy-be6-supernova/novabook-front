@@ -83,13 +83,7 @@ public class MemberServiceImpl implements MemberService {
 			String refreshToken = refresh.replace("Bearer ", "");
 
 			LoginCookieUtil.createAccessTokenCookie(response, accessToken);
-
-			Cookie refreshCookie = new Cookie("Refresh", refreshToken);
-			refreshCookie.setMaxAge(60 * 60 * 72);
-			refreshCookie.setSecure(true);
-			refreshCookie.setHttpOnly(true);
-			refreshCookie.setPath("/");
-			response.addCookie(refreshCookie);
+			LoginCookieUtil.createRefreshTokenCookie(response, refreshToken);
 
 		} else {
 			throw new ForbiddenException(ErrorCode.FORBIDDEN);

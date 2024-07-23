@@ -25,6 +25,15 @@ public class LoginCookieUtil {
 		response.addCookie(accessTokenCookie);
 	}
 
+	public static void createRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
+		Cookie refreshTokenCookie = new Cookie("Refresh", refreshToken);
+		refreshTokenCookie.setPath("/");
+		refreshTokenCookie.setMaxAge(60 * 60 * 72);
+		refreshTokenCookie.setHttpOnly(true);
+		refreshTokenCookie.setSecure(true);
+		response.addCookie(refreshTokenCookie);
+	}
+
 	private static void deleteLoginCookie(HttpServletResponse response, String name) {
 		Cookie cookie = new Cookie(name, null);
 		cookie.setPath("/");
