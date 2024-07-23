@@ -1,6 +1,6 @@
 package store.novabook.front.common.interceptor;
 
-import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import jakarta.servlet.http.Cookie;
@@ -15,18 +15,23 @@ import store.novabook.front.api.member.member.dto.response.IsExpireAccessTokenRe
 import store.novabook.front.api.member.member.service.MemberService;
 import store.novabook.front.common.exception.ErrorCode;
 import store.novabook.front.common.exception.UnauthorizedException;
-import store.novabook.front.common.util.CookieUtil;
+import store.novabook.front.common.util.LoginCookieUtil;
 
+// @Component
 @Slf4j
 @RequiredArgsConstructor
-public class TokenInterceptor implements HandlerInterceptor {
+public class LoginInterceptor implements HandlerInterceptor {
 
 	private final MemberService memberService;
 
 	@Override
-	public boolean preHandle(HttpServletRequest request, @NotNull HttpServletResponse response,
-		@NotNull Object handler) {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+		boolean isLoggedIn = isLoggedIn(request, response);
+		request.setAttribute("isLoggedIn", isLoggedIn);
+		return true;
+	}
 
+	private boolean isLoggedIn(HttpServletRequest request, HttpServletResponse response) {
 		Cookie[] cookies = request.getCookies();
 		if (cookies == null) {
 			return true;
@@ -40,7 +45,23 @@ public class TokenInterceptor implements HandlerInterceptor {
 				accessToken = cookie.getValue();
 			}
 		}
-		if (refreshToken.isEmpty() || accessToken.isEmpty()) {
+		if (refreshToken.isEmpty() && accessToken.isEmpty()) {
+			return false;
+		}
+
+		if (accessToken.isEmpty()) {
+			GetNewTokenResponse getNewTokenResponse = memberService.newToken(new GetNewTokenRequest(refreshToken));
+			log.info("새로운 토큰 발급 {}", getNewTokenResponse);
+
+			if (getNewTokenResponse.accessToken().equals("expired")) {
+				log.info("리프레시 토큰 만료");
+				LoginCookieUtil.deleteAuthorizationCookie(response);
+				throw new UnauthorizedException(ErrorCode.UNAUTHORIZED);
+			}
+
+			LoginCookieUtil.createAccessTokenCookie(response, getNewTokenResponse.accessToken());
+
+			request.setAttribute("reissuedAccessToken", getNewTokenResponse.accessToken());
 			return true;
 		}
 
@@ -49,19 +70,15 @@ public class TokenInterceptor implements HandlerInterceptor {
 
 		if (isExpireAccessTokenResponse.isExpire()) {
 			GetNewTokenResponse getNewTokenResponse = memberService.newToken(new GetNewTokenRequest(refreshToken));
+			log.info("새로운 토큰 발급 {}", getNewTokenResponse);
 
 			if (getNewTokenResponse.accessToken().equals("expired")) {
-				log.debug("refresh token expired");
-				CookieUtil.deleteAuthorizationCookie(response);
+				log.info("리프레시 토큰 만료");
+				LoginCookieUtil.deleteAuthorizationCookie(response);
 				throw new UnauthorizedException(ErrorCode.UNAUTHORIZED);
 			}
 
-			Cookie accessCookie = new Cookie("Authorization", getNewTokenResponse.accessToken());
-			accessCookie.setPath("/");
-			accessCookie.setMaxAge(60 * 60 * 3);
-			accessCookie.setHttpOnly(true);
-			accessCookie.setSecure(true);
-			response.addCookie(accessCookie);
+			LoginCookieUtil.createAccessTokenCookie(response, getNewTokenResponse.accessToken());
 
 			request.setAttribute("reissuedAccessToken", getNewTokenResponse.accessToken());
 		}
