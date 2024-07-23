@@ -19,7 +19,7 @@ services:
     image: mysql:5.7
     container_name: novabook-db
     environment:
-      MYSQL_ROOT_PASSWORD: "yourdbpassword"
+      MYSQL_ROOT_PASSWORD: "Hv-]JRIyCw[[9O18"
       MYSQL_DATABASE: "be6_supernova"
       MYSQL_USER: "be6_supernova"
       MYSQL_PASSWORD: "Hv-]JRIyCw[[9O18"
