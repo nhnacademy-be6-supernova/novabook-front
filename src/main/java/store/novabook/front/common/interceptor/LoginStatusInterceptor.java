@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import store.novabook.front.common.exception.AlreadyLoginException;
 import store.novabook.front.common.exception.ErrorCode;
-import store.novabook.front.common.util.CookieUtil;
 import store.novabook.front.common.util.LoginCookieUtil;
 
 public class LoginStatusInterceptor implements HandlerInterceptor {

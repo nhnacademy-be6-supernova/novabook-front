@@ -17,7 +17,7 @@ import store.novabook.front.common.exception.ErrorCode;
 import store.novabook.front.common.exception.UnauthorizedException;
 import store.novabook.front.common.util.LoginCookieUtil;
 
-@Component
+// @Component
 @Slf4j
 @RequiredArgsConstructor
 public class LoginInterceptor implements HandlerInterceptor {
@@ -64,7 +64,6 @@ public class LoginInterceptor implements HandlerInterceptor {
 			request.setAttribute("reissuedAccessToken", getNewTokenResponse.accessToken());
 			return true;
 		}
-
 
 		IsExpireAccessTokenResponse isExpireAccessTokenResponse = memberService.isExpireAccessToken(
 			new IsExpireAccessTokenRequest(accessToken));

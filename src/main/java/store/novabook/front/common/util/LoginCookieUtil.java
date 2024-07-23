@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class LoginCookieUtil {
 
-	private static final int ACCESS_TOKEN_EXPIRE_TIME = 30;
+	private static final int ACCESS_TOKEN_EXPIRE_TIME = 60 * 60 * 3;
 
 	private LoginCookieUtil() {
 		throw new UnsupportedOperationException("Utility class should not be instantiated");
