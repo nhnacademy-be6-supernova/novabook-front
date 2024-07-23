@@ -87,7 +87,7 @@ class CookieUtilTest {
 
 	@Test
 	void deleteAuthorizationCookie() {
-		CookieUtil.deleteAuthorizationCookie(response);
+		LoginCookieUtil.deleteAuthorizationCookie(response);
 
 		ArgumentCaptor<Cookie> cookieCaptor = ArgumentCaptor.forClass(Cookie.class);
 		verify(response, times(2)).addCookie(cookieCaptor.capture());

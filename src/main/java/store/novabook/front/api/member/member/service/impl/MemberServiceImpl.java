@@ -27,6 +27,7 @@ import store.novabook.front.common.exception.ErrorCode;
 import store.novabook.front.common.exception.ForbiddenException;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.util.CookieUtil;
+import store.novabook.front.common.util.LoginCookieUtil;
 
 @Service
 @RequiredArgsConstructor
@@ -81,12 +82,7 @@ public class MemberServiceImpl implements MemberService {
 			String accessToken = authorization.replace("Bearer ", "");
 			String refreshToken = refresh.replace("Bearer ", "");
 
-			Cookie accessCookie = new Cookie("Authorization", accessToken);
-			accessCookie.setMaxAge(60 * 60 * 3);
-			accessCookie.setHttpOnly(true);
-			accessCookie.setSecure(true);
-			accessCookie.setPath("/");
-			response.addCookie(accessCookie);
+			LoginCookieUtil.createAccessTokenCookie(response, accessToken);
 
 			Cookie refreshCookie = new Cookie("Refresh", refreshToken);
 			refreshCookie.setMaxAge(60 * 60 * 72);
@@ -105,7 +101,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void logout(HttpServletResponse response) {
 		memberAuthClient.logout();
-		CookieUtil.deleteAuthorizationCookie(response);
+		LoginCookieUtil.deleteAuthorizationCookie(response);
 	}
 
 	@Override
