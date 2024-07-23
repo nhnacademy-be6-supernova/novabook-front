@@ -34,6 +34,7 @@ import store.novabook.front.common.exception.ErrorCode;
 import store.novabook.front.common.exception.ForbiddenException;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.util.CookieUtil;
+import store.novabook.front.common.util.LoginCookieUtil;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class MemberServiceImplTest {
@@ -175,7 +176,7 @@ class MemberServiceImplTest {
 		memberService.logout(response);
 
 		verify(memberAuthClient).logout();
-		CookieUtil.deleteAuthorizationCookie(response);  // Verify the method call
+		LoginCookieUtil.deleteAuthorizationCookie(response);
 	}
 
 	@Test
