@@ -88,7 +88,7 @@ public class OrderController {
 		}
 
 		// 전달받은 orderCode, orderMemberId는 가주문서와 검증용으로 사용
-		orderService.createOrder(new PaymentRequest(PaymentType.TOSS, orderMemberId, orderCode, null));
+		orderService.createOrder(new PaymentRequest(PaymentType.NOPAY, orderMemberId, orderCode, null));
 		model.addAttribute("memberDto", orderService.getSuccessView(orderCode));
 
 		return "store/order/order_success";
