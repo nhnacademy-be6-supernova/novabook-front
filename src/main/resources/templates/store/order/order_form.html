@@ -526,7 +526,7 @@
                 // 성공적으로 데이터를 받아온 경우
                 const coupons = response.data.couponResponseList;
                 const couponTableBody = document.querySelector('#couponModal tbody');
-                couponTableBody.innerHTML = ''; // 기존 데이터를 지우고 새로운 데이터를 추가합니다.
+                couponTableBody.innerHTML = '';
 
                 coupons.forEach((coupon, index) => {
                     const row = `
