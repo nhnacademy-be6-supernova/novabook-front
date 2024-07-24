@@ -1,12 +1,15 @@
 package store.novabook.front.common.util;
 
-import jakarta.servlet.http.Cookie;
+import org.springframework.http.ResponseCookie;
+
 import jakarta.servlet.http.HttpServletResponse;
 
 public class LoginCookieUtil {
 
 	private static final int ACCESS_TOKEN_EXPIRE_TIME = 60 * 60 * 3;
 	private static final int REFRESH_TOKEN_EXPIRE_TIME = 60 * 60 * 72;
+	private static final String SAME_SITE = "Strict";
+	private static final String SET_COOKIE = "Set-Cookie";
 
 	private LoginCookieUtil() {
 		throw new UnsupportedOperationException("Utility class should not be instantiated");
@@ -18,29 +21,40 @@ public class LoginCookieUtil {
 	}
 
 	public static void createAccessTokenCookie(HttpServletResponse response, String accessToken) {
-		Cookie accessTokenCookie = new Cookie("Authorization", accessToken);
-		accessTokenCookie.setPath("/");
-		accessTokenCookie.setMaxAge(ACCESS_TOKEN_EXPIRE_TIME);
-		accessTokenCookie.setHttpOnly(true);
-		accessTokenCookie.setSecure(true);
-		response.addCookie(accessTokenCookie);
+		ResponseCookie accessTokenCookie = ResponseCookie.from("Authorization", accessToken)
+			.path("/")
+			.maxAge(ACCESS_TOKEN_EXPIRE_TIME)
+			.httpOnly(true)
+			.secure(true)
+			.sameSite(SAME_SITE)
+			.build();
+		response.addHeader(SET_COOKIE, accessTokenCookie.toString());
+
 	}
 
 	public static void createRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
-		Cookie refreshTokenCookie = new Cookie("Refresh", refreshToken);
-		refreshTokenCookie.setPath("/");
-		refreshTokenCookie.setMaxAge(REFRESH_TOKEN_EXPIRE_TIME);
-		refreshTokenCookie.setHttpOnly(true);
-		refreshTokenCookie.setSecure(true);
-		response.addCookie(refreshTokenCookie);
+		ResponseCookie refreshTokenCookie = ResponseCookie.from("Refresh", refreshToken)
+			.path("/")
+			.maxAge(REFRESH_TOKEN_EXPIRE_TIME)
+			.httpOnly(true)
+			.secure(true)
+			.sameSite(SAME_SITE)
+			.build();
+
+		response.addHeader(SET_COOKIE, refreshTokenCookie.toString());
+
 	}
 
 	private static void deleteLoginCookie(HttpServletResponse response, String name) {
-		Cookie cookie = new Cookie(name, null);
-		cookie.setPath("/");
-		cookie.setHttpOnly(true);
-		cookie.setSecure(true);
-		cookie.setMaxAge(0);
-		response.addCookie(cookie);
+		ResponseCookie cookie = ResponseCookie.from(name)
+			.path("/")
+			.maxAge(0)
+			.httpOnly(true)
+			.secure(true)
+			.sameSite(SAME_SITE)
+			.build();
+
+		response.addHeader(SET_COOKIE, cookie.toString());
+
 	}
 }

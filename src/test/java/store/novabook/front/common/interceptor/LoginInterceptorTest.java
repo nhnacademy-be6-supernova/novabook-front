@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpHeaders;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -55,10 +56,11 @@ class LoginInterceptorTest {
 		boolean result = loginInterceptor.preHandle(request, response, new Object());
 
 		assertTrue(result);
-		verify(response).addCookie(argThat(cookie ->
-			"Authorization".equals(cookie.getName()) && "newAccessToken".equals(cookie.getValue())
+		verify(response).addHeader(eq(HttpHeaders.SET_COOKIE), argThat(cookieHeader ->
+			cookieHeader.startsWith("Authorization=newAccessToken")
 		));
 	}
+
 
 	@Test
 	void preHandle_WithValidAccessToken_ShouldProceed() {

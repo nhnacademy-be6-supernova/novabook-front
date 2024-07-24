@@ -7,11 +7,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
 import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
 import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
+import store.novabook.front.api.member.member.dto.request.GetMembersRoleResponse;
 import store.novabook.front.api.member.member.dto.request.GetMembersStatusResponse;
 import store.novabook.front.api.member.member.dto.request.GetPaycoMembersRequest;
 import store.novabook.front.api.member.member.dto.request.IsExpireAccessTokenRequest;
 import store.novabook.front.api.member.member.dto.request.LinkPaycoMembersUUIDRequest;
 import store.novabook.front.api.member.member.dto.request.LoginMembersRequest;
+import store.novabook.front.api.member.member.dto.response.GetMembersRoleRequest;
 import store.novabook.front.api.member.member.dto.response.GetMembersStatusRequest;
 import store.novabook.front.api.member.member.dto.response.GetPaycoMembersResponse;
 import store.novabook.front.api.member.member.dto.response.IsExpireAccessTokenResponse;
@@ -45,5 +47,8 @@ public interface MemberAuthClient {
 
 	@PostMapping("/members/status")
 	ApiResponse<GetMembersStatusResponse> status(@Valid @RequestBody GetMembersStatusRequest getMembersStatusRequest);
+
+	@PostMapping("/role")
+	ApiResponse<GetMembersRoleResponse> getRole(@Valid @RequestBody GetMembersRoleRequest getMembersRoleRequest);
 
 }
