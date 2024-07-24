@@ -19,18 +19,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import store.novabook.front.api.category.dto.response.GetCategoryIdsByBookIdResponse;
 import store.novabook.front.api.category.service.CategoryClient;
 import store.novabook.front.api.coupon.client.CouponClient;
-import store.novabook.front.api.coupon.domain.CouponStatus;
-import store.novabook.front.api.coupon.domain.CouponType;
-import store.novabook.front.api.coupon.domain.DiscountType;
-import store.novabook.front.api.coupon.dto.request.GetCouponAllRequest;
-import store.novabook.front.api.coupon.dto.response.GetCouponAllResponse;
-import store.novabook.front.api.coupon.dto.response.GetCouponResponse;
 import store.novabook.front.api.delivery.client.DeliveryFeeClient;
 import store.novabook.front.api.delivery.dto.response.GetDeliveryFeeResponse;
 import store.novabook.front.api.member.address.dto.response.GetMemberAddressListResponse;
 import store.novabook.front.api.member.address.dto.response.GetMemberAddressResponse;
 import store.novabook.front.api.member.address.service.MemberAddressClient;
-import store.novabook.front.api.member.coupon.dto.GetCouponIdsResponse;
 import store.novabook.front.api.member.coupon.service.MemberCouponClient;
 import store.novabook.front.api.member.member.service.MemberClient;
 import store.novabook.front.api.order.client.WrappingPaperClient;
@@ -39,9 +32,6 @@ import store.novabook.front.api.order.dto.response.GetWrappingPaperResponse;
 import store.novabook.front.api.order.service.OrderClient;
 import store.novabook.front.api.order.service.OrdersSagaClient;
 import store.novabook.front.api.point.dto.GetMemberPointResponse;
-import store.novabook.front.api.point.dto.request.GetPointHistoryRequest;
-import store.novabook.front.api.point.dto.response.GetPointHistoryListResponse;
-import store.novabook.front.api.point.dto.response.GetPointHistoryResponse;
 import store.novabook.front.api.point.service.PointHistoryClient;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.response.PageResponse;
@@ -144,25 +134,6 @@ class OrderServiceImplTest {
 			.updatedAt(LocalDateTime.of(2023, 10, 15, 12, 0))
 			.build();
 
-		List<Long> couponIds = List.of(1L, 2L);
-		GetCouponIdsResponse couponIdsResponse = new GetCouponIdsResponse(couponIds);
-
-		GetCouponResponse couponResponse = GetCouponResponse.builder()
-			.id(1L)
-			.type(CouponType.GENERAL)
-			.status(CouponStatus.UNUSED)
-			.name("Summer Sale")
-			.discountAmount(20)
-			.discountType(DiscountType.PERCENT)
-			.maxDiscountAmount(5000L)
-			.minPurchaseAmount(10000L)
-			.createdAt(LocalDateTime.of(2023, 6, 1, 0, 0))
-			.expirationAt(LocalDateTime.of(2023, 9, 1, 0, 0))
-			.usedAt(null)
-			.build();
-		List<GetCouponResponse> couponResponseList = List.of(couponResponse);
-		GetCouponAllResponse getCouponAllResponse = new GetCouponAllResponse(couponResponseList);
-
 		GetMemberAddressResponse getMemberAddressResponse = GetMemberAddressResponse.builder()
 			.id(1L)
 			.streetAddressesId(101L)
@@ -183,21 +154,16 @@ class OrderServiceImplTest {
 			new ApiResponse<>("SUCCESS", true, getWrappingPaperAllResponse));
 		when(deliveryFeeClient.getRecentDeliveryFee()).thenReturn(
 			new ApiResponse<>("SUCCESS", true, deliveryFeeResponse));
-		when(memberCouponClient.getMemberCoupon()).thenReturn(new ApiResponse<>("SUCCESS", true, couponIdsResponse));
-		when(couponClient.getSufficientCouponAll(any(GetCouponAllRequest.class))).thenReturn(
-			new ApiResponse<>("SUCCESS", true, getCouponAllResponse));
-		when(pointHistoryClient.getPointTotalByMemberId()).thenReturn(new ApiResponse<>("SUCCESS", true, pointResponse));
+		when(pointHistoryClient.getPointTotalByMemberId()).thenReturn(
+			new ApiResponse<>("SUCCESS", true, pointResponse));
 		when(memberAddressClient.getMemberAddressAll()).thenReturn(
 			new ApiResponse<>("SUCCESS", true, getMemberAddressListResponse));
 
 		OrderViewDTO result = orderService.getOrder(bookDTOS, memberId);
 
 		assertNotNull(result);
-		verify(categoryClient, times(2)).getCategoryByBId(anyLong());
 		verify(wrappingPaperClient, times(1)).getWrappingPaperAllList();
 		verify(deliveryFeeClient, times(1)).getRecentDeliveryFee();
-		verify(memberCouponClient, times(1)).getMemberCoupon();
-		verify(couponClient, times(1)).getSufficientCouponAll(any(GetCouponAllRequest.class));
 		verify(pointHistoryClient, times(1)).getPointTotalByMemberId();
 		verify(memberAddressClient, times(1)).getMemberAddressAll();
 	}

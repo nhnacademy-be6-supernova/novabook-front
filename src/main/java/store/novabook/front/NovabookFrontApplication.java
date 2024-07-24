@@ -13,5 +13,4 @@ public class NovabookFrontApplication {
 	public static void main(String[] args) {
 		new SpringApplicationBuilder(NovabookFrontApplication.class).properties(APPLICATION_LOCATIONS).run(args);
 	}
-
 }
