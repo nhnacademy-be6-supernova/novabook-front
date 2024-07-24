@@ -4,11 +4,9 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -22,8 +20,6 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.category.service.CategoryClient;
 import store.novabook.front.api.coupon.client.CouponClient;
-import store.novabook.front.api.coupon.dto.request.GetCouponAllRequest;
-import store.novabook.front.api.coupon.dto.response.GetCouponResponse;
 import store.novabook.front.api.delivery.client.DeliveryFeeClient;
 import store.novabook.front.api.delivery.dto.response.GetDeliveryFeeResponse;
 import store.novabook.front.api.member.address.dto.response.GetMemberAddressResponse;
@@ -51,8 +47,8 @@ import store.novabook.front.store.order.dto.UpdateOrdersAdminRequest;
 import store.novabook.front.store.order.repository.RedisOrderNonMemberRepository;
 import store.novabook.front.store.order.repository.RedisOrderRepository;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
 	private final OrderClient orderClient;
@@ -98,24 +94,14 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	@Transactional(readOnly = true)
 	public OrderViewDTO getOrder(List<BookDTO> bookDTOS, Long memberId) {
-		Set<Long> bookIds = new HashSet<>();
 		boolean isPackage = false;
 
 		for (BookDTO bookDTO : bookDTOS) {
-			bookIds.add(bookDTO.id());
 			if (bookDTO.isPackage()) {
 				isPackage = true;
+				break;
 			}
 		}
-
-		Set<Long> categoryIdList = new HashSet<>();
-		bookIds.forEach(bookId -> {
-			if (categoryClient.getCategoryByBId(bookId).getBody() == null) {
-				throw new NullPointerException("CategoryResponse body is null for bookId: " + bookId);
-			}
-			List<Long> categoryIds = categoryClient.getCategoryByBId(bookId).getBody().categoryIds();
-			categoryIdList.addAll(categoryIds);
-		});
 
 		List<GetWrappingPaperResponse> papers = wrappingPaperClient.getWrappingPaperAllList()
 			.getBody()
@@ -129,20 +115,7 @@ public class OrderServiceImpl implements OrderService {
 		}
 
 		if (memberId != null) {
-			List<Long> couponIdList = memberCouponClient.getMemberCoupon().getBody().couponIds();
-
-			GetCouponAllRequest couponRequest = GetCouponAllRequest.builder()
-				.couponIdList(couponIdList)
-				.categoryIdList(categoryIdList)
-				.bookIdList(bookIds)
-				.build();
-
-			List<GetCouponResponse> coupons = couponClient.getSufficientCouponAll(couponRequest)
-				.getBody()
-				.couponResponseList();
-
 			long myPoint = pointHistoryClient.getPointTotalByMemberId().getBody().pointAmount();
-
 
 			List<GetMemberAddressResponse> memberAddresses = memberAddressClient.getMemberAddressAll()
 				.getBody()
@@ -150,7 +123,6 @@ public class OrderServiceImpl implements OrderService {
 
 			return OrderViewDTO.builder()
 				.isPackable(isPackage)
-				.coupons(coupons)
 				.wrappingPapers(papers)
 				.memberAddresses(memberAddresses)
 				.dates(dates)
@@ -233,15 +205,10 @@ public class OrderServiceImpl implements OrderService {
 		// 비회원일때
 		MemberOrderNameReponse memberResponse;
 		if (memberClient.getMember().getBody() == null) {
-			memberResponse = MemberOrderNameReponse.builder()
-				.name("비회원")
-				.orderCode(orderCode)
-				.build();
+			memberResponse = MemberOrderNameReponse.builder().name("비회원").orderCode(orderCode).build();
 		} else {
 			GetMemberResponse memberInfo = memberClient.getMember().getBody();
-			memberResponse = MemberOrderNameReponse.builder()
-				.orderCode(orderCode)
-				.name(memberInfo.name()).build();
+			memberResponse = MemberOrderNameReponse.builder().orderCode(orderCode).name(memberInfo.name()).build();
 		}
 		return memberResponse;
 	}

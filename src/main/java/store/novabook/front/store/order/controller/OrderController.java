@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.request.async.DeferredResult;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,23 +18,29 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
+import reactor.util.context.Context;
 import store.novabook.front.api.order.dto.PaymentType;
 import store.novabook.front.api.order.dto.request.PaymentRequest;
 import store.novabook.front.api.order.dto.request.TossPaymentRequest;
 import store.novabook.front.api.order.service.OrderService;
+import store.novabook.front.api.order.service.ReactiveOrderService;
 import store.novabook.front.common.security.aop.CurrentMembers;
 import store.novabook.front.store.book.dto.BookListDTO;
+import store.novabook.front.store.order.dto.OrderViewDTO;
 
 @Slf4j
 @RequestMapping("/orders")
 @RequiredArgsConstructor
 @Controller
 public class OrderController {
+
 	private final OrderService orderService;
+	private final ReactiveOrderService reactiveOrderService;
 
 	@PostMapping("/order/form")
-	public String getOrderForm(@CurrentMembers(required = false) Long memberId, @RequestParam("order") String orderJson,
-		Model model) {
+	public DeferredResult<String> getOrderForm(@CurrentMembers(required = false) Long memberId,
+		@RequestParam("order") String orderJson, Model model) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		BookListDTO bookListDTO;
 
@@ -38,15 +48,27 @@ public class OrderController {
 			bookListDTO = objectMapper.readValue(orderJson, BookListDTO.class);
 		} catch (JsonProcessingException e) {
 			log.error("", e);
-			return "error/500";
+			DeferredResult<String> errorResult = new DeferredResult<>();
+			errorResult.setResult("error/500");
+			return errorResult;
 		}
 
-		model.addAttribute("memberId", memberId);
-		model.addAttribute("items", bookListDTO.bookDTOS());
-		model.addAttribute("orderDTO", orderService.getOrder(bookListDTO.bookDTOS(), memberId));
+		DeferredResult<String> deferredResult = new DeferredResult<>();
+		Mono<OrderViewDTO> orderViewDTOMono = reactiveOrderService.getOrder(bookListDTO.bookDTOS(), memberId);
 
-		return "store/order/order_form";
+		orderViewDTOMono.subscribe(orderViewDTO -> {
+			model.addAttribute("memberId", memberId);
+			model.addAttribute("items", bookListDTO.bookDTOS());
+			model.addAttribute("orderDTO", orderViewDTO);
+			deferredResult.setResult("store/order/order_form");
+		}, throwable -> {
+			log.error("Error occurred while processing get OrderForm", throwable);
+			deferredResult.setResult("error/500");
+		});
+
+		return deferredResult;
 	}
+
 
 	/**
 	 * 실제 트랜잭션을 시작하기 위한 로직
@@ -57,12 +79,10 @@ public class OrderController {
 	 * @return 주문 성공페이지 이동, 주문번호, 이름 전달
 	 */
 	@GetMapping("/order/toss/success")
-	public String getTossOrderSuccessPage(
-		@CurrentMembers(required = false) Long memberId,
+	public String getTossOrderSuccessPage(@CurrentMembers(required = false) Long memberId,
 		@Valid @ModelAttribute TossPaymentRequest tossPaymentRequest,
 		@RequestParam(value = "memberId", required = false) Long orderMemberId,
-		@RequestParam("orderId") String orderCode,
-		Model model) {
+		@RequestParam("orderId") String orderCode, Model model) {
 
 		if (orderService.isInvalidAccess(memberId, orderCode, orderMemberId)) {
 			throw new IllegalArgumentException("부적절한 접근입니다.");
