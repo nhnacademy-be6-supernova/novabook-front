@@ -246,6 +246,7 @@ public class OrderServiceImpl implements OrderService {
 		GetOrdersResponse ordersResponse = orderClient.getOrders(orderId).getBody();
 
 		RequestPayCancelMessage message = RequestPayCancelMessage.builder()
+			.totalAmount(ordersResponse.totalAmount())
 			.orderCode(ordersResponse.code())
 			.couponId(ordersResponse.couponId())
 			.earnPointAmount(ordersResponse.pointSaveAmount())
