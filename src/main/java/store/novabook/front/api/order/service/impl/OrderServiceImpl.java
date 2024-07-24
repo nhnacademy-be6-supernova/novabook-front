@@ -15,6 +15,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import store.novabook.front.api.category.service.CategoryClient;
 import store.novabook.front.api.coupon.client.CouponClient;
@@ -34,8 +38,6 @@ import store.novabook.front.api.order.dto.response.GetWrappingPaperResponse;
 import store.novabook.front.api.order.service.OrderClient;
 import store.novabook.front.api.order.service.OrderService;
 import store.novabook.front.api.order.service.OrdersSagaClient;
-import store.novabook.front.api.point.dto.request.GetPointHistoryRequest;
-import store.novabook.front.api.point.dto.response.GetPointHistoryResponse;
 import store.novabook.front.api.point.service.PointHistoryClient;
 import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.store.book.dto.BookDTO;
@@ -69,6 +71,21 @@ public class OrderServiceImpl implements OrderService {
 	private final RedisOrderNonMemberRepository redisOrderNonMemberRepository;
 	private final RedisOrderRepository redisOrderRepository;
 	private final RedisTemplate<String, String> redisTemplate;
+
+	private final MeterRegistry meterRegistry;
+
+	// 매트릭 정의
+	private Counter orderCounter;
+	private Timer orderProcessingTimer;
+	private Counter orderFailureCounter;
+
+	// 생성자에서 메트릭을 초기화합니다.
+	@PostConstruct
+	public void initMetrics() {
+		this.orderCounter = meterRegistry.counter("orders_total_count");
+		this.orderProcessingTimer = meterRegistry.timer("order_processing_time");
+		this.orderFailureCounter = meterRegistry.counter("orders_failure_count");
+	}
 
 	/**
 	 * 주문 페이지 정보를 가져오는 로직
@@ -162,8 +179,27 @@ public class OrderServiceImpl implements OrderService {
 		boolean lockAcquired = Boolean.TRUE.equals(
 			redisTemplate.opsForValue().setIfAbsent(lockKey, "lock", Duration.ofMinutes(60)));
 
-		if (lockAcquired) {
-			ordersSagaClient.createOrders(request);
+		// if (lockAcquired) {
+		// 	ordersSagaClient.createOrders(request);
+		// }
+		Timer.Sample sample = Timer.start(meterRegistry); // 타이머 시작
+
+		try {
+			if (lockAcquired) {
+				// 주문 생성 성공 카운터 증가
+				orderCounter.increment();
+				ordersSagaClient.createOrders(request);
+			} else {
+				// 주문 생성 실패 카운터 증가
+				orderFailureCounter.increment();
+			}
+		} catch (Exception e) {
+			// 주문 생성 실패 카운터 증가
+			orderFailureCounter.increment();
+			throw e; // 예외를 다시 던져서 트랜잭션을 롤백하도록 함
+		} finally {
+			// 처리 시간 기록
+			sample.stop(orderProcessingTimer);
 		}
 	}
 
@@ -216,6 +252,7 @@ public class OrderServiceImpl implements OrderService {
 		GetOrdersResponse ordersResponse = orderClient.getOrders(orderId).getBody();
 
 		RequestPayCancelMessage message = RequestPayCancelMessage.builder()
+			.totalAmount(ordersResponse.totalAmount())
 			.orderCode(ordersResponse.code())
 			.couponId(ordersResponse.couponId())
 			.earnPointAmount(ordersResponse.pointSaveAmount())

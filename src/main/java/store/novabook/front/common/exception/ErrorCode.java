@@ -25,6 +25,7 @@ public enum ErrorCode {
 
 	SEE_OTHER("SEE OTHER"),
 	// 400
+	INVALID_ERROR("입력하신 정보가 올바르지 않습니다. 다시 시도해주세요"),
 	INVALID_REQUEST_ARGUMENT("잘못된 요청입니다."),
 	INVALID_ARGUMENT_TYPE("유효하지 않은 타입입니다."),
 	LIMITED_ADDRESS_OVER("주소는 10개까지만 등록 가능합니다."),
@@ -100,7 +101,8 @@ public enum ErrorCode {
 
 	DECODING_ERROR("요청을 처리하는 중 문제가 발생했습니다. "),
 
-	IMAGE_FILE_SAVE_FAIL("이미지를 저장하는 데 실패했습니다.");
+	IMAGE_FILE_SAVE_FAIL("이미지를 저장하는 데 실패했습니다."),
+	SENDING_EMAIL_ERROR("이메일 전송 중에 오류가 발생했습니다.");
 
 	private final String message;
 
