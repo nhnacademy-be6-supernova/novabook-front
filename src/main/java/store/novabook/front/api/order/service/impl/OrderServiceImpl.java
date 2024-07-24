@@ -12,6 +12,7 @@ import java.util.Set;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.micrometer.core.instrument.Counter;
@@ -49,6 +50,7 @@ import store.novabook.front.store.order.dto.UpdateOrdersAdminRequest;
 import store.novabook.front.store.order.repository.RedisOrderNonMemberRepository;
 import store.novabook.front.store.order.repository.RedisOrderRepository;
 
+@Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
