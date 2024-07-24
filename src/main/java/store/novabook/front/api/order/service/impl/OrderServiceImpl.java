@@ -12,7 +12,6 @@ import java.util.Set;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
@@ -34,8 +33,6 @@ import store.novabook.front.api.order.dto.response.GetWrappingPaperResponse;
 import store.novabook.front.api.order.service.OrderClient;
 import store.novabook.front.api.order.service.OrderService;
 import store.novabook.front.api.order.service.OrdersSagaClient;
-import store.novabook.front.api.point.dto.request.GetPointHistoryRequest;
-import store.novabook.front.api.point.dto.response.GetPointHistoryResponse;
 import store.novabook.front.api.point.service.PointHistoryClient;
 import store.novabook.front.common.response.PageResponse;
 import store.novabook.front.store.book.dto.BookDTO;
@@ -49,7 +46,6 @@ import store.novabook.front.store.order.repository.RedisOrderNonMemberRepository
 import store.novabook.front.store.order.repository.RedisOrderRepository;
 
 @RequiredArgsConstructor
-@Service
 public class OrderServiceImpl implements OrderService {
 
 	private final OrderClient orderClient;
@@ -125,7 +121,6 @@ public class OrderServiceImpl implements OrderService {
 
 			long myPoint = pointHistoryClient.getPointTotalByMemberId().getBody().pointAmount();
 
-
 			List<GetMemberAddressResponse> memberAddresses = memberAddressClient.getMemberAddressAll()
 				.getBody()
 				.memberAddresses();
@@ -196,15 +191,10 @@ public class OrderServiceImpl implements OrderService {
 		// 비회원일때
 		MemberOrderNameReponse memberResponse;
 		if (memberClient.getMember().getBody() == null) {
-			memberResponse = MemberOrderNameReponse.builder()
-				.name("비회원")
-				.orderCode(orderCode)
-				.build();
+			memberResponse = MemberOrderNameReponse.builder().name("비회원").orderCode(orderCode).build();
 		} else {
 			GetMemberResponse memberInfo = memberClient.getMember().getBody();
-			memberResponse = MemberOrderNameReponse.builder()
-				.orderCode(orderCode)
-				.name(memberInfo.name()).build();
+			memberResponse = MemberOrderNameReponse.builder().orderCode(orderCode).name(memberInfo.name()).build();
 		}
 		return memberResponse;
 	}
