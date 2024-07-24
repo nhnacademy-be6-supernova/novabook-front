@@ -33,7 +33,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 	private boolean isLoggedIn(HttpServletRequest request, HttpServletResponse response) {
 		Cookie[] cookies = request.getCookies();
 		if (cookies == null) {
-			return true;
+			return false;
 		}
 
 		String refreshToken = "";
