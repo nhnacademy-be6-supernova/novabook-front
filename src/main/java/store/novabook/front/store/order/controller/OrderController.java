@@ -75,6 +75,25 @@ public class OrderController {
 		return "store/order/order_success";
 	}
 
+
+	@GetMapping("/order/nopay/success")
+	public String getNoPayOrderSuccessPage(
+		@CurrentMembers(required = false) Long memberId,
+		@RequestParam(value = "memberId", required = false) Long orderMemberId,
+		@RequestParam("orderId") String orderCode,
+		Model model) {
+
+		if (orderService.isInvalidAccess(memberId, orderCode, orderMemberId)) {
+			throw new IllegalArgumentException("부적절한 접근입니다.");
+		}
+
+		// 전달받은 orderCode, orderMemberId는 가주문서와 검증용으로 사용
+		orderService.createOrder(new PaymentRequest(PaymentType.NOPAY, orderMemberId, orderCode, null));
+		model.addAttribute("memberDto", orderService.getSuccessView(orderCode));
+
+		return "store/order/order_success";
+	}
+
 	/**
 	 * 토스 결제 실패 시 fail url 리다이렉션
 	 *

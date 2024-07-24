@@ -170,13 +170,14 @@ function isValidPhoneNumber(phone) {
 
 // 결제 정보 업데이트
 function updateFinalAmount() {
-    const totalAmount = parseInt($('#totalAmount').text().replace('원', '').replace(',', ''), 10);
-    const additionalAmount = parseInt($('#additionalAmount').text().replace('원', '').replace(',', ''), 10);
-    const discountAmount = parseInt($('#discountAmount').text().replace('원', '').replace(',', ''), 10);
-    const pointsUsed = parseInt($('#pointsUsed').text().replace('원', '').replace(',', ''), 10);
-    const shippingFee = parseInt($('#shippingFee').text().replace('원', '').replace(',', ''), 10);
+    const totalAmount = parseInt($('#totalAmount').text().replace('원', '').replace(',', ''), 0);
+    const additionalAmount = parseInt($('#additionalAmount').text().replace('원', '').replace(',', ''), 0);
+    const discountAmount = parseInt($('#discountAmount').text().replace('원', '').replace(',', ''), 0);
+    const pointsUsed = parseInt($('#pointsUsed').text().replace('원', '').replace(',', ''), 0);
+    const shippingFee = parseInt($('#shippingFee').text().replace('원', '').replace(',', ''), 0);
     const finalAmount = totalAmount + additionalAmount - discountAmount - pointsUsed + shippingFee;
     $('#finalAmount').text(finalAmount.toLocaleString() + "원");
+    checkFinalAmount();
 }
 
 function selectDeliveryDate(element) {
@@ -190,7 +191,7 @@ let globalItemSize;
 let globalFirstItemName;
 var selectedDate;
 
-function processPayment() {
+function processPayment(isPayment) {
     var items = [];
     var itemsNames = [];
 
@@ -302,15 +303,16 @@ function processPayment() {
         };
 
         console.log(JSON.stringify(formData));
-        sendOrderData(formData);
+        sendOrderData(formData, isPayment);
 
     } catch (error) {
         console.error(error.message);
     }
 }
 
-function sendOrderData(formData) {
+function sendOrderData(formData, isPayment) {
     const xhr = new XMLHttpRequest();
+    var memberID = $('#login_member_id').val();
     const url = '/orders/order/form/submit';
 
     xhr.open('POST', url, true);
@@ -320,7 +322,11 @@ function sendOrderData(formData) {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 201 || xhr.status === 200) {
                 const responseCode = xhr.responseText;
-                requestPayment(responseCode);
+                if(isPayment) {
+                    requestPayment(responseCode);
+                } else {
+                    window.location.href = '/orders/order/nopay/success?memberId=' + memberID + '&amount=0' + '&orderId=' + responseCode;
+                }
             } else {
                 console.log(xhr.status);
                 console.error('주문 정보 전송 중 오류가 발생했습니다.');
@@ -362,3 +368,34 @@ async function requestPayment(orderCode) {
         // failUrl: 'http://localhost:8080/orders/order/toss/fail',
     });
 }
+
+
+function checkFinalAmount() {
+    var finalAmount = document.getElementById('finalAmount').innerText;
+    var paymentButton = document.getElementById('showButton'); // 이 부분은 보이게 하려는 버튼의 ID로 수정하세요
+
+    var creditButton = document.getElementById('credit_button');
+    var naverPayButton = document.getElementById('naver_pay');
+    var paycoPayButton = document.getElementById('payco_pay');
+    var tossPayButton = document.getElementById('toss_button');
+
+    // 금액에서 '원'을 제거하고 숫자로 변환
+    var amount = parseInt(finalAmount.replace('원', '').replace(',', ''));
+
+    if (amount === 0) {
+        paymentButton.style.display = 'block';
+
+        creditButton.style.display = 'none';
+        naverPayButton.style.display = 'none';
+        paycoPayButton.style.display = 'none';
+        tossPayButton.style.display = 'none';
+    } else {
+        paymentButton.style.display = 'none';
+
+        creditButton.style.display = '';
+        naverPayButton.style.display = '';
+        paycoPayButton.style.display = '';
+        tossPayButton.style.display = '';
+    }
+}
+
