@@ -33,6 +33,7 @@ import store.novabook.front.api.member.member.dto.response.GetMemberResponse;
 import store.novabook.front.api.member.member.dto.response.MemberOrderNameReponse;
 import store.novabook.front.api.member.member.service.MemberClient;
 import store.novabook.front.api.order.client.WrappingPaperClient;
+import store.novabook.front.api.order.dto.PaymentType;
 import store.novabook.front.api.order.dto.request.PaymentRequest;
 import store.novabook.front.api.order.dto.response.GetWrappingPaperResponse;
 import store.novabook.front.api.order.service.OrderClient;
@@ -252,6 +253,7 @@ public class OrderServiceImpl implements OrderService {
 		GetOrdersResponse ordersResponse = orderClient.getOrders(orderId).getBody();
 
 		RequestPayCancelMessage message = RequestPayCancelMessage.builder()
+			.paymentType(PaymentType.TOSS) //임시
 			.totalAmount(ordersResponse.totalAmount())
 			.orderCode(ordersResponse.code())
 			.couponId(ordersResponse.couponId())
