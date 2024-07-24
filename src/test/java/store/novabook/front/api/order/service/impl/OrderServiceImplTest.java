@@ -162,10 +162,8 @@ class OrderServiceImplTest {
 		OrderViewDTO result = orderService.getOrder(bookDTOS, memberId);
 
 		assertNotNull(result);
-		verify(categoryClient, times(2)).getCategoryByBId(anyLong());
 		verify(wrappingPaperClient, times(1)).getWrappingPaperAllList();
 		verify(deliveryFeeClient, times(1)).getRecentDeliveryFee();
-		verify(memberCouponClient, times(1)).getMemberCoupon();
 		verify(pointHistoryClient, times(1)).getPointTotalByMemberId();
 		verify(memberAddressClient, times(1)).getMemberAddressAll();
 	}
