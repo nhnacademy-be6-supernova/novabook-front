@@ -17,7 +17,7 @@ public interface BookService {
 
 	void updateBook(UpdateBookRequest updateBookRequest);
 
-	PageResponse<GetBookSearchResponse> getBookSearchAllPage(String keyword, int page, int size, String sort, String sortOrder);
+	PageResponse<GetBookSearchResponse> getBookSearchAllPage(String keyword, int page, int size, String sort);
 
 	PageResponse<GetBookSearchResponse> getBookSearchCategory(String category, int page, int size, String sort);
 
