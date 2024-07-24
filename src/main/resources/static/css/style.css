@@ -1100,3 +1100,24 @@ ul.product-info-btn li:first-child a {
 ul.product-info-btn li:last-child a {
     border: none;
 }
+.cart {
+    position: relative;
+    display: inline-block;
+}
+
+.cart-icon {
+    position: relative;
+}
+
+#cart-count {
+    position: absolute;
+    bottom: 0; /* 아이콘의 아래쪽 꼭짓점에 위치 */
+    right: 0; /* 아이콘의 오른쪽 꼭짓점에 위치 */
+    transform: translate(50%, 50%); /* 배지 위치 조정 */
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px; /* 배지의 크기 조절 */
+    font-size: 12px; /* 배지 내 텍스트 크기 조절 */
+    white-space: nowrap; /* 텍스트가 줄 바꿈되지 않도록 설정 */
+}

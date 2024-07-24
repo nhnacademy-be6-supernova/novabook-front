@@ -14,7 +14,7 @@ public record GetBookSearchResponse(
 	String image,
 	Long price,
 	Long discountPrice,
-	Integer score,
+	Double score,
 	Boolean isPackaged
 ) {
 }
