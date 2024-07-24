@@ -35,6 +35,7 @@ import store.novabook.front.common.exception.PaycoApiException;
 import store.novabook.front.common.exception.UnauthorizedException;
 import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.util.KeyManagerUtil;
+import store.novabook.front.common.util.LoginCookieUtil;
 import store.novabook.front.common.util.dto.Oauth2Dto;
 
 @Controller
@@ -177,19 +178,8 @@ public class PaycoOAuth2Controller implements InitializingBean {
 			String accessToken = authorization.replace("Bearer ", "");
 			String refreshToken = refresh.replace("Bearer ", "");
 
-			Cookie accessCookie = new Cookie("Authorization", accessToken);
-			accessCookie.setMaxAge(60 * 60 * 3);
-			accessCookie.setPath("/");
-			accessCookie.setSecure(true);
-			accessCookie.setHttpOnly(true);
-			response.addCookie(accessCookie);
-
-			Cookie refreshCookie = new Cookie("Refresh", refreshToken);
-			refreshCookie.setMaxAge(60 * 60 * 72);
-			refreshCookie.setSecure(true);
-			refreshCookie.setHttpOnly(true);
-			refreshCookie.setPath("/");
-			response.addCookie(refreshCookie);
+			LoginCookieUtil.createAccessTokenCookie(response, accessToken);
+			LoginCookieUtil.createRefreshTokenCookie(response, refreshToken);
 
 		} else {
 			return REDRIRECT_LOGIN;

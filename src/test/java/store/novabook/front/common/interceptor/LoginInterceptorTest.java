@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpHeaders;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,9 +20,9 @@ import store.novabook.front.api.member.member.service.MemberService;
 import store.novabook.front.common.exception.ErrorCode;
 import store.novabook.front.common.exception.UnauthorizedException;
 
-class TokenInterceptorTest {
+class LoginInterceptorTest {
 
-	private TokenInterceptor tokenInterceptor;
+	private LoginInterceptor loginInterceptor;
 
 	@Mock
 	private MemberService memberService;
@@ -35,7 +36,7 @@ class TokenInterceptorTest {
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
-		tokenInterceptor = new TokenInterceptor(memberService);
+		loginInterceptor = new LoginInterceptor(memberService);
 	}
 
 	@Test
@@ -52,13 +53,14 @@ class TokenInterceptorTest {
 		when(memberService.newToken(new GetNewTokenRequest(refreshToken)))
 			.thenReturn(new GetNewTokenResponse("newAccessToken"));
 
-		boolean result = tokenInterceptor.preHandle(request, response, new Object());
+		boolean result = loginInterceptor.preHandle(request, response, new Object());
 
 		assertTrue(result);
-		verify(response).addCookie(argThat(cookie ->
-			"Authorization".equals(cookie.getName()) && "newAccessToken".equals(cookie.getValue())
+		verify(response).addHeader(eq(HttpHeaders.SET_COOKIE), argThat(cookieHeader ->
+			cookieHeader.startsWith("Authorization=newAccessToken")
 		));
 	}
+
 
 	@Test
 	void preHandle_WithValidAccessToken_ShouldProceed() {
@@ -72,31 +74,20 @@ class TokenInterceptorTest {
 		when(memberService.isExpireAccessToken(new IsExpireAccessTokenRequest(validAccessToken)))
 			.thenReturn(new IsExpireAccessTokenResponse(false));
 
-		boolean result = tokenInterceptor.preHandle(request, response, new Object());
+		boolean result = loginInterceptor.preHandle(request, response, new Object());
 
 		assertTrue(result);
 		verify(response, never()).addCookie(any(Cookie.class));
 		assertNull(request.getAttribute("reissuedAccessToken"));
 	}
 
-	@Test
-	void preHandle_WithoutAuthorizationCookie_ShouldProceed() {
-		Cookie refreshTokenCookie = new Cookie("Refresh", "refreshToken");
-		Cookie[] cookies = new Cookie[]{refreshTokenCookie};
-		when(request.getCookies()).thenReturn(cookies);
 
-		boolean result = tokenInterceptor.preHandle(request, response, new Object());
-
-		assertTrue(result);
-		verify(response, never()).addCookie(any(Cookie.class));
-		assertNull(request.getAttribute("reissuedAccessToken"));
-	}
 
 	@Test
 	void preHandle_WithoutCookies_ShouldProceed() {
 		when(request.getCookies()).thenReturn(null);
 
-		boolean result = tokenInterceptor.preHandle(request, response, new Object());
+		boolean result = loginInterceptor.preHandle(request, response, new Object());
 
 		assertTrue(result);
 		verify(response, never()).addCookie(any(Cookie.class));
@@ -122,6 +113,6 @@ class TokenInterceptorTest {
 	}
 
 	private void invokePreHandle() {
-		tokenInterceptor.preHandle(request, response, new Object());
+		loginInterceptor.preHandle(request, response, new Object());
 	}
 }

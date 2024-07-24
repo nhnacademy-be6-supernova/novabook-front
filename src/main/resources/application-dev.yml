@@ -1,3 +1,13 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus,health,info
+  endpoint:
+    prometheus:
+      enabled: true
+
+
 nhn:
   cloud:
     keyManager:
@@ -13,6 +23,7 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+    io.micrometer: debug
 
   #로그 크러쉬 정보
   logstash:
@@ -25,4 +36,3 @@ logging:
     logSource: http
     logType: log
     secretKey: JsGDL5oTWPImKY8nag9igsUAdnUOvLMI
-

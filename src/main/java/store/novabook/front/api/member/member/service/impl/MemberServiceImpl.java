@@ -10,6 +10,7 @@ import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
 import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
 import store.novabook.front.api.member.member.dto.request.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.request.DeleteMemberRequest;
+import store.novabook.front.api.member.member.dto.request.GetMembersRoleResponse;
 import store.novabook.front.api.member.member.dto.request.GetMembersStatusResponse;
 import store.novabook.front.api.member.member.dto.request.IsExpireAccessTokenRequest;
 import store.novabook.front.api.member.member.dto.request.LoginMembersRequest;
@@ -17,6 +18,7 @@ import store.novabook.front.api.member.member.dto.request.UpdateMemberPasswordRe
 import store.novabook.front.api.member.member.dto.request.UpdateMemberRequest;
 import store.novabook.front.api.member.member.dto.response.CreateMemberResponse;
 import store.novabook.front.api.member.member.dto.response.GetMemberResponse;
+import store.novabook.front.api.member.member.dto.response.GetMembersRoleRequest;
 import store.novabook.front.api.member.member.dto.response.GetMembersStatusRequest;
 import store.novabook.front.api.member.member.dto.response.IsExpireAccessTokenResponse;
 import store.novabook.front.api.member.member.dto.response.LoginMembersResponse;
@@ -26,7 +28,7 @@ import store.novabook.front.api.member.member.service.MemberService;
 import store.novabook.front.common.exception.ErrorCode;
 import store.novabook.front.common.exception.ForbiddenException;
 import store.novabook.front.common.response.ApiResponse;
-import store.novabook.front.common.util.CookieUtil;
+import store.novabook.front.common.util.LoginCookieUtil;
 
 @Service
 @RequiredArgsConstructor
@@ -81,22 +83,18 @@ public class MemberServiceImpl implements MemberService {
 			String accessToken = authorization.replace("Bearer ", "");
 			String refreshToken = refresh.replace("Bearer ", "");
 
-			Cookie accessCookie = new Cookie("Authorization", accessToken);
-			accessCookie.setMaxAge(60 * 60 * 3);
-			accessCookie.setHttpOnly(true);
-			accessCookie.setSecure(true);
-			accessCookie.setPath("/");
-			response.addCookie(accessCookie);
-
-			Cookie refreshCookie = new Cookie("Refresh", refreshToken);
-			refreshCookie.setMaxAge(60 * 60 * 72);
-			refreshCookie.setSecure(true);
-			refreshCookie.setHttpOnly(true);
-			refreshCookie.setPath("/");
-			response.addCookie(refreshCookie);
+			LoginCookieUtil.createAccessTokenCookie(response, accessToken);
+			LoginCookieUtil.createRefreshTokenCookie(response, refreshToken);
 
 		} else {
 			throw new ForbiddenException(ErrorCode.FORBIDDEN);
+		}
+
+		ApiResponse<GetMembersRoleResponse> role = memberAuthClient.getRole(new GetMembersRoleRequest(
+			loginMembersResponse.getBody().accessToken()));
+
+		if (role.getBody().role().equals("ROLE_ADMIN")) {
+			return "redirect:/admin";
 		}
 
 		return "redirect:/";
@@ -105,7 +103,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void logout(HttpServletResponse response) {
 		memberAuthClient.logout();
-		CookieUtil.deleteAuthorizationCookie(response);
+		LoginCookieUtil.deleteAuthorizationCookie(response);
 	}
 
 	@Override

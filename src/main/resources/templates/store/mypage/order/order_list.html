@@ -50,14 +50,38 @@
                                 </td>
                                 <td th:text="${order.totalAmount}">10,000원</td>
                                 <td th:text="${order.orderStatus}">배송 중</td>
-                                <td><a th:href="@{'/mypage/orders/detail/' + ${order.ordersId}}"
-                                       th:text="#{button.details}">상세보기</a></td>
+                                <td><a th:href="@{'/mypage/orders/detail/' + ${order.ordersId}}" th:text="#{button.details}">상세보기</a></td>
                             </tr>
                             </tbody>
                         </table>
                         <a href="/mypage" class="btn btn-primary" th:text="#{button.back}">돌아가기</a>
                     </div>
                 </div>
+
+                <!-- 페이지네이션 섹션 -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pagination">
+                            <!-- Previous button -->
+                            <li class="page-item" th:classappend="${orders.pageNum == 0} ? 'disabled'">
+                                <a th:if="${orders.pageNum > 0}" th:href="@{/mypage/orders(page=${orders.pageNum - 1})}">Previous</a>
+                                <span th:if="${orders.pageNum == 0}">Previous</span>
+                            </li>
+
+                            <!-- Page numbers -->
+                            <li class="page-item" th:if="${orders.totalPageCount > 0}" th:each="i : ${#numbers.sequence(0, orders.totalPageCount - 1)}">
+                                <a th:href="@{/mypage/orders(page=${i})}" th:text="${i + 1}+'&nbsp;'" th:classappend="${i == orders.pageNum} ? 'active' : ''"></a>
+                            </li>
+
+                            <!-- Next button -->
+                            <li class="page-item" th:classappend="${orders.pageNum >= orders.totalPageCount - 1} ? 'disabled'">
+                                <a th:if="${orders.pageNum < orders.totalPageCount - 1}" th:href="@{/mypage/orders(page=${orders.pageNum + 1})}">Next</a>
+                                <span th:if="${orders.pageNum >= orders.totalPageCount - 1}">Next</span>
+                            </li>
+                        </div>
+                    </div>
+                </div>
+                <!-- 페이지네이션 섹션 끝 -->
             </div>
         </div>
     </div>

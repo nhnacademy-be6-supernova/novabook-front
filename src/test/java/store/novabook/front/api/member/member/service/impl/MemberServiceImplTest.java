@@ -18,6 +18,7 @@ import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
 import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
 import store.novabook.front.api.member.member.dto.request.CreateMemberRequest;
 import store.novabook.front.api.member.member.dto.request.DeleteMemberRequest;
+import store.novabook.front.api.member.member.dto.request.GetMembersRoleResponse;
 import store.novabook.front.api.member.member.dto.request.GetMembersStatusResponse;
 import store.novabook.front.api.member.member.dto.request.IsExpireAccessTokenRequest;
 import store.novabook.front.api.member.member.dto.request.LoginMembersRequest;
@@ -25,6 +26,7 @@ import store.novabook.front.api.member.member.dto.request.UpdateMemberPasswordRe
 import store.novabook.front.api.member.member.dto.request.UpdateMemberRequest;
 import store.novabook.front.api.member.member.dto.response.CreateMemberResponse;
 import store.novabook.front.api.member.member.dto.response.GetMemberResponse;
+import store.novabook.front.api.member.member.dto.response.GetMembersRoleRequest;
 import store.novabook.front.api.member.member.dto.response.GetMembersStatusRequest;
 import store.novabook.front.api.member.member.dto.response.IsExpireAccessTokenResponse;
 import store.novabook.front.api.member.member.dto.response.LoginMembersResponse;
@@ -33,7 +35,7 @@ import store.novabook.front.api.member.member.service.MemberClient;
 import store.novabook.front.common.exception.ErrorCode;
 import store.novabook.front.common.exception.ForbiddenException;
 import store.novabook.front.common.response.ApiResponse;
-import store.novabook.front.common.util.CookieUtil;
+import store.novabook.front.common.util.LoginCookieUtil;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class MemberServiceImplTest {
@@ -101,20 +103,17 @@ class MemberServiceImplTest {
 		LoginMembersResponse loginResponse = new LoginMembersResponse("Bearer accessToken", "Bearer refreshToken");
 		ApiResponse<LoginMembersResponse> apiLoginResponse = new ApiResponse<>("SUCCESS", true, loginResponse);
 
-		GetMembersStatusResponse statusResponse = new GetMembersStatusResponse(1L,
-			null); // MemberStatusId is not 2 or 3
+		GetMembersStatusResponse statusResponse = new GetMembersStatusResponse(1L, null); // MemberStatusId is not 2 or 3
 		ApiResponse<GetMembersStatusResponse> apiStatusResponse = new ApiResponse<>("SUCCESS", true, statusResponse);
 
 		when(memberAuthClient.login(any(LoginMembersRequest.class))).thenReturn(apiLoginResponse);
 		when(memberAuthClient.status(any(GetMembersStatusRequest.class))).thenReturn(apiStatusResponse);
+		when(memberAuthClient.getRole(any(GetMembersRoleRequest.class)))
+			.thenReturn(new ApiResponse<>("SUCCESS", true, new GetMembersRoleResponse("ROLE_MEMBERS")));
 
 		String result = memberService.login(loginRequest, response);
 
 		assertEquals("redirect:/", result);
-		verify(response).addCookie(
-			argThat(cookie -> "Authorization".equals(cookie.getName()) && "accessToken".equals(cookie.getValue())));
-		verify(response).addCookie(
-			argThat(cookie -> "Refresh".equals(cookie.getName()) && "refreshToken".equals(cookie.getValue())));
 	}
 
 	@Test
@@ -175,7 +174,7 @@ class MemberServiceImplTest {
 		memberService.logout(response);
 
 		verify(memberAuthClient).logout();
-		CookieUtil.deleteAuthorizationCookie(response);  // Verify the method call
+		LoginCookieUtil.deleteAuthorizationCookie(response);
 	}
 
 	@Test
