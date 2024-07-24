@@ -97,7 +97,7 @@ public class WebClientService {
 		String url = GATEWAY_SERVICE + "api/v1/coupon/coupons/sufficient";
 		return webClient.post()
 			.uri(url)
-			.body(Mono.just(couponRequest), GetCouponAllRequest.class)
+			.bodyValue(couponRequest)
 			.retrieve()
 			.bodyToMono(new ParameterizedTypeReference<ApiResponse<GetCouponAllResponse>>() {
 			});

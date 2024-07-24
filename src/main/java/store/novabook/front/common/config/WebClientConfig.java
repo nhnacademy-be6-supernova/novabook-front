@@ -19,14 +19,14 @@ public class WebClientConfig {
 
 	@Bean
 	public WebClient webClient(WebClient.Builder builder) {
-		return builder.filter(new WebClientInterceptor(request))
-			.filter((clientRequest, next) -> Mono.deferContextual(context -> {
-				RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-				if (requestAttributes != null) {
-					RequestContextHolder.setRequestAttributes(requestAttributes);
+		return builder.filter(new WebClientInterceptor(request)).filter((clientRequest, next) ->
+			Mono.deferContextual(context -> {
+				RequestAttributes attributes = context.getOrDefault(RequestAttributes.class, null);
+				if (attributes != null) {
+					RequestContextHolder.setRequestAttributes(attributes);
 				}
 				return next.exchange(clientRequest);
-			}))
-			.build();
+			})
+		).build();
 	}
 }
