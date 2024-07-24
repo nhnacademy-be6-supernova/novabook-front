@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>About - NovaBook📕</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Raleway:400,300,500,700,600'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css"
+          type="text/css">
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <style>
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .layout {
+            margin: auto;
+            padding-top: 50px;
+            max-width: 800px;
+        }
+
+        .card {
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .team-section {
+            padding: 50px 0;
+            background-color: #f9f9f9;
+        }
+
+        .team-section h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2em;
+        }
+
+        .team-member {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .team-member h3 {
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+
+        .team-member p {
+            font-size: 1em;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{layout/store/nav::nav}"></div>
+
+<div class="layout container team-section">
+    <div class="card contact-section">
+        <h2>팀원 소개</h2>
+        <div class="row">
+            <div class="col-md-4 team-member">
+                <img src="https://images.mypetlife.co.kr/content/uploads/2023/11/17133418/61fbb115-3845-4427-b72d-76c5e650cd3c.jpeg" alt="강하경">
+                <h3>강하경</h3>
+                <p>회원</p>
+                <p>회원 관리 업무를 담당하고 있습니다. 회원 가입, 로그인, 정보 수정, 탈퇴 등 회원 관련 모든 작업을 효율적으로 관리합니다. 회원의 데이터와 개인정보 보호를 최우선으로 하여, 원활하고 안전한 회원 관리 시스템을 운영하고 있습니다.</p>
+            </div>
+            <div class="col-md-4 team-member">
+                <img src="https://blog.kakaocdn.net/dn/lpqPE/btq66UzDUSO/DLk2KJ7R5EK1mlzr38Ksi1/img.png" alt="김문영">
+                <h3>김문영</h3>
+                <p>백엔드 개발자</p>
+                <p>도서 관리 업무를 담당하고 있습니다. 인터넷 서점에서 도서 등록, 수정, 삭제 등의 작업을 효율적으로 처리합니다. 도서 정보를 정확하게 관리하고 업데이트하여, 고객들에게 최신의 책 정보를 제공하며, 서점의 원활한 운영을 지원하고 있습니다.</p>
+            </div>
+            <div class="col-md-4 team-member">
+                <img src="https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F9965A2505A2E6DD01C" alt="김현광">
+                <h3>김현광</h3>
+                <p>인증/인가</p>
+                <p>인증 및 인가를 담당하고 있습니다. 사용자 인증 시스템을 설계하고 구현하여, 안전하고 신뢰성 있는 접근 제어를 보장합니다. 전문 지식은 시스템의 보안을 강화하고 사용자 경험을 향상시키는 데 기여하고 있습니다.</p>
+            </div>
+            <div class="col-md-4 team-member">
+                <img src="https://i.namu.wiki/i/W3okFhzvW2FPWbkh6UtH2ooLcXpA7wEmT11ab1ULSBIHpS5Ri0s4gcYIiIfVbkU32swWj5N0l5AC16N6vK4vbw.webp" alt="이세희">
+                <h3>이세희</h3>
+                <p>주문 결제</p>
+                <p>주문 및 결제를 담당하고 있습니다. 고객의 주문 프로세스와 결제 시스템을 관리하며, 효율적이고 안전한 거래가 이루어지도록 합니다. 고객 만족도를 높이기 위해 최선을 다하고 있습니다</p>
+            </div>
+            <div class="col-md-4 team-member">
+                <img src="https://png.pngtree.com/thumb_back/fh260/background/20210409/pngtree-rules-of-biotex-cat-image_600076.jpg" alt="이재이">
+                <h3>이재이</h3>
+                <p>쿠폰</p>
+                <p>쿠폰 관리를 담당하고 있습니다. 다양한 쿠폰 발급과 사용 정책을 설계하며, 고객들이 혜택을 최대한으로 누릴 수 있도록 시스템을 관리합니다. 전략적인 접근은 고객 만족도를 높이고, 판매 증진에 기여하고 있습니다.</p>
+            </div>
+            <div class="col-md-4 team-member">
+                <img src="https://lh4.googleusercontent.com/proxy/h44Y2i9JdhC8TOsZ4slszcwMhDFCYuUk-_Kk1c4Gu8jXM8KKEtgRl33lV0H37LCmtWqgKaJEO5XQRtZH-Gb79WktHSXwt1L598zr6RjE1URRtrISRwWAx4B0mSUB8J_9Vv-1fvZ4" alt="한태환">
+                <h3>한태환</h3>
+                <p>리뷰</p>
+                <p>리뷰 관리 업무를 담당하고 있습니다. 고객의 리뷰 작성, 수정, 삭제를 관리하며, 리뷰 시스템의 원활한 운영을 지원합니다. 이를 통해 고객의 피드백을 효과적으로 반영하고, 제품 및 서비스 개선에 기여하고 있습니다.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{layout/store/footer::footer}"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>

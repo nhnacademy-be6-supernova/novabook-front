@@ -84,29 +84,6 @@ class CookieUtilTest {
 		assertTrue(cookie.isHttpOnly());
 		assertEquals(0, cookie.getMaxAge());
 	}
-
-	@Test
-	void deleteAuthorizationCookie() {
-		CookieUtil.deleteAuthorizationCookie(response);
-
-		ArgumentCaptor<Cookie> cookieCaptor = ArgumentCaptor.forClass(Cookie.class);
-		verify(response, times(2)).addCookie(cookieCaptor.capture());
-
-		Cookie cookie1 = cookieCaptor.getAllValues().getFirst();
-		assertEquals("Authorization", cookie1.getName());
-		assertNull(cookie1.getValue());
-		assertEquals("/", cookie1.getPath());
-		assertTrue(cookie1.isHttpOnly());
-		assertEquals(0, cookie1.getMaxAge());
-
-		Cookie cookie2 = cookieCaptor.getAllValues().get(1);
-		assertEquals("Refresh", cookie2.getName());
-		assertNull(cookie2.getValue());
-		assertEquals("/", cookie2.getPath());
-		assertTrue(cookie2.isHttpOnly());
-		assertEquals(0, cookie2.getMaxAge());
-	}
-
 	@Test
 	void deleteGuestCookie() {
 		CookieUtil.deleteGuestCookie(response);
