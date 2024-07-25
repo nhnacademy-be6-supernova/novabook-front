@@ -18,6 +18,7 @@ import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Timer;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import store.novabook.front.api.category.service.CategoryClient;
 import store.novabook.front.api.coupon.client.CouponClient;
 import store.novabook.front.api.delivery.client.DeliveryFeeClient;
@@ -47,6 +48,7 @@ import store.novabook.front.store.order.dto.UpdateOrdersAdminRequest;
 import store.novabook.front.store.order.repository.RedisOrderNonMemberRepository;
 import store.novabook.front.store.order.repository.RedisOrderRepository;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
@@ -182,6 +184,10 @@ public class OrderServiceImpl implements OrderService {
 	 */
 	@Override
 	public boolean isInvalidAccess(Long memberId, String orderCode, Long orderMemberId) {
+		log.info("memberId = {}" , memberId);
+		log.info("orderCode = {}" , orderCode);
+		log.info("orderMemberId = {}" , orderMemberId);
+
 		if (memberId == null) {
 			return !redisOrderNonMemberRepository.existsById(orderCode);
 		} else {
