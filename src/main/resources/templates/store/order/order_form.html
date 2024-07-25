@@ -546,7 +546,10 @@
                         hour12: false
                     })}</td>
                             <td>
-                                <button type="button" class="btn btn-primary" data-id="${coupon.id}" data-name="${coupon.name}" data-discount="${coupon.discountType === 'PERCENT' ? coupon.discountAmount + '%' : coupon.discountAmount + '원'}" onclick="selectCoupon(this)">선택</button>
+                                <button type="button" class="btn btn-primary"
+                                data-id="${coupon.id}" data-name="${coupon.name}"
+                                data-discount="${coupon.discountType === 'PERCENT' ? coupon.discountAmount + '%' : coupon.discountAmount + '원'}"
+                                onclick="selectCoupon(this)">선택</button>
                             </td>
                         </tr>
                     `;
@@ -560,16 +563,6 @@
                 console.error('쿠폰을 불러오는데 실패했습니다:', error);
             });
     });
-
-    function selectCoupon(button) {
-        const couponId = button.getAttribute('data-id');
-        const couponName = button.getAttribute('data-name');
-
-        document.getElementById('selectedCouponId').value = couponId;
-        document.getElementById('selectedCouponName').value = couponName;
-
-        $('#couponModal').modal('hide');
-    }
 </script>
 
 <input type="hidden" id="login_member_id" th:value="${memberId}">
