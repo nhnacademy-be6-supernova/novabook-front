@@ -2,6 +2,10 @@ package store.novabook.front.api.member.member.service.impl;
 
 import org.springframework.stereotype.Service;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -36,6 +40,18 @@ public class MemberServiceImpl implements MemberService {
 	private final MemberClient memberClient;
 	private final MemberAuthClient memberAuthClient;
 
+	// 매트릭 정의
+	private final MeterRegistry meterRegistry;
+	private Counter signUpCounter;
+	private Counter reVisitCounter;
+
+	// 생성자에서 메트릭을 초기화합니다.
+	@PostConstruct
+	public void initMetrics() {
+		this.signUpCounter = meterRegistry.counter("member.signup.count");
+		this.reVisitCounter = meterRegistry.counter("member.revisit.count");
+	}
+
 	@Override
 	public CreateMemberResponse createMember(CreateMemberRequest createMemberRequest) {
 
@@ -53,6 +69,8 @@ public class MemberServiceImpl implements MemberService {
 			.address(createMemberRequest.address())
 			.build();
 		ApiResponse<CreateMemberResponse> createMemberResponse = memberClient.createMember(newMemberRequest);
+		// 회원가입 수 증가
+		signUpCounter.increment();
 		return createMemberResponse.getBody();
 	}
 
@@ -85,6 +103,9 @@ public class MemberServiceImpl implements MemberService {
 
 			LoginCookieUtil.createAccessTokenCookie(response, accessToken);
 			LoginCookieUtil.createRefreshTokenCookie(response, refreshToken);
+
+			// 재방문 수 증가
+			reVisitCounter.increment();
 
 		} else {
 			throw new ForbiddenException(ErrorCode.FORBIDDEN);
