@@ -13,6 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.servlet.http.HttpServletResponse;
 import store.novabook.front.api.member.member.dto.GetNewTokenRequest;
 import store.novabook.front.api.member.member.dto.GetNewTokenResponse;
@@ -52,10 +54,24 @@ class MemberServiceImplTest {
 	@Mock
 	private HttpServletResponse response;
 
+	@Mock
+	private MeterRegistry meterRegistry;
+
+	@Mock
+	private Counter signUpCounter;
+
+	@Mock
+	private Counter reVisitCounter;
+
 
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
+
+		when(meterRegistry.counter("member.signup.count")).thenReturn(signUpCounter);
+		when(meterRegistry.counter("member.revisit.count")).thenReturn(reVisitCounter);
+
+		memberService.initMetrics();
 	}
 
 	@Test
@@ -114,6 +130,7 @@ class MemberServiceImplTest {
 		String result = memberService.login(loginRequest, response);
 
 		assertEquals("redirect:/", result);
+		verify(reVisitCounter, times(1)).increment();
 	}
 
 	@Test
@@ -203,6 +220,7 @@ class MemberServiceImplTest {
 		assertNotNull(actualResponse);
 		assertEquals(expectedResponse, actualResponse);
 		verify(memberClient, times(1)).createMember(any(CreateMemberRequest.class));
+		verify(signUpCounter, times(1)).increment();
 	}
 
 	@Test
