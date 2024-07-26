@@ -8,7 +8,7 @@ public class LoginCookieUtil {
 
 	private static final int ACCESS_TOKEN_EXPIRE_TIME = 60 * 60 * 3;
 	private static final int REFRESH_TOKEN_EXPIRE_TIME = 60 * 60 * 72;
-	private static final String SAME_SITE = "None";
+	private static final String SAME_SITE = "Lax";
 	private static final String SET_COOKIE = "Set-Cookie";
 
 	private LoginCookieUtil() {
