@@ -2,6 +2,8 @@ package store.novabook.front.common.security.aop;
 
 import java.util.Objects;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -10,6 +12,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import store.novabook.front.api.member.member.service.MemberAuthClient;
 import store.novabook.front.common.exception.ErrorCode;
@@ -18,13 +21,10 @@ import store.novabook.front.common.response.ApiResponse;
 import store.novabook.front.common.security.aop.dto.GetMembersTokenResponse;
 
 @Slf4j
+@RequiredArgsConstructor
 public class CurrentMembersArgumentResolver implements HandlerMethodArgumentResolver {
 
 	private final MemberAuthClient memberAuthClient;
-
-	public CurrentMembersArgumentResolver(MemberAuthClient memberAuthClient) {
-		this.memberAuthClient = memberAuthClient;
-	}
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
