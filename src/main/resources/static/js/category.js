@@ -76,5 +76,17 @@ $(document).ready(function () {
     }).catch(error => {
         document.getElementById("member-name").innerText = "비회원";
     });
+    // Axios를 사용하여 백엔드에서 데이터를 가져옵니다.
+    axios.get("/api/v1/front/carts/count", {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => {
+        const count = response.data;
+        // HTML 요소에 데이터를 반영합니다.
+        document.getElementById("cart-count").innerText = count;
+    }).catch(error => {
+        document.getElementById("cart-count").innerText = "0";
+    });
 
 });

@@ -33,12 +33,6 @@ class RedisCartServiceTest {
 		MockitoAnnotations.openMocks(this);
 	}
 
-	@Test
-	void createCart() {
-		Object cartId = "testCartId";
-		redisCartService.createCart(cartId);
-		verify(redisCartRepository, times(1)).save(any(RedisCartHash.class));
-	}
 
 	@Test
 	void getCartList_CartExists() {

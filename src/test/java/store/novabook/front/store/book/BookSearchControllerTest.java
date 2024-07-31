@@ -62,7 +62,7 @@ class BookSearchControllerTest {
 			.image("https://example.com/spring-boot-in-action.jpg")
 			.price(4000L)
 			.discountPrice(3600L)
-			.score(5)
+			.score(5.0)
 			.isPackaged(false)
 			.build();
 		List<GetBookSearchResponse> data = List.of(getBookSearchResponse);
@@ -98,7 +98,7 @@ class BookSearchControllerTest {
 			.image("https://example.com/clean-code.jpg")
 			.price(4500L)
 			.discountPrice(4050L)
-			.score(5)
+			.score(5.0)
 			.isPackaged(false)
 			.build();
 		List<GetBookSearchResponse> data = List.of(getBookSearchResponse);
