@@ -151,9 +151,6 @@ public class OrderServiceImpl implements OrderService {
 		boolean lockAcquired = Boolean.TRUE.equals(
 			redisTemplate.opsForValue().setIfAbsent(lockKey, "lock", Duration.ofMinutes(60)));
 
-		// if (lockAcquired) {
-		// 	ordersSagaClient.createOrders(request);
-		// }
 		Timer.Sample sample = Timer.start(meterRegistry); // 타이머 시작
 
 		try {

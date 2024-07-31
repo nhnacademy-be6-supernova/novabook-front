@@ -10,7 +10,7 @@ import lombok.Builder;
 public record CreateMemberRequest(
 
 	@NotBlank(message = "아이디는 필수 입력 값입니다.")
-	@Size(max = 20, message = "최대 20자까지 가능합니다.")
+	@Pattern(regexp = "^[a-zA-Z]{6,20}$", message = "아이디는 영어로만 최소 6자, 최대 20자여야 합니다.")
 	String loginId,
 
 	@Pattern(regexp = "^(?=.*\\d)(?=.*[a-zA-Z])(?=.*[~!@#$%^&*]).{10,16}$")
