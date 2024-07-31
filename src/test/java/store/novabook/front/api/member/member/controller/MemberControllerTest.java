@@ -41,7 +41,7 @@ class MemberControllerTest {
 	@Test
 	void register_ShouldRedirectToLogin() throws Exception {
 		CreateMemberRequest newMemberRequest = CreateMemberRequest.builder()
-			.loginId("id")
+			.loginId("id1234")
 			.loginPassword("!@#123password")
 			.loginPasswordConfirm("!@#123password")
 			.name("김김김")
