@@ -23,7 +23,6 @@ import store.novabook.front.api.book.dto.response.GetBookToMainResponseMap;
 import store.novabook.front.api.book.service.BookService;
 import store.novabook.front.api.member.member.service.MemberAuthClient;
 import store.novabook.front.common.security.aop.CurrentMembersArgumentResolver;
-import store.novabook.front.store.cart.service.RedisCartService;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(StoreIndexController.class)
@@ -37,16 +36,13 @@ class StoreIndexControllerTest {
 	private BookService bookService;
 
 	@MockBean
-	private RedisCartService redisCartService;
-
-	@MockBean
 	private MemberAuthClient memberAuthClient;
 
 	@BeforeEach
 	void setup() {
 		CurrentMembersArgumentResolver currentMembersArgumentResolver = new CurrentMembersArgumentResolver(
 			memberAuthClient);
-		mockMvc = MockMvcBuilders.standaloneSetup(new StoreIndexController(bookService, redisCartService))
+		mockMvc = MockMvcBuilders.standaloneSetup(new StoreIndexController(bookService))
 			.setCustomArgumentResolvers(currentMembersArgumentResolver)
 			.build();
 	}
