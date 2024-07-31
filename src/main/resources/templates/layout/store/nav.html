@@ -5,6 +5,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/js/category.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
     <div class="top-bar">
 
         <div class="container">
@@ -92,7 +93,7 @@
                     <div class="search-form">
                         <form class="navbar-form" role="search" method="get" th:action="@{/search/keyword}">
                             <div class="form-group">
-                                <input type="text" class="form-control" name="keyword" th:placeholder="#{nav.search}" style="margin-top: -3px;" >
+                                <input type="text" class="form-control" name="keyword" th:placeholder="#{nav.search}" style="margin-top: -2px;" >
                                 <button type="submit" class="search-btn"><i class="fa fa-search"></i></button>
 
                             </div>
@@ -103,19 +104,20 @@
                 </div>
 
                 <div class="col-md-2 col-sm-3">
-
-                    <div class="cart">
+                    <div class="cart" style="text-align: left; ">
                         <a href="/carts">
-                            <div class="cart-icon">
+                            <div class="cart-icon" style="float: right;">
                                 <i class="fa fa-shopping-cart"></i>
+                                <span class="badge badge-pill badge-danger" id="cart-count">0</span>
                             </div>
                         </a>
+                        <b>
+                            <div id="member-name" style="padding-left: 30%">Loading...</div>
+                        </b>
+                        <p style="padding-left: 30%" th:text="#{nav.welcome}">환영합니다 !!</p>
+
                     </div>
 
-                    <b>
-                        <div id="member-name">Loading...</div>
-                    </b>
-                    <p th:text="#{nav.welcome}">환영합니다 !!</p>
 
                 </div>
             </div>

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -19,10 +21,17 @@ import store.novabook.front.store.cart.repository.RedisCartRepository;
 public class RedisCartService {
 
 	private final RedisCartRepository redisCartRepository;
+	private final RedisTemplate<String, Object> redisCartTemplate;
 
 	public void createCart(Object cartId) {
+		// RedisCartHash newCart = RedisCartHash.of(cartId);
+		// redisCartRepository.save(newCart);
 		RedisCartHash newCart = RedisCartHash.of(cartId);
+
 		redisCartRepository.save(newCart);
+		String redisKey = "cart:" + cartId;
+		redisCartTemplate.opsForValue().set(redisKey, newCart);
+		redisCartTemplate.expire(redisKey, 24, TimeUnit.HOURS);
 	}
 
 	public RedisCartHash getCartList(Object cartId) {
@@ -136,4 +145,13 @@ public class RedisCartService {
 		}
 	}
 
+	public int getCartCount(Object cartId) {
+		int count = 0;
+		Optional<RedisCartHash> redisCartHashOpt = redisCartRepository.findById(cartId);
+
+		if (redisCartHashOpt.isPresent() && Objects.nonNull(redisCartHashOpt.get().getCartBookList())) {
+			count = redisCartHashOpt.get().getCartBookList().size();
+		}
+		return count;
+	}
 }

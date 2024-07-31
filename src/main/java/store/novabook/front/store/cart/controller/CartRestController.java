@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -145,6 +146,20 @@ public class CartRestController {
 				.body(Collections.singletonMap("error", "회원 또는 게스트 정보를 찾을 수 없습니다."));
 		}
 		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping("/count")
+	public ResponseEntity<Object> getCartCount(
+		@CookieValue(name = GUEST_COOKIE_NAME, required = false) Cookie guestCookie,
+		@CurrentMembers(required = false) Long memberId) {
+		int count = 0;
+		if (Objects.nonNull(memberId)) {
+			count = redisCartService.getCartCount(memberId);
+		} else if (Objects.nonNull(guestCookie)) {
+			count = redisCartService.getCartCount(guestCookie.getValue());
+		}
+
+		return ResponseEntity.ok().body(count);
 	}
 
 }

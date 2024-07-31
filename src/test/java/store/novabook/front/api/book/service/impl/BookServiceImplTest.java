@@ -204,7 +204,7 @@ class BookServiceImplTest {
 			.image("java_concurrency_in_practice_cover.jpg")
 			.price(55000L)
 			.discountPrice(49500L)
-			.score(5)
+			.score(5.0)
 			.isPackaged(true)
 			.build());
 		data.add(GetBookSearchResponse.builder()
@@ -216,7 +216,7 @@ class BookServiceImplTest {
 			.image("effective_java_cover.jpg")
 			.price(45000L)
 			.discountPrice(40500L)
-			.score(5)
+			.score(5.0)
 			.isPackaged(false)
 			.build());
 
@@ -229,7 +229,7 @@ class BookServiceImplTest {
 			.image("clean_code_cover.jpg")
 			.price(38000L)
 			.discountPrice(34200L)
-			.score(5)
+			.score(5.0)
 			.isPackaged(true)
 			.build());
 		return new PageResponse<>(1, 10, 30, data);
