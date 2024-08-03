@@ -188,7 +188,7 @@ class CartControllerTest {
 				.cookie(new Cookie(CookieUtil.GUEST_COOKIE_NAME, guestCookieValue)))
 			.andExpect(status().isOk())
 			.andExpect(view().name(CartController.STORE_CART_CART_LIST))
-			.andExpect(model().attribute("cart", redisCartHash));
+			.andExpect(model().attribute("cart", redisCartHash.getCartBookList()));
 	}
 
 	@Test
@@ -202,7 +202,7 @@ class CartControllerTest {
 				.cookie(new Cookie(CookieUtil.GUEST_COOKIE_NAME, guestCookieValue)))
 			.andExpect(status().isOk())
 			.andExpect(view().name(CartController.STORE_CART_CART_LIST))
-			.andExpect(model().attribute("cart", redisCartHash));
+			.andExpect(model().attribute("cart", redisCartHash.getCartBookList()));
 	}
 
 

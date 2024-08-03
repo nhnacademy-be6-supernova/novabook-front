@@ -47,4 +47,17 @@ public record CartBookDTO(
 			.isPackaged(request.isPackaged())
 			.build();
 	}
+
+	public static CartBookDTO update(Long bookId, CartBookDTO existing, CartBookInfoDto updateInfo) {
+		return CartBookDTO.builder()
+			.bookId(bookId != null ? bookId : existing.bookId())
+			.title(existing.title())
+			.image(existing.image())
+			.price(existing.price())
+			.discountPrice(updateInfo.discountPrice() != null ? updateInfo.discountPrice() : existing.discountPrice())
+			.quantity(existing.quantity())
+			.isPackaged(existing.isPackaged())
+			.bookStatusId(updateInfo.bookStatusId() != null ? updateInfo.bookStatusId() : existing.bookStatusId())
+			.build();
+	}
 }
