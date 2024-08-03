@@ -1,6 +1,7 @@
 package store.novabook.front.api.cart;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,9 +13,11 @@ import store.novabook.front.api.cart.dto.CartBookDTO;
 import store.novabook.front.api.cart.dto.CartBookIdDTO;
 import store.novabook.front.api.cart.dto.CartBookListDTO;
 import store.novabook.front.api.cart.dto.request.DeleteCartBookListRequest;
+import store.novabook.front.api.cart.dto.request.GetBookInfoRequest;
 import store.novabook.front.api.cart.dto.request.UpdateCartBookQuantityRequest;
 import store.novabook.front.api.cart.dto.response.CreateCartBookListResponse;
 import store.novabook.front.api.cart.dto.response.CreateCartBookResponse;
+import store.novabook.front.api.cart.dto.response.GetBookInfoResponse;
 import store.novabook.front.common.response.ApiResponse;
 
 @FeignClient(name = "gateway-service", path = "/api/v1/store/carts", contextId = "cartClient")
@@ -40,4 +43,7 @@ public interface CartClient {
 
 	@DeleteMapping
 	ApiResponse<Void> deleteCartBooks(@RequestBody DeleteCartBookListRequest deleteCartBookListRequest);
+
+	@PostMapping("/info")
+	ApiResponse<GetBookInfoResponse> getBookInfo(@RequestBody GetBookInfoRequest request);
 }

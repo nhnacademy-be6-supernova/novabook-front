@@ -333,6 +333,7 @@
             }
         }).then(response => {
             alert('장바구니에 추가되었습니다.');
+            document.getElementById("cart-count").innerText = parseInt(document.getElementById("cart-count").innerText) + 1;
         })
             .catch(error => {
                 alert(error.response.data);

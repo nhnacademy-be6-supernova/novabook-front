@@ -24,14 +24,10 @@ public class RedisCartService {
 	private final RedisTemplate<String, Object> redisCartTemplate;
 
 	public void createCart(Object cartId) {
-		// RedisCartHash newCart = RedisCartHash.of(cartId);
-		// redisCartRepository.save(newCart);
 		RedisCartHash newCart = RedisCartHash.of(cartId);
 
 		redisCartRepository.save(newCart);
-		String redisKey = "cart:" + cartId;
-		redisCartTemplate.opsForValue().set(redisKey, newCart);
-		redisCartTemplate.expire(redisKey, 24, TimeUnit.HOURS);
+		redisCartTemplate.expire(newCart.getCartId().toString(), 10, TimeUnit.SECONDS);
 	}
 
 	public RedisCartHash getCartList(Object cartId) {

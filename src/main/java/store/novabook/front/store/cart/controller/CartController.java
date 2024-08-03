@@ -2,6 +2,7 @@ package store.novabook.front.store.cart.controller;
 
 import static store.novabook.front.common.util.CookieUtil.*;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -16,7 +17,11 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import store.novabook.front.api.cart.dto.CartBookDTO;
+import store.novabook.front.api.cart.dto.CartBookInfoDto;
 import store.novabook.front.api.cart.dto.CartBookListDTO;
+import store.novabook.front.api.cart.dto.request.GetBookInfoRequest;
+import store.novabook.front.api.cart.dto.response.GetBookInfoResponse;
 import store.novabook.front.common.exception.NovaException;
 import store.novabook.front.common.security.aop.CurrentMembers;
 import store.novabook.front.common.util.CookieUtil;
@@ -44,7 +49,36 @@ public class CartController {
 			if (redisCartService.notExistCart(memberId)) {
 				redisCartService.createCart(memberId);
 			}
-			model.addAttribute("cart", redisCartService.getCartList(memberId));
+			List<Long> bookIds = redisCartService.getCartList(memberId).getCartBookList().stream()
+				.map(CartBookDTO::bookId)
+				.toList();
+			if (bookIds.isEmpty()) {
+				redisCartService.addCartBooks(memberId, cartService.getCartList());
+				model.addAttribute("cart", redisCartService.getCartList(memberId));
+			} else {
+				GetBookInfoResponse getBookInfoResponse = cartService.getBookInfo(new GetBookInfoRequest(bookIds));
+
+				// 책 정보 업데이트
+				List<CartBookDTO> updatedCartBookList = redisCartService.getCartList(memberId)
+					.getCartBookList()
+					.stream()
+					.map(cartBookDTO -> {
+						CartBookInfoDto bookInfo = getBookInfoResponse.bookInfo().stream()
+							.filter(info -> info.id().equals(cartBookDTO.bookId()))
+							.findFirst()
+							.orElse(null);
+
+						if (bookInfo != null) {
+							return CartBookDTO.update(cartBookDTO.bookId(), cartBookDTO, bookInfo);
+						} else {
+							return cartBookDTO;
+						}
+					})
+					.toList();
+
+				model.addAttribute("cart", updatedCartBookList);
+			}
+
 			return STORE_CART_CART_LIST;
 		}
 
@@ -66,7 +100,7 @@ public class CartController {
 			}
 			redisCartService.deleteCart(guestCookie.getValue());
 			CookieUtil.deleteGuestCookie(response);
-			model.addAttribute("cart", cartService.getCartList());
+			model.addAttribute("cart", cartService.getCartList().getCartBookList());
 			return STORE_CART_CART_LIST;
 		}
 
@@ -76,7 +110,7 @@ public class CartController {
 			CookieUtil.createGuestCookie(response, uuid);
 		} else {
 			String uuid = guestCookie.getValue();
-			model.addAttribute("cart", redisCartService.getCartList(uuid));
+			model.addAttribute("cart", redisCartService.getCartList(uuid).getCartBookList());
 		}
 
 		return STORE_CART_CART_LIST;
