@@ -8,9 +8,11 @@ import store.novabook.front.api.cart.dto.CartBookDTO;
 import store.novabook.front.api.cart.dto.CartBookIdDTO;
 import store.novabook.front.api.cart.dto.CartBookListDTO;
 import store.novabook.front.api.cart.dto.request.DeleteCartBookListRequest;
+import store.novabook.front.api.cart.dto.request.GetBookInfoRequest;
 import store.novabook.front.api.cart.dto.request.UpdateCartBookQuantityRequest;
 import store.novabook.front.api.cart.dto.response.CreateCartBookListResponse;
 import store.novabook.front.api.cart.dto.response.CreateCartBookResponse;
+import store.novabook.front.api.cart.dto.response.GetBookInfoResponse;
 
 @Service
 @RequiredArgsConstructor
@@ -43,5 +45,9 @@ public class CartService {
 
 	public CartBookListDTO getCartListByGuest(CartBookIdDTO cartBookIdDTO) {
 		return cartClient.getCartBookAllByGuest(cartBookIdDTO).getBody();
+	}
+
+	public GetBookInfoResponse getBookInfo(GetBookInfoRequest request) {
+		return cartClient.getBookInfo(request).getBody();
 	}
 }
