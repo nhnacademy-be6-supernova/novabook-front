@@ -11,12 +11,9 @@ import lombok.Getter;
 import store.novabook.front.api.cart.dto.CartBookDTO;
 import store.novabook.front.api.cart.dto.CartBookListDTO;
 
-@RedisHash("cart")
+@RedisHash(value = "cart", timeToLive = 7200)
 @Getter
 public class RedisCartHash {
-
-	public static final String MEMBER_CART_PREFIX = "member:";
-	public static final String GUEST_CART_PREFIX = "guest:";
 
 	@Id
 	Object cartId;

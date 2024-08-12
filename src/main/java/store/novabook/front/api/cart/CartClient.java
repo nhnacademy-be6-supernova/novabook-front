@@ -44,6 +44,6 @@ public interface CartClient {
 	@DeleteMapping
 	ApiResponse<Void> deleteCartBooks(@RequestBody DeleteCartBookListRequest deleteCartBookListRequest);
 
-	@PostMapping("/info")
-	ApiResponse<GetBookInfoResponse> getBookInfo(@RequestBody GetBookInfoRequest request);
+	@GetMapping("/count")
+	ApiResponse<Integer> getCartCount();
 }
