@@ -20,6 +20,8 @@ import store.novabook.front.common.util.KeyManagerUtil;
 import store.novabook.front.common.util.dto.RedisConfigDto;
 import store.novabook.front.redis.listener.RedisMessageSubscriber;
 
+import java.util.concurrent.TimeUnit;
+
 @Configuration
 @EnableRedisRepositories
 @RequiredArgsConstructor
@@ -58,6 +60,7 @@ public class RedisConfig {
 		redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
 		redisTemplate.setConnectionFactory(redisConnectionFactory());
 		redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+//		redisTemplate.expire("cart",60, TimeUnit.SECONDS);
 		return redisTemplate;
 	}
 

@@ -108,10 +108,11 @@
                 <div class="sort-options well">
                     <div class="pull-left">
                         <label th:text="#{book.list.sortBy}">정렬 기준:</label>
-                        <a id="lowest_price" href="#" th:text="#{sortOption.lowestPrice}">최저가</a> |
-<!--                        <a id="highest_price" href="#">최고가</a> |-->
-                        <a id="rating" href="#" th:text="#{sortOption.rating}">평점</a> |
-                        <a id="review" href="#" th:text="#{sortOption.review}">리뷰 순</a>
+                        <a id="lowest_price" href="#" th:text="#{sortOption.lowestPrice}">최저가</a>
+<!--                        <a id="highest_price" href="#" th:text="#{sortOption.lowestPrice}">최고가</a> |-->
+<!--&lt;!&ndash;                        <a id="highest_price" href="#">최고가</a> |&ndash;&gt;-->
+<!--                        <a id="rating" href="#" th:text="#{sortOption.rating}">평점</a> |-->
+<!--                        <a id="review" href="#" th:text="#{sortOption.review}">리뷰 순</a>-->
                     </div>
                     <div class="pull-right">
                         <label for="itemsPerPage" class="control-label" th:text="#{book.list.itemsPerPage}">페이지당 항목
@@ -258,25 +259,25 @@
         //     window.location.href = sortLink;
         // });
         // 정렬 기준 클릭 이벤트 처리
-        $('#highest_price').on('click', function() {
-            var sortLink = createSortLink(searchType, keyword, 'discountPrice', 'desc');
-            window.location.href = sortLink;
-        });
+        // $('#highest_price').on('click', function() {
+        //     var sortLink = createSortLink(searchType, keyword, 'discountPrice', 'desc');
+        //     window.location.href = sortLink;
+        // });
 
         $('#lowest_price').on('click', function () {
             var sortLink = createSortLink(searchType, keyword, 'discountPrice', 'asc');
             window.location.href = sortLink;
         });
 
-        $('#rating').on('click', function () {
-            var sortLink = createSortLink(searchType, keyword, 'score', 'desc'); // 기본적으로 높은 평점순
-            window.location.href = sortLink;
-        });
-
-        $('#review').on('click', function () {
-            var sortLink = createSortLink(searchType, keyword, 'review', 'desc'); // 기본적으로 많은 리뷰순
-            window.location.href = sortLink;
-        });
+        // $('#rating').on('click', function () {
+        //     var sortLink = createSortLink(searchType, keyword, 'score', 'desc'); // 기본적으로 높은 평점순
+        //     window.location.href = sortLink;
+        // });
+        //
+        // $('#review').on('click', function () {
+        //     var sortLink = createSortLink(searchType, keyword, 'review', 'desc'); // 기본적으로 많은 리뷰순
+        //     window.location.href = sortLink;
+        // });
 
         // 선택된 모든 책 체크박스
         $('#selectAll').on('click', function () {
