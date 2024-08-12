@@ -1,11 +1,9 @@
 package store.novabook.front.store.cart.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -21,16 +19,13 @@ import store.novabook.front.store.cart.repository.RedisCartRepository;
 public class RedisCartService {
 
 	private final RedisCartRepository redisCartRepository;
-	private final RedisTemplate<String, Object> redisCartTemplate;
 
-	public void createCart(Object cartId) {
-		RedisCartHash newCart = RedisCartHash.of(cartId);
-
-		redisCartRepository.save(newCart);
-		redisCartTemplate.expire(newCart.getCartId().toString(), 10, TimeUnit.SECONDS);
-	}
 
 	public RedisCartHash getCartList(Object cartId) {
+		if (notExistCart(cartId)) {
+
+			return RedisCartHash.of(cartId);
+		}
 		Optional<RedisCartHash> redisCartHash = redisCartRepository.findById(cartId);
 		if (redisCartHash.isPresent() && Objects.nonNull(redisCartHash.get().getCartBookList())) {
 			return redisCartHash.get();
@@ -141,13 +136,5 @@ public class RedisCartService {
 		}
 	}
 
-	public int getCartCount(Object cartId) {
-		int count = 0;
-		Optional<RedisCartHash> redisCartHashOpt = redisCartRepository.findById(cartId);
 
-		if (redisCartHashOpt.isPresent() && Objects.nonNull(redisCartHashOpt.get().getCartBookList())) {
-			count = redisCartHashOpt.get().getCartBookList().size();
-		}
-		return count;
-	}
 }
